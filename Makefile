@@ -108,3 +108,20 @@ report:
 	$(PYTHON) tools/super_doctor.py
 	$(PYTHON) tools/generate_super_doctor_report.py
 	@echo "=== Report generation complete ==="
+
+
+.PHONY: autopush
+autopush:
+	@echo "=== AutoPush: Running full doctor suite ==="
+	make doctor || { echo 'Doctor failed — aborting push'; exit 1; }
+
+	@echo "=== AutoPush: Staging all changes ==="
+	git add -A
+
+	@echo "=== AutoPush: Committing ==="
+	git commit -m "AutoPush: $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")" || echo "No changes to commit"
+
+	@echo "=== AutoPush: Pushing to main ==="
+	git push origin main
+
+	@echo "=== AutoPush Complete ==="
