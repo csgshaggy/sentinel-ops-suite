@@ -1,4 +1,8 @@
+# SSRF Command Console
+
 ![CI Status](https://github.com/csgshaggy/ssrf-command-console/actions/workflows/doctor-ci.yml/badge.svg)
+![Release](https://img.shields.io/github/v/release/csgshaggy/ssrf-command-console)
+![License](https://img.shields.io/github/license/csgshaggy/ssrf-command-console)
 # 🔍 Features Overview
 
 The SSRF Command Console provides a modular, operator‑grade toolkit for analyzing, validating, and managing SSRF‑related workflows. The system is built for clarity, reproducibility, and extensibility.
