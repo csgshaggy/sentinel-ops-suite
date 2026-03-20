@@ -16,13 +16,26 @@ SRC_ROOT = PROJECT_ROOT / "src"
 PACKAGE_NAME = "ssrf_console"
 PACKAGE_ROOT = SRC_ROOT / PACKAGE_NAME
 
+# Operator / tooling scripts that must NEVER be treated as package modules
+OPERATOR_SCRIPTS = {
+    "doctor.py",
+    "project_doctor.py",
+    "cleanup_root.py",
+    "auto_fix_missing_modules.py",
+    "repair_encoding_and_clean.py",
+    "validate_imports.py",
+    "project_health.py",
+    "auto_repair_structure.py",
+    "fix_imports.py",
+}
+
 EXTERNAL_MODULES = {
     "fastapi", "passlib", "uvicorn", "pydantic", "jinja2",
     "httpx", "starlette", "rich", "asyncio", "typing",
     "json", "os", "sys", "pathlib", "logging"
 }
 
-BINARY_THRESHOLD = 0.20  # >20% non-text bytes = binary
+BINARY_THRESHOLD = 0.20
 
 
 # -------------------------------------------------------------------
@@ -41,7 +54,6 @@ def ensure_sys_path():
 
 
 def safe_read(path: Path):
-    """Read file with fallback encodings."""
     try:
         return path.read_text(encoding="utf-8"), "utf-8"
     except UnicodeDecodeError:
@@ -52,7 +64,6 @@ def safe_read(path: Path):
 
 
 def is_binary(path: Path) -> bool:
-    """Detect binary files by scanning for non-text bytes."""
     try:
         raw = path.read_bytes()
     except Exception:
@@ -66,15 +77,18 @@ def is_binary(path: Path) -> bool:
 
 
 def clean_binary_junk(text: str) -> str:
-    """Remove invalid characters that break Python parsing."""
     return re.sub(r"[\x00-\x08\x0B-\x0C\x0E-\x1F\x7F]", "", text)
 
 
 def normalize_to_utf8(path: Path):
-    """Normalize file encoding to UTF-8."""
+    if path.name in OPERATOR_SCRIPTS:
+        return
+    if not os.access(path, os.W_OK):
+        print(f"[SKIP] Not writable, skipping encoding fix: {path}")
+        return
+
     text, encoding = safe_read(path)
     if text is None:
-        print(f"[SKIP] Could not read file: {path}")
         return
 
     cleaned = clean_binary_junk(text)
@@ -97,7 +111,7 @@ def rewrite_import(line: str):
     if not match:
         return line
 
-    keyword, module = match.groups()
+    _, module = match.groups()
     root = module.split(".")[0]
 
     if root in EXTERNAL_MODULES:
@@ -118,6 +132,12 @@ def fix_double_dots(line: str):
 
 
 def repair_imports_in_file(path: Path):
+    if path.name in OPERATOR_SCRIPTS:
+        return
+    if not os.access(path, os.W_OK):
+        print(f"[SKIP] Not writable, skipping import repair: {path}")
+        return
+
     text, _ = safe_read(path)
     if text is None:
         return
@@ -136,6 +156,9 @@ def repair_imports_in_file(path: Path):
 # -------------------------------------------------------------------
 
 def parse_internal_imports(py_file: Path):
+    if py_file.name in OPERATOR_SCRIPTS:
+        return []
+
     internal = []
     try:
         tree = ast.parse(py_file.read_text(encoding="utf-8"))
@@ -169,6 +192,8 @@ def detect_missing_modules(py_files):
 
 
 def create_stub(path: Path):
+    if path.name in OPERATOR_SCRIPTS:
+        return
     print(f"[CREATE] {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
@@ -185,9 +210,9 @@ def create_stub(path: Path):
 def find_misplaced_modules():
     misplaced = []
     for py_file in PROJECT_ROOT.rglob("*.py"):
-        if "src/ssrf_console" in str(py_file):
+        if py_file.name in OPERATOR_SCRIPTS:
             continue
-        if py_file.name in {"doctor.py"}:
+        if "src/ssrf_console" in str(py_file):
             continue
 
         text, _ = safe_read(py_file)
@@ -210,6 +235,9 @@ def move_misplaced(py_file: Path):
 def build_dep_graph(py_files):
     graph = {}
     for f in py_files:
+        if f.name in OPERATOR_SCRIPTS:
+            continue
+
         rel = f.relative_to(SRC_ROOT)
         module_name = str(rel).replace("/", ".").replace(".py", "")
         graph[module_name] = parse_internal_imports(f)
@@ -253,7 +281,6 @@ def project_health(py_files):
     misplaced = find_misplaced_modules()
 
     summary = {
-        "encoding_issues": 0,
         "missing_modules": len(missing),
         "circular_imports": len(cycles),
         "misplaced_modules": len(misplaced),
@@ -269,7 +296,10 @@ def project_health(py_files):
 def main():
     ensure_sys_path()
 
-    py_files = list(PACKAGE_ROOT.rglob("*.py"))
+    py_files = [
+        f for f in PACKAGE_ROOT.rglob("*.py")
+        if f.name not in OPERATOR_SCRIPTS
+    ]
 
     header("STEP 1 — Encoding Repair & Binary Cleanup")
     for f in py_files:

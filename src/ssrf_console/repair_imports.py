@@ -64,9 +64,9 @@ def rewrite_import(line: str):
 
 
 def fix_double_dots(line: str):
-    """Fix accidental ssrf_console..module imports."""
-    if "ssrf_console.." in line:
-        return line.replace("ssrf_console..", "ssrf_console.")
+    """Fix accidental ssrf_console.module imports."""
+    if "ssrf_console." in line:
+        return line.replace("ssrf_console.", "ssrf_console.")
     return line
 
 
