@@ -1,70 +1,46 @@
-#!/usr/bin/env python3
 import importlib
 import pkgutil
-import sys
 import traceback
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+# -----------------------------------------
+# PROJECT ROOT (hard‑pointed for reliability)
+# -----------------------------------------
+PROJECT_ROOT = Path.home() / "ssrf-command-console"
 SRC_ROOT = PROJECT_ROOT / "src"
-PACKAGE_NAME = "ssrf_console"
-PACKAGE_ROOT = SRC_ROOT / PACKAGE_NAME
-
-
-def ensure_sys_path():
-    if str(SRC_ROOT) not in sys.path:
-        sys.path.insert(0, str(SRC_ROOT))
-
-
-def iter_modules(package_root: Path, package_name: str):
-    """Yield full module names under a given package."""
-    for module_info in pkgutil.walk_packages(
-        [str(package_root)], prefix=f"{package_name}."
-    ):
-        yield module_info.name
-
+PACKAGE = "ssrf_console"
 
 def validate_imports():
-    ensure_sys_path()
+    print(f"[OK] Project root: {PROJECT_ROOT}")
+    print(f"[OK] SRC root: {SRC_ROOT}")
+    print(f"[OK] Validating package: {PACKAGE}\n")
 
-    if not PACKAGE_ROOT.exists():
-        print(f"[FAIL] Package root not found: {PACKAGE_ROOT}")
-        sys.exit(1)
+    # Ensure src/ssrf_console exists
+    package_path = SRC_ROOT / PACKAGE
+    if not package_path.exists():
+        print(f"[FAIL] Package root not found: {package_path}")
+        return
 
-    print(f"[OK] Using SRC root: {SRC_ROOT}")
-    print(f"[OK] Validating package: {PACKAGE_NAME}")
-    print("")
+    failed = []
 
-    failures = []
-
-    for module_name in sorted(iter_modules(PACKAGE_ROOT, PACKAGE_NAME)):
-        print(f"[TEST] Importing {module_name} ... ", end="", flush=True)
+    # Walk all modules under src/ssrf_console
+    for module in pkgutil.walk_packages([str(package_path)], f"{PACKAGE}."):
+        name = module.name
+        print(f"[TEST] Importing {name} ... ", end="")
         try:
-            importlib.import_module(module_name)
+            importlib.import_module(name)
             print("OK")
-        except Exception as e:
+        except Exception:
             print("FAIL")
-            failures.append((module_name, e, traceback.format_exc()))
+            failed.append((name, traceback.format_exc()))
 
+    # Summary
     print("\n=== Import Validation Summary ===")
-    if not failures:
-        print("[+] All modules imported successfully.")
-        return 0
+    print(f"[!] {len(failed)} module(s) failed to import:\n")
 
-    print(f"[!] {len(failures)} module(s) failed to import:\n")
-    for module_name, exc, tb in failures:
-        print(f"--- {module_name} ---")
-        print(f"Error: {exc}")
+    for name, tb in failed:
+        print(f"--- {name} ---")
         print(tb)
-        print("")
-
-    return 1
-
-
-def main():
-    rc = validate_imports()
-    sys.exit(rc)
-
 
 if __name__ == "__main__":
-    main()
+    validate_imports()

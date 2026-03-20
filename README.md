@@ -1,5 +1,6 @@
 # SSRF Command Console
 
+![CI](https://github.com/csgshaggy/ssrf-command-console/actions/workflows/structure-ci.yml/badge.svg)
 ![CI Status](https://github.com/csgshaggy/ssrf-command-console/actions/workflows/doctor-ci.yml/badge.svg)
 ![Release](https://img.shields.io/github/v/release/csgshaggy/ssrf-command-console)
 ![License](https://img.shields.io/github/license/csgshaggy/ssrf-command-console)
@@ -70,3 +71,13 @@ The following modules were deprecated and removed:
 - Update any imports referencing old dashboard paths.
 - Ensure your local environment uses the updated Makefile targets.
 - Recreate your virtual environment if it lives inside the project root.
+
+## ⚡ Quickstart
+
+Follow these steps to get the SSRF Command Console running locally.
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/csgshaggy/ssrf-command-console.git
+cd ssrf-command-console
