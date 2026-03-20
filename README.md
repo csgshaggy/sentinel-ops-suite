@@ -11,3 +11,32 @@ The SSRF Command Console provides a modular, operator‑grade toolkit for analyz
 - **CI Integration** — GitHub Actions workflow (`doctor-ci.yml`) ensures every commit passes structural validation.
 - **Operator‑Grade Makefile** — Provides deterministic commands for validation, cleanup, and environment management.
 - **Extensible Mode System** — Designed for future plugin‑style scanning modes and dashboard integrations.
+
+# 🛣️ Roadmap for v1.1.0
+
+The next release focuses on authentication, role‑based access, and dashboard modernization.
+
+## Planned Enhancements
+### 🔐 Authentication & Security
+- Add OAuth2 login flow (FastAPI‑native)
+- Implement secure session cookies
+- Add refresh tokens and session persistence
+- Introduce RBAC (Role‑Based Access Control)
+
+### 🖥️ Dashboard Modernization
+- Replace static HTML with dynamic, authenticated dashboard views
+- Add role‑based UI rendering
+- Integrate real‑time scan status and logs
+
+### 🧩 Backend Improvements
+- Convert operator scripts into plugin‑style modules
+- Add structured logging with timestamps and trace IDs
+- Introduce environment validation hooks
+
+### 🧪 Testing & CI
+- Add unit tests for doctor and cleanup utilities
+- Add integration tests for dashboard endpoints
+- Expand CI to include linting and type checks
+
+## Target Release Window
+**v1.1.0 — Q2 2026**
