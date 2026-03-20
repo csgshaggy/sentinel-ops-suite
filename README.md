@@ -40,3 +40,29 @@ The next release focuses on authentication, role‑based access, and dashboard m
 
 ## Target Release Window
 **v1.1.0 — Q2 2026**
+
+
+# 🔄 Migration Notes for Developers (v1.0.0)
+
+This release includes a full structural migration. Developers upgrading from earlier versions should review the following changes.
+
+## Directory Changes
+- All dashboard assets moved from:
+src/ssrf_console/app/static/ src/ssrf_console/app/templates/ src/ssrf_console/dashboard/dashboard/ src/ssrf_console/static/static/
+to scripts/.
+
+
+## Removed Modules
+The following modules were deprecated and removed:
+- `auto_repair_structure.py`
+- `fix_imports.py`
+- `project_doctor.py`
+
+## Updated Tools
+- `doctor.py` now performs full project‑health validation.
+- `cleanup_root.py` now detects root‑owned files and venv placement.
+
+## Developer Actions Required
+- Update any imports referencing old dashboard paths.
+- Ensure your local environment uses the updated Makefile targets.
+- Recreate your virtual environment if it lives inside the project root.
