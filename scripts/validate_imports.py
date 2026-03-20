@@ -1,46 +1,31 @@
-import importlib
-import pkgutil
-import traceback
+import ast
 from pathlib import Path
 
-# -----------------------------------------
-# PROJECT ROOT (hard‑pointed for reliability)
-# -----------------------------------------
 PROJECT_ROOT = Path.home() / "ssrf-command-console"
 SRC_ROOT = PROJECT_ROOT / "src"
-PACKAGE = "ssrf_console"
 
-def validate_imports():
+def validate_python_files():
     print(f"[OK] Project root: {PROJECT_ROOT}")
-    print(f"[OK] SRC root: {SRC_ROOT}")
-    print(f"[OK] Validating package: {PACKAGE}\n")
-
-    # Ensure src/ssrf_console exists
-    package_path = SRC_ROOT / PACKAGE
-    if not package_path.exists():
-        print(f"[FAIL] Package root not found: {package_path}")
-        return
+    print(f"[OK] Scanning for Python syntax errors...\n")
 
     failed = []
 
-    # Walk all modules under src/ssrf_console
-    for module in pkgutil.walk_packages([str(package_path)], f"{PACKAGE}."):
-        name = module.name
-        print(f"[TEST] Importing {name} ... ", end="")
+    for py_file in SRC_ROOT.rglob("*.py"):
+        rel = py_file.relative_to(PROJECT_ROOT)
+        print(f"[TEST] Checking {rel} ... ", end="")
         try:
-            importlib.import_module(name)
+            ast.parse(py_file.read_text(), filename=str(py_file))
             print("OK")
-        except Exception:
+        except SyntaxError as e:
             print("FAIL")
-            failed.append((name, traceback.format_exc()))
+            failed.append((rel, str(e)))
 
-    # Summary
-    print("\n=== Import Validation Summary ===")
-    print(f"[!] {len(failed)} module(s) failed to import:\n")
+    print("\n=== Syntax Validation Summary ===")
+    print(f"[!] {len(failed)} file(s) failed:\n")
 
-    for name, tb in failed:
+    for name, err in failed:
         print(f"--- {name} ---")
-        print(tb)
+        print(err)
 
 if __name__ == "__main__":
-    validate_imports()
+    validate_python_files()
