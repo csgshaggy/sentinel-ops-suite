@@ -1,0 +1,73 @@
+{
+  "index": [
+    "DOCS_INDEX.md",
+    "README.md",
+    "GLOSSARY.md",
+    "FAQ.md"
+  ],
+  "overview": [
+    "QUICKSTART.md",
+    "MANUAL.md",
+    "FULL_LAB_GUIDE.md",
+    "TRAINING_LAB_SCENARIOS.md",
+    "OPERATOR_TRAINING.md"
+  ],
+  "architecture": [
+    "ARCHITECTURE_OVERVIEW.md",
+    "DESIGN_DECISIONS.md",
+    "API_VERSIONING_POLICY.md"
+  ],
+  "configuration": [
+    "CONFIGURATION_REFERENCE.md",
+    "CONFIGURATION_EXAMPLES.md",
+    "INSTALLATION_AND_SETUP.md"
+  ],
+  "modes": [
+    "MODE_AUTHORING.md",
+    "MODE_CATALOG.md",
+    "MODE_EXAMPLES.md",
+    "MODE_TEMPLATES.md",
+    "MODE_IDEAS_CATALOG.md",
+    "ADVANCED_MODE_PATTERNS.md"
+  ],
+  "operations": [
+    "OPERATOR_GUIDE.md",
+    "SERVICE_DEPLOYMENT.md",
+    "SERVICE_HARDENING.md",
+    "DEPLOYMENT_CHECKLIST.md",
+    "OBSERVABILITY_GUIDE.md",
+    "PERFORMANCE_GUIDE.md",
+    "BENCHMARK_RESULTS.md"
+  ],
+  "security": [
+    "SECURITY_MODEL.md",
+    "SECURITY_RESPONSE_PROCESS.md",
+    "KNOWN_LIMITATIONS.md",
+    "ADVANCED_SSRF_TECHNIQUES.md"
+  ],
+  "development": [
+    "DEVELOPER_GUIDE.md",
+    "API_REFERENCE.md",
+    "API_CONTRACTS.md",
+    "CONTRIBUTING.md",
+    "CONTRIBUTOR_TROUBLESHOOTING.md",
+    "EXTENSION_SDK.md"
+  ],
+  "deployment": [
+    "RELEASE_PROCESS.md",
+    "UPGRADE_GUIDE.md",
+    "ROADMAP.md"
+  ],
+  "governance": [
+    "CHANGELOG.md"
+  ],
+  "examples": [
+    "REAL_WORLD_EXAMPLES.md"
+  ],
+  "meta": [
+    "STYLE_GUIDE.md"
+  ],
+  "testing": [
+    "TESTING_GUIDE.md"
+  ]
+}

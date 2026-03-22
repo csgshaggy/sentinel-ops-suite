@@ -1,0 +1,31 @@
+name: SuperDoctor PR Comment
+
+on:
+  pull_request:
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run SuperDoctor report
+        id: superdoctor
+        run: |
+          if [ -f tools/super_doctor.py ]; then
+            python3 tools/super_doctor.py --report > superdoctor_report.txt
+          else
+            echo "SuperDoctor not found" > superdoctor_report.txt
+          fi
+
+      - name: Post PR Comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: superdoctor_report.txt

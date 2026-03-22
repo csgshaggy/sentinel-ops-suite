@@ -1,0 +1,31 @@
+title: SSRF Command Console
+description: Operator‑grade SSRF command and observability console
+theme: minima
+
+markdown: kramdown
+
+# Default layout for all pages
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# GitHub Pages settings
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude internal directories from the site
+exclude:
+  - scripts/
+  - scripts/windows/
+  - tools/
+  - validators/
+  - Makefile
+  - README.md
+  - CONTRIBUTING.md
+  - SECURITY.md
+  - CHANGELOG.md
+  - ONBOARDING.md

@@ -1,0 +1,104 @@
+name: Repo Integrity
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  integrity-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies (if any)
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      - name: Run repo integrity auditor
+        run: |
+          echo "Running repo integrity auditor..."
+          python3 scripts/repo_integrity_auditor.py
+
+      - name: Run SuperDoctor dashboard
+        run: |
+          if [ -f tools/super_doctor.py ]; then
+            echo "Running SuperDoctor dashboard..."
+            python3 tools/super_doctor.py --dashboard
+          else
+            echo "SuperDoctor not found — skipping dashboard."
+          fi
+
+      - name: Run SuperDoctor report
+        run: |
+          if [ -f tools/super_doctor.py ]; then
+            echo "Running SuperDoctor report..."
+            python3 tools/super_doctor.py --report > superdoctor_report.json
+          else
+            echo "{}" > superdoctor_report.json
+          fi
+
+      # ============================
+      # STEP 3 — Upload CI Artifact
+      # ============================
+      - name: Upload SuperDoctor report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: superdoctor-report
+          path: superdoctor_report.json
+          if-no-files-found: warn
+
+      - name: Enforce SuperDoctor strict mode
+        run: |
+          if [ -f .superdoctor_mode ]; then
+            echo "strict" > .superdoctor_mode
+            echo "SuperDoctor mode set to strict for CI."
+          fi
+
+          if [ -f tools/super_doctor.py ]; then
+            echo "Running SuperDoctor in strict mode..."
+            python3 tools/super_doctor.py --dashboard
+          else
+            echo "SuperDoctor not found — skipping strict mode enforcement."
+          fi
+
+  # ============================
+  # STEP 4 — Matrix Python Tests
+  # ============================
+  matrix-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      - name: Run SuperDoctor dashboard
+        run: |
+          if [ -f tools/super_doctor.py ]; then
+            python3 tools/super_doctor.py --dashboard
+          else
+            echo "SuperDoctor not found — skipping dashboard."
+          fi

@@ -1,127 +1,123 @@
-# ============================================
-# SSRF Command Console — Operator Makefile
-# Project Root: ~/ssrf-command-console
-# ============================================
+# =========================================================
+# SSRF Command Console — Operator‑Grade Makefile
+# =========================================================
 
-PYTHON := python3
-PROJECT_ROOT := $(PWD)
+PYTHON := venv/bin/python
+PIP := venv/bin/pip
 
-# -------------------------
-# Core Execution Targets
-# -------------------------
+# Colors
+GREEN := \033[0;32m
+YELLOW := \033[1;33m
+BLUE := \033[1;34m
+NC := \033[0m
 
-.PHONY: tui
-tui:
-	@echo "=== Running TUI Console ==="
-	$(PYTHON) src/ssrf_console/console/main.py
-
-.PHONY: backend
-backend:
-	@echo "=== Starting Backend ==="
-	$(PYTHON) src/ssrf_console/app/main.py
-
-.PHONY: all
-all: tui backend
-
-.PHONY: clean
-clean:
-	@echo "=== Cleaning Python Cache ==="
-	find $(PROJECT_ROOT) -type d -name "__pycache__" -exec rm -rf {} +
-	find $(PROJECT_ROOT) -type f -name "*.pyc" -delete
-	@echo "=== Clean Complete ==="
-
-# -------------------------
-# Directory Structure Tools
-# -------------------------
-
-.PHONY: list-dirs
-list-dirs:
-	@echo "=== Directories in ssrf-command-console ==="
-	@find $(PROJECT_ROOT) -maxdepth 1 -type d -printf "%f\n"
-
-.PHONY: doctor-structure
-doctor-structure:
-	@echo "=== Running Structure Doctor ==="
-	@$(PYTHON) tools/list_dirs.py
-	@$(PYTHON) tools/normalize_root.py
-	@if grep -q "BAD_DIRS = \[" tools/remove_bad_dirs.py; then \
-		echo "=== Running Directory Cleanup ==="; \
-		$(PYTHON) tools/remove_bad_dirs.py; \
-	fi
-	@echo "=== Structure Doctor Complete ==="
-
-# -------------------------
-# Import Validation
-# -------------------------
-
-.PHONY: doctor-imports
-doctor-imports:
-	@echo "=== Running Import Validator ==="
-	$(PYTHON) scripts/validate_imports.py
-	@echo "=== Import Validation Complete ==="
-
-# -------------------------
-# Unified Doctor Target
-# -------------------------
-
-.PHONY: doctor
-doctor: doctor-structure doctor-imports
-	@echo "=== Full Project Doctor Complete ==="
-
-# -------------------------
-# CI Target
-# -------------------------
-
-.PHONY: ci
-ci: clean doctor
-	@echo "=== CI Checks Complete ==="
-
-.PHONY: help
+# ---------------------------------------------------------
+# Help Menu
+# ---------------------------------------------------------
 help:
 	@echo ""
-	@echo "SSRF Command Console — Make Targets"
-	@echo "-----------------------------------"
-	@echo "  make tui              Run TUI console"
-	@echo "  make backend          Start backend FastAPI app"
-	@echo "  make all              Run TUI and backend"
-	@echo "  make clean            Remove Python cache files"
-	@echo "  make list-dirs        List top-level directories"
-	@echo "  make doctor-structure Run structure checks (dirs, root, cleanup)"
-	@echo "  make doctor-imports   Run import validator"
-	@echo "  make doctor           Run full project doctor"
-	@echo "  make ci               Run CI suite (clean + doctor)"
-	@echo "  make help             Show this help menu"
+	@echo "$(BLUE)SSRF Command Console — Available Targets$(NC)"
+	@echo "--------------------------------------------------"
+	@echo "$(GREEN)make bootstrap$(NC)        - Create venv + install dependencies"
+	@echo "$(GREEN)make run$(NC)              - Start FastAPI server (auto‑venv)"
+	@echo "$(GREEN)make dev$(NC)              - Kill stale processes + validators + run"
+	@echo "$(GREEN)make kill-8000$(NC)        - Kill docker‑proxy or uvicorn on port 8000"
+	@echo "$(GREEN)make api$(NC)              - Run FastAPI on alternate port 8010"
+	@echo "$(GREEN)make self-check$(NC)       - Validate project structure + Makefile"
+	@echo "$(GREEN)make docs.all$(NC)         - Full documentation pipeline"
+	@echo "$(GREEN)make docs.search$(NC)      - Build search index"
+	@echo "$(GREEN)make docs.health$(NC)      - Documentation health scoring"
+	@echo "$(GREEN)make docs.index$(NC)       - Generate category index"
+	@echo "$(GREEN)make docs.diff$(NC)        - Drift‑diff viewer"
+	@echo "$(GREEN)make test$(NC)             - Run pytest suite"
+	@echo "$(GREEN)make build$(NC)            - Package operator console"
+	@echo "$(GREEN)make clean$(NC)            - Remove caches"
+	@echo "$(GREEN)make deepclean$(NC)        - Full cleanup including venv"
 	@echo ""
 
+# ---------------------------------------------------------
+# Bootstrap Environment
+# ---------------------------------------------------------
+bootstrap:
+	@test -d venv || python3 -m venv venv
+	@$(PIP) install --upgrade pip
+	@$(PIP) install -r requirements.txt
+	@echo "Bootstrap complete."
 
-.PHONY: super-doctor
-super-doctor:
-	@echo "=== Running Super Doctor ==="
-	$(PYTHON) tools/super_doctor.py
-	@echo "=== Super Doctor Complete ==="
-doctor: doctor-structure doctor-imports super-doctor
-	@echo "=== Full Project Doctor Complete ==="
+# ---------------------------------------------------------
+# Run FastAPI App
+# ---------------------------------------------------------
+run:
+	@echo "Starting SSRF Command Console..."
+	@. venv/bin/activate && uvicorn app.main:app --reload
 
-.PHONY: report
-report:
-	@echo "=== Running Super Doctor and Generating Report ==="
-	$(PYTHON) tools/super_doctor.py
-	$(PYTHON) tools/generate_super_doctor_report.py
-	@echo "=== Report generation complete ==="
+# Alternate port
+api:
+	@echo "Starting API on port 8010..."
+	@. venv/bin/activate && uvicorn app.main:app --reload --port 8010
 
+# ---------------------------------------------------------
+# Dev Mode (Kill stale processes + validators + run)
+# ---------------------------------------------------------
+dev: kill-8000 self-check run
 
-.PHONY: autopush
-autopush:
-	@echo "=== AutoPush: Running full doctor suite ==="
-	make doctor || { echo 'Doctor failed — aborting push'; exit 1; }
+# ---------------------------------------------------------
+# Kill stale Uvicorn or docker-proxy on port 8000
+# ---------------------------------------------------------
+kill-8000:
+	@echo "Killing processes on port 8000..."
+	@sudo lsof -t -i:8000 | xargs -r sudo kill -9 || true
+	@echo "Port 8000 cleared."
 
-	@echo "=== AutoPush: Staging all changes ==="
-	git add -A
+# ---------------------------------------------------------
+# Self‑Check (Makefile + Structure Validator)
+# ---------------------------------------------------------
+self-check:
+	@echo "Running Makefile + structure validation..."
+	@$(PYTHON) scripts/makefile_health.py
+	@echo "Self‑check complete."
 
-	@echo "=== AutoPush: Committing ==="
-	git commit -m "AutoPush: $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")" || echo "No changes to commit"
+# ---------------------------------------------------------
+# Documentation Pipeline
+# ---------------------------------------------------------
+docs.all: docs.index docs.search docs.health docs.diff
+	@echo "Documentation pipeline complete."
 
-	@echo "=== AutoPush: Pushing to main ==="
-	git push origin main
+docs.search:
+	@$(PYTHON) scripts/docs_search.py
 
-	@echo "=== AutoPush Complete ==="
+docs.health:
+	@$(PYTHON) scripts/docs_health.py
+
+docs.index:
+	@$(PYTHON) scripts/docs_index.py
+
+docs.diff:
+	@$(PYTHON) scripts/docs_diff.py
+
+# ---------------------------------------------------------
+# Testing
+# ---------------------------------------------------------
+test:
+	@echo "Running tests..."
+	@$(PYTHON) -m pytest -q
+
+# ---------------------------------------------------------
+# Build / Package
+# ---------------------------------------------------------
+build:
+	@echo "Packaging operator console..."
+	@$(PYTHON) setup.py sdist bdist_wheel
+	@echo "Build complete."
+
+# ---------------------------------------------------------
+# Cleanup
+# ---------------------------------------------------------
+clean:
+	@find . -type d -name "__pycache__" -exec rm -rf {} +
+	@find . -type f -name "*.pyc" -delete
+	@echo "Cleanup complete."
+
+deepclean: clean
+	@rm -rf venv
+	@echo "Deep clean complete (venv removed)."

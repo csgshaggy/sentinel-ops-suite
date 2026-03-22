@@ -10,139 +10,106 @@ yellow(){ printf "\033[33m%s\033[0m\n" "$1"; }
 red()   { printf "\033[31m%s\033[0m\n" "$1"; }
 
 # ----------------------------------------
-# Resolve script directory + project root
+# Resolve paths
 # ----------------------------------------
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 DOCS_DIR="$PROJECT_ROOT/docs"
+MAP_FILE="$DOCS_DIR/category_map.json"
+LOG_FILE="$PROJECT_ROOT/docs_organize.log"
 
+echo "=== Documentation Organizer ===" | tee "$LOG_FILE"
+echo "Timestamp: $(date)" | tee -a "$LOG_FILE"
+echo "" | tee -a "$LOG_FILE"
+
+# ----------------------------------------
+# Prerequisite checks
+# ----------------------------------------
 if [[ ! -d "$DOCS_DIR" ]]; then
-  red "ERROR: Could not find docs/ directory at: $DOCS_DIR"
-  red "This script assumes the structure:"
-  red "  project-root/"
-  red "    docs/"
-  red "    scripts/docs_organize.sh"
+  red "ERROR: docs/ directory not found at: $DOCS_DIR"
   exit 1
 fi
 
-blue "[0/3] Script directory: $SCRIPT_DIR"
-blue "[0/3] Project root:     $PROJECT_ROOT"
-blue "[0/3] Docs directory:    $DOCS_DIR"
+if [[ ! -f "$MAP_FILE" ]]; then
+  red "ERROR: category_map.json not found at: $MAP_FILE"
+  exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  red "ERROR: jq is required but not installed."
+  exit 1
+fi
+
+blue "[OK] Environment validated."
+echo "" | tee -a "$LOG_FILE"
 
 # ----------------------------------------
-# Create directory structure
+# Load categories
 # ----------------------------------------
-blue "[1/3] Creating directory structure..."
+categories=$(jq -r 'keys[]' "$MAP_FILE")
 
-dirs=(
-  "00-index"
-  "10-overview"
-  "20-architecture"
-  "30-configuration"
-  "40-modes"
-  "50-operations"
-  "60-security"
-  "70-development"
-  "80-deployment"
-  "90-governance"
-  "95-examples"
-  "99-meta"
-)
+# ----------------------------------------
+# 1. Create category directories
+# ----------------------------------------
+blue "[1/3] Creating category directories..." | tee -a "$LOG_FILE"
 
-for d in "${dirs[@]}"; do
-  mkdir -p "$DOCS_DIR/$d"
+for category in $categories; do
+  target="$DOCS_DIR/$category"
+  if [[ ! -d "$target" ]]; then
+    mkdir -p "$target"
+    green "[CREATE] $category/" | tee -a "$LOG_FILE"
+  else
+    yellow "[EXISTS] $category/" | tee -a "$LOG_FILE"
+  fi
 done
 
-green "Directory structure ready."
+echo "" | tee -a "$LOG_FILE"
 
 # ----------------------------------------
-# Move helper
+# 2. Move mapped files into correct directories
 # ----------------------------------------
-move() {
-  local file="$1"
-  local target="$2"
+blue "[2/3] Moving mapped files..." | tee -a "$LOG_FILE"
 
-  if [[ -f "$DOCS_DIR/$file" ]]; then
-    yellow "→ $file → $target/"
-    mv "$DOCS_DIR/$file" "$DOCS_DIR/$target/"
+for category in $categories; do
+  files=$(jq -r --arg cat "$category" '.[$cat][]' "$MAP_FILE")
+
+  for file in $files; do
+    src="$DOCS_DIR/$file"
+    dest="$DOCS_DIR/$category/$file"
+
+    if [[ -f "$src" ]]; then
+      mv "$src" "$dest"
+      green "[MOVE] $file → $category/" | tee -a "$LOG_FILE"
+    else
+      yellow "[WARN] Missing file: $file (expected at docs/)" | tee -a "$LOG_FILE"
+    fi
+  done
+done
+
+echo "" | tee -a "$LOG_FILE"
+
+# ----------------------------------------
+# 3. Detect unmapped Markdown files
+# ----------------------------------------
+blue "[3/3] Checking for unmapped Markdown files..." | tee -a "$LOG_FILE"
+
+mapped=$(jq -r '.[][]' "$MAP_FILE")
+unmapped_count=0
+
+while IFS= read -r file; do
+  filename=$(basename "$file")
+
+  if ! grep -qx "$filename" <<< "$mapped"; then
+    yellow "[UNMAPPED] $file" | tee -a "$LOG_FILE"
+    unmapped_count=$((unmapped_count + 1))
   fi
-}
+done < <(find "$DOCS_DIR" -maxdepth 1 -type f -name "*.md")
 
-# ----------------------------------------
-# Move files into categories
-# ----------------------------------------
-blue "[2/3] Moving files into category directories..."
+if (( unmapped_count > 0 )); then
+  yellow "Unmapped files detected: $unmapped_count" | tee -a "$LOG_FILE"
+else
+  green "No unmapped files." | tee -a "$LOG_FILE"
+fi
 
-# 00-index
-move "DOCS_INDEX.md"              "00-index"
-move "README.md"                  "00-index"
-move "GLOSSARY.md"                "00-index"
-move "FAQ.md"                     "00-index"
-
-# 10-overview
-move "QUICKSTART.md"              "10-overview"
-move "MANUAL.md"                  "10-overview"
-move "FULL_LAB_GUIDE.md"          "10-overview"
-move "TRAINING_LAB_SCENARIOS.md"  "10-overview"
-move "OPERATOR_TRAINING.md"       "10-overview"
-
-# 20-architecture
-move "ARCHITECTURE_OVERVIEW.md"   "20-architecture"
-move "DESIGN_DECISIONS.md"        "20-architecture"
-move "API_VERSIONING_POLICY.md"   "20-architecture"
-
-# 30-configuration
-move "CONFIGURATION_REFERENCE.md" "30-configuration"
-move "CONFIGURATION_EXAMPLES.md"  "30-configuration"
-move "INSTALLATION_AND_SETUP.md"  "30-configuration"
-
-# 40-modes
-move "MODE_AUTHORING.md"          "40-modes"
-move "MODE_CATALOG.md"            "40-modes"
-move "MODE_EXAMPLES.md"           "40-modes"
-move "MODE_TEMPLATES.md"          "40-modes"
-move "MODE_IDEAS_CATALOG.md"      "40-modes"
-move "ADVANCED_MODE_PATTERNS.md"  "40-modes"
-
-# 50-operations
-move "OPERATOR_GUIDE.md"          "50-operations"
-move "SERVICE_DEPLOYMENT.md"      "50-operations"
-move "SERVICE_HARDENING.md"       "50-operations"
-move "DEPLOYMENT_CHECKLIST.md"    "50-operations"
-move "OBSERVABILITY_GUIDE.md"     "50-operations"
-move "PERFORMANCE_GUIDE.md"       "50-operations"
-move "BENCHMARK_RESULTS.md"       "50-operations"
-
-# 60-security
-move "SECURITY_MODEL.md"          "60-security"
-move "SECURITY_RESPONSE_PROCESS.md" "60-security"
-move "KNOWN_LIMITATIONS.md"       "60-security"
-move "ADVANCED_SSRF_TECHNIQUES.md" "60-security"
-
-# 70-development
-move "DEVELOPER_GUIDE.md"         "70-development"
-move "API_REFERENCE.md"           "70-development"
-move "API_CONTRACTS.md"           "70-development"
-move "CONTRIBUTING.md"            "70-development"
-move "CONTRIBUTOR_TROUBLESHOOTING.md" "70-development"
-move "EXTENSION_SDK.md"           "70-development"
-
-# 80-deployment
-move "RELEASE_PROCESS.md"         "80-deployment"
-move "UPGRADE_GUIDE.md"           "80-deployment"
-move "ROADMAP.md"                 "80-deployment"
-
-# 90-governance
-move "CHANGELOG.md"               "90-governance"
-
-# 95-examples
-move "REAL_WORLD_EXAMPLES.md"     "95-examples"
-
-# 99-meta
-move "STYLE_GUIDE.md"             "99-meta"
-
-# testing
-move "TESTING_GUIDE.md"           "testing"
-
-green "[3/3] All files moved successfully."
-blue "Done."
+echo "" | tee -a "$LOG_FILE"
+green "=== Documentation Organization Complete ===" | tee -a "$LOG_FILE"

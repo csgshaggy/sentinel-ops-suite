@@ -1,0 +1,66 @@
+/* GLOBAL DARK MODE THEME */
+
+body {
+    background: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    background: #1e1e1e !important;
+    border-right: 1px solid #333 !important;
+}
+
+.sidebar a {
+    color: #9ecbff !important;
+}
+
+.sidebar a:hover {
+    background: #2a2a2a !important;
+}
+
+/* Cards / Metrics */
+.metric {
+    background: #1c1c1c !important;
+    border: 1px solid #333 !important;
+    color: #e0e0e0 !important;
+}
+
+/* Tables */
+table {
+    background: #1c1c1c !important;
+    color: #e0e0e0 !important;
+}
+
+th {
+    background: #2a2a2a !important;
+    color: #ffffff !important;
+}
+
+td {
+    border-bottom: 1px solid #333 !important;
+}
+
+/* Preformatted blocks */
+pre {
+    background: #000 !important;
+    color: #00ff90 !important;
+    border-radius: 6px;
+    padding: 12px;
+}
+
+/* Links */
+a {
+    color: #82b4ff;
+}
+
+a:hover {
+    color: #b7d7ff;
+}
+
+/* Headings */
+h1, h2, h3 {
+    color: #ffffff;
+}

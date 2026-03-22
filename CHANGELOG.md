@@ -1,22 +1,41 @@
-# Changelog
+# Changelog — SSRF Command Console
 
-## [1.0.0] - 2026-03-20
+All notable changes to this project will be documented in this file.
+
+The format follows a simplified version of Keep a Changelog.
+
+---
+
+## [Unreleased]
+
 ### Added
-- Introduced `doctor-ci.yml` GitHub Actions workflow for automated project health checks.
-- Added new `scripts/` directory containing all dashboard assets, templates, and config fragments.
-- Added CI test file `ci_test.txt`.
+- Operator‑grade Makefile with full lifecycle coverage.
+- Documentation suite under `docs/` (architecture, operations, development, troubleshooting, security, Makefile reference).
+- GitHub Actions CI workflow using Makefile targets.
+- Helper scripts under `scripts/` (Linux/macOS).
+- Windows PowerShell mirrors under `scripts/windows/`.
+- Unified `ops` wrapper and TUI operator menu.
+- Bootstrap wizard (`tools/bootstrap_wizard.py`).
+- Makefile integrity validator (`validators/makefile_integrity_validator.py`).
 
-### Changed
-- Migrated all static files, templates, and dashboard assets from `src/ssrf_console/...` into `scripts/`.
-- Updated `doctor.py` with improved project health reporting.
-- Updated `cleanup_root.py` to detect root-owned files and venv placement.
-- Updated `Makefile` to support new structure and CI integration.
+### Improved
+- Consistent operator‑grade echo banners across scripts.
+- Deterministic environment setup workflows (pip, uv, Poetry).
+- Docker build and run workflows.
 
-### Removed
-- Removed legacy dashboard directories under `src/ssrf_console/app/static`, `templates`, and `dashboard/`.
-- Removed deprecated modules: `auto_repair_structure.py`, `fix_imports.py`, `project_doctor.py`.
-- Removed old static assets and template duplicates under `src/ssrf_console/static/` and `templates/`.
+### Fixed
+- Structural drift issues caught by validators.
+- Minor inconsistencies in Makefile target descriptions.
 
-### Notes
-- This release represents a full structural migration to a modular, operator‑grade layout.
-- All pre‑commit hooks validated the project as clean, consistent, and dependency‑correct.
+---
+
+## [0.1.0] — Initial Operator Console
+
+### Added
+- Initial FastAPI backend structure.
+- Basic SSRF scanning pipeline.
+- Core validators:
+  - `project_structure_validator.py`
+  - `python_import_validator.py`
+  - `makefile_integrity_validator.py`
+- Initial Makefile with bootstrap, self‑check, and release targets.

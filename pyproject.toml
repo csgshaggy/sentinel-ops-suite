@@ -1,0 +1,33 @@
+[project]
+name = "ssrf-command-console"
+version = "0.1.0"
+description = "SSRF Command Console — modular CLI toolkit for SSRF analysis and operator workflows."
+authors = [
+    { name = "Charles Roberts" }
+]
+requires-python = ">=3.10"
+readme = "README.md"
+
+# Runtime dependencies
+dependencies = [
+    "click>=8.1.0",
+]
+
+# CLI entrypoint (Option A — short command)
+[project.scripts]
+ssrf-console = "ssrf_command_console.cli:main"
+
+# Optional dependency groups
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1.0",
+]
+ops = [
+    "rich>=13.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"

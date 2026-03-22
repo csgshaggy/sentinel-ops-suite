@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Super Doctor Report</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+                   Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 40px auto;
+      max-width: 1000px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 { margin-bottom: 0.2em; }
+    h2 { margin-top: 1.8em; }
+    .summary p { margin: 4px 0; }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: #fff;
+    }
+    .FAIL { background: #d32f2f; }
+    .WARN { background: #f9a825; }
+    .INFO { background: #388e3c; }
+    .score-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #0366d6;
+      color: #fff;
+      font-weight: 600;
+      margin-left: 10px;
+      font-size: 0.9em;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+      font-size: 0.9em;
+    }
+    th { background: #f0f0f0; }
+    .card {
+      background: #f6f8fa;
+      padding: 16px;
+      border-radius: 8px;
+      border: 1px solid #e1e4e8;
+      margin-top: 20px;
+    }
+    ul { padding-left: 20px; }
+    canvas {
+      border: 1px solid #e1e4e8;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Super Doctor Report <span class='score-badge'>0/100</span></h1>
+  <p>Generated: 2026-03-20T13:43:01.728645+00:00</p>
+
+  <div class="card summary">
+    <h2>Summary</h2>
+    <p><span class="badge FAIL">FAIL: 0</span></p>
+    <p><span class="badge WARN">WARN: 488</span></p>
+    <p><span class="badge INFO">INFO: 7</span></p>
+  </div>
+
+  <div class="card">
+    <h2>Diff Summary</h2>
+    <h3>New Issues</h3>
+    <ul>
+      <li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/progress.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/actions.py</li>
+<li>[WARN] Unused function: api_list_themes in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/parallel_scan.py</li>
+<li>[WARN] Unused function: login in src/ssrf_console/app/routers/auth.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/subnet.py</li>
+<li>[WARN] Unused function: system_health in src/ssrf_console/app/routers/health.py</li>
+<li>[WARN] Unused function: list_open_ports in src/ssrf_console/app/routers/health.py</li>
+<li>[WARN] Unused function: gopher_mode in src/ssrf_console/modes/modes/gopher_mode.py</li>
+<li>[WARN] Unused function: smuggling_mode in src/ssrf_console/modes/modes/smuggling_mode.py</li>
+<li>[WARN] Unused function: _run_job in src/ssrf_console/app/core/tui_jobs.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/models.py</li>
+<li>[WARN] Unused function: api_list_modes in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Unused function: draw_target_mode in src/ssrf_console/app/core/tui_targets.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/processes.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/header_probe_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/metadata_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/routers.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/fastapi/middleware/cors.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/hash_tools.py</li>
+<li>[WARN] Unused function: api_diagnostics in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Unused function: write_audit_log in src/ssrf_console/app/services/audit.py</li>
+<li>[WARN] Unused function: metadata_mode in src/ssrf_console/modes/modes/metdata_mode.py</li>
+<li>[WARN] Unused function: draw_jobs_panel in src/ssrf_console/app/core/tui_jobs.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/concurrent/futures.py</li>
+<li>[WARN] Unused function: get_color_pair in src/ssrf_console/app/core/tui_palette.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/backend_service.py</li>
+<li>[WARN] Unused function: ensure_dir in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/utils.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/scanner_core.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/dns_extra.py</li>
+<li>[WARN] Unused function: run_script in src/ssrf_console/app/routers/ops.py</li>
+<li>[WARN] Unused function: metadata_mode in src/ssrf_console/modes/modes/metadata_mode.py</li>
+<li>[WARN] Unused function: simple_progress in src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/progress.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/mode_template.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/http_extra.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/tui.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/console/ui.py</li>
+<li>[WARN] Unused function: backend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_favorites.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/routers/auth.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/logger.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_mode_options.py</li>
+<li>[INFO] Import graph DOT written to: /home/kali/ssrf-command-console/runtime/import_graph.dot</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_diagnostics.py</li>
+<li>[WARN] Unused function: tui_main in src/ssrf_console/dashboard.py</li>
+<li>[WARN] Unused function: api_structure_check in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/exporters/json_exporter.py</li>
+<li>[WARN] Unused function: create_mode in src/ssrf_console/mode_template.py</li>
+<li>[WARN] Unused function: decode_access_token in src/ssrf_console/app/core/security.py</li>
+<li>[WARN] Unused function: redirect_mode in src/ssrf_console/modes/modes/redirect.py</li>
+<li>[WARN] Unused function: healthz in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/analyzer.py</li>
+<li>[WARN] Unused function: fingerprint_services in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/fingerprinter.py</li>
+<li>[WARN] Unused function: draw_diagnostics in src/ssrf_console/app/core/tui_diagnostics.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/dashboard_formatter.py</li>
+<li>[WARN] Unused function: set_theme in src/ssrf_console/console/colors.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/port_scanner.py</li>
+<li>[WARN] Unused function: control_health in src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/size_cluster.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/security.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_widgets.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/dashboard.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/paths.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/redirects.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/logger.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/slowapi/errors.py</li>
+<li>[WARN] Unused function: wait_for_http in src/ssrf_console/app/core/health_bootstrap.py</li>
+<li>[WARN] Unused function: kill_frontend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/processess.py</li>
+<li>[WARN] Unused function: api_remove_favorite in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Unused function: restart_backend in src/ssrf_console/app/routers/ops.py</li>
+<li>[WARN] Unused function: draw_history in src/ssrf_console/app/core/tui_history.py</li>
+<li>[WARN] Unused function: control_ports in src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Unused function: control_processes in src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Unused function: init_colors in src/ssrf_console/app/core/tui_palette.py</li>
+<li>[WARN] Unused function: dashboard in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui_curses.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/console/history.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_help.py</li>
+<li>[WARN] Unused function: kill_port in src/ssrf_console/app/routers/ops.py</li>
+<li>[WARN] Unused function: get_client_ip in src/ssrf_console/app/core/dependencies.py</li>
+<li>[WARN] Unused function: placeholder in src/ssrf_console/importlib.py</li>
+<li>[WARN] Unused function: draw_favorites in src/ssrf_console/app/core/tui_favorites.py</li>
+<li>[WARN] Unused function: draw_palette in src/ssrf_console/app/core/tui_widgets.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/dns_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/security.py</li>
+<li>[WARN] Unused function: api_get_history in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/health_bootstrap.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/console/colors.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/services/websocket_manager.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/importlib/util.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/utils.py</li>
+<li>[WARN] Unused function: init in src/ssrf_console/console/tui_health.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/config.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ops.py</li>
+<li>[WARN] Unused function: scan_single_ip in src/ssrf_console/ssrf_scanner/ssrf_scanner/scanner_core.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/passlib/context.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/manager.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/backend_service.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/scanner_core.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/result_models.py</li>
+<li>[WARN] Unused function: analyze_header_mutations in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/header_mutator.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/diagnostic_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/rate_limit.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/redirects.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/http_helpers.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_targets.py</li>
+<li>[WARN] Unused function: probe_metadata_endpoints in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/metadata_prober.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/result_models.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_theme.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/console/menu.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/ports.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/cli.py</li>
+<li>[WARN] Unused function: processes in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/fingerprinter.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/console/favorites.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/smuggling.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/ssrf_scanner.py</li>
+<li>[WARN] Unused function: read_log in src/ssrf_console/app/routers/logs_api.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/config.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/actions.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/helpers.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/importlib.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_history.py</li>
+<li>[WARN] Unused function: raw_socket_mode in src/ssrf_console/modes/modes/raw_socket_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/math_tools.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/text_tools.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/redirect_mode.py</li>
+<li>[WARN] Unused function: theme_color in src/ssrf_console/console/colors.py</li>
+<li>[WARN] Unused function: draw_theme_selector in src/ssrf_console/app/core/tui_theme.py</li>
+<li>[WARN] Unused function: get_password_hash in src/ssrf_console/app/core/security.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/history.py</li>
+<li>[WARN] Unused function: health in src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Unused function: api_add_favorite in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Unused function: cli in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</li>
+<li>[WARN] Unused function: load_plugins in src/ssrf_console/app/core/plugin_loader.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/processess.py</li>
+<li>[WARN] Unused function: control_logs in src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/services/audit.py</li>
+<li>[WARN] Unused function: dns_mode in src/ssrf_console/modes/modes/dns_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/config.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/paths.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/utils.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/fastapi/responses.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/scanner_core.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/services/dispatcher_service.py</li>
+<li>[INFO] Checking for dead (unreferenced) Python files...</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/config.py</li>
+<li>[WARN] Unused function: test_mode in src/ssrf_console/modes/modes/test_mode.py</li>
+<li>[WARN] Unused function: api_apply_theme in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/metadata_tools.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_config.py</li>
+<li>[WARN] Unused function: ports in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/health.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/logs_api.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/console/tui_health.py</li>
+<li>[WARN] Unused function: run_scan in src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/gopher_mode.py</li>
+<li>[WARN] Unused function: hostname_info in src/ssrf_console/app/routers/health.py</li>
+<li>[WARN] Unused function: tui in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/patterns.py</li>
+<li>[WARN] Unused function: draw_notification in src/ssrf_console/app/core/tui_notifications.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_app.py</li>
+<li>[WARN] Unused function: control_restart_backend in src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Unused function: health_root in src/ssrf_console/app/routers/health.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/header_mutator.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_jobs.py</li>
+<li>[WARN] Unused function: api_get_favorites in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Unused function: scan_subnet in src/ssrf_console/ssrf_scanner/ssrf_scanner/ssrf_scanner.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/ip_allowlist.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/fastapi/staticfiles.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/utility_tools.py</li>
+<li>[WARN] Unused function: diff_responses in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/diff_engine.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ui.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/raw_socket_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/auth_rbac.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/timing.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/smuggling_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/patterns.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_layouts.py</li>
+<li>[WARN] Unused function: draw_help in src/ssrf_console/app/core/tui_help.py</li>
+<li>[WARN] Unused function: extract_banners in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/banner_grabber.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/redirect.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/mode_d.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/routers/ops.py</li>
+<li>[WARN] Unused function: start_job in src/ssrf_console/app/core/tui_jobs.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/plugin_loader.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/smugglilne_mode.py</li>
+<li>[WARN] Unused function: expand_targets in src/ssrf_console/app/core/tui_targets.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/slowapi/middleware.py</li>
+<li>[WARN] Unused function: draw_mode_options in src/ssrf_console/app/core/tui_mode_options.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/test_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_engine.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/crash_reporter.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/parallel_scan.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/fastapi/templating.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_launcher.py</li>
+<li>[WARN] Unused function: get_settings in src/ssrf_console/app/core/dependencies.py</li>
+<li>[WARN] Unused function: smuggling_mode in src/ssrf_console/modes/modes/smuggling.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/colors.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/metadata_tools.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/banner_grabber.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/backend_service.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/favorites.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/timing.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/ssl_tools.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui_curses.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/diff_engine.py</li>
+<li>[WARN] Unused function: api_clear_history in src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/size_cluster.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_palette.py</li>
+<li>[INFO] Checking for unused functions...</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/routers/dashboard.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/metadata_prober.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/dashboard_formatter.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/file_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ports.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters/json_exporter.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/metdata_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/routers/health.py</li>
+<li>[WARN] Unused function: redirect_mode in src/ssrf_console/modes/modes/redirect_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/subnet.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/dispatcher.py</li>
+<li>[WARN] Unused function: list_logs in src/ssrf_console/app/routers/logs_api.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/http_helpers.py</li>
+<li>[WARN] Unused function: diagnostic_mode in src/ssrf_console/modes/modes/diagnostic_mode.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/urllib/parse.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/routers/logs_api.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/ws_dashboard_unused.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_notifications.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/banner_grabber.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/repair_imports.py</li>
+<li>[WARN] Unused function: control_manual_scan in src/ssrf_console/dashboard_web.py</li>
+<li>[WARN] Unused function: frontend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</li>
+<li>[WARN] Dead file (unreferenced): src/ssrf_console/app/core/dependencies.py</li>
+<li>[WARN] Unused function: header_probe_mode in src/ssrf_console/modes/modes/header_probe_mode.py</li>
+    </ul>
+    <h3>Resolved Issues</h3>
+    <ul>
+      <li>None</li>
+    </ul>
+  </div>
+
+  <h2>Trend (History)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Run Timestamp</th>
+        <th>FAIL</th>
+        <th>WARN</th>
+        <th>INFO</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>20260320T123815Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
+<tr><td>20260320T123936Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
+<tr><td>20260320T124023Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
+<tr><td>20260320T124444Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
+<tr><td>20260320T132741Z</td><td class='FAIL'>0</td><td class='WARN'>17</td><td class='INFO'>3</td><td>-</td></tr>
+<tr><td>20260320T132802Z</td><td class='FAIL'>0</td><td class='WARN'>17</td><td class='INFO'>3</td><td>-</td></tr>
+<tr><td>20260320T134249Z</td><td class='FAIL'>0</td><td class='WARN'>488</td><td class='INFO'>7</td><td>0</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Trend Chart</h2>
+  <canvas id="trendChart" width="900" height="320"></canvas>
+
+  <h2>Detailed Entries</h2>
+  <table>
+    <thead>
+      <tr><th>Severity</th><th>Message</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/actions.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/analyzer.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/auth_rbac.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/crash_reporter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/dependencies.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/health_bootstrap.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/ip_allowlist.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/plugin_loader.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/rate_limit.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/security.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_app.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_diagnostics.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_engine.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_favorites.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_help.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_history.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_jobs.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_launcher.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_layouts.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_mode_options.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_notifications.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_palette.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_targets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_theme.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/core/tui_widgets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/logs_api.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/models.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/routers.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/routers/auth.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/routers/logs_api.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/routers/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/security.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/services/audit.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/services/dispatcher_service.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/app/services/websocket_manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/backend_service.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/colors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/concurrent/futures.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/console/colors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/console/favorites.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/console/history.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/console/menu.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/console/tui_health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/console/ui.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/dispatcher.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/fastapi/middleware/cors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/fastapi/responses.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/fastapi/staticfiles.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/fastapi/templating.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/favorites.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/history.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/importlib.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/importlib/util.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/metadata_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/mode_template.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/diagnostic_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/dns_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/file_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/gopher_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/header_probe_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/metadata_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/metdata_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/mode_d.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/raw_socket_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/redirect.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/redirect_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/smugglilne_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/smuggling.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/smuggling_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/modes/modes/test_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/passlib/context.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/banner_grabber.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/dns_extra.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/hash_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/http_extra.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/math_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/metadata_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/port_scanner.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/ssl_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/text_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/plugins/plugins/utility_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/processes.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/repair_imports.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/scanner_core.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/slowapi/errors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/slowapi/middleware.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/backend_service.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/actions.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/backend_service.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/processess.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui_curses.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/utils.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/patterns.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/redirects.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/size_cluster.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/timing.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/dashboard_formatter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/exporters/json_exporter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/parallel_scan.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/paths.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ports.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/scanner_core.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/banner_grabber.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/diff_engine.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/fingerprinter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/header_mutator.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/metadata_prober.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/patterns.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/redirects.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/size_cluster.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/timing.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/cli.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/dashboard_formatter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters/json_exporter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/parallel_scan.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/paths.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/ports.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/scanner_core.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/ssrf_scanner.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/helpers.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/http_helpers.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/logger.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/progress.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/result_models.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/subnet.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/http_helpers.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/logger.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/result_models.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/subnet.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/tui.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ui.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/urllib/parse.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/utils.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Dead file (unreferenced): src/ssrf_console/ws_dashboard_unused.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/app/core</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/app/services</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/concurrent</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/fastapi</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/fastapi/middleware</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/importlib</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/passlib</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/slowapi</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/exporters</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/urllib</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [INFO] Checking for dead (unreferenced) Python files...</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [INFO] Checking for unused functions...</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [INFO] Import graph DOT written to: /home/kali/ssrf-command-console/runtime/import_graph.dot</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/actions.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/analyzer.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/auth_rbac.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/crash_reporter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/dependencies.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/health_bootstrap.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/ip_allowlist.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/plugin_loader.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/rate_limit.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/security.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_app.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_diagnostics.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_engine.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_favorites.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_help.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_history.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_jobs.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_launcher.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_layouts.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_mode_options.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_notifications.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_palette.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_targets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_theme.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/core/tui_widgets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/logs_api.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/models.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/routers.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/routers/auth.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/routers/logs_api.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/routers/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/security.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/services/audit.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/services/dispatcher_service.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/app/services/websocket_manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/backend_service.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/colors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/concurrent/futures.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/console/colors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/console/favorites.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/console/history.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/console/menu.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/console/tui_health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/console/ui.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/dispatcher.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/fastapi/middleware/cors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/fastapi/responses.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/fastapi/staticfiles.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/fastapi/templating.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/favorites.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/history.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/importlib.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/importlib/util.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/metadata_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/mode_template.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/diagnostic_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/dns_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/file_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/gopher_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/header_probe_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/metadata_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/metdata_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/mode_d.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/raw_socket_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/redirect.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/redirect_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/smugglilne_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/smuggling.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/smuggling_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/modes/modes/test_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/passlib/context.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/banner_grabber.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/dns_extra.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/hash_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/http_extra.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/math_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/metadata_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/port_scanner.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/ssl_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/text_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/plugins/plugins/utility_tools.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/processes.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/repair_imports.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/scanner_core.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/slowapi/errors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/slowapi/middleware.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/backend_service.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/actions.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/backend_service.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/config.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/processess.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui_curses.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/utils.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/patterns.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/redirects.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/size_cluster.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/analyzers/timing.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/dashboard_formatter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/exporters/json_exporter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/parallel_scan.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/paths.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ports.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/scanner_core.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/banner_grabber.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/diff_engine.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/fingerprinter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/header_mutator.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/metadata_prober.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/patterns.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/redirects.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/size_cluster.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/timing.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/cli.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/dashboard_formatter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters/json_exporter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/parallel_scan.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/paths.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/ports.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/scanner_core.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/ssrf_scanner.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/helpers.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/http_helpers.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/logger.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/progress.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/result_models.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/subnet.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/http_helpers.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/logger.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/result_models.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ssrf_scanner/utils/subnet.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/tui.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ui.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/urllib/parse.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/utils.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Dead file (unreferenced): src/ssrf_console/ws_dashboard_unused.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: _run_job in src/ssrf_console/app/core/tui_jobs.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: analyze_header_mutations in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/header_mutator.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_add_favorite in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_apply_theme in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_clear_history in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_diagnostics in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_get_favorites in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_get_history in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_list_modes in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_list_themes in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_remove_favorite in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: api_structure_check in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: backend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: cli in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: control_health in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: control_logs in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: control_manual_scan in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: control_ports in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: control_processes in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: control_restart_backend in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: create_mode in src/ssrf_console/mode_template.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: dashboard in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui_curses.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: decode_access_token in src/ssrf_console/app/core/security.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: diagnostic_mode in src/ssrf_console/modes/modes/diagnostic_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: diff_responses in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/diff_engine.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: dns_mode in src/ssrf_console/modes/modes/dns_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_diagnostics in src/ssrf_console/app/core/tui_diagnostics.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_favorites in src/ssrf_console/app/core/tui_favorites.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_help in src/ssrf_console/app/core/tui_help.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_history in src/ssrf_console/app/core/tui_history.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_jobs_panel in src/ssrf_console/app/core/tui_jobs.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_mode_options in src/ssrf_console/app/core/tui_mode_options.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_notification in src/ssrf_console/app/core/tui_notifications.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_palette in src/ssrf_console/app/core/tui_widgets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_target_mode in src/ssrf_console/app/core/tui_targets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: draw_theme_selector in src/ssrf_console/app/core/tui_theme.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: ensure_dir in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/utils.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: expand_targets in src/ssrf_console/app/core/tui_targets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: extract_banners in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/banner_grabber.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: fingerprint_services in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/fingerprinter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: frontend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: get_client_ip in src/ssrf_console/app/core/dependencies.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: get_color_pair in src/ssrf_console/app/core/tui_palette.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: get_password_hash in src/ssrf_console/app/core/security.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: get_settings in src/ssrf_console/app/core/dependencies.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: gopher_mode in src/ssrf_console/modes/modes/gopher_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: header_probe_mode in src/ssrf_console/modes/modes/header_probe_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: health in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: health_root in src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: healthz in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: hostname_info in src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: init in src/ssrf_console/console/tui_health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: init_colors in src/ssrf_console/app/core/tui_palette.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: kill_frontend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/processess.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: kill_port in src/ssrf_console/app/routers/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: list_logs in src/ssrf_console/app/routers/logs_api.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: list_open_ports in src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: load_plugins in src/ssrf_console/app/core/plugin_loader.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: login in src/ssrf_console/app/routers/auth.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: metadata_mode in src/ssrf_console/modes/modes/metadata_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: metadata_mode in src/ssrf_console/modes/modes/metdata_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: placeholder in src/ssrf_console/importlib.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: ports in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: probe_metadata_endpoints in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/metadata_prober.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: processes in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: raw_socket_mode in src/ssrf_console/modes/modes/raw_socket_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: read_log in src/ssrf_console/app/routers/logs_api.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: redirect_mode in src/ssrf_console/modes/modes/redirect.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: redirect_mode in src/ssrf_console/modes/modes/redirect_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: restart_backend in src/ssrf_console/app/routers/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: run_scan in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: run_script in src/ssrf_console/app/routers/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: scan_single_ip in src/ssrf_console/ssrf_scanner/ssrf_scanner/scanner_core.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: scan_subnet in src/ssrf_console/ssrf_scanner/ssrf_scanner/ssrf_scanner.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: set_theme in src/ssrf_console/console/colors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: simple_progress in src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/progress.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: smuggling_mode in src/ssrf_console/modes/modes/smuggling.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: smuggling_mode in src/ssrf_console/modes/modes/smuggling_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: start_job in src/ssrf_console/app/core/tui_jobs.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: system_health in src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: test_mode in src/ssrf_console/modes/modes/test_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: theme_color in src/ssrf_console/console/colors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: tui in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: tui_main in src/ssrf_console/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: wait_for_http in src/ssrf_console/app/core/health_bootstrap.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>New issue detected: [WARN] Unused function: write_audit_log in src/ssrf_console/app/services/audit.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: _run_job in src/ssrf_console/app/core/tui_jobs.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: analyze_header_mutations in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/header_mutator.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_add_favorite in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_apply_theme in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_clear_history in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_diagnostics in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_get_favorites in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_get_history in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_list_modes in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_list_themes in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_remove_favorite in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: api_structure_check in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: backend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: cli in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: control_health in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: control_logs in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: control_manual_scan in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: control_ports in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: control_processes in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: control_restart_backend in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: create_mode in src/ssrf_console/mode_template.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: dashboard in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui_curses.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: decode_access_token in src/ssrf_console/app/core/security.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: diagnostic_mode in src/ssrf_console/modes/modes/diagnostic_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: diff_responses in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/diff_engine.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: dns_mode in src/ssrf_console/modes/modes/dns_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_diagnostics in src/ssrf_console/app/core/tui_diagnostics.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_favorites in src/ssrf_console/app/core/tui_favorites.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_help in src/ssrf_console/app/core/tui_help.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_history in src/ssrf_console/app/core/tui_history.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_jobs_panel in src/ssrf_console/app/core/tui_jobs.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_mode_options in src/ssrf_console/app/core/tui_mode_options.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_notification in src/ssrf_console/app/core/tui_notifications.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_palette in src/ssrf_console/app/core/tui_widgets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_target_mode in src/ssrf_console/app/core/tui_targets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: draw_theme_selector in src/ssrf_console/app/core/tui_theme.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: ensure_dir in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/utils.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: expand_targets in src/ssrf_console/app/core/tui_targets.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: extract_banners in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/banner_grabber.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: fingerprint_services in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/fingerprinter.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: frontend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: get_client_ip in src/ssrf_console/app/core/dependencies.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: get_color_pair in src/ssrf_console/app/core/tui_palette.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: get_password_hash in src/ssrf_console/app/core/security.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: get_settings in src/ssrf_console/app/core/dependencies.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: gopher_mode in src/ssrf_console/modes/modes/gopher_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: header_probe_mode in src/ssrf_console/modes/modes/header_probe_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: health in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: health_root in src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: healthz in src/ssrf_console/app/routers/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: hostname_info in src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: init in src/ssrf_console/console/tui_health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: init_colors in src/ssrf_console/app/core/tui_palette.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: kill_frontend in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/processess.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: kill_port in src/ssrf_console/app/routers/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: list_logs in src/ssrf_console/app/routers/logs_api.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: list_open_ports in src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: load_plugins in src/ssrf_console/app/core/plugin_loader.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: login in src/ssrf_console/app/routers/auth.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: metadata_mode in src/ssrf_console/modes/modes/metadata_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: metadata_mode in src/ssrf_console/modes/modes/metdata_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: placeholder in src/ssrf_console/importlib.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: ports in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: probe_metadata_endpoints in src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/metadata_prober.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: processes in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: raw_socket_mode in src/ssrf_console/modes/modes/raw_socket_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: read_log in src/ssrf_console/app/routers/logs_api.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: redirect_mode in src/ssrf_console/modes/modes/redirect.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: redirect_mode in src/ssrf_console/modes/modes/redirect_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: restart_backend in src/ssrf_console/app/routers/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: run_scan in src/ssrf_console/dashboard_web.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: run_script in src/ssrf_console/app/routers/ops.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: scan_single_ip in src/ssrf_console/ssrf_scanner/ssrf_scanner/scanner_core.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: scan_subnet in src/ssrf_console/ssrf_scanner/ssrf_scanner/ssrf_scanner.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: set_theme in src/ssrf_console/console/colors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: simple_progress in src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/progress.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: smuggling_mode in src/ssrf_console/modes/modes/smuggling.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: smuggling_mode in src/ssrf_console/modes/modes/smuggling_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: start_job in src/ssrf_console/app/core/tui_jobs.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: system_health in src/ssrf_console/app/routers/health.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: test_mode in src/ssrf_console/modes/modes/test_mode.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: theme_color in src/ssrf_console/console/colors.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: tui in src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: tui_main in src/ssrf_console/dashboard.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: wait_for_http in src/ssrf_console/app/core/health_bootstrap.py</td></tr>
+<tr><td><span class='badge WARN'>WARN</span></td><td>Unused function: write_audit_log in src/ssrf_console/app/services/audit.py</td></tr>
+<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for circular imports...</td></tr>
+<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for dead (unreferenced) Python files...</td></tr>
+<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for missing __init__.py files...</td></tr>
+<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for unused functions...</td></tr>
+<tr><td><span class='badge INFO'>INFO</span></td><td>Import graph DOT written to: /home/kali/ssrf-command-console/runtime/import_graph.dot</td></tr>
+<tr><td><span class='badge INFO'>INFO</span></td><td>No circular imports detected.</td></tr>
+<tr><td><span class='badge INFO'>INFO</span></td><td>Project health score: 0/100</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    const labels = ["20260320T123815Z", "20260320T123936Z", "20260320T124023Z", "20260320T124444Z", "20260320T132741Z", "20260320T132802Z", "20260320T134249Z"];
+    const failData = [17, 17, 17, 17, 0, 0, 0];
+    const warnData = [184, 184, 184, 184, 17, 17, 488];
+    const infoData = [4, 4, 4, 4, 3, 3, 7];
+    const scoreData = [0, 0, 0, 0, 0, 0, 0];
+
+    const canvas = document.getElementById('trendChart');
+    const ctx = canvas.getContext('2d');
+
+    function normalize(value, maxValue, height, offset) {
+      if (maxValue === 0) return height - offset;
+      return height - offset - (value / maxValue) * (height - 2 * offset);
+    }
+
+    function drawLine(data, color, maxValue, height, offset) {
+      ctx.beginPath();
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 2;
+
+      data.forEach((value, index) => {
+        const x = 50 + index * 50;
+        const y = normalize(value, maxValue, height, offset);
+        if (index === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+
+      ctx.stroke();
+    }
+
+    function drawChart() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const height = canvas.height;
+      const offset = 20;
+
+      const maxCount = Math.max(
+        ...failData,
+        ...warnData,
+        ...infoData,
+        1
+      );
+      const maxScore = Math.max(...scoreData, 100);
+
+      // Axes
+      ctx.strokeStyle = '#ccc';
+      ctx.beginPath();
+      ctx.moveTo(40, 10);
+      ctx.lineTo(40, height - 30);
+      ctx.lineTo(canvas.width - 10, height - 30);
+      ctx.stroke();
+
+      // Lines
+      drawLine(failData, '#d32f2f', maxCount, height, offset);
+      drawLine(warnData, '#f9a825', maxCount, height, offset);
+      drawLine(infoData, '#388e3c', maxCount, height, offset);
+      drawLine(scoreData, '#0366d6', maxScore, height, offset);
+
+      // Legend
+      const legend = [
+        ['FAIL', '#d32f2f'],
+        ['WARN', '#f9a825'],
+        ['INFO', '#388e3c'],
+        ['Score', '#0366d6'],
+      ];
+      let lx = 60;
+      const ly = 15;
+      legend.forEach(([label, color]) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(lx, ly, 10, 10);
+        ctx.fillStyle = '#000';
+        ctx.fillText(label, lx + 15, ly + 10);
+        lx += 80;
+      });
+    }
+
+    drawChart();
+  </script>
+</body>
+</html>
