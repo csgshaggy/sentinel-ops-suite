@@ -1,8 +1,15 @@
 #!/bin/bash
 
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Skip structural validation on gh-pages
+if [ "$BRANCH" = "gh-pages" ]; then
+    echo "=== Pre-push: Skipping structural validation on gh-pages ==="
+    exit 0
+fi
+
 echo "=== Pre-push: Structural Validation ==="
 
-# Run SuperDoctor in dry-run mode
 python tools/super_doctor.py --dry-run
 STATUS=$?
 
