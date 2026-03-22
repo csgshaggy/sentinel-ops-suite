@@ -1,87 +1,125 @@
 #!/usr/bin/env python3
+"""
+Doctor Dashboard Generator
+
+Produces:
+- runtime/doctor_results.json
+- runtime/doctor_dashboard.md
+
+Consumes:
+- scripts/doctor/run_doctor.py output
+"""
+
+from __future__ import annotations
+
 import json
-import os
+import sys
+from pathlib import Path
 from datetime import datetime
 
-OUTPUT_DIR = "docs/doctor"
-HISTORY_FILE = f"{OUTPUT_DIR}/history.json"
-INDEX_HTML = f"{OUTPUT_DIR}/index.html"
-RESULTS_FILE = "runtime/doctor_results.json"
+# ---------------------------------------------------------
+# Color helpers (CI-safe)
+# ---------------------------------------------------------
+class C:
+    BLUE = "\033[94m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    END = "\033[0m"
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+def info(msg): print(f"{C.BLUE}[INFO]{C.END} {msg}")
+def ok(msg): print(f"{C.GREEN}[OK]{C.END} {msg}")
+def warn(msg): print(f"{C.YELLOW}[WARN]{C.END} {msg}")
+def fail(msg): print(f"{C.RED}[FAIL]{C.END} {msg}")
 
-def load_history():
-    if not os.path.exists(HISTORY_FILE):
-        return []
-    with open(HISTORY_FILE, "r") as f:
-        return json.load(f)
 
-def save_history(history):
-    with open(HISTORY_FILE, "w") as f:
-        json.dump(history, f, indent=2)
+# ---------------------------------------------------------
+# Path resolution
+# ---------------------------------------------------------
+THIS_FILE = Path(__file__).resolve()
+CI_DIR = THIS_FILE.parent
+SCRIPTS_DIR = CI_DIR.parent
+REPO_ROOT = SCRIPTS_DIR.parent
 
-def generate_html(history, results):
-    html = []
-    html.append("<html><head><title>Doctor Dashboard</title>")
-    html.append("<style>")
-    html.append("body { font-family: Arial; padding: 20px; }")
-    html.append(".ok { color: green; }")
-    html.append(".fail { color: red; }")
-    html.append(".error { color: orange; }")
-    html.append("</style></head><body>")
-    html.append("<h1>🩺 Doctor Suite Dashboard</h1>")
+DOCTOR_SCRIPT = SCRIPTS_DIR / "doctor" / "run_doctor.py"
 
-    # Current results
-    html.append("<h2>Current Status</h2>")
-    for r in results:
-        status = r["status"]
-        color = "ok" if status == "ok" else ("fail" if status == "fail" else "error")
-        html.append(f"<p class='{color}'><b>{r['name']}</b>: {status.upper()}</p>")
+OUTPUT_DIR = REPO_ROOT / "runtime"
+OUTPUT_JSON = OUTPUT_DIR / "doctor_results.json"
+OUTPUT_MD = OUTPUT_DIR / "doctor_dashboard.md"
 
-    # History
-    html.append("<h2>History</h2><ul>")
-    for entry in reversed(history):
-        status = "OK" if entry["status"] == "ok" else "FAIL"
-        color = "ok" if entry["status"] == "ok" else "fail"
-        html.append(f"<li class='{color}'>{entry['timestamp']}: {status}</li>")
-    html.append("</ul>")
 
-    html.append("</body></html>")
-    return "\n".join(html)
+# ---------------------------------------------------------
+# Import doctor system
+# ---------------------------------------------------------
+sys.path.append(str(SCRIPTS_DIR))
 
-def main():
-    if not os.path.exists(RESULTS_FILE):
-        print("[!] No doctor results found. Run doctor suite first.")
-        return
+try:
+    from doctor.run_doctor import run_doctor  # noqa: E402
+except Exception as e:
+    fail(f"Unable to import doctor system: {e}")
+    sys.exit(1)
 
-    with open(RESULTS_FILE, "r") as f:
-        results = json.load(f)
 
-    # Determine overall status
-    overall_status = "ok"
-    for r in results:
-        if r["status"] != "ok":
-            overall_status = "fail"
-            break
+# ---------------------------------------------------------
+# Dashboard generation
+# ---------------------------------------------------------
+def generate_dashboard():
+    info("Running doctor system...")
+    results = run_doctor()
 
-    # Load history
-    history = load_history()
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Append new entry
-    history.append({
-        "timestamp": datetime.utcnow().isoformat(),
-        "status": overall_status,
-        "results": results
-    })
+    # JSON output
+    info(f"Writing JSON results → {OUTPUT_JSON}")
+    with OUTPUT_JSON.open("w") as f:
+        json.dump({
+            "timestamp": datetime.utcnow().isoformat() + "Z",
+            "results": results,
+        }, f, indent=2)
 
-    save_history(history)
+    # Markdown dashboard
+    info(f"Writing Markdown dashboard → {OUTPUT_MD}")
+    with OUTPUT_MD.open("w") as f:
+        f.write("# Doctor Dashboard\n\n")
+        f.write(f"Generated: **{datetime.utcnow().isoformat()}Z**\n\n")
 
-    # Generate HTML
-    html = generate_html(history, results)
-    with open(INDEX_HTML, "w") as f:
-        f.write(html)
+        f.write("## Summary\n")
+        total = len(results)
+        passed = sum(1 for r in results if r.get("status") == "pass")
+        failed = sum(1 for r in results if r.get("status") == "fail")
+        warnings = sum(1 for r in results if r.get("status") == "warn")
 
-    print("[+] Doctor dashboard updated.")
+        f.write(f"- **Total Checks:** {total}\n")
+        f.write(f"- **Passed:** {passed}\n")
+        f.write(f"- **Warnings:** {warnings}\n")
+        f.write(f"- **Failed:** {failed}\n\n")
 
+        f.write("## Detailed Results\n")
+        for r in results:
+            name = r.get("name", "Unnamed Check")
+            status = r.get("status", "unknown")
+            message = r.get("message", "")
+
+            icon = {
+                "pass": "🟢",
+                "fail": "🔴",
+                "warn": "🟡",
+            }.get(status, "⚪")
+
+            f.write(f"### {icon} {name}\n")
+            f.write(f"**Status:** `{status}`\n\n")
+            if message:
+                f.write(f"**Message:** {message}\n\n")
+
+    ok("Doctor dashboard generated successfully.")
+
+
+# ---------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------
 if __name__ == "__main__":
-    main()
+    try:
+        generate_dashboard()
+    except Exception as e:
+        fail(str(e))
+        sys.exit(1)

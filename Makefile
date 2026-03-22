@@ -1,100 +1,87 @@
-# ============================================================
-# Project Makefile — Operator‑Grade, Deterministic, Drift‑Safe
-# Regenerated: 2026‑03‑22 (Upgrade 5)
-# ============================================================
+# =========================================================
+# SSRF Command Console — Operational Makefile
+# =========================================================
 
-PYTHON := python3
+SHELL := /bin/bash
+REPO_ROOT := $(shell git rev-parse --show-toplevel)
+SCRIPTS := $(REPO_ROOT)/scripts
+RUNTIME := $(REPO_ROOT)/runtime
 
-# Toggle: fail CI on drift (1 = fail, 0 = warn only)
-DRIFT_FAIL ?= 1
-export DRIFT_FAIL
+BLUE  := \033[94m
+GREEN := \033[92m
+YELLOW:= \033[93m
+RED   := \033[91m
+END   := \033[0m
 
-# ------------------------------------------------------------
-# HELP
-# ------------------------------------------------------------
-.PHONY: help
-help:
-	@echo ""
-	@echo "==================== PROJECT COMMANDS ===================="
-	@echo "Application:"
-	@echo "  run                 Run the main application (run.py)"
-	@echo "  run.sh              Run the shell wrapper"
-	@echo "  ops                 Launch operator console (ops.sh)"
-	@echo ""
-	@echo "Documentation:"
-	@echo "  docs.all            Run all documentation governance tasks"
-	@echo "  docs.health         Score documentation health"
-	@echo "  docs.index          Generate documentation index"
-	@echo "  docs.diff           Compare docs against baseline"
-	@echo ""
-	@echo "Doctor Suite (Plugin-Based):"
-	@echo "  doctor              Run all validators (auto-discovered)"
-	@echo "  drift.reset         Regenerate structure baseline (with confirmation)"
-	@echo ""
-	@echo "CI Controls:"
-	@echo "  DRIFT_FAIL=0 make doctor.drift   # warn only"
-	@echo "  DRIFT_FAIL=1 make doctor.drift   # fail on drift"
-	@echo ""
-	@echo "Maintenance:"
-	@echo "  clean               Remove caches and temporary files"
-	@echo "=========================================================="
-	@echo ""
+info  = @echo -e "$(BLUE)[INFO]$(END) $1"
+ok    = @echo -e "$(GREEN)[OK]$(END) $1"
+warn  = @echo -e "$(YELLOW)[WARN]$(END) $1"
+fail  = @echo -e "$(RED)[FAIL]$(END) $1"
 
-# ------------------------------------------------------------
-# APPLICATION
-# ------------------------------------------------------------
-.PHONY: run
-run:
-	$(PYTHON) run.py
 
-.PHONY: run.sh
-run.sh:
-	./run.sh
+# =========================================================
+# Validation
+# =========================================================
 
-.PHONY: ops
-ops:
-	./ops.sh
-
-# ------------------------------------------------------------
-# DOCUMENTATION GOVERNANCE
-# ------------------------------------------------------------
-.PHONY: docs.all
-docs.all: docs.health docs.index docs.diff
-
-.PHONY: docs.health
-docs.health:
-	$(PYTHON) scripts/docs_health.py
-
-.PHONY: docs.index
-docs.index:
-	$(PYTHON) scripts/docs_index.py
-
-.PHONY: docs.diff
-docs.diff:
-	$(PYTHON) scripts/docs_diff.py
-
-# ------------------------------------------------------------
-# DOCTOR SUITE (PLUGIN LOADER)
-# ------------------------------------------------------------
 .PHONY: doctor
 doctor:
-	$(PYTHON) scripts/doctor/doctor_loader.py
+	$(call info,"Running doctor validators...")
+	@python3 $(SCRIPTS)/doctor/run_doctor.py || { $(call fail,"Doctor failed"); exit 1; }
+	$(call ok,"Doctor passed.")
 
-# Drift detection (still available as a standalone)
-.PHONY: doctor.drift
-doctor.drift:
-	@bash scripts/doctor/drift.sh
 
-# Baseline reset
-.PHONY: drift.reset
-drift.reset:
-	@bash scripts/doctor/drift_reset.sh
+# =========================================================
+# Drift Detection
+# =========================================================
 
-# ------------------------------------------------------------
-# MAINTENANCE
-# ------------------------------------------------------------
-.PHONY: clean
-clean:
-	find . -type d -name "__pycache__" -exec rm -rf {} +
-	find . -type f -name "*.pyc" -delete
-	find . -type f -name "*.pyo" -delete
+BASELINE := $(RUNTIME)/baseline.json
+DRIFT_JSON := $(RUNTIME)/drift_results.json
+DRIFT_MD := $(RUNTIME)/drift_dashboard.md
+
+.PHONY: baseline
+baseline:
+	$(call info,"Building baseline → $(BASELINE)")
+	@python3 $(SCRIPTS)/drift_detector.py --mode baseline --baseline $(BASELINE)
+	$(call ok,"Baseline created.")
+
+.PHONY: drift
+drift:
+	$(call info,"Running drift comparison...")
+	@python3 $(SCRIPTS)/drift_detector.py --mode compare --baseline $(BASELINE) > $(DRIFT_JSON)
+	$(call ok,"Drift results written to $(DRIFT_JSON)")
+
+.PHONY: drift-dashboard
+drift-dashboard:
+	$(call info,"Generating drift dashboard...")
+	@python3 $(SCRIPTS)/ci/drift_dashboard.py || { $(call fail,"Dashboard generation failed"); exit 1; }
+	$(call ok,"Dashboard generated at $(DRIFT_MD)")
+
+
+# =========================================================
+# CI Targets
+# =========================================================
+
+.PHONY: ci-drift
+ci-drift: drift drift-dashboard
+	$(call ok,"CI drift check complete.")
+
+.PHONY: ci-doctor
+ci-doctor: doctor
+	$(call ok,"CI doctor check complete.")
+
+
+# =========================================================
+# Utility
+# =========================================================
+
+.PHONY: paths
+paths:
+	$(call info,"Repo root: $(REPO_ROOT)")
+	$(call info,"Scripts:   $(SCRIPTS)")
+	$(call info,"Runtime:   $(RUNTIME)")
+
+.PHONY: clean-runtime
+clean-runtime:
+	$(call warn,"Cleaning runtime directory...")
+	@rm -f $(RUNTIME)/*.json $(RUNTIME)/*.md
+	$(call ok,"Runtime cleaned.")

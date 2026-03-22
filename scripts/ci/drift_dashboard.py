@@ -1,80 +1,118 @@
 #!/usr/bin/env python3
 """
 Drift Dashboard Generator
-Generates a Markdown drift dashboard for GitHub Pages.
+
+Consumes:
+- runtime/drift_results.json
+
+Produces:
+- runtime/drift_dashboard.md
+
+This script mirrors the architecture of doctor_dashboard.py
+for consistency, predictability, and CI alignment.
 """
 
+from __future__ import annotations
+
+import json
 import sys
 from pathlib import Path
-import json
-
-# ---------------------------------------------------------
-# Ensure the scripts/ directory is importable
-# ---------------------------------------------------------
-# This file lives in: scripts/ci/drift_dashboard.py
-# drift_detector.py lives in: scripts/drift_detector.py
-# So we add the parent directory of this file (scripts/) to PYTHONPATH.
-sys.path.append(str(Path(__file__).resolve().parents[1]))
-
-from drift_detector import walk_tree, load_baseline, compare  # noqa: E402
-
-# ---------------------------------------------------------
-# Paths
-# ---------------------------------------------------------
-REPO_ROOT = Path(__file__).resolve().parents[2]
-BASELINE_PATH = REPO_ROOT / "runtime" / "baseline.json"
-OUTPUT_DIR = REPO_ROOT / "runtime"
-OUTPUT_MD = OUTPUT_DIR / "drift_dashboard.md"
-OUTPUT_JSON = OUTPUT_DIR / "drift_results.json"
+from datetime import datetime
 
 
 # ---------------------------------------------------------
-# Dashboard Generation
+# Color helpers (CI-safe)
+# ---------------------------------------------------------
+class C:
+    BLUE = "\033[94m"
+    GREEN = "\033[92m"
+    YELLOW = "\033[93m"
+    RED = "\033[91m"
+    END = "\033[0m"
+
+def info(msg): print(f"{C.BLUE}[INFO]{C.END} {msg}")
+def ok(msg): print(f"{C.GREEN}[OK]{C.END} {msg}")
+def warn(msg): print(f"{C.YELLOW}[WARN]{C.END} {msg}")
+def fail(msg): print(f"{C.RED}[FAIL]{C.END} {msg}")
+
+
+# ---------------------------------------------------------
+# Path resolution
+# ---------------------------------------------------------
+THIS_FILE = Path(__file__).resolve()
+CI_DIR = THIS_FILE.parent
+SCRIPTS_DIR = CI_DIR.parent
+REPO_ROOT = SCRIPTS_DIR.parent
+
+INPUT_JSON = REPO_ROOT / "runtime" / "drift_results.json"
+OUTPUT_MD = REPO_ROOT / "runtime" / "drift_dashboard.md"
+
+
+# ---------------------------------------------------------
+# Dashboard generation
 # ---------------------------------------------------------
 def generate_dashboard():
-    print("[INFO] Loading baseline...")
-    baseline = load_baseline(BASELINE_PATH)
+    info("Loading drift results...")
 
-    print("[INFO] Walking repository tree...")
-    current = walk_tree(REPO_ROOT)
+    if not INPUT_JSON.exists():
+        fail(f"Missing drift results file: {INPUT_JSON}")
+        sys.exit(1)
 
-    print("[INFO] Comparing baseline to current state...")
-    results = compare(baseline, current)
+    try:
+        data = json.loads(INPUT_JSON.read_text())
+    except Exception as e:
+        fail(f"Failed to parse drift results: {e}")
+        sys.exit(1)
 
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    diffs = data.get("diffs", [])
+    timestamp = data.get("timestamp", "unknown")
 
-    print(f"[INFO] Writing JSON results → {OUTPUT_JSON}")
-    with open(OUTPUT_JSON, "w") as f:
-        json.dump(results, f, indent=2)
+    info("Generating drift dashboard...")
 
-    print(f"[INFO] Writing Markdown dashboard → {OUTPUT_MD}")
-    with open(OUTPUT_MD, "w") as f:
+    OUTPUT_MD.parent.mkdir(parents=True, exist_ok=True)
+
+    with OUTPUT_MD.open("w") as f:
         f.write("# Drift Dashboard\n\n")
+        f.write(f"Generated: **{datetime.utcnow().isoformat()}Z**\n\n")
+        f.write(f"Source Timestamp: `{timestamp}`\n\n")
+
+        # Summary
         f.write("## Summary\n")
-        f.write(f"- Added: {len(results['added'])}\n")
-        f.write(f"- Removed: {len(results['removed'])}\n")
-        f.write(f"- Modified: {len(results['modified'])}\n\n")
+        f.write(f"- **Total Drift Events:** {len(diffs)}\n")
+        f.write(f"- **Status:** {'Drift Detected' if diffs else 'No Drift'}\n\n")
 
-        f.write("## Added Files\n")
-        for item in results["added"]:
-            f.write(f"- `{item}`\n")
-        f.write("\n")
+        # Detailed results
+        f.write("## Detailed Drift\n")
+        if not diffs:
+            f.write("No drift detected.\n")
+        else:
+            for d in diffs:
+                dtype = d.get("type", "unknown")
+                key = d.get("key", "unknown")
 
-        f.write("## Removed Files\n")
-        for item in results["removed"]:
-            f.write(f"- `{item}`\n")
-        f.write("\n")
+                icon = {
+                    "added": "🟢",
+                    "removed": "🔴",
+                    "changed": "🟡",
+                }.get(dtype, "⚪")
 
-        f.write("## Modified Files\n")
-        for item in results["modified"]:
-            f.write(f"- `{item}`\n")
-        f.write("\n")
+                f.write(f"### {icon} {dtype.upper()}: `{key}`\n")
 
-    print("[OK] Drift dashboard generated successfully.")
+                if dtype == "changed":
+                    f.write(f"- **Baseline:** `{d.get('baseline')}`\n")
+                    f.write(f"- **Current:** `{d.get('current')}`\n\n")
+                else:
+                    f.write(f"- **Value:** `{d.get('value')}`\n\n")
+
+    ok("Drift dashboard generated successfully.")
 
 
 # ---------------------------------------------------------
-# Entry Point
+# Entry point
 # ---------------------------------------------------------
 if __name__ == "__main__":
-    generate_dashboard()
+    try:
+        generate_dashboard()
+    except Exception as e:
+        fail(str(e))
+        sys.exit(1)

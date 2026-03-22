@@ -2,103 +2,100 @@ name: Repo Integrity
 
 on:
   push:
+    branches:
+      - main
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  integrity-check:
+  integrity:
+    name: Validate Repository Structure
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install dependencies (if any)
-        run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
-
-      - name: Run repo integrity auditor
-        run: |
-          echo "Running repo integrity auditor..."
-          python3 scripts/repo_integrity_auditor.py
-
-      - name: Run SuperDoctor dashboard
-        run: |
-          if [ -f tools/super_doctor.py ]; then
-            echo "Running SuperDoctor dashboard..."
-            python3 tools/super_doctor.py --dashboard
-          else
-            echo "SuperDoctor not found — skipping dashboard."
-          fi
-
-      - name: Run SuperDoctor report
-        run: |
-          if [ -f tools/super_doctor.py ]; then
-            echo "Running SuperDoctor report..."
-            python3 tools/super_doctor.py --report > superdoctor_report.json
-          else
-            echo "{}" > superdoctor_report.json
-          fi
-
-      # ============================
-      # STEP 3 — Upload CI Artifact
-      # ============================
-      - name: Upload SuperDoctor report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: superdoctor-report
-          path: superdoctor_report.json
-          if-no-files-found: warn
-
-      - name: Enforce SuperDoctor strict mode
-        run: |
-          if [ -f .superdoctor_mode ]; then
-            echo "strict" > .superdoctor_mode
-            echo "SuperDoctor mode set to strict for CI."
-          fi
-
-          if [ -f tools/super_doctor.py ]; then
-            echo "Running SuperDoctor in strict mode..."
-            python3 tools/super_doctor.py --dashboard
-          else
-            echo "SuperDoctor not found — skipping strict mode enforcement."
-          fi
-
-  # ============================
-  # STEP 4 — Matrix Python Tests
-  # ============================
-  matrix-test:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+    env:
+      PYTHONUNBUFFERED: "1"
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install dependencies
+      - name: Validate required directories
         run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
+          echo "[INFO] Checking required directories..."
+          REQUIRED_DIRS=(
+            "scripts"
+            "scripts/ci"
+            "runtime"
+            "docs"
+            ".github/workflows"
+          )
 
-      - name: Run SuperDoctor dashboard
+          for d in "${REQUIRED_DIRS[@]}"; do
+            if [ ! -d "$d" ]; then
+              echo "[FAIL] Missing directory: $d"
+              exit 1
+            else
+              echo "[OK] Found: $d"
+            fi
+          done
+
+      - name: Validate required scripts
         run: |
-          if [ -f tools/super_doctor.py ]; then
-            python3 tools/super_doctor.py --dashboard
+          echo "[INFO] Checking required scripts..."
+          REQUIRED_FILES=(
+            "scripts/drift_detector.py"
+            "scripts/ci/drift_dashboard.py"
+            "scripts/doctor/run_doctor.py"
+            "Makefile"
+          )
+
+          for f in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "[FAIL] Missing file: $f"
+              exit 1
+            else
+              echo "[OK] Found: $f"
+            fi
+          done
+
+      - name: Validate Makefile targets
+        run: |
+          echo "[INFO] Checking Makefile targets..."
+          TARGETS=(
+            "doctor"
+            "baseline"
+            "drift"
+            "drift-dashboard"
+            "ci-drift"
+            "ci-doctor"
+          )
+
+          for t in "${TARGETS[@]}"; do
+            if ! grep -qE "^$t:" Makefile; then
+              echo "[FAIL] Missing Makefile target: $t"
+              exit 1
+            else
+              echo "[OK] Target exists: $t"
+            fi
+          done
+
+      - name: Validate runtime directory hygiene
+        run: |
+          echo "[INFO] Checking runtime directory..."
+          mkdir -p runtime
+          BAD_FILES=$(find runtime -maxdepth 1 -type f ! -name "*.json" ! -name "*.md" | wc -l)
+
+          if [ "$BAD_FILES" -gt 0 ]; then
+            echo "[FAIL] Unexpected files found in runtime/"
+            find runtime -maxdepth 1 -type f ! -name "*.json" ! -name "*.md"
+            exit 1
           else
-            echo "SuperDoctor not found — skipping dashboard."
+            echo "[OK] Runtime directory clean."
           fi
+
+      - name: Repo integrity passed
+        run: echo "[OK] Repository structure validated successfully."

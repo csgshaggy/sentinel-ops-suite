@@ -2,11 +2,23 @@ name: Doctor Dashboard
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  dashboard:
+  doctor-dashboard:
+    name: Generate Doctor Dashboard
     runs-on: ubuntu-latest
+
+    env:
+      PYTHONUNBUFFERED: "1"
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
     steps:
       - name: Checkout repository
@@ -17,20 +29,42 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Run doctor validators
         run: |
-          pip install -r requirements.txt || true
-
-      - name: Run doctor suite
-        run: |
-          python3 scripts/doctor/doctor_loader.py
+          make doctor
 
       - name: Generate doctor dashboard
         run: |
           python3 scripts/ci/doctor_dashboard.py
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload doctor results (JSON)
+        uses: actions/upload-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/doctor
+          name: doctor-results
+          path: runtime/doctor_results.json
+          if-no-files-found: ignore
+
+      - name: Upload doctor dashboard (Markdown)
+        uses: actions/upload-artifact@v4
+        with:
+          name: doctor-dashboard
+          path: runtime/doctor_dashboard.md
+          if-no-files-found: ignore
+
+      - name: Upload dashboard to GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: runtime
+
+  deploy:
+    name: Deploy Doctor Dashboard to Pages
+    needs: doctor-dashboard
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
