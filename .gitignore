@@ -99,3 +99,8 @@ __pypackages__/
 .pyre/
 .mypy_cache/
 ruff_cache/
+
+
+# SuperDoctor generated reports
+reports/superdoctor_report.json
+reports/superdoctor_report.html
