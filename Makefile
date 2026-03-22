@@ -1,87 +1,110 @@
-# =========================================================
-# SSRF Command Console — Operational Makefile
-# =========================================================
+# ============================================================
+# SuperDoctor / CI / Structural Integrity Makefile
+# ============================================================
 
 SHELL := /bin/bash
-REPO_ROOT := $(shell git rev-parse --show-toplevel)
-SCRIPTS := $(REPO_ROOT)/scripts
-RUNTIME := $(REPO_ROOT)/runtime
 
-BLUE  := \033[94m
-GREEN := \033[92m
-YELLOW:= \033[93m
-RED   := \033[91m
-END   := \033[0m
+# Colors
+GREEN := \033[0;32m
+YELLOW := \033[1;33m
+RED := \033[0;31m
+NC := \033[0m
 
-info  = @echo -e "$(BLUE)[INFO]$(END) $1"
-ok    = @echo -e "$(GREEN)[OK]$(END) $1"
-warn  = @echo -e "$(YELLOW)[WARN]$(END) $1"
-fail  = @echo -e "$(RED)[FAIL]$(END) $1"
+# ============================================================
+# HELP
+# ============================================================
 
+.PHONY: help
+help:
+	@echo -e "$(YELLOW)Available targets:$(NC)"
+	@echo -e "  $(GREEN)doctor$(NC)          - Run SuperDoctor"
+	@echo -e "  $(GREEN)doctor-dry$(NC)      - Run SuperDoctor in dry-run mode"
+	@echo -e "  $(GREEN)doctor-fix$(NC)      - Cleanup + fix + validate structure"
+	@echo -e "  $(GREEN)ci-trigger$(NC)      - Trigger GitHub Actions workflow"
+	@echo -e "  $(GREEN)ci-sync-trigger$(NC) - Sync repo + trigger CI"
+	@echo -e "  $(GREEN)install-prepush$(NC) - Install structural integrity pre-push hook"
+	@echo -e "  $(GREEN)publish-report$(NC)  - Generate HTML report for GitHub Pages"
+	@echo -e "  $(GREEN)sync$(NC)            - Git sync helper (pull + add + commit + push)"
 
-# =========================================================
-# Validation
-# =========================================================
+# ============================================================
+# SUPERDOCTOR COMMANDS
+# ============================================================
 
 .PHONY: doctor
 doctor:
-	$(call info,"Running doctor validators...")
-	@python3 $(SCRIPTS)/doctor/run_doctor.py || { $(call fail,"Doctor failed"); exit 1; }
-	$(call ok,"Doctor passed.")
+	@echo -e "$(YELLOW)=== Running SuperDoctor ===$(NC)"
+	python tools/super_doctor.py
 
+.PHONY: doctor-dry
+doctor-dry:
+	@echo -e "$(YELLOW)=== Running SuperDoctor (dry-run) ===$(NC)"
+	python tools/super_doctor.py --dry-run
 
-# =========================================================
-# Drift Detection
-# =========================================================
+# ============================================================
+# DOCTOR-FIX-CLEAN-VALIDATE PIPELINE
+# ============================================================
 
-BASELINE := $(RUNTIME)/baseline.json
-DRIFT_JSON := $(RUNTIME)/drift_results.json
-DRIFT_MD := $(RUNTIME)/drift_dashboard.md
+.PHONY: doctor-fix
+doctor-fix:
+	@echo -e "$(YELLOW)=== Cleanup incorrect __init__.py files ===$(NC)"
+	python tools/cleanup_bad_inits.py
+	@echo -e "$(YELLOW)=== Fix missing __init__.py files (safe) ===$(NC)"
+	python tools/fix_missing_inits.py
+	@echo -e "$(YELLOW)=== Running SuperDoctor ===$(NC)"
+	python tools/super_doctor.py
+	@echo -e "$(YELLOW)=== Validating structure ===$(NC)"
+	python tools/super_doctor.py --dry-run
+	@echo -e "$(GREEN)✔ Structure validated. All checks passed.$(NC)"
 
-.PHONY: baseline
-baseline:
-	$(call info,"Building baseline → $(BASELINE)")
-	@python3 $(SCRIPTS)/drift_detector.py --mode baseline --baseline $(BASELINE)
-	$(call ok,"Baseline created.")
+# ============================================================
+# GITHUB ACTIONS TRIGGERS
+# ============================================================
 
-.PHONY: drift
-drift:
-	$(call info,"Running drift comparison...")
-	@python3 $(SCRIPTS)/drift_detector.py --mode compare --baseline $(BASELINE) > $(DRIFT_JSON)
-	$(call ok,"Drift results written to $(DRIFT_JSON)")
+.PHONY: ci-trigger
+ci-trigger:
+	@echo -e "$(YELLOW)=== Triggering SuperDoctor workflow ===$(NC)"
+	gh workflow run superdoctor.yml --ref main
+	@echo -e "$(GREEN)✔ Workflow triggered.$(NC)"
 
-.PHONY: drift-dashboard
-drift-dashboard:
-	$(call info,"Generating drift dashboard...")
-	@python3 $(SCRIPTS)/ci/drift_dashboard.py || { $(call fail,"Dashboard generation failed"); exit 1; }
-	$(call ok,"Dashboard generated at $(DRIFT_MD)")
+.PHONY: ci-sync-trigger
+ci-sync-trigger:
+	@echo -e "$(YELLOW)=== Syncing repo ===$(NC)"
+	make sync
+	@echo -e "$(YELLOW)=== Triggering SuperDoctor workflow ===$(NC)"
+	gh workflow run superdoctor.yml --ref main
+	@echo -e "$(GREEN)✔ Workflow triggered.$(NC)"
 
+# ============================================================
+# PRE-PUSH HOOK INSTALLER
+# ============================================================
 
-# =========================================================
-# CI Targets
-# =========================================================
+.PHONY: install-prepush
+install-prepush:
+	@echo -e "$(YELLOW)=== Installing pre-push hook ===$(NC)"
+	mkdir -p .git/hooks
+	cp tools/hooks/pre-push .git/hooks/pre-push
+	chmod +x .git/hooks/pre-push
+	@echo -e "$(GREEN)✔ Pre-push hook installed.$(NC)"
 
-.PHONY: ci-drift
-ci-drift: drift drift-dashboard
-	$(call ok,"CI drift check complete.")
+# ============================================================
+# GITHUB PAGES REPORT PUBLISHER
+# ============================================================
 
-.PHONY: ci-doctor
-ci-doctor: doctor
-	$(call ok,"CI doctor check complete.")
+.PHONY: publish-report
+publish-report:
+	@echo -e "$(YELLOW)=== Generating HTML report ===$(NC)"
+	python tools/superdoctor_html.py
+	@echo -e "$(GREEN)✔ HTML report generated in reports/. Commit and push to publish.$(NC)"
 
+# ============================================================
+# SYNC HELPER
+# ============================================================
 
-# =========================================================
-# Utility
-# =========================================================
-
-.PHONY: paths
-paths:
-	$(call info,"Repo root: $(REPO_ROOT)")
-	$(call info,"Scripts:   $(SCRIPTS)")
-	$(call info,"Runtime:   $(RUNTIME)")
-
-.PHONY: clean-runtime
-clean-runtime:
-	$(call warn,"Cleaning runtime directory...")
-	@rm -f $(RUNTIME)/*.json $(RUNTIME)/*.md
-	$(call ok,"Runtime cleaned.")
+.PHONY: sync
+sync:
+	@echo -e "$(YELLOW)=== Git sync ===$(NC)"
+	git pull --rebase
+	git add -A
+	git commit -m "sync: automated sync"
+	git push
+	@echo -e "$(GREEN)✔ Sync complete.$(NC)"

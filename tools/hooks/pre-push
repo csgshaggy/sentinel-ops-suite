@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo "=== Pre-push: Structural Validation ==="
+
+# Run SuperDoctor in dry-run mode
+python tools/super_doctor.py --dry-run
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+    echo "❌ Structural violations detected by SuperDoctor."
+    echo "Push blocked."
+    exit 1
+fi
+
+echo "✔ Structure clean. Push allowed."
+exit 0

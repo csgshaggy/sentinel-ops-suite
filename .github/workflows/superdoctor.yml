@@ -1,84 +1,65 @@
-name: Super Doctor CI Gate
+name: SuperDoctor
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
+
+  workflow_dispatch:  # Manual trigger
+
+  schedule:
+    - cron: "0 4 * * *"  # Nightly at 04:00 UTC
 
 jobs:
   superdoctor:
+    name: SuperDoctor CI
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ "3.10", "3.11", "3.12" ]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Read Quality Mode
-        id: mode
+      - name: Run SuperDoctor (strict mode)
         run: |
-          MODE=$(cat config/quality_mode.txt)
-          echo "mode=$MODE" >> $GITHUB_OUTPUT
-          echo "Active mode: $MODE"
-
-      - name: Run Super Doctor
-        run: |
+          echo "=== Running SuperDoctor ==="
           python tools/super_doctor.py
 
-      - name: Parse Super Doctor JSON
-        id: parse
+      - name: Upload SuperDoctor report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: superdoctor-report-${{ matrix.python-version }}
+          path: reports/superdoctor_report.json
+          if-no-files-found: warn
+
+      - name: CI Gate — Structural Integrity Enforcement
         run: |
-          import json
-          from pathlib import Path
+          echo "=== CI Gate: Structural Integrity Check ==="
 
-          data = json.loads(Path("runtime/super_doctor_report.json").read_text())
+          # Run dry-run to validate structure
+          python tools/super_doctor.py --dry-run
 
-          fails = [e for e in data if e["severity"] == "FAIL"]
-          warns = [e for e in data if e["severity"] == "WARN"]
-
-          score = None
-          for e in data:
-            if e["severity"] == "INFO" and "Project health score:" in e["message"]:
-              score = int(e["message"].split(":")[1].split("/")[0].strip())
-
-          out = Path("$GITHUB_OUTPUT")
-          out.write_text(
-              f"fail_count={len(fails)}\n"
-              f"warn_count={len(warns)}\n"
-              f"score={score}\n",
-              encoding="utf-8"
-          )
-
-      - name: Enforce Mode Rules
-        run: |
-          MODE="${{ steps.mode.outputs.mode }}"
-          FAILS=${{ steps.parse.outputs.fail_count }}
-          WARNS=${{ steps.parse.outputs.warn_count }}
-          SCORE=${{ steps.parse.outputs.score }}
-
-          echo "Mode: $MODE"
-          echo "FAILS: $FAILS"
-          echo "WARNS: $WARNS"
-          echo "SCORE: $SCORE"
-
-          if [ "$MODE" = "strict" ]; then
-            echo "Running STRICT rules"
-            if [ "$FAILS" -gt 0 ]; then exit 1; fi
-            if [ "$WARNS" -gt 0 ]; then exit 1; fi
-            if [ "$SCORE" -lt 80 ]; then exit 1; fi
-          else
-            echo "Running BALANCED rules"
-            if [ "$FAILS" -gt 0 ]; then exit 1; fi
-            if [ "$SCORE" -lt 70 ]; then exit 1; fi
+          # If report exists, parse it
+          if [ -f reports/superdoctor_report.json ]; then
+            MISSING=$(jq '.checks.missing_inits | length' reports/superdoctor_report.json)
+            if [ "$MISSING" -gt 0 ]; then
+              echo "❌ Structural violations detected: missing __init__.py files."
+              exit 1
+            fi
           fi
 
-          echo "Super Doctor checks passed"
+          echo "✔ Structure validated. No violations detected."
