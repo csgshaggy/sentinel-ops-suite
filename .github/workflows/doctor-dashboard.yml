@@ -1,0 +1,36 @@
+name: Doctor Dashboard
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  dashboard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+
+      - name: Run doctor suite
+        run: |
+          python3 scripts/doctor/doctor_loader.py
+
+      - name: Generate doctor dashboard
+        run: |
+          python3 scripts/ci/doctor_dashboard.py
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/doctor

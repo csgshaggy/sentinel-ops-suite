@@ -1,123 +1,100 @@
-# =========================================================
-# SSRF Command Console — Operator‑Grade Makefile
-# =========================================================
+# ============================================================
+# Project Makefile — Operator‑Grade, Deterministic, Drift‑Safe
+# Regenerated: 2026‑03‑22 (Upgrade 5)
+# ============================================================
 
-PYTHON := venv/bin/python
-PIP := venv/bin/pip
+PYTHON := python3
 
-# Colors
-GREEN := \033[0;32m
-YELLOW := \033[1;33m
-BLUE := \033[1;34m
-NC := \033[0m
+# Toggle: fail CI on drift (1 = fail, 0 = warn only)
+DRIFT_FAIL ?= 1
+export DRIFT_FAIL
 
-# ---------------------------------------------------------
-# Help Menu
-# ---------------------------------------------------------
+# ------------------------------------------------------------
+# HELP
+# ------------------------------------------------------------
+.PHONY: help
 help:
 	@echo ""
-	@echo "$(BLUE)SSRF Command Console — Available Targets$(NC)"
-	@echo "--------------------------------------------------"
-	@echo "$(GREEN)make bootstrap$(NC)        - Create venv + install dependencies"
-	@echo "$(GREEN)make run$(NC)              - Start FastAPI server (auto‑venv)"
-	@echo "$(GREEN)make dev$(NC)              - Kill stale processes + validators + run"
-	@echo "$(GREEN)make kill-8000$(NC)        - Kill docker‑proxy or uvicorn on port 8000"
-	@echo "$(GREEN)make api$(NC)              - Run FastAPI on alternate port 8010"
-	@echo "$(GREEN)make self-check$(NC)       - Validate project structure + Makefile"
-	@echo "$(GREEN)make docs.all$(NC)         - Full documentation pipeline"
-	@echo "$(GREEN)make docs.search$(NC)      - Build search index"
-	@echo "$(GREEN)make docs.health$(NC)      - Documentation health scoring"
-	@echo "$(GREEN)make docs.index$(NC)       - Generate category index"
-	@echo "$(GREEN)make docs.diff$(NC)        - Drift‑diff viewer"
-	@echo "$(GREEN)make test$(NC)             - Run pytest suite"
-	@echo "$(GREEN)make build$(NC)            - Package operator console"
-	@echo "$(GREEN)make clean$(NC)            - Remove caches"
-	@echo "$(GREEN)make deepclean$(NC)        - Full cleanup including venv"
+	@echo "==================== PROJECT COMMANDS ===================="
+	@echo "Application:"
+	@echo "  run                 Run the main application (run.py)"
+	@echo "  run.sh              Run the shell wrapper"
+	@echo "  ops                 Launch operator console (ops.sh)"
+	@echo ""
+	@echo "Documentation:"
+	@echo "  docs.all            Run all documentation governance tasks"
+	@echo "  docs.health         Score documentation health"
+	@echo "  docs.index          Generate documentation index"
+	@echo "  docs.diff           Compare docs against baseline"
+	@echo ""
+	@echo "Doctor Suite (Plugin-Based):"
+	@echo "  doctor              Run all validators (auto-discovered)"
+	@echo "  drift.reset         Regenerate structure baseline (with confirmation)"
+	@echo ""
+	@echo "CI Controls:"
+	@echo "  DRIFT_FAIL=0 make doctor.drift   # warn only"
+	@echo "  DRIFT_FAIL=1 make doctor.drift   # fail on drift"
+	@echo ""
+	@echo "Maintenance:"
+	@echo "  clean               Remove caches and temporary files"
+	@echo "=========================================================="
 	@echo ""
 
-# ---------------------------------------------------------
-# Bootstrap Environment
-# ---------------------------------------------------------
-bootstrap:
-	@test -d venv || python3 -m venv venv
-	@$(PIP) install --upgrade pip
-	@$(PIP) install -r requirements.txt
-	@echo "Bootstrap complete."
-
-# ---------------------------------------------------------
-# Run FastAPI App
-# ---------------------------------------------------------
+# ------------------------------------------------------------
+# APPLICATION
+# ------------------------------------------------------------
+.PHONY: run
 run:
-	@echo "Starting SSRF Command Console..."
-	@. venv/bin/activate && uvicorn app.main:app --reload
+	$(PYTHON) run.py
 
-# Alternate port
-api:
-	@echo "Starting API on port 8010..."
-	@. venv/bin/activate && uvicorn app.main:app --reload --port 8010
+.PHONY: run.sh
+run.sh:
+	./run.sh
 
-# ---------------------------------------------------------
-# Dev Mode (Kill stale processes + validators + run)
-# ---------------------------------------------------------
-dev: kill-8000 self-check run
+.PHONY: ops
+ops:
+	./ops.sh
 
-# ---------------------------------------------------------
-# Kill stale Uvicorn or docker-proxy on port 8000
-# ---------------------------------------------------------
-kill-8000:
-	@echo "Killing processes on port 8000..."
-	@sudo lsof -t -i:8000 | xargs -r sudo kill -9 || true
-	@echo "Port 8000 cleared."
+# ------------------------------------------------------------
+# DOCUMENTATION GOVERNANCE
+# ------------------------------------------------------------
+.PHONY: docs.all
+docs.all: docs.health docs.index docs.diff
 
-# ---------------------------------------------------------
-# Self‑Check (Makefile + Structure Validator)
-# ---------------------------------------------------------
-self-check:
-	@echo "Running Makefile + structure validation..."
-	@$(PYTHON) scripts/makefile_health.py
-	@echo "Self‑check complete."
-
-# ---------------------------------------------------------
-# Documentation Pipeline
-# ---------------------------------------------------------
-docs.all: docs.index docs.search docs.health docs.diff
-	@echo "Documentation pipeline complete."
-
-docs.search:
-	@$(PYTHON) scripts/docs_search.py
-
+.PHONY: docs.health
 docs.health:
-	@$(PYTHON) scripts/docs_health.py
+	$(PYTHON) scripts/docs_health.py
 
+.PHONY: docs.index
 docs.index:
-	@$(PYTHON) scripts/docs_index.py
+	$(PYTHON) scripts/docs_index.py
 
+.PHONY: docs.diff
 docs.diff:
-	@$(PYTHON) scripts/docs_diff.py
+	$(PYTHON) scripts/docs_diff.py
 
-# ---------------------------------------------------------
-# Testing
-# ---------------------------------------------------------
-test:
-	@echo "Running tests..."
-	@$(PYTHON) -m pytest -q
+# ------------------------------------------------------------
+# DOCTOR SUITE (PLUGIN LOADER)
+# ------------------------------------------------------------
+.PHONY: doctor
+doctor:
+	$(PYTHON) scripts/doctor/doctor_loader.py
 
-# ---------------------------------------------------------
-# Build / Package
-# ---------------------------------------------------------
-build:
-	@echo "Packaging operator console..."
-	@$(PYTHON) setup.py sdist bdist_wheel
-	@echo "Build complete."
+# Drift detection (still available as a standalone)
+.PHONY: doctor.drift
+doctor.drift:
+	@bash scripts/doctor/drift.sh
 
-# ---------------------------------------------------------
-# Cleanup
-# ---------------------------------------------------------
+# Baseline reset
+.PHONY: drift.reset
+drift.reset:
+	@bash scripts/doctor/drift_reset.sh
+
+# ------------------------------------------------------------
+# MAINTENANCE
+# ------------------------------------------------------------
+.PHONY: clean
 clean:
-	@find . -type d -name "__pycache__" -exec rm -rf {} +
-	@find . -type f -name "*.pyc" -delete
-	@echo "Cleanup complete."
-
-deepclean: clean
-	@rm -rf venv
-	@echo "Deep clean complete (venv removed)."
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	find . -type f -name "*.pyc" -delete
+	find . -type f -name "*.pyo" -delete

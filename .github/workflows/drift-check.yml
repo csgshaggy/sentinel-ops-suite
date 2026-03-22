@@ -1,0 +1,37 @@
+name: Drift Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+
+    env:
+      # Respect Makefile toggle (default fail on drift)
+      DRIFT_FAIL: ${{ vars.DRIFT_FAIL || '1' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+
+      - name: Run drift detector
+        run: |
+          python3 scripts/ci/drift_ci_runner.py
+
+      - name: Post drift report to PR
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          path: runtime/drift_ci_comment.md
