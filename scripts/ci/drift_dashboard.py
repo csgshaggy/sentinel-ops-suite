@@ -1,96 +1,80 @@
 #!/usr/bin/env python3
+"""
+Drift Dashboard Generator
+Generates a Markdown drift dashboard for GitHub Pages.
+"""
+
+import sys
+from pathlib import Path
 import json
-import os
-from datetime import datetime
-from scripts.drift_detector import walk_tree, load_baseline, compare
 
-OUTPUT_DIR = "docs/drift"
-HISTORY_FILE = f"{OUTPUT_DIR}/history.json"
-INDEX_HTML = f"{OUTPUT_DIR}/index.html"
+# ---------------------------------------------------------
+# Ensure the scripts/ directory is importable
+# ---------------------------------------------------------
+# This file lives in: scripts/ci/drift_dashboard.py
+# drift_detector.py lives in: scripts/drift_detector.py
+# So we add the parent directory of this file (scripts/) to PYTHONPATH.
+sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+from drift_detector import walk_tree, load_baseline, compare  # noqa: E402
 
-def load_history():
-    if not os.path.exists(HISTORY_FILE):
-        return []
-    with open(HISTORY_FILE, "r") as f:
-        return json.load(f)
+# ---------------------------------------------------------
+# Paths
+# ---------------------------------------------------------
+REPO_ROOT = Path(__file__).resolve().parents[2]
+BASELINE_PATH = REPO_ROOT / "runtime" / "baseline.json"
+OUTPUT_DIR = REPO_ROOT / "runtime"
+OUTPUT_MD = OUTPUT_DIR / "drift_dashboard.md"
+OUTPUT_JSON = OUTPUT_DIR / "drift_results.json"
 
-def save_history(history):
-    with open(HISTORY_FILE, "w") as f:
-        json.dump(history, f, indent=2)
 
-def generate_html(history, drift):
-    html = []
-    html.append("<html><head><title>Drift Dashboard</title>")
-    html.append("<style>")
-    html.append("body { font-family: Arial; padding: 20px; }")
-    html.append(".good { color: green; }")
-    html.append(".bad { color: red; }")
-    html.append(".warn { color: orange; }")
-    html.append("</style></head><body>")
-    html.append("<h1>📊 Structure Drift Dashboard</h1>")
+# ---------------------------------------------------------
+# Dashboard Generation
+# ---------------------------------------------------------
+def generate_dashboard():
+    print("[INFO] Loading baseline...")
+    baseline = load_baseline(BASELINE_PATH)
 
-    # Current drift
-    html.append("<h2>Current Status</h2>")
-    if not any(drift.values()):
-        html.append("<p class='good'>✔️ No drift detected</p>")
-    else:
-        html.append("<p class='bad'>⚠️ Drift detected</p>")
-        if drift["new_paths"]:
-            html.append("<h3>New Paths</h3><ul>")
-            for p in drift["new_paths"]:
-                html.append(f"<li class='good'>+ {p}</li>")
-            html.append("</ul>")
-        if drift["missing_paths"]:
-            html.append("<h3>Missing Paths</h3><ul>")
-            for p in drift["missing_paths"]:
-                html.append(f"<li class='bad'>- {p}</li>")
-            html.append("</ul>")
-        if drift["modified_files"]:
-            html.append("<h3>Modified Files</h3><ul>")
-            for p in drift["modified_files"]:
-                html.append(f"<li class='warn'>* {p}</li>")
-            html.append("</ul>")
+    print("[INFO] Walking repository tree...")
+    current = walk_tree(REPO_ROOT)
 
-    # History
-    html.append("<h2>History</h2><ul>")
-    for entry in reversed(history):
-        status = "No drift" if not entry["drift"] else "Drift detected"
-        color = "good" if not entry["drift"] else "bad"
-        html.append(f"<li class='{color}'>{entry['timestamp']}: {status}</li>")
-    html.append("</ul>")
+    print("[INFO] Comparing baseline to current state...")
+    results = compare(baseline, current)
 
-    html.append("</body></html>")
-    return "\n".join(html)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-def main():
-    current = walk_tree()
-    baseline = load_baseline()
+    print(f"[INFO] Writing JSON results → {OUTPUT_JSON}")
+    with open(OUTPUT_JSON, "w") as f:
+        json.dump(results, f, indent=2)
 
-    if baseline is None:
-        print("[!] No baseline found. Dashboard cannot be generated.")
-        return
+    print(f"[INFO] Writing Markdown dashboard → {OUTPUT_MD}")
+    with open(OUTPUT_MD, "w") as f:
+        f.write("# Drift Dashboard\n\n")
+        f.write("## Summary\n")
+        f.write(f"- Added: {len(results['added'])}\n")
+        f.write(f"- Removed: {len(results['removed'])}\n")
+        f.write(f"- Modified: {len(results['modified'])}\n\n")
 
-    drift = compare(baseline, current)
+        f.write("## Added Files\n")
+        for item in results["added"]:
+            f.write(f"- `{item}`\n")
+        f.write("\n")
 
-    # Load history
-    history = load_history()
+        f.write("## Removed Files\n")
+        for item in results["removed"]:
+            f.write(f"- `{item}`\n")
+        f.write("\n")
 
-    # Append new entry
-    history.append({
-        "timestamp": datetime.utcnow().isoformat(),
-        "drift": drift
-    })
+        f.write("## Modified Files\n")
+        for item in results["modified"]:
+            f.write(f"- `{item}`\n")
+        f.write("\n")
 
-    save_history(history)
+    print("[OK] Drift dashboard generated successfully.")
 
-    # Generate HTML
-    html = generate_html(history, drift)
-    with open(INDEX_HTML, "w") as f:
-        f.write(html)
 
-    print("[+] Drift dashboard updated.")
-
+# ---------------------------------------------------------
+# Entry Point
+# ---------------------------------------------------------
 if __name__ == "__main__":
-    main()
+    generate_dashboard()
