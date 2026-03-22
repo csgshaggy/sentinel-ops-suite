@@ -1,5 +1,5 @@
 {
-    "timestamp": "2026-03-22T12:36:03.077789",
+    "timestamp": "2026-03-22T12:37:31.782440",
     "checks": {
         "missing_inits": [
             "/home/kali/ssrf-command-console/config/__init__.py",
