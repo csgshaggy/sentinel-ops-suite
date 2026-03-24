@@ -37,9 +37,11 @@ IGNORE_DIRS = {
     "logs",
 }
 
+
 def is_ignored(path: Path) -> bool:
     """Return True if this path is inside a directory that should never contain __init__.py."""
     return any(part in IGNORE_DIRS for part in path.parts)
+
 
 def find_missing_inits():
     """Scan only real package roots and return missing __init__.py paths."""
@@ -53,6 +55,7 @@ def find_missing_inits():
                 if not init_file.exists():
                     missing.append(init_file)
     return missing
+
 
 def main():
     print("=== Safe Fix Missing __init__.py Files ===")
@@ -72,6 +75,7 @@ def main():
             print(f"[SKIPPED - ERROR] {path} -> {e}")
 
     print(f"[DONE] Created {len(missing)} __init__.py files.")
+
 
 if __name__ == "__main__":
     main()

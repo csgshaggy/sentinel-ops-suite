@@ -1,70 +1,98 @@
-#!/usr/bin/env python3
-import hashlib
-import json
-from pathlib import Path
+from __future__ import annotations
 
-BLUE = "\033[34m"
+import difflib
+import os
+from typing import Dict, List
+
+
+# ------------------------------------------------------------
+# ANSI color helpers
+# ------------------------------------------------------------
+
+RED = "\033[31m"
 GREEN = "\033[32m"
 YELLOW = "\033[33m"
 RESET = "\033[0m"
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DOCS_DIR = PROJECT_ROOT / "docs"
-SNAPSHOT_DIR = PROJECT_ROOT / ".docs_snapshots"
-SNAPSHOT_FILE = SNAPSHOT_DIR / "latest.json"
 
-def hash_file(path):
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        h.update(f.read())
-    return h.hexdigest()
+def _read_file_safe(path: str) -> List[str]:
+    """
+    Safely read a file and return its lines.
+    Returns an empty list if the file cannot be read.
+    """
+    if not os.path.exists(path):
+        return []
 
-def snapshot_docs():
-    data = {}
-    for path in DOCS_DIR.rglob("*.md"):
-        data[str(path.relative_to(DOCS_DIR))] = hash_file(path)
-    return data
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return f.readlines()
+    except Exception:
+        return []
 
-def main():
-    print(f"{BLUE}=== Documentation Drift Diff ==={RESET}")
 
-    SNAPSHOT_DIR.mkdir(exist_ok=True)
+def _colorize_diff(diff: List[str]) -> List[str]:
+    """
+    Apply ANSI colors to unified diff output.
+    """
+    colored: List[str] = []
 
-    current = snapshot_docs()
+    for line in diff:
+        if line.startswith("+") and not line.startswith("+++"):
+            colored.append(f"{GREEN}{line}{RESET}")
+        elif line.startswith("-") and not line.startswith("---"):
+            colored.append(f"{RED}{line}{RESET}")
+        elif line.startswith("@@"):
+            colored.append(f"{YELLOW}{line}{RESET}")
+        else:
+            colored.append(line)
 
-    if SNAPSHOT_FILE.exists():
-        with SNAPSHOT_FILE.open() as f:
-            previous = json.load(f)
-    else:
-        previous = {}
+    return colored
 
-    added = sorted(set(current.keys()) - set(previous.keys()))
-    removed = sorted(set(previous.keys()) - set(current.keys()))
-    changed = sorted(
-        f for f in current.keys() & previous.keys()
-        if current[f] != previous[f]
+
+def generate_diff(
+    old_path: str, new_path: str, color: bool = True
+) -> Dict[str, List[str]]:
+    """
+    Generate a unified diff between two documentation files.
+    """
+    old_lines = _read_file_safe(old_path)
+    new_lines = _read_file_safe(new_path)
+
+    diff = list(
+        difflib.unified_diff(
+            old_lines,
+            new_lines,
+            fromfile=old_path,
+            tofile=new_path,
+            lineterm="",
+        )
     )
 
-    if added:
-        print(f"{GREEN}Added:{RESET}")
-        for f in added:
-            print(f"  + {f}")
+    if color:
+        diff = _colorize_diff(diff)
 
-    if removed:
-        print(f"{RED}Removed:{RESET}")
-        for f in removed:
-            print(f"  - {f}")
+    return {
+        "old_file": old_path,
+        "new_file": new_path,
+        "diff": diff,
+        "changed": len(diff) > 0,
+    }
 
-    if changed:
-        print(f"{YELLOW}Modified:{RESET}")
-        for f in changed:
-            print(f"  * {f}")
-
-    # Save new snapshot
-    with SNAPSHOT_FILE.open("w") as f:
-        json.dump(current, f, indent=2)
-
-    print(f"{GREEN}Snapshot updated.{RESET}")
 
 if __name__ == "__main__":
-    main()
+    import argparse
+    import json
+
+    parser = argparse.ArgumentParser(
+        description="Generate a diff between two documentation files."
+    )
+    parser.add_argument("old", help="Path to old file")
+    parser.add_argument("new", help="Path to new file")
+    parser.add_argument(
+        "--no-color", action="store_true", help="Disable ANSI color output"
+    )
+
+    args = parser.parse_args()
+
+    result = generate_diff(args.old, args.new, color=not args.no_color)
+    print(json.dumps(result, indent=2))

@@ -24,7 +24,9 @@ def run():
 
     pkg_path = pkg.__path__
 
-    for _, mod_name, is_pkg in pkgutil.walk_packages(pkg_path, prefix=f"{APP_PACKAGE}."):
+    for _, mod_name, is_pkg in pkgutil.walk_packages(
+        pkg_path, prefix=f"{APP_PACKAGE}."
+    ):
         try:
             importlib.import_module(mod_name)
         except Exception as e:

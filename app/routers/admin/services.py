@@ -17,12 +17,14 @@ def services_panel():
         for svc in win_services:
             try:
                 info = svc.as_dict()
-                services.append({
-                    "name": info.get("name", "N/A"),
-                    "display_name": info.get("display_name", "N/A"),
-                    "status": info.get("status", "unknown"),
-                    "start_type": info.get("start_type", "N/A"),
-                })
+                services.append(
+                    {
+                        "name": info.get("name", "N/A"),
+                        "display_name": info.get("display_name", "N/A"),
+                        "status": info.get("status", "unknown"),
+                        "start_type": info.get("start_type", "N/A"),
+                    }
+                )
             except Exception:
                 continue
     except Exception:
@@ -30,12 +32,14 @@ def services_panel():
         for proc in psutil.process_iter(attrs=["pid", "name", "status"]):
             try:
                 info = proc.info
-                services.append({
-                    "name": info.get("name", "N/A"),
-                    "display_name": info.get("name", "N/A"),
-                    "status": info.get("status", "unknown"),
-                    "start_type": "process",
-                })
+                services.append(
+                    {
+                        "name": info.get("name", "N/A"),
+                        "display_name": info.get("name", "N/A"),
+                        "status": info.get("status", "unknown"),
+                        "start_type": "process",
+                    }
+                )
             except Exception:
                 continue
 

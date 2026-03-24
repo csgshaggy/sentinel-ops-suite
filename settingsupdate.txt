@@ -1,0 +1,74 @@
+app/main.py:37:    if settings.enable_cors:
+app/main.py:40:            allow_origins=settings.cors_origins,
+utils/settings.py:1:# utils/settings.py
+utils/settings.py:9:    Centralized application configuration using Pydantic v2 + pydantic-settings.
+utils/logging.py:27:    if settings.log_json:
+utils/logging.py:37:        level=settings.log_level,
+backend/.venv/lib/python3.13/site-packages/pip/_vendor/requests/adapters.py:424:        """Returns a urllib3 connection for the given request and TLS settings.
+backend/.venv/lib/python3.13/site-packages/pip/_vendor/requests/sessions.py:464:            session's settings.
+backend/.venv/lib/python3.13/site-packages/pip/_vendor/requests/sessions.py:752:        Check the environment and merge it with some settings.
+backend/.venv/lib/python3.13/site-packages/pip/_vendor/pygments/sphinxext.py:87:            self.state.document.settings.record_dependencies.add(fn)
+backend/.venv/lib/python3.13/site-packages/pydantic-2.12.5.dist-info/RECORD:18:pydantic/__pycache__/env_settings.cpython-313.pyc,,
+backend/.venv/lib/python3.13/site-packages/pydantic-2.12.5.dist-info/RECORD:126:pydantic/env_settings.py,sha256=6IHeeWEqlUPRUv3V-AXiF_W91fg2Jw_M3O0l34J_eyA,148
+backend/.venv/lib/python3.13/site-packages/pydantic-2.12.5.dist-info/RECORD:171:pydantic/v1/__pycache__/env_settings.cpython-313.pyc,,
+backend/.venv/lib/python3.13/site-packages/pydantic-2.12.5.dist-info/RECORD:196:pydantic/v1/env_settings.py,sha256=A9VXwtRl02AY-jH0C0ouy5VNw3fi6F_pkzuHDjgAAOM,14105
+backend/.venv/lib/python3.13/site-packages/pygments/lexers/matlab.py:1650:                        "matlab.settings.FactoryGroup.createToolboxGroup",
+backend/.venv/lib/python3.13/site-packages/pygments/lexers/matlab.py:1651:                        "matlab.settings.SettingsFileUpgrader",
+backend/.venv/lib/python3.13/site-packages/pygments/lexers/matlab.py:1652:                        "matlab.settings.loadSettingsCompatibilityResults",
+backend/.venv/lib/python3.13/site-packages/pygments/lexers/matlab.py:1653:                        "matlab.settings.mustBeIntegerScalar",
+backend/.venv/lib/python3.13/site-packages/pygments/lexers/matlab.py:1654:                        "matlab.settings.mustBeLogicalScalar",
+backend/.venv/lib/python3.13/site-packages/pygments/lexers/matlab.py:1655:                        "matlab.settings.mustBeNumericScalar",
+backend/.venv/lib/python3.13/site-packages/pygments/lexers/matlab.py:1656:                        "matlab.settings.mustBeStringScalar",
+backend/.venv/lib/python3.13/site-packages/pygments/lexers/matlab.py:1657:                        "matlab.settings.reloadFactoryFile",
+backend/.venv/lib/python3.13/site-packages/pygments/sphinxext.py:87:            self.state.document.settings.record_dependencies.add(fn)
+backend/.venv/lib/python3.13/site-packages/pydantic/config.py:1158:    for consistency with alias behavior for validation and serialization settings.
+backend/.venv/lib/python3.13/site-packages/pydantic/plugin/__init__.py:66:            plugin_settings: Any plugin settings.
+backend/.venv/lib/python3.13/site-packages/pydantic/mypy.py:85:BASESETTINGS_FULLNAME = 'pydantic_settings.main.BaseSettings'
+backend/.venv/lib/python3.13/site-packages/pydantic/mypy.py:423:    """Transform the BaseModel subclass according to the plugin settings.
+backend/.venv/lib/python3.13/site-packages/pydantic/mypy.py:454:        """Configures the BaseModel subclass according to the plugin settings.
+backend/.venv/lib/python3.13/site-packages/pydantic/mypy.py:854:        The added `__init__` will be annotated with types vs. all `Any` depending on the plugin settings.
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/env_settings.py:172:        if settings.__config__.case_sensitive:
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/env_settings.py:177:        dotenv_vars = self._read_env_files(settings.__config__.case_sensitive)
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/env_settings.py:181:        for field in settings.__fields__.values():
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/env_settings.py:198:                        env_val = settings.__config__.parse_env_var(field.name, env_val)
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/env_settings.py:299:        for field in settings.__fields__.values():
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/env_settings.py:301:                path = find_case_path(secrets_path, env_name, settings.__config__.case_sensitive)
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/env_settings.py:310:                            secret_value = settings.__config__.parse_env_var(field.name, secret_value)
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/mypy.py:81:BASESETTINGS_FULLNAME = f'{_NAMESPACE}.env_settings.BaseSettings'
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/mypy.py:303:        Configures the BaseModel subclass according to the plugin settings.
+backend/.venv/lib/python3.13/site-packages/pydantic/v1/mypy.py:463:        The added `__init__` will be annotated with types vs. all `Any` depending on the plugin settings.
+backend/.venv/lib/python3.13/site-packages/click/core.py:1209:        for key, value in self.context_settings.items():
+backend/.venv/lib64/python3.13/site-packages/pip/_vendor/requests/adapters.py:424:        """Returns a urllib3 connection for the given request and TLS settings.
+backend/.venv/lib64/python3.13/site-packages/pip/_vendor/requests/sessions.py:464:            session's settings.
+backend/.venv/lib64/python3.13/site-packages/pip/_vendor/requests/sessions.py:752:        Check the environment and merge it with some settings.
+backend/.venv/lib64/python3.13/site-packages/pip/_vendor/pygments/sphinxext.py:87:            self.state.document.settings.record_dependencies.add(fn)
+backend/.venv/lib64/python3.13/site-packages/pydantic-2.12.5.dist-info/RECORD:18:pydantic/__pycache__/env_settings.cpython-313.pyc,,
+backend/.venv/lib64/python3.13/site-packages/pydantic-2.12.5.dist-info/RECORD:126:pydantic/env_settings.py,sha256=6IHeeWEqlUPRUv3V-AXiF_W91fg2Jw_M3O0l34J_eyA,148
+backend/.venv/lib64/python3.13/site-packages/pydantic-2.12.5.dist-info/RECORD:171:pydantic/v1/__pycache__/env_settings.cpython-313.pyc,,
+backend/.venv/lib64/python3.13/site-packages/pydantic-2.12.5.dist-info/RECORD:196:pydantic/v1/env_settings.py,sha256=A9VXwtRl02AY-jH0C0ouy5VNw3fi6F_pkzuHDjgAAOM,14105
+backend/.venv/lib64/python3.13/site-packages/pygments/lexers/matlab.py:1650:                        "matlab.settings.FactoryGroup.createToolboxGroup",
+backend/.venv/lib64/python3.13/site-packages/pygments/lexers/matlab.py:1651:                        "matlab.settings.SettingsFileUpgrader",
+backend/.venv/lib64/python3.13/site-packages/pygments/lexers/matlab.py:1652:                        "matlab.settings.loadSettingsCompatibilityResults",
+backend/.venv/lib64/python3.13/site-packages/pygments/lexers/matlab.py:1653:                        "matlab.settings.mustBeIntegerScalar",
+backend/.venv/lib64/python3.13/site-packages/pygments/lexers/matlab.py:1654:                        "matlab.settings.mustBeLogicalScalar",
+backend/.venv/lib64/python3.13/site-packages/pygments/lexers/matlab.py:1655:                        "matlab.settings.mustBeNumericScalar",
+backend/.venv/lib64/python3.13/site-packages/pygments/lexers/matlab.py:1656:                        "matlab.settings.mustBeStringScalar",
+backend/.venv/lib64/python3.13/site-packages/pygments/lexers/matlab.py:1657:                        "matlab.settings.reloadFactoryFile",
+backend/.venv/lib64/python3.13/site-packages/pygments/sphinxext.py:87:            self.state.document.settings.record_dependencies.add(fn)
+backend/.venv/lib64/python3.13/site-packages/pydantic/config.py:1158:    for consistency with alias behavior for validation and serialization settings.
+backend/.venv/lib64/python3.13/site-packages/pydantic/plugin/__init__.py:66:            plugin_settings: Any plugin settings.
+backend/.venv/lib64/python3.13/site-packages/pydantic/mypy.py:85:BASESETTINGS_FULLNAME = 'pydantic_settings.main.BaseSettings'
+backend/.venv/lib64/python3.13/site-packages/pydantic/mypy.py:423:    """Transform the BaseModel subclass according to the plugin settings.
+backend/.venv/lib64/python3.13/site-packages/pydantic/mypy.py:454:        """Configures the BaseModel subclass according to the plugin settings.
+backend/.venv/lib64/python3.13/site-packages/pydantic/mypy.py:854:        The added `__init__` will be annotated with types vs. all `Any` depending on the plugin settings.
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/env_settings.py:172:        if settings.__config__.case_sensitive:
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/env_settings.py:177:        dotenv_vars = self._read_env_files(settings.__config__.case_sensitive)
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/env_settings.py:181:        for field in settings.__fields__.values():
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/env_settings.py:198:                        env_val = settings.__config__.parse_env_var(field.name, env_val)
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/env_settings.py:299:        for field in settings.__fields__.values():
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/env_settings.py:301:                path = find_case_path(secrets_path, env_name, settings.__config__.case_sensitive)
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/env_settings.py:310:                            secret_value = settings.__config__.parse_env_var(field.name, secret_value)
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/mypy.py:81:BASESETTINGS_FULLNAME = f'{_NAMESPACE}.env_settings.BaseSettings'
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/mypy.py:303:        Configures the BaseModel subclass according to the plugin settings.
+backend/.venv/lib64/python3.13/site-packages/pydantic/v1/mypy.py:463:        The added `__init__` will be annotated with types vs. all `Any` depending on the plugin settings.
+backend/.venv/lib64/python3.13/site-packages/click/core.py:1209:        for key, value in self.context_settings.items():

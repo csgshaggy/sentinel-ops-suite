@@ -4,6 +4,7 @@ from app.ui.sidebar import sidebar
 
 router = APIRouter(prefix="/admin", tags=["Admin Home"])
 
+
 @router.get("/", response_class=HTMLResponse)
 def admin_home():
     html = f"""

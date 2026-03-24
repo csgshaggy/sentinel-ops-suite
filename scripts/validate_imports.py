@@ -4,9 +4,10 @@ from pathlib import Path
 PROJECT_ROOT = Path.home() / "ssrf-command-console"
 SRC_ROOT = PROJECT_ROOT / "src"
 
+
 def validate_python_files():
     print(f"[OK] Project root: {PROJECT_ROOT}")
-    print(f"[OK] Scanning for Python syntax errors...\n")
+    print("[OK] Scanning for Python syntax errors...\n")
 
     failed = []
 
@@ -26,6 +27,7 @@ def validate_python_files():
     for name, err in failed:
         print(f"--- {name} ---")
         print(err)
+
 
 if __name__ == "__main__":
     validate_python_files()

@@ -42,47 +42,35 @@ RUNTIME_DIR = REPO_ROOT / "runtime"
 # Runtime Checks
 # ---------------------------------------------------------
 
+
 def check_runtime_exists() -> Dict[str, str]:
     """Ensure runtime/ directory exists."""
     if RUNTIME_DIR.exists():
         return result(
-            "Runtime Directory Exists",
-            "pass",
-            "runtime/ directory is present."
+            "Runtime Directory Exists", "pass", "runtime/ directory is present."
         )
-    return result(
-        "Runtime Directory Exists",
-        "fail",
-        "runtime/ directory is missing."
-    )
+    return result("Runtime Directory Exists", "fail", "runtime/ directory is missing.")
 
 
 def check_runtime_hygiene() -> Dict[str, str]:
     """Ensure runtime/ contains only .json and .md files."""
     if not RUNTIME_DIR.exists():
         return result(
-            "Runtime Hygiene",
-            "warn",
-            "runtime/ directory does not exist yet."
+            "Runtime Hygiene", "warn", "runtime/ directory does not exist yet."
         )
 
     bad = [
-        p.name for p in RUNTIME_DIR.iterdir()
+        p.name
+        for p in RUNTIME_DIR.iterdir()
         if p.is_file() and p.suffix not in [".json", ".md"]
     ]
 
     if bad:
         return result(
-            "Runtime Hygiene",
-            "warn",
-            f"Unexpected files in runtime/: {', '.join(bad)}"
+            "Runtime Hygiene", "warn", f"Unexpected files in runtime/: {', '.join(bad)}"
         )
 
-    return result(
-        "Runtime Hygiene",
-        "pass",
-        "runtime/ directory is clean."
-    )
+    return result("Runtime Hygiene", "pass", "runtime/ directory is clean.")
 
 
 def check_expected_artifacts() -> Dict[str, str]:
@@ -97,20 +85,17 @@ def check_expected_artifacts() -> Dict[str, str]:
         "doctor_dashboard.md",
     ]
 
-    missing = [
-        f for f in expected
-        if not (RUNTIME_DIR / f).exists()
-    ]
+    missing = [f for f in expected if not (RUNTIME_DIR / f).exists()]
 
     if missing:
         return result(
             "Expected Artifacts Present",
             "warn",
-            f"Missing expected artifact(s): {', '.join(missing)}"
+            f"Missing expected artifact(s): {', '.join(missing)}",
         )
 
     return result(
         "Expected Artifacts Present",
         "pass",
-        "All expected runtime artifacts are present."
+        "All expected runtime artifacts are present.",
     )

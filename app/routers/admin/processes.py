@@ -10,16 +10,20 @@ router = APIRouter(prefix="/admin/processes", tags=["Processes"])
 def list_processes():
     processes = []
 
-    for proc in psutil.process_iter(attrs=["pid", "name", "status", "cpu_percent", "memory_info"]):
+    for proc in psutil.process_iter(
+        attrs=["pid", "name", "status", "cpu_percent", "memory_info"]
+    ):
         try:
             info = proc.info
-            processes.append({
-                "pid": info["pid"],
-                "name": info.get("name", "N/A"),
-                "status": info.get("status", "N/A"),
-                "cpu": info.get("cpu_percent", 0.0),
-                "memory": info["memory_info"].rss if info.get("memory_info") else 0
-            })
+            processes.append(
+                {
+                    "pid": info["pid"],
+                    "name": info.get("name", "N/A"),
+                    "status": info.get("status", "N/A"),
+                    "cpu": info.get("cpu_percent", 0.0),
+                    "memory": info["memory_info"].rss if info.get("memory_info") else 0,
+                }
+            )
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
 

@@ -17,6 +17,7 @@ import sys
 from pathlib import Path
 from datetime import datetime
 
+
 # ---------------------------------------------------------
 # Color helpers (CI-safe)
 # ---------------------------------------------------------
@@ -27,10 +28,21 @@ class C:
     RED = "\033[91m"
     END = "\033[0m"
 
-def info(msg): print(f"{C.BLUE}[INFO]{C.END} {msg}")
-def ok(msg): print(f"{C.GREEN}[OK]{C.END} {msg}")
-def warn(msg): print(f"{C.YELLOW}[WARN]{C.END} {msg}")
-def fail(msg): print(f"{C.RED}[FAIL]{C.END} {msg}")
+
+def info(msg):
+    print(f"{C.BLUE}[INFO]{C.END} {msg}")
+
+
+def ok(msg):
+    print(f"{C.GREEN}[OK]{C.END} {msg}")
+
+
+def warn(msg):
+    print(f"{C.YELLOW}[WARN]{C.END} {msg}")
+
+
+def fail(msg):
+    print(f"{C.RED}[FAIL]{C.END} {msg}")
 
 
 # ---------------------------------------------------------
@@ -72,10 +84,14 @@ def generate_dashboard():
     # JSON output
     info(f"Writing JSON results → {OUTPUT_JSON}")
     with OUTPUT_JSON.open("w") as f:
-        json.dump({
-            "timestamp": datetime.utcnow().isoformat() + "Z",
-            "results": results,
-        }, f, indent=2)
+        json.dump(
+            {
+                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "results": results,
+            },
+            f,
+            indent=2,
+        )
 
     # Markdown dashboard
     info(f"Writing Markdown dashboard → {OUTPUT_MD}")

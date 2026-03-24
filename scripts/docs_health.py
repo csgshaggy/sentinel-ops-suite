@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import json
-import os
 import sys
 from pathlib import Path
 
@@ -14,15 +13,18 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DOCS_DIR = PROJECT_ROOT / "docs"
 MAP_FILE = DOCS_DIR / "category_map.json"
 
+
 def fail(msg):
     print(f"{RED}[ERROR]{RESET} {msg}")
     sys.exit(1)
+
 
 def load_map():
     if not MAP_FILE.exists():
         fail(f"Missing category_map.json at {MAP_FILE}")
     with MAP_FILE.open() as f:
         return json.load(f)
+
 
 def main():
     print(f"{BLUE}=== Documentation Health Check ==={RESET}")
@@ -51,7 +53,9 @@ def main():
             expected = DOCS_DIR / cat / f
             for path in DOCS_DIR.rglob(f):
                 if path != expected:
-                    deductions.append((5, f"Misplaced file: {path} (expected {expected})"))
+                    deductions.append(
+                        (5, f"Misplaced file: {path} (expected {expected})")
+                    )
 
     # 4. Unmapped files
     mapped = {f for files in category_map.values() for f in files}
@@ -74,6 +78,7 @@ def main():
         sys.exit(1)
 
     print(f"{GREEN}Documentation health OK.{RESET}")
+
 
 if __name__ == "__main__":
     main()

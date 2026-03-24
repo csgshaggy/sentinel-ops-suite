@@ -19,7 +19,8 @@ SITE_DIR = PROJECT_ROOT / "docs_site"
 @router.get("/dashboard")
 def docs_dashboard():
     from scripts.docs_dashboard import main as dashboard_main
-    import io, sys
+    import io
+    import sys
 
     buf = io.StringIO()
     sys_stdout = sys.stdout
@@ -45,11 +46,13 @@ def docs_search(q: str):
     results = []
     for entry in index:
         if q_lower in entry["content"].lower() or q_lower in entry["title"].lower():
-            results.append({
-                "file": entry["file"],
-                "title": entry["title"],
-                "snippet": entry["content"][:200] + "..."
-            })
+            results.append(
+                {
+                    "file": entry["file"],
+                    "title": entry["title"],
+                    "snippet": entry["content"][:200] + "...",
+                }
+            )
 
     return JSONResponse(results)
 
@@ -75,7 +78,8 @@ def view_doc(category: str, file: str):
 @router.get("/health")
 def docs_health():
     from scripts.docs_health import main as health_main
-    import io, sys
+    import io
+    import sys
 
     buf = io.StringIO()
     sys_stdout = sys.stdout
@@ -96,7 +100,8 @@ def docs_health():
 @router.get("/diff")
 def docs_diff():
     from scripts.docs_diff import main as diff_main
-    import io, sys
+    import io
+    import sys
 
     buf = io.StringIO()
     sys_stdout = sys.stdout

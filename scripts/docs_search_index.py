@@ -13,6 +13,7 @@ OUTPUT = PROJECT_ROOT / "docs_search_index.json"
 
 HEADING_RE = re.compile(r"^(#+)\s+(.*)$")
 
+
 def extract_metadata(md_text):
     lines = md_text.splitlines()
 
@@ -39,6 +40,7 @@ def extract_metadata(md_text):
 
     return title, headings, sorted(keywords)
 
+
 def main():
     print(f"{BLUE}=== Generating Documentation Search Index ==={RESET}")
 
@@ -63,6 +65,7 @@ def main():
     OUTPUT.write_text(json.dumps(index, indent=2), encoding="utf-8")
 
     print(f"{GREEN}Search index written to {OUTPUT}{RESET}")
+
 
 if __name__ == "__main__":
     main()

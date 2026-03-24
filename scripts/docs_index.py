@@ -11,6 +11,7 @@ DOCS_DIR = PROJECT_ROOT / "docs"
 MAP_FILE = DOCS_DIR / "category_map.json"
 OUTPUT = DOCS_DIR / "index" / "DOCS_INDEX.md"
 
+
 def main():
     print(f"{BLUE}=== Generating Documentation Index ==={RESET}")
 
@@ -29,6 +30,7 @@ def main():
             out.write("\n")
 
     print(f"{GREEN}Index generated at {OUTPUT}{RESET}")
+
 
 if __name__ == "__main__":
     main()

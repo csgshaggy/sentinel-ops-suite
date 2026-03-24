@@ -1,148 +1,70 @@
-from fastapi import APIRouter, Request
-from fastapi.responses import HTMLResponse, RedirectResponse
-from app.ui.sidebar import sidebar
-import functools
-import inspect
+from __future__ import annotations
+
+from functools import lru_cache
+from typing import Any, Dict
+
 import psutil
-import html
+from fastapi import APIRouter
 import socket
+import sys
+import time
 
-router = APIRouter(prefix="/admin/cache", tags=["Cache"])
-
-
-def find_lru_caches():
-    """Find all functions in loaded modules that use functools.lru_cache."""
-    caches = []
-    for module in list(sys.modules.values()):
-        if not module:
-            continue
-        for name, obj in inspect.getmembers(module):
-            if hasattr(obj, "cache_info") and hasattr(obj, "cache_clear"):
-                try:
-                    info = obj.cache_info()
-                    caches.append((f"{module.__name__}.{name}", obj, info))
-                except Exception:
-                    pass
-    return caches
+router = APIRouter(prefix="/admin/cache", tags=["admin-cache"])
 
 
-def get_dns_cache():
-    """Try to read DNS resolver cache (platform dependent)."""
-    try:
-        # Python's socket resolver has no public cache, but we can show host lookups
-        return "Python does not expose DNS cache directly"
-    except Exception as e:
-        return f"Error: {html.escape(str(e))}"
+def _now_ms() -> int:
+    return int(time.time() * 1000)
 
 
-@router.get("/", response_class=HTMLResponse)
-def cache_panel():
-    lru_caches = find_lru_caches()
-    dns_cache = get_dns_cache()
+class CacheStats:
+    def __init__(self) -> None:
+        self.started_at_ms = _now_ms()
 
-    # psutil caches
-    psutil_cache = """
-psutil caches are internal and refreshed automatically.
-"""
+    def to_dict(self) -> Dict[str, Any]:
+        process = psutil.Process()
+        memory_info = process.memory_info()
 
-    # Build table rows
-    rows = ""
-    for name, func, info in lru_caches:
-        rows += f"""
-        <tr>
-            <td>{html.escape(name)}</td>
-            <td>{info.hits}</td>
-            <td>{info.misses}</td>
-            <td>{info.currsize}</td>
-            <td>{info.maxsize}</td>
-            <td><a href="/admin/cache/clear?target={html.escape(name)}">Clear</a></td>
-        </tr>
-        """
+        return {
+            "python_version": sys.version,
+            "hostname": socket.gethostname(),
+            "uptime_ms": _now_ms() - self.started_at_ms,
+            "memory_rss_bytes": memory_info.rss,
+            "memory_vms_bytes": memory_info.vms,
+        }
 
-    html_page = f"""
-    <html>
-    <head>
-        <title>Cache Inspector</title>
-        <meta http-equiv="refresh" content="15">
-        <style>
-            body {{
-                font-family: Arial, sans-serif;
-                background: #f4f4f4;
-                margin: 0;
-            }}
-            table {{
-                width: 100%;
-                border-collapse: collapse;
-                background: white;
-            }}
-            th {{
-                background: #333;
-                color: white;
-            }}
-            th, td {{
-                padding: 10px;
-                border-bottom: 1px solid #ddd;
-                vertical-align: top;
-            }}
-            tr:hover {{
-                background: #f1f1f1;
-            }}
-            .metric {{
-                background: white;
-                padding: 20px;
-                margin: 10px 0;
-                border-radius: 8px;
-            }}
-        </style>
-    </head>
-    <body>
-        {sidebar()}
-        <div style="margin-left: 260px; padding: 20px;">
-            <h1>🧠 Cache Inspector</h1>
-            <p>Auto-refreshing every 15 seconds</p>
 
-            <div class="metric">
-                <h2>LRU Caches</h2>
-                <table>
-                    <tr>
-                        <th>Function</th>
-                        <th>Hits</th>
-                        <th>Misses</th>
-                        <th>Current Size</th>
-                        <th>Max Size</th>
-                        <th>Action</th>
-                    </tr>
-                    {rows}
-                </table>
-            </div>
+cache_stats = CacheStats()
 
-            <div class="metric">
-                <h2>psutil Cache</h2>
-                <pre>{psutil_cache}</pre>
-            </div>
 
-            <div class="metric">
-                <h2>DNS Resolver Cache</h2>
-                <pre>{dns_cache}</pre>
-            </div>
-        </div>
-    </body>
-    </html>
+@lru_cache(maxsize=1)
+def get_cached_stats() -> Dict[str, Any]:
+    # This is intentionally simple: it demonstrates caching behavior
+    # and is safe to call from multiple endpoints.
+    return cache_stats.to_dict()
+
+
+@router.get("/stats", summary="Get cached admin cache stats")
+def read_cache_stats() -> Dict[str, Any]:
     """
+    Return cached view of basic process and host information.
 
-    return HTMLResponse(html_page)
+    This endpoint is intentionally lightweight and safe to call frequently.
+    """
+    return {
+        "cached": True,
+        "data": get_cached_stats(),
+    }
 
 
-@router.get("/clear")
-def clear_cache(target: str):
-    """Clear a specific LRU cache."""
-    for module in list(sys.modules.values()):
-        if not module:
-            continue
-        for name, obj in inspect.getmembers(module):
-            full = f"{module.__name__}.{name}"
-            if full == target and hasattr(obj, "cache_clear"):
-                obj.cache_clear()
-                break
-
-    return RedirectResponse("/admin/cache", status_code=302)
+@router.get("/stats/refresh", summary="Refresh and return cache stats")
+def refresh_cache_stats() -> Dict[str, Any]:
+    """
+    Refresh the cached stats and return the new values.
+    """
+    # Clear the lru_cache and recompute
+    get_cached_stats.cache_clear()  # type: ignore[attr-defined]
+    data = get_cached_stats()
+    return {
+        "cached": False,
+        "data": data,
+    }

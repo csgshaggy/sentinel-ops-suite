@@ -23,7 +23,9 @@ def run_cmd(cmd):
 def get_auth_log():
     """Return authentication-related events from /var/log/auth.log or journalctl."""
     # Debian/Ubuntu
-    out = run_cmd("grep -E 'Failed|Accepted|sudo|authentication' /var/log/auth.log 2>/dev/null | tail -n 200")
+    out = run_cmd(
+        "grep -E 'Failed|Accepted|sudo|authentication' /var/log/auth.log 2>/dev/null | tail -n 200"
+    )
     if "No such file" not in out and out.strip():
         return out
 
@@ -37,7 +39,9 @@ def get_auth_log():
 
 def get_auditd_log():
     """Return auditd events if auditd is installed."""
-    out = run_cmd("ausearch -m USER_LOGIN,USER_AUTH,USER_CMD,EXECVE -ts recent 2>/dev/null | tail -n 200")
+    out = run_cmd(
+        "ausearch -m USER_LOGIN,USER_AUTH,USER_CMD,EXECVE -ts recent 2>/dev/null | tail -n 200"
+    )
     if "ausearch" not in out and out.strip():
         return out
 

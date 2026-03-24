@@ -11,12 +11,14 @@ EXPECTED_DIRS = [
     "tools",
 ]
 
+
 def main():
-    print(f"\n=== Directory Tree Validator ===")
+    print("\n=== Directory Tree Validator ===")
     print(f"Project root: {PROJECT_ROOT}\n")
 
     dirs = [
-        d for d in os.listdir(PROJECT_ROOT)
+        d
+        for d in os.listdir(PROJECT_ROOT)
         if os.path.isdir(os.path.join(PROJECT_ROOT, d))
     ]
 
@@ -39,6 +41,7 @@ def main():
             print(f"  - {d}")
     else:
         print("  None")
+
 
 if __name__ == "__main__":
     main()

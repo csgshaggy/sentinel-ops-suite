@@ -5,10 +5,13 @@ from copy import deepcopy
 try:
     from colorama import Fore, Style
 except ImportError:
+
     class F:
         RED = GREEN = YELLOW = CYAN = ""
+
     class S:
         RESET_ALL = ""
+
     Fore, Style = F(), S()
 
 
@@ -65,10 +68,7 @@ def print_diffs(diffs):
     if diffs["checks_status_changed"]:
         print(f"{Fore.YELLOW}Checks status changed:{Style.RESET_ALL}")
         for item in diffs["checks_status_changed"]:
-            print(
-                f"  * {item['name']}: "
-                f"{item['baseline']} -> {item['current']}"
-            )
+            print(f"  * {item['name']}: " f"{item['baseline']} -> {item['current']}")
 
     if diffs["data_changed"]:
         print(f"{Fore.YELLOW}Checks with data drift:{Style.RESET_ALL}")

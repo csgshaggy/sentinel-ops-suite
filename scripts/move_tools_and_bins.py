@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os
 import shutil
 from pathlib import Path
 import argparse
@@ -35,7 +34,6 @@ KEEP_FILES = {
     "pdf_object_dump.py",
     "pdf_object_extractor.py",
     "targetedKerberoast.py",
-
     # Shell tools
     "subnet_scanner.sh",
     "compare_results.sh",
@@ -64,6 +62,7 @@ BINARIES = {
     "ssrf_reports",
 }
 
+
 # ------------------------------------------------------------
 # Move helper
 # ------------------------------------------------------------
@@ -73,6 +72,7 @@ def move_item(item: Path, target_dir: Path, dry_run=False):
 
     if not dry_run:
         shutil.move(str(item), str(target))
+
 
 # ------------------------------------------------------------
 # Main logic
@@ -86,7 +86,13 @@ def run(dry_run=False):
 
     for item in PROJECT_ROOT.iterdir():
         # Skip directories we should not touch
-        if item.is_dir() and item.name in {"tools", "bin", "scripts", "docs", "archive"}:
+        if item.is_dir() and item.name in {
+            "tools",
+            "bin",
+            "scripts",
+            "docs",
+            "archive",
+        }:
             continue
 
         # Move KEEP tools
@@ -101,12 +107,17 @@ def run(dry_run=False):
 
     print("\nReorganization complete.")
 
+
 # ------------------------------------------------------------
 # CLI
 # ------------------------------------------------------------
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Move KEEP tools to tools/ and console builds to bin/")
-    parser.add_argument("--dry-run", action="store_true", help="Show actions without moving files")
+    parser = argparse.ArgumentParser(
+        description="Move KEEP tools to tools/ and console builds to bin/"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Show actions without moving files"
+    )
     args = parser.parse_args()
 
     run(dry_run=args.dry_run)

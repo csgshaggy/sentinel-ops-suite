@@ -7,11 +7,13 @@ import platform
 
 router = APIRouter(prefix="/admin/system", tags=["System"])
 
+
 def format_bytes(num):
     for unit in ["B", "KB", "MB", "GB", "TB"]:
         if num < 1024:
             return f"{num:.2f} {unit}"
         num /= 1024
+
 
 @router.get("/", response_class=HTMLResponse)
 def system_dashboard():

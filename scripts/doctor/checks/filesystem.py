@@ -36,20 +36,15 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 # Filesystem Checks
 # ---------------------------------------------------------
 
+
 def check_runtime_directory() -> Dict[str, str]:
     """Ensure runtime/ exists."""
     path = REPO_ROOT / "runtime"
     if path.exists():
         return result(
-            "Runtime Directory Exists",
-            "pass",
-            "runtime/ directory is present."
+            "Runtime Directory Exists", "pass", "runtime/ directory is present."
         )
-    return result(
-        "Runtime Directory Exists",
-        "fail",
-        "runtime/ directory is missing."
-    )
+    return result("Runtime Directory Exists", "fail", "runtime/ directory is missing.")
 
 
 def check_runtime_hygiene() -> Dict[str, str]:
@@ -57,28 +52,21 @@ def check_runtime_hygiene() -> Dict[str, str]:
     path = REPO_ROOT / "runtime"
     if not path.exists():
         return result(
-            "Runtime Hygiene",
-            "warn",
-            "runtime/ directory does not exist yet."
+            "Runtime Hygiene", "warn", "runtime/ directory does not exist yet."
         )
 
     bad = [
-        p.name for p in path.iterdir()
+        p.name
+        for p in path.iterdir()
         if p.is_file() and p.suffix not in [".json", ".md"]
     ]
 
     if bad:
         return result(
-            "Runtime Hygiene",
-            "warn",
-            f"Unexpected files in runtime/: {', '.join(bad)}"
+            "Runtime Hygiene", "warn", f"Unexpected files in runtime/: {', '.join(bad)}"
         )
 
-    return result(
-        "Runtime Hygiene",
-        "pass",
-        "runtime/ directory is clean."
-    )
+    return result("Runtime Hygiene", "pass", "runtime/ directory is clean.")
 
 
 def check_required_directories() -> Dict[str, str]:
@@ -99,11 +87,9 @@ def check_required_directories() -> Dict[str, str]:
         return result(
             "Required Directories Present",
             "fail",
-            f"Missing directory(ies): {', '.join(missing)}"
+            f"Missing directory(ies): {', '.join(missing)}",
         )
 
     return result(
-        "Required Directories Present",
-        "pass",
-        "All required directories are present."
+        "Required Directories Present", "pass", "All required directories are present."
     )

@@ -121,6 +121,7 @@ DASHBOARD_INDICATOR = """
 # Functions
 # ---------------------------------------------------------
 
+
 def ensure_mode_file():
     CONFIG_DIR.mkdir(exist_ok=True)
     if not MODE_FILE.exists():
@@ -128,6 +129,7 @@ def ensure_mode_file():
         print("[OK] Created config/quality_mode.txt (default: strict)")
     else:
         print("[OK] Mode file already exists")
+
 
 def update_readme():
     text = README.read_text()
@@ -137,6 +139,7 @@ def update_readme():
     else:
         print("[OK] README already contains quality mode section")
 
+
 def update_makefile():
     text = MAKEFILE.read_text()
     if "mode-strict" not in text:
@@ -144,6 +147,7 @@ def update_makefile():
         print("[OK] Makefile updated with mode toggles + Slack hook")
     else:
         print("[OK] Makefile already contains mode toggles")
+
 
 def update_dashboard():
     if not DASHBOARD.exists():
@@ -161,9 +165,11 @@ def update_dashboard():
     DASHBOARD.write_text(html)
     print("[OK] Dashboard updated with mode indicator")
 
+
 # ---------------------------------------------------------
 # Main
 # ---------------------------------------------------------
+
 
 def main():
     ensure_mode_file()
@@ -171,6 +177,7 @@ def main():
     update_makefile()
     update_dashboard()
     print("\n🎉 Quality mode system fully installed.")
+
 
 if __name__ == "__main__":
     main()

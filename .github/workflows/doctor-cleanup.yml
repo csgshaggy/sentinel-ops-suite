@@ -40,7 +40,6 @@ jobs:
           path: runtime/doctor_results.json
           if-no-files-found: ignore
 
-
   cleanup:
     name: Cleanup Runtime Artifacts
     runs-on: ubuntu-latest

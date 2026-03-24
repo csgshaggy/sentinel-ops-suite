@@ -41,20 +41,13 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 # Makefile Checks
 # ---------------------------------------------------------
 
+
 def check_makefile_exists() -> Dict[str, str]:
     """Ensure Makefile exists at repo root."""
     path = REPO_ROOT / "Makefile"
     if path.exists():
-        return result(
-            "Makefile Exists",
-            "pass",
-            "Makefile is present."
-        )
-    return result(
-        "Makefile Exists",
-        "fail",
-        "Makefile is missing."
-    )
+        return result("Makefile Exists", "pass", "Makefile is present.")
+    return result("Makefile Exists", "fail", "Makefile is missing.")
 
 
 def check_makefile_targets() -> Dict[str, str]:
@@ -71,11 +64,7 @@ def check_makefile_targets() -> Dict[str, str]:
 
     path = REPO_ROOT / "Makefile"
     if not path.exists():
-        return result(
-            "Makefile Targets",
-            "fail",
-            "Makefile is missing entirely."
-        )
+        return result("Makefile Targets", "fail", "Makefile is missing entirely.")
 
     text = path.read_text()
     missing = [t for t in required_targets if f"{t}:" not in text]
@@ -84,13 +73,11 @@ def check_makefile_targets() -> Dict[str, str]:
         return result(
             "Makefile Targets",
             "fail",
-            f"Missing Makefile target(s): {', '.join(missing)}"
+            f"Missing Makefile target(s): {', '.join(missing)}",
         )
 
     return result(
-        "Makefile Targets",
-        "pass",
-        "All required Makefile targets are present."
+        "Makefile Targets", "pass", "All required Makefile targets are present."
     )
 
 
@@ -103,38 +90,30 @@ def check_makefile_formatting() -> Dict[str, str]:
     """
     path = REPO_ROOT / "Makefile"
     if not path.exists():
-        return result(
-            "Makefile Formatting",
-            "fail",
-            "Makefile is missing."
-        )
+        return result("Makefile Formatting", "fail", "Makefile is missing.")
 
     text = path.read_text()
 
     # Check for CRLF
     if "\r\n" in text:
         return result(
-            "Makefile Formatting",
-            "warn",
-            "Makefile contains CRLF line endings."
+            "Makefile Formatting", "warn", "Makefile contains CRLF line endings."
         )
 
     # Check for tabs in recipes
     lines = text.splitlines()
     missing_tabs = [
-        line for line in lines
-        if line.strip() and not line.startswith("\t") and ":" not in line and "=" not in line
+        line
+        for line in lines
+        if line.strip()
+        and not line.startswith("\t")
+        and ":" not in line
+        and "=" not in line
     ]
 
     if missing_tabs:
         return result(
-            "Makefile Formatting",
-            "warn",
-            "Some recipe lines may not start with a tab."
+            "Makefile Formatting", "warn", "Some recipe lines may not start with a tab."
         )
 
-    return result(
-        "Makefile Formatting",
-        "pass",
-        "Makefile formatting appears clean."
-    )
+    return result("Makefile Formatting", "pass", "Makefile formatting appears clean.")

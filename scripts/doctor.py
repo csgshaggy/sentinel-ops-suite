@@ -30,9 +30,21 @@ OPERATOR_SCRIPTS = {
 }
 
 EXTERNAL_MODULES = {
-    "fastapi", "passlib", "uvicorn", "pydantic", "jinja2",
-    "httpx", "starlette", "rich", "asyncio", "typing",
-    "json", "os", "sys", "pathlib", "logging"
+    "fastapi",
+    "passlib",
+    "uvicorn",
+    "pydantic",
+    "jinja2",
+    "httpx",
+    "starlette",
+    "rich",
+    "asyncio",
+    "typing",
+    "json",
+    "os",
+    "sys",
+    "pathlib",
+    "logging",
 }
 
 BINARY_THRESHOLD = 0.20
@@ -41,6 +53,7 @@ BINARY_THRESHOLD = 0.20
 # -------------------------------------------------------------------
 # UTILITIES
 # -------------------------------------------------------------------
+
 
 def header(title: str):
     print("\n" + "=" * 80)
@@ -155,6 +168,7 @@ def repair_imports_in_file(path: Path):
 # INTERNAL MODULE CHECKS
 # -------------------------------------------------------------------
 
+
 def parse_internal_imports(py_file: Path):
     if py_file.name in OPERATOR_SCRIPTS:
         return []
@@ -197,15 +211,14 @@ def create_stub(path: Path):
     print(f"[CREATE] {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        "# Auto-generated stub module\n"
-        "def placeholder():\n"
-        "    return 'stub'\n"
+        "# Auto-generated stub module\n" "def placeholder():\n" "    return 'stub'\n"
     )
 
 
 # -------------------------------------------------------------------
 # MISPLACED MODULES
 # -------------------------------------------------------------------
+
 
 def find_misplaced_modules():
     misplaced = []
@@ -231,6 +244,7 @@ def move_misplaced(py_file: Path):
 # -------------------------------------------------------------------
 # CIRCULAR IMPORT DETECTION
 # -------------------------------------------------------------------
+
 
 def build_dep_graph(py_files):
     graph = {}
@@ -272,6 +286,7 @@ def detect_circular_imports(graph):
 # HEALTH DASHBOARD
 # -------------------------------------------------------------------
 
+
 def project_health(py_files):
     header("PROJECT HEALTH DASHBOARD")
 
@@ -293,13 +308,11 @@ def project_health(py_files):
 # MAIN
 # -------------------------------------------------------------------
 
+
 def main():
     ensure_sys_path()
 
-    py_files = [
-        f for f in PACKAGE_ROOT.rglob("*.py")
-        if f.name not in OPERATOR_SCRIPTS
-    ]
+    py_files = [f for f in PACKAGE_ROOT.rglob("*.py") if f.name not in OPERATOR_SCRIPTS]
 
     header("STEP 1 — Encoding Repair & Binary Cleanup")
     for f in py_files:

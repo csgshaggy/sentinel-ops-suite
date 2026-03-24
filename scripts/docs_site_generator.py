@@ -53,17 +53,16 @@ pre {{
 </html>
 """
 
+
 def load_map():
     with MAP_FILE.open() as f:
         return json.load(f)
 
+
 def write_page(path, title, nav_links, content_html):
-    html = TEMPLATE.format(
-        title=title,
-        nav_links=nav_links,
-        content=content_html
-    )
+    html = TEMPLATE.format(title=title, nav_links=nav_links, content=content_html)
     path.write_text(html, encoding="utf-8")
+
 
 def main():
     print(f"{BLUE}=== Generating HTML Documentation Site ==={RESET}")
@@ -76,8 +75,7 @@ def main():
 
     # Build navigation links
     nav_links = " ".join(
-        f'<a href="/{cat}.html">{cat.capitalize()}</a>'
-        for cat in category_map.keys()
+        f'<a href="/{cat}.html">{cat.capitalize()}</a>' for cat in category_map.keys()
     )
 
     # Generate category pages + file pages
@@ -115,6 +113,7 @@ def main():
     write_page(SITE_DIR / "index.html", "Documentation", nav_links, index_html)
 
     print(f"{GREEN}HTML site generated at {SITE_DIR}{RESET}")
+
 
 if __name__ == "__main__":
     main()

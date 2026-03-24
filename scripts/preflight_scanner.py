@@ -1,52 +1,110 @@
-#!/usr/bin/env python3
+from __future__ import annotations
+
 import os
+import platform
+import shutil
 import sys
-import socket
-import importlib
+from typing import Any, Dict, List
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-TARGETS_FILE = os.path.join(PROJECT_ROOT, "targets.txt")
 
-def check_module(name):
-    try:
-        importlib.import_module(name)
-        print(f"[OK] Python module: {name}")
-        return True
-    except ImportError as e:
-        print(f"[ERROR] Missing module {name}: {e}")
-        return False
+def _check_python() -> Dict[str, Any]:
+    """
+    Validate Python runtime and environment.
+    """
+    return {
+        "version": sys.version,
+        "executable": sys.executable,
+        "implementation": platform.python_implementation(),
+        "ok": True,
+    }
 
-def check_targets():
-    if not os.path.exists(TARGETS_FILE):
-        print(f"[ERROR] Missing targets file: {TARGETS_FILE}")
-        return False
-    with open(TARGETS_FILE) as f:
-        lines = [l.strip() for l in f if l.strip()]
-    if not lines:
-        print(f"[ERROR] targets.txt is empty")
-        return False
-    print(f"[OK] targets.txt has {len(lines)} entries")
-    return True
 
-def check_port_free(port, host="0.0.0.0"):
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.settimeout(0.5)
-        if s.connect_ex((host, port)) == 0:
-            print(f"[WARN] Port {port} appears in use")
-            return False
-        print(f"[OK] Port {port} appears free")
-        return True
+def _check_binaries(binaries: List[str]) -> List[Dict[str, Any]]:
+    """
+    Check whether required binaries exist in PATH.
+    """
+    results: List[Dict[str, Any]] = []
 
-def main():
-    os.chdir(PROJECT_ROOT)
-    ok = True
+    for binary in binaries:
+        path = shutil.which(binary)
+        results.append(
+            {
+                "binary": binary,
+                "found": path is not None,
+                "path": path,
+            }
+        )
 
-    ok &= check_module("ssrf_scanner.parallel_scan")
-    ok &= check_module("ssrf_scanner.dashboard_formatter")
-    ok &= check_targets()
-    ok &= check_port_free(5001)
+    return results
 
-    sys.exit(0 if ok else 1)
+
+def _check_directories(directories: List[str]) -> List[Dict[str, Any]]:
+    """
+    Check whether required directories exist.
+    """
+    results: List[Dict[str, Any]] = []
+
+    for directory in directories:
+        exists = os.path.isdir(directory)
+        results.append(
+            {
+                "directory": directory,
+                "exists": exists,
+            }
+        )
+
+    return results
+
+
+def _check_files(files: List[str]) -> List[Dict[str, Any]]:
+    """
+    Check whether required files exist.
+    """
+    results: List[Dict[str, Any]] = []
+
+    for file_path in files:
+        exists = os.path.isfile(file_path)
+        results.append(
+            {
+                "file": file_path,
+                "exists": exists,
+            }
+        )
+
+    return results
+
+
+def run_preflight_scan() -> Dict[str, Any]:
+    """
+    Perform a full preflight scan of the environment.
+    """
+    required_binaries = ["python3", "pip", "git"]
+    required_directories = ["backend", "dashboard", "tools"]
+    required_files = ["Makefile", "README.md"]
+
+    python_info = _check_python()
+    binaries = _check_binaries(required_binaries)
+    directories = _check_directories(required_directories)
+    files = _check_files(required_files)
+
+    return {
+        "python": python_info,
+        "binaries": binaries,
+        "directories": directories,
+        "files": files,
+        "success": all(
+            [
+                python_info["ok"],
+                all(b["found"] for b in binaries),
+                all(d["exists"] for d in directories),
+                all(f["exists"] for f in files),
+            ]
+        ),
+    }
+
 
 if __name__ == "__main__":
-    main()
+    import json
+
+    results = run_preflight_scan()
+    print(json.dumps(results, indent=2))

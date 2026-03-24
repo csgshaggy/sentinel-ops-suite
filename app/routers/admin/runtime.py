@@ -6,7 +6,6 @@ import sys
 import os
 import psutil
 import html
-import inspect
 
 router = APIRouter(prefix="/admin/runtime", tags=["Runtime"])
 
@@ -29,7 +28,9 @@ def runtime_panel():
     loaded_modules = "<br>".join(sorted(html.escape(m) for m in sys.modules.keys()))
 
     # Environment variables
-    env_vars = "<br>".join(f"{html.escape(k)}={html.escape(v)}" for k, v in os.environ.items())
+    env_vars = "<br>".join(
+        f"{html.escape(k)}={html.escape(v)}" for k, v in os.environ.items()
+    )
 
     # Python path
     python_path = "<br>".join(html.escape(p) for p in sys.path)

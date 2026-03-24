@@ -1,6 +1,7 @@
 # Configuration Examples
 
 ## Overview
+
 This document provides practical, ready‑to‑use configuration examples for:
 
 - Global configuration (`config.yaml`)
@@ -21,17 +22,17 @@ These examples are designed to be deterministic, minimal, and production‑safe.
 
 \`\`\`
 backend:
-  port: 5000
+port: 5000
 
 dashboard:
-  port: 5001
+port: 5001
 
 storage:
-  runs_dir: runs/
-  snapshots_dir: snapshots/
+runs_dir: runs/
+snapshots_dir: snapshots/
 
 security:
-  allow_unauthenticated: true
+allow_unauthenticated: true
 \`\`\`
 
 ---
@@ -40,21 +41,21 @@ security:
 
 \`\`\`
 backend:
-  port: 5000
-  log_level: info
-  bind: 127.0.0.1
+port: 5000
+log_level: info
+bind: 127.0.0.1
 
 dashboard:
-  port: 5001
-  bind: 127.0.0.1
-  read_only: true
+port: 5001
+bind: 127.0.0.1
+read_only: true
 
 storage:
-  runs_dir: /var/ssrf/runs/
-  snapshots_dir: /var/ssrf/snapshots/
+runs_dir: /var/ssrf/runs/
+snapshots_dir: /var/ssrf/snapshots/
 
 security:
-  allow_unauthenticated: false
+allow_unauthenticated: false
 \`\`\`
 
 ---
@@ -63,14 +64,14 @@ security:
 
 \`\`\`
 backend:
-  port: 5000
-  log_level: debug
+port: 5000
+log_level: debug
 
 dashboard:
-  port: 5001
+port: 5001
 
 security:
-  allow_unauthenticated: true
+allow_unauthenticated: true
 \`\`\`
 
 ---
@@ -85,16 +86,17 @@ version: 1.0.0
 entrypoint: main:run
 summary: Basic SSRF scanning routine
 requires:
-  - network
-  - http
-config:
+
+- network
+- http
+  config:
   timeout: 5
   retries: 2
   max_redirects: 3
-outputs:
-  - raw_responses
-  - anomalies
-\`\`\`
+  outputs:
+- raw_responses
+- anomalies
+  \`\`\`
 
 ---
 
@@ -102,10 +104,10 @@ outputs:
 
 \`\`\`
 DEFAULT_CONFIG = {
-    "timeout": 5,
-    "retries": 2,
-    "max_redirects": 3,
-    "user_agent": "SSRF-Console/1.0"
+"timeout": 5,
+"retries": 2,
+"max_redirects": 3,
+"user_agent": "SSRF-Console/1.0"
 }
 \`\`\`
 
@@ -172,7 +174,7 @@ console run ssrf_basic_scan --targets example.com,internal.local
 \`\`\`
 POST /modes/ssrf_basic_scan/run
 {
-  "targets": ["example.com"]
+"targets": ["example.com"]
 }
 \`\`\`
 
@@ -183,11 +185,11 @@ POST /modes/ssrf_basic_scan/run
 \`\`\`
 POST /modes/ssrf_basic_scan/run
 {
-  "targets": ["example.com"],
-  "config": {
-    "timeout": 10,
-    "retries": 4
-  }
+"targets": ["example.com"],
+"config": {
+"timeout": 10,
+"retries": 4
+}
 }
 \`\`\`
 
@@ -198,11 +200,11 @@ POST /modes/ssrf_basic_scan/run
 \`\`\`
 POST /modes/ssrf_basic_scan/run
 {
-  "targets": [
-    "example.com",
-    "10.0.0.5",
-    "metadata.google.internal"
-  ]
+"targets": [
+"example.com",
+"10.0.0.5",
+"metadata.google.internal"
+]
 }
 \`\`\`
 
@@ -214,8 +216,8 @@ POST /modes/ssrf_basic_scan/run
 
 \`\`\`
 dashboard:
-  port: 5001
-  read_only: true
+port: 5001
+read_only: true
 \`\`\`
 
 ---
@@ -224,9 +226,9 @@ dashboard:
 
 \`\`\`
 dashboard:
-  port: 5001
-  theme: dark
-  read_only: true
+port: 5001
+theme: dark
+read_only: true
 \`\`\`
 
 ---
@@ -267,11 +269,11 @@ Group=ssrf
 
 \`\`\`
 location /api/ {
-    proxy_pass http://127.0.0.1:5000/;
+proxy_pass http://127.0.0.1:5000/;
 }
 
 location /dashboard/ {
-    proxy_pass http://127.0.0.1:5001/;
+proxy_pass http://127.0.0.1:5001/;
 }
 \`\`\`
 
@@ -323,5 +325,5 @@ console diff <old_run> <new_run>
 
 # Conclusion
 
-These examples provide a practical reference for configuring the SSRF Command Console across development, testing, and production environments.  
+These examples provide a practical reference for configuring the SSRF Command Console across development, testing, and production environments.
 Use them as templates for your own deployments and workflows.

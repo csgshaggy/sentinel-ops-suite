@@ -10,8 +10,6 @@ router = APIRouter(prefix="/admin/scheduler", tags=["Scheduler"])
 def detect_scheduler():
     """Try to detect APScheduler if installed and running."""
     try:
-        from apscheduler.schedulers.background import BackgroundScheduler
-        from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
         # Try to find any running scheduler instance
         schedulers = []
@@ -35,8 +33,6 @@ def detect_scheduler():
 def get_jobs():
     """Return APScheduler jobs if available."""
     try:
-        from apscheduler.schedulers.background import BackgroundScheduler
-        from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
         jobs = []
 
@@ -71,7 +67,9 @@ def scheduler_panel():
             </tr>
             """
     else:
-        scheduler_rows = "<tr><td colspan='3'>No APScheduler instance detected</td></tr>"
+        scheduler_rows = (
+            "<tr><td colspan='3'>No APScheduler instance detected</td></tr>"
+        )
 
     # Build job rows
     job_rows = ""

@@ -19,15 +19,19 @@ REQUIRED_FILES = [
     ".superdoctor_mode",
 ]
 
+
 def fail(msg):
     print(f"{RED}[FAIL]{RESET} {msg}")
     sys.exit(1)
 
+
 def ok(msg):
     print(f"{GREEN}[OK]{RESET} {msg}")
 
+
 def warn(msg):
     print(f"{YELLOW}[WARN]{RESET} {msg}")
+
 
 def main():
     root = os.getcwd()
@@ -54,6 +58,7 @@ def main():
             ok(f"File exists: {f}")
 
     print(f"{GREEN}Project tree validation complete.{RESET}")
+
 
 if __name__ == "__main__":
     main()

@@ -66,7 +66,8 @@ def health_check():
 
 def menu():
     while True:
-        print(f"""
+        print(
+            f"""
 {CYAN}==========================================
            SSRF SCANNER LAUNCHER
 =========================================={RESET}
@@ -75,7 +76,8 @@ def menu():
 3. Restart Scanner
 4. Health Check
 5. Exit
-""")
+"""
+        )
 
         choice = input("Select an option: ").strip()
 

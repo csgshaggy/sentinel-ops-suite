@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import os
 from super_doctor import run_checks, print_report, dashboard
+
 
 def menu():
     while True:
@@ -25,6 +25,7 @@ def menu():
             return
         else:
             print("Invalid choice")
+
 
 if __name__ == "__main__":
     menu()

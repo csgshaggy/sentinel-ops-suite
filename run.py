@@ -16,11 +16,11 @@ def main():
     - run.sh shell launcher
     """
     uvicorn.run(
-        "app.main:app",     # FastAPI application path
-        host="127.0.0.1",   # Local development host
-        port=8000,          # Default API port
-        reload=True,        # Auto-reload on file changes
-        workers=1           # Single worker for dev mode
+        "app.main:app",  # FastAPI application path
+        host="127.0.0.1",  # Local development host
+        port=8000,  # Default API port
+        reload=True,  # Auto-reload on file changes
+        workers=1,  # Single worker for dev mode
     )
 
 

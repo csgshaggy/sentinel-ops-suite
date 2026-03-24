@@ -1,5 +1,6 @@
 import logging
 
+
 def get_logger(name: str = "ssrf_command_console"):
     logger = logging.getLogger(name)
     if not logger.handlers:

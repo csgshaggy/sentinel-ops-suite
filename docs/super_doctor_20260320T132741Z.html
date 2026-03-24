@@ -1,218 +1,394 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Super Doctor Report</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-                   Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 40px auto;
-      max-width: 1000px;
-      line-height: 1.6;
-      color: #333;
-    }
-    h1 { margin-bottom: 0.2em; }
-    h2 { margin-top: 1.8em; }
-    .summary p { margin: 4px 0; }
-    .badge {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.85em;
-      color: #fff;
-    }
-    .FAIL { background: #d32f2f; }
-    .WARN { background: #f9a825; }
-    .INFO { background: #388e3c; }
-    .score-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #0366d6;
-      color: #fff;
-      font-weight: 600;
-      margin-left: 10px;
-      font-size: 0.9em;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-      font-size: 0.9em;
-    }
-    th { background: #f0f0f0; }
-    .card {
-      background: #f6f8fa;
-      padding: 16px;
-      border-radius: 8px;
-      border: 1px solid #e1e4e8;
-      margin-top: 20px;
-    }
-    ul { padding-left: 20px; }
-    canvas {
-      border: 1px solid #e1e4e8;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <h1>Super Doctor Report <span class='score-badge'>N/A</span></h1>
-  <p>Generated: 2026-03-20T13:43:01.728322+00:00</p>
+  <head>
+    <meta charset="utf-8" />
+    <title>Super Doctor Report</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        margin: 40px auto;
+        max-width: 1000px;
+        line-height: 1.6;
+        color: #333;
+      }
+      h1 {
+        margin-bottom: 0.2em;
+      }
+      h2 {
+        margin-top: 1.8em;
+      }
+      .summary p {
+        margin: 4px 0;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        color: #fff;
+      }
+      .FAIL {
+        background: #d32f2f;
+      }
+      .WARN {
+        background: #f9a825;
+      }
+      .INFO {
+        background: #388e3c;
+      }
+      .score-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #0366d6;
+        color: #fff;
+        font-weight: 600;
+        margin-left: 10px;
+        font-size: 0.9em;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 6px 10px;
+        font-size: 0.9em;
+      }
+      th {
+        background: #f0f0f0;
+      }
+      .card {
+        background: #f6f8fa;
+        padding: 16px;
+        border-radius: 8px;
+        border: 1px solid #e1e4e8;
+        margin-top: 20px;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      canvas {
+        border: 1px solid #e1e4e8;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Super Doctor Report <span class="score-badge">N/A</span></h1>
+    <p>Generated: 2026-03-20T13:43:01.728322+00:00</p>
 
-  <div class="card summary">
-    <h2>Summary</h2>
-    <p><span class="badge FAIL">FAIL: 0</span></p>
-    <p><span class="badge WARN">WARN: 17</span></p>
-    <p><span class="badge INFO">INFO: 3</span></p>
-  </div>
+    <div class="card summary">
+      <h2>Summary</h2>
+      <p><span class="badge FAIL">FAIL: 0</span></p>
+      <p><span class="badge WARN">WARN: 17</span></p>
+      <p><span class="badge INFO">INFO: 3</span></p>
+    </div>
 
-  <div class="card">
-    <h2>Diff Summary</h2>
-    <h3>New Issues</h3>
-    <ul>
-      <li>None</li>
-    </ul>
-    <h3>Resolved Issues</h3>
-    <ul>
-      <li>None</li>
-    </ul>
-  </div>
+    <div class="card">
+      <h2>Diff Summary</h2>
+      <h3>New Issues</h3>
+      <ul>
+        <li>None</li>
+      </ul>
+      <h3>Resolved Issues</h3>
+      <ul>
+        <li>None</li>
+      </ul>
+    </div>
 
-  <h2>Trend (History)</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Run Timestamp</th>
-        <th>FAIL</th>
-        <th>WARN</th>
-        <th>INFO</th>
-        <th>Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>20260320T123815Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
-<tr><td>20260320T123936Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
-<tr><td>20260320T124023Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
-<tr><td>20260320T124444Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
-<tr><td>20260320T132741Z</td><td class='FAIL'>0</td><td class='WARN'>17</td><td class='INFO'>3</td><td>-</td></tr>
-<tr><td>20260320T132802Z</td><td class='FAIL'>0</td><td class='WARN'>17</td><td class='INFO'>3</td><td>-</td></tr>
-<tr><td>20260320T134249Z</td><td class='FAIL'>0</td><td class='WARN'>488</td><td class='INFO'>7</td><td>0</td></tr>
-    </tbody>
-  </table>
+    <h2>Trend (History)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Run Timestamp</th>
+          <th>FAIL</th>
+          <th>WARN</th>
+          <th>INFO</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>20260320T123815Z</td>
+          <td class="FAIL">17</td>
+          <td class="WARN">184</td>
+          <td class="INFO">4</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T123936Z</td>
+          <td class="FAIL">17</td>
+          <td class="WARN">184</td>
+          <td class="INFO">4</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T124023Z</td>
+          <td class="FAIL">17</td>
+          <td class="WARN">184</td>
+          <td class="INFO">4</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T124444Z</td>
+          <td class="FAIL">17</td>
+          <td class="WARN">184</td>
+          <td class="INFO">4</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T132741Z</td>
+          <td class="FAIL">0</td>
+          <td class="WARN">17</td>
+          <td class="INFO">3</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T132802Z</td>
+          <td class="FAIL">0</td>
+          <td class="WARN">17</td>
+          <td class="INFO">3</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T134249Z</td>
+          <td class="FAIL">0</td>
+          <td class="WARN">488</td>
+          <td class="INFO">7</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <h2>Trend Chart</h2>
-  <canvas id="trendChart" width="900" height="320"></canvas>
+    <h2>Trend Chart</h2>
+    <canvas id="trendChart" width="900" height="320"></canvas>
 
-  <h2>Detailed Entries</h2>
-  <table>
-    <thead>
-      <tr><th>Severity</th><th>Message</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/app/core</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/app/services</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/concurrent</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/fastapi</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/fastapi/middleware</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/importlib</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/passlib</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/slowapi</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/exporters</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/urllib</td></tr>
-<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for circular imports...</td></tr>
-<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for missing __init__.py files...</td></tr>
-<tr><td><span class='badge INFO'>INFO</span></td><td>No circular imports detected.</td></tr>
-    </tbody>
-  </table>
+    <h2>Detailed Entries</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Severity</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/services
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/concurrent
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/fastapi
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/fastapi/middleware
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/importlib
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/passlib
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/slowapi
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/exporters
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/urllib
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge INFO">INFO</span></td>
+          <td>Checking for circular imports...</td>
+        </tr>
+        <tr>
+          <td><span class="badge INFO">INFO</span></td>
+          <td>Checking for missing __init__.py files...</td>
+        </tr>
+        <tr>
+          <td><span class="badge INFO">INFO</span></td>
+          <td>No circular imports detected.</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <script>
-    const labels = ["20260320T123815Z", "20260320T123936Z", "20260320T124023Z", "20260320T124444Z", "20260320T132741Z", "20260320T132802Z", "20260320T134249Z"];
-    const failData = [17, 17, 17, 17, 0, 0, 0];
-    const warnData = [184, 184, 184, 184, 17, 17, 488];
-    const infoData = [4, 4, 4, 4, 3, 3, 7];
-    const scoreData = [0, 0, 0, 0, 0, 0, 0];
-
-    const canvas = document.getElementById('trendChart');
-    const ctx = canvas.getContext('2d');
-
-    function normalize(value, maxValue, height, offset) {
-      if (maxValue === 0) return height - offset;
-      return height - offset - (value / maxValue) * (height - 2 * offset);
-    }
-
-    function drawLine(data, color, maxValue, height, offset) {
-      ctx.beginPath();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-
-      data.forEach((value, index) => {
-        const x = 50 + index * 50;
-        const y = normalize(value, maxValue, height, offset);
-        if (index === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-
-      ctx.stroke();
-    }
-
-    function drawChart() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const height = canvas.height;
-      const offset = 20;
-
-      const maxCount = Math.max(
-        ...failData,
-        ...warnData,
-        ...infoData,
-        1
-      );
-      const maxScore = Math.max(...scoreData, 100);
-
-      // Axes
-      ctx.strokeStyle = '#ccc';
-      ctx.beginPath();
-      ctx.moveTo(40, 10);
-      ctx.lineTo(40, height - 30);
-      ctx.lineTo(canvas.width - 10, height - 30);
-      ctx.stroke();
-
-      // Lines
-      drawLine(failData, '#d32f2f', maxCount, height, offset);
-      drawLine(warnData, '#f9a825', maxCount, height, offset);
-      drawLine(infoData, '#388e3c', maxCount, height, offset);
-      drawLine(scoreData, '#0366d6', maxScore, height, offset);
-
-      // Legend
-      const legend = [
-        ['FAIL', '#d32f2f'],
-        ['WARN', '#f9a825'],
-        ['INFO', '#388e3c'],
-        ['Score', '#0366d6'],
+    <script>
+      const labels = [
+        "20260320T123815Z",
+        "20260320T123936Z",
+        "20260320T124023Z",
+        "20260320T124444Z",
+        "20260320T132741Z",
+        "20260320T132802Z",
+        "20260320T134249Z",
       ];
-      let lx = 60;
-      const ly = 15;
-      legend.forEach(([label, color]) => {
-        ctx.fillStyle = color;
-        ctx.fillRect(lx, ly, 10, 10);
-        ctx.fillStyle = '#000';
-        ctx.fillText(label, lx + 15, ly + 10);
-        lx += 80;
-      });
-    }
+      const failData = [17, 17, 17, 17, 0, 0, 0];
+      const warnData = [184, 184, 184, 184, 17, 17, 488];
+      const infoData = [4, 4, 4, 4, 3, 3, 7];
+      const scoreData = [0, 0, 0, 0, 0, 0, 0];
 
-    drawChart();
-  </script>
-</body>
+      const canvas = document.getElementById("trendChart");
+      const ctx = canvas.getContext("2d");
+
+      function normalize(value, maxValue, height, offset) {
+        if (maxValue === 0) return height - offset;
+        return height - offset - (value / maxValue) * (height - 2 * offset);
+      }
+
+      function drawLine(data, color, maxValue, height, offset) {
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+
+        data.forEach((value, index) => {
+          const x = 50 + index * 50;
+          const y = normalize(value, maxValue, height, offset);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+
+        ctx.stroke();
+      }
+
+      function drawChart() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const height = canvas.height;
+        const offset = 20;
+
+        const maxCount = Math.max(...failData, ...warnData, ...infoData, 1);
+        const maxScore = Math.max(...scoreData, 100);
+
+        // Axes
+        ctx.strokeStyle = "#ccc";
+        ctx.beginPath();
+        ctx.moveTo(40, 10);
+        ctx.lineTo(40, height - 30);
+        ctx.lineTo(canvas.width - 10, height - 30);
+        ctx.stroke();
+
+        // Lines
+        drawLine(failData, "#d32f2f", maxCount, height, offset);
+        drawLine(warnData, "#f9a825", maxCount, height, offset);
+        drawLine(infoData, "#388e3c", maxCount, height, offset);
+        drawLine(scoreData, "#0366d6", maxScore, height, offset);
+
+        // Legend
+        const legend = [
+          ["FAIL", "#d32f2f"],
+          ["WARN", "#f9a825"],
+          ["INFO", "#388e3c"],
+          ["Score", "#0366d6"],
+        ];
+        let lx = 60;
+        const ly = 15;
+        legend.forEach(([label, color]) => {
+          ctx.fillStyle = color;
+          ctx.fillRect(lx, ly, 10, 10);
+          ctx.fillStyle = "#000";
+          ctx.fillText(label, lx + 15, ly + 10);
+          lx += 80;
+        });
+      }
+
+      drawChart();
+    </script>
+  </body>
 </html>

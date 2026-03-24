@@ -10,13 +10,17 @@ REQUIRED_PACKAGES = [
     "httpx",
 ]
 
+
 def check_python_version():
     if sys.version_info < REQUIRED_PYTHON:
-        print(f"[FAIL] Python {REQUIRED_PYTHON[0]}.{REQUIRED_PYTHON[1]}+ required, "
-              f"found {sys.version.split()[0]}")
+        print(
+            f"[FAIL] Python {REQUIRED_PYTHON[0]}.{REQUIRED_PYTHON[1]}+ required, "
+            f"found {sys.version.split()[0]}"
+        )
         return False
     print(f"[OK] Python version: {sys.version.split()[0]}")
     return True
+
 
 def check_packages():
     ok = True
@@ -29,6 +33,7 @@ def check_packages():
             ok = False
     return ok
 
+
 def check_project_root():
     here = Path(__file__).resolve()
     root = here.parent.parent
@@ -39,6 +44,7 @@ def check_project_root():
     print(f"[OK] Project root: {root}")
     return True
 
+
 def main():
     print("=== SSRF Console Preflight Check ===")
     ok = True
@@ -46,6 +52,7 @@ def main():
     ok &= check_packages()
     ok &= check_project_root()
     sys.exit(0 if ok else 1)
+
 
 if __name__ == "__main__":
     main()

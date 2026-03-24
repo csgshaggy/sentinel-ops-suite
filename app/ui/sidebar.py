@@ -80,11 +80,11 @@ def sidebar():
         <button id="collapse-btn" onclick="toggleSidebar()">☰ Menu</button>
 
         <!-- 🔍 SEARCH BAR -->
-        <input 
-            type="text" 
-            id="sidebar-search" 
-            placeholder="Search tools..." 
-            onkeyup="filterSidebar()" 
+        <input
+            type="text"
+            id="sidebar-search"
+            placeholder="Search tools..."
+            onkeyup="filterSidebar()"
             style="
                 width: 100%;
                 padding: 8px;

@@ -1,7 +1,8 @@
 # Operator Guide
 
 ## Overview
-This guide explains how operators and analysts use the SSRF Command Console to run MODEs, analyze results, and navigate the dashboard.  
+
+This guide explains how operators and analysts use the SSRF Command Console to run MODEs, analyze results, and navigate the dashboard.
 It focuses on practical workflows, deterministic execution, and artifact‑driven analysis.
 
 ---
@@ -35,7 +36,7 @@ Overrides are validated during **preflight**.
 Each run creates an immutable directory:
 
 \`\`\`
-runs/<timestamp>_<mode_name>/
+runs/<timestamp>\_<mode_name>/
 ├── input.json
 ├── output.json
 ├── anomalies.json
@@ -45,19 +46,19 @@ runs/<timestamp>_<mode_name>/
 
 ### Key Files
 
-| File | Purpose |
-|------|---------|
-| **input.json** | Inputs used for the run |
-| **output.json** | Final structured output |
-| **anomalies.json** | Detected anomalies |
-| **artifacts/** | Raw and processed artifacts |
-| **logs/** | Execution logs |
+| File               | Purpose                     |
+| ------------------ | --------------------------- |
+| **input.json**     | Inputs used for the run     |
+| **output.json**    | Final structured output     |
+| **anomalies.json** | Detected anomalies          |
+| **artifacts/**     | Raw and processed artifacts |
+| **logs/**          | Execution logs              |
 
 ### Immutability Rules
 
-- Runs cannot be modified after creation  
-- Artifacts are write‑once  
-- Logs are append‑only  
+- Runs cannot be modified after creation
+- Artifacts are write‑once
+- Logs are append‑only
 
 This ensures forensic clarity and reproducibility.
 
@@ -73,12 +74,12 @@ python -m dashboard
 
 ### Dashboard Panels
 
-- **Run History** — list of all runs  
-- **Run Summary** — high‑level overview  
-- **Anomalies** — severity, evidence, affected targets  
-- **Artifacts** — raw and processed outputs  
-- **Logs** — structured execution logs  
-- **Diff Viewer** — compare runs or snapshots  
+- **Run History** — list of all runs
+- **Run Summary** — high‑level overview
+- **Anomalies** — severity, evidence, affected targets
+- **Artifacts** — raw and processed outputs
+- **Logs** — structured execution logs
+- **Diff Viewer** — compare runs or snapshots
 
 The dashboard is read‑only and safe for analysts.
 
@@ -102,16 +103,17 @@ console diff <run_id_1> <run_id_2>
 
 ### Diff Use Cases
 
-- Detect regressions  
-- Compare environments  
-- Track changes over time  
-- Identify drift in anomalies or artifacts  
+- Detect regressions
+- Compare environments
+- Track changes over time
+- Identify drift in anomalies or artifacts
 
 ---
 
 # 5. Troubleshooting
 
 ### MODE fails during preflight
+
 Check:
 
 \`\`\`
@@ -120,9 +122,9 @@ runs/<run_id>/logs/execution.log
 
 Common causes:
 
-- Invalid targets  
-- Invalid overrides  
-- Missing configuration  
+- Invalid targets
+- Invalid overrides
+- Missing configuration
 
 ---
 
@@ -130,8 +132,8 @@ Common causes:
 
 Check:
 
-- Port conflicts  
-- Missing dependencies  
+- Port conflicts
+- Missing dependencies
 - Service logs (if running as systemd service)
 
 ---
@@ -154,13 +156,13 @@ console modes validate <mode_name>
 
 # 6. Operator Best Practices
 
-- Validate targets before running  
-- Use snapshots for long‑term comparisons  
-- Review anomalies before raw artifacts  
-- Keep run directories immutable  
-- Use dashboard for visual analysis  
-- Prefer structured output over raw logs  
-- Run MODEs with minimal overrides for reproducibility  
+- Validate targets before running
+- Use snapshots for long‑term comparisons
+- Review anomalies before raw artifacts
+- Keep run directories immutable
+- Use dashboard for visual analysis
+- Prefer structured output over raw logs
+- Run MODEs with minimal overrides for reproducibility
 
 ---
 
@@ -182,18 +184,18 @@ python -m dashboard
 
 Look for:
 
-- Unexpected redirects  
-- Internal IP exposure  
-- Protocol mismatches  
-- Timing anomalies  
+- Unexpected redirects
+- Internal IP exposure
+- Protocol mismatches
+- Timing anomalies
 
 ### Step 4 — Review artifacts
 
 Artifacts may include:
 
-- Raw HTTP responses  
-- Normalized summaries  
-- Extracted metadata  
+- Raw HTTP responses
+- Normalized summaries
+- Extracted metadata
 
 ### Step 5 — Create a snapshot
 
@@ -211,5 +213,5 @@ console diff <old_run> <new_run>
 
 # Conclusion
 
-Operators use the SSRF Command Console to run MODEs, analyze results, and maintain a deterministic, artifact‑driven workflow.  
+Operators use the SSRF Command Console to run MODEs, analyze results, and maintain a deterministic, artifact‑driven workflow.
 Following this guide ensures consistent, repeatable, and forensic‑grade operation across all environments.

@@ -1,18 +1,20 @@
 # API_CONTRACTS.md
-SSRF COMMAND CONSOLE — API CONTRACTS  
+
+SSRF COMMAND CONSOLE — API CONTRACTS
 Stable Interfaces, Deterministic Schemas, Backward‑Compatible Guarantees
 
 ---
 
 ## 1. PURPOSE OF THIS DOCUMENT
-This document defines the **formal API contracts** for the SSRF Command Console backend.  
+
+This document defines the **formal API contracts** for the SSRF Command Console backend.
 It ensures:
 
-- Predictable request/response schemas  
-- Backward‑compatible evolution  
-- Clear error semantics  
-- Stable integration points  
-- Deterministic behavior across versions  
+- Predictable request/response schemas
+- Backward‑compatible evolution
+- Clear error semantics
+- Stable integration points
+- Deterministic behavior across versions
 
 This is the authoritative source for all API‑level guarantees.
 
@@ -21,30 +23,32 @@ This is the authoritative source for all API‑level guarantees.
 ## 2. VERSIONING & STABILITY
 
 ### 2.1 Contract Versioning
+
 Each API contract is tied to the project’s SemVer version:
 
 MAJOR.MINOR.PATCH
 
-
-- **MAJOR** — breaking API changes  
-- **MINOR** — new endpoints or fields (non‑breaking)  
-- **PATCH** — bug fixes, clarifications, documentation updates  
+- **MAJOR** — breaking API changes
+- **MINOR** — new endpoints or fields (non‑breaking)
+- **PATCH** — bug fixes, clarifications, documentation updates
 
 ### 2.2 Stability Guarantees
+
 Once an endpoint is marked **stable**, the following rules apply:
 
-- Fields are never removed without a MAJOR version bump  
-- Field types never change  
-- Required fields remain required  
-- Optional fields remain optional  
-- Error codes remain consistent  
+- Fields are never removed without a MAJOR version bump
+- Field types never change
+- Required fields remain required
+- Optional fields remain optional
+- Error codes remain consistent
 
 ### 2.3 Deprecation Policy
+
 Deprecated fields or endpoints must include:
 
-- A deprecation notice in the response  
-- Documentation in CHANGELOG.md  
-- Removal only in the next MAJOR release  
+- A deprecation notice in the response
+- Documentation in CHANGELOG.md
+- Removal only in the next MAJOR release
 
 ---
 
@@ -55,15 +59,17 @@ Deprecated fields or endpoints must include:
 /api/v1
 
 ### 3.2 Content Types
+
 All endpoints use:
 Content-Type: application/json
 
-
 ### 3.3 Authentication (Future)
+
 Reserved for:
-- API keys  
-- Session tokens  
-- RBAC roles  
+
+- API keys
+- Session tokens
+- RBAC roles
 
 Currently **no authentication** is required in local mode.
 
@@ -81,11 +87,12 @@ Below are the canonical schemas for all stable endpoints.
 
 GET
 
-
 ### Request
+
 No parameters.
 
 ### Response Schema
+
 ```json
 {
   "modes": [
@@ -147,14 +154,14 @@ Request Schema
 }
 
 ## Error Codes
-|Code  		|Meaning 
-|InvalidTarget  |URL malformed or unsupported  | 
-|ModeNotFound 	|Invalid mode_id  | 
-|ExecutionError |Mode crashed or failed  | 
-|Timeout        |Target did not respond  | 
+|Code  		|Meaning
+|InvalidTarget  |URL malformed or unsupported  |
+|ModeNotFound 	|Invalid mode_id  |
+|ExecutionError |Mode crashed or failed  |
+|Timeout        |Target did not respond  |
 
 ## 4.3 /api/v1/history - List Past Executions
-	
+
 	Method : GET
 ## Response Schema
 {
@@ -255,7 +262,7 @@ ISO 8601 UTC
 • 	Changing optional → required
 • 	Removing endpoints
 • 	Renaming endpoints
- 
+
 ## 8. FUTURE CONTRACT EXTENSIONS
 Planned additions:
 • 	Authentication contract
@@ -271,3 +278,4 @@ json {"example": true}
 
 ### 9.2 Escaped Error Example
 json {"error": "InvalidTarget"}
+```

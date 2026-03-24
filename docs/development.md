@@ -18,7 +18,6 @@ make uv-bootstrap
 
 make poetry-bootstrap
 
-
 ## Code Quality
 
 - Format: `make format`
@@ -29,7 +28,6 @@ make poetry-bootstrap
 
 make rebuild
 
-
 ## Plugin Development
 
 Plugins live under:
@@ -39,4 +37,3 @@ tools/plugins
 List them:
 
 make plugins
-

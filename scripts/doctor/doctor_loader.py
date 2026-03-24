@@ -2,9 +2,9 @@
 import importlib
 import os
 import json
-from pathlib import Path
 
 VALIDATOR_DIR = "validators"
+
 
 def load_validators():
     validators = []
@@ -17,6 +17,7 @@ def load_validators():
             if hasattr(module, "run"):
                 validators.append(module)
     return validators
+
 
 def main():
     print("\n=== DOCTOR SUITE (Plugin Mode) ===\n")
@@ -39,11 +40,7 @@ def main():
 
         except Exception as e:
             print(f"🟥 {v.__name__}: ERROR — {e}")
-            results.append({
-                "name": v.__name__,
-                "status": "error",
-                "details": [str(e)]
-            })
+            results.append({"name": v.__name__, "status": "error", "details": [str(e)]})
 
     # Save machine-readable output
     os.makedirs("runtime", exist_ok=True)
@@ -51,6 +48,7 @@ def main():
         json.dump(results, f, indent=2)
 
     print("\n[+] Doctor suite complete.\n")
+
 
 if __name__ == "__main__":
     main()

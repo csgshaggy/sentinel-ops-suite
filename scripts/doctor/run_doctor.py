@@ -1,138 +1,94 @@
-#!/usr/bin/env python3
-"""
-Doctor System (Modular Version)
-
-Runs a suite of repository health checks and returns
-structured results for dashboards and CI workflows.
-
-Each check returns:
-{
-    "name": "Check Name",
-    "status": "pass" | "fail" | "warn",
-    "message": "Human-readable explanation"
-}
-"""
-
 from __future__ import annotations
 
+import json
+import os
 import sys
-from pathlib import Path
-from typing import List, Dict
+from typing import Any, Dict
 
-# ---------------------------------------------------------
-# Color helpers (safe for CI)
-# ---------------------------------------------------------
-class C:
-    BLUE = "\033[94m"
-    GREEN = "\033[92m"
-    YELLOW = "\033[93m"
-    RED = "\033[91m"
-    END = "\033[0m"
-
-def info(msg): print(f"{C.BLUE}[INFO]{C.END} {msg}")
-def ok(msg): print(f"{C.GREEN}[OK]{C.END} {msg}")
-def warn(msg): print(f"{C.YELLOW}[WARN]{C.END} {msg}")
-def fail(msg): print(f"{C.RED}[FAIL]{C.END} {msg}")
+from tools.super_doctor import run_super_doctor
 
 
-# ---------------------------------------------------------
-# Repo root resolution
-# ---------------------------------------------------------
-REPO_ROOT = Path(__file__).resolve().parents[2]
-CHECKS_DIR = REPO_ROOT / "scripts" / "doctor" / "checks"
+def _load_config(path: str) -> Dict[str, Any]:
+    """
+    Load a JSON configuration file safely.
+    """
+    if not os.path.exists(path):
+        return {}
 
-# Add checks directory to PYTHONPATH
-sys.path.append(str(CHECKS_DIR))
-
-
-# ---------------------------------------------------------
-# Import modular checks
-# ---------------------------------------------------------
-from filesystem import (
-    check_runtime_directory,
-    check_runtime_hygiene,
-    check_required_directories,
-)
-
-from structure import (
-    check_required_scripts,
-    check_required_workflows,
-    check_docs_directory,
-    check_github_structure,
-)
-
-from makefile import (
-    check_makefile_exists,
-    check_makefile_targets,
-    check_makefile_formatting,
-)
-
-from runtime import (
-    check_expected_artifacts,
-)
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
 
-# ---------------------------------------------------------
-# Registry of all doctor checks
-# ---------------------------------------------------------
-CHECKS = [
-    # Filesystem
-    check_runtime_directory,
-    check_runtime_hygiene,
-    check_required_directories,
-
-    # Structure
-    check_required_scripts,
-    check_required_workflows,
-    check_docs_directory,
-    check_github_structure,
-
-    # Makefile
-    check_makefile_exists,
-    check_makefile_targets,
-    check_makefile_formatting,
-
-    # Runtime artifacts
-    check_expected_artifacts,
-]
+def _save_results(path: str, results: Dict[str, Any]) -> None:
+    """
+    Save doctor results to a JSON file.
+    """
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(results, f, indent=2)
+    except Exception as exc:
+        print(f"Failed to save results: {exc}", file=sys.stderr)
 
 
-# ---------------------------------------------------------
-# Main doctor runner
-# ---------------------------------------------------------
-def run_doctor() -> List[Dict[str, str]]:
-    info("Running modular doctor checks...")
+def _format_summary(results: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Produce a high-level summary of doctor results.
+    """
+    checks = results.get("checks", [])
+    passed = sum(1 for c in checks if c.get("status") == "pass")
+    failed = sum(1 for c in checks if c.get("status") == "fail")
 
-    results = []
-
-    for check in CHECKS:
-        try:
-            r = check()
-            results.append(r)
-
-            status = r["status"]
-            name = r["name"]
-
-            if status == "pass":
-                ok(name)
-            elif status == "warn":
-                warn(name)
-            else:
-                fail(name)
-
-        except Exception as e:
-            results.append({
-                "name": check.__name__,
-                "status": "fail",
-                "message": f"Check crashed: {e}",
-            })
-            fail(f"{check.__name__} crashed: {e}")
-
-    return results
+    return {
+        "total_checks": len(checks),
+        "passed": passed,
+        "failed": failed,
+        "overall_status": "healthy" if failed == 0 else "issues_detected",
+    }
 
 
-# ---------------------------------------------------------
-# CLI entrypoint
-# ---------------------------------------------------------
+def run_doctor(
+    config_path: str | None = None, output_path: str | None = None
+) -> Dict[str, Any]:
+    """
+    Execute the Super Doctor with optional config and output paths.
+    """
+    config = _load_config(config_path) if config_path else {}
+
+    try:
+        results = run_super_doctor(config)
+    except Exception as exc:
+        return {
+            "success": False,
+            "error": str(exc),
+            "config_used": config,
+        }
+
+    summary = _format_summary(results)
+
+    final = {
+        "success": True,
+        "summary": summary,
+        "results": results,
+        "config_used": config,
+    }
+
+    if output_path:
+        _save_results(output_path, final)
+
+    return final
+
+
 if __name__ == "__main__":
-    run_doctor()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="Run the SSRF Super Doctor.")
+    parser.add_argument("--config", help="Path to doctor config JSON", default=None)
+    parser.add_argument("--output", help="Path to save results JSON", default=None)
+
+    args = parser.parse_args()
+
+    output = run_doctor(args.config, args.output)
+    print(json.dumps(output, indent=2))

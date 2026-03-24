@@ -9,6 +9,7 @@ CONFIG_PATH = os.path.join(BASE_DIR, "config.yaml")
 REQUIRED_DIRS = ["logs", "pids", "crash_reports", "ssrf_scanner", "ssrf_manager"]
 REQUIRED_FILES = ["main.py", "dashboard_web.py", "dashboard.py", "config.yaml"]
 
+
 def main():
     ok = True
 
@@ -53,6 +54,7 @@ def main():
                 ok = False
 
     sys.exit(0 if ok else 1)
+
 
 if __name__ == "__main__":
     main()

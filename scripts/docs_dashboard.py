@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import json
-import os
 from pathlib import Path
 
 BLUE = "\033[34m"
@@ -14,12 +13,14 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DOCS_DIR = PROJECT_ROOT / "docs"
 MAP_FILE = DOCS_DIR / "category_map.json"
 
+
 def load_map():
     if not MAP_FILE.exists():
         print(f"{RED}[ERROR]{RESET} Missing category_map.json at {MAP_FILE}")
         raise SystemExit(1)
     with MAP_FILE.open() as f:
         return json.load(f)
+
 
 def compute_health(category_map):
     score = 100
@@ -46,6 +47,7 @@ def compute_health(category_map):
 
     score = max(0, score - deductions)
     return score, unmapped
+
 
 def main():
     print(f"{BLUE}{BOLD}=== Documentation Dashboard ==={RESET}")
@@ -77,6 +79,7 @@ def main():
             print(f"  - {path.relative_to(DOCS_DIR)}")
     else:
         print(f"{GREEN}No unmapped files.{RESET}")
+
 
 if __name__ == "__main__":
     main()

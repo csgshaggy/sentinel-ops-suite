@@ -1,20 +1,21 @@
 # SSRF Command Console — Full Manual
 
 ## Overview
+
 This manual provides a complete, unified reference for operators, developers, MODE authors, and system administrators working with the SSRF Command Console.
 
 It consolidates the entire documentation suite into a single, structured guide covering:
 
-- Installation  
-- Architecture  
-- MODE authoring  
-- Operation  
-- API usage  
-- Security  
-- Testing  
-- Deployment  
-- Hardening  
-- Roadmap  
+- Installation
+- Architecture
+- MODE authoring
+- Operation
+- API usage
+- Security
+- Testing
+- Deployment
+- Hardening
+- Roadmap
 
 This is the authoritative manual for the project.
 
@@ -23,25 +24,28 @@ This is the authoritative manual for the project.
 # 1. Introduction
 
 ## 1.1 What is the SSRF Command Console?
+
 A deterministic, artifact‑driven framework for executing SSRF‑focused MODEs, analyzing results, and visualizing output through a dashboard.
 
 ## 1.2 Key Features
-- Deterministic MODE lifecycle  
-- Immutable run directories  
-- Structured artifacts  
-- Snapshot & diff engine  
-- Dashboard visualization  
-- Strict MODE isolation  
-- Operator‑grade logging  
+
+- Deterministic MODE lifecycle
+- Immutable run directories
+- Structured artifacts
+- Snapshot & diff engine
+- Dashboard visualization
+- Strict MODE isolation
+- Operator‑grade logging
 
 ---
 
 # 2. Installation & Setup
 
 ## 2.1 Requirements
-- Python 3.10+  
-- Git  
-- Linux, macOS, or Windows (native or WSL2)  
+
+- Python 3.10+
+- Git
+- Linux, macOS, or Windows (native or WSL2)
 
 ## 2.2 Installation Steps
 
@@ -66,11 +70,11 @@ python -m dashboard
 
 ## 3.1 High-Level Components
 
-- **MODE Engine** — Executes MODEs deterministically  
-- **API Server** — Exposes MODE execution and run retrieval  
-- **Dashboard** — Read‑only visualization layer  
-- **Storage Layer** — Immutable run directories + snapshots  
-- **MODEs** — Modular execution units  
+- **MODE Engine** — Executes MODEs deterministically
+- **API Server** — Exposes MODE execution and run retrieval
+- **Dashboard** — Read‑only visualization layer
+- **Storage Layer** — Immutable run directories + snapshots
+- **MODEs** — Modular execution units
 
 ## 3.2 Data Flow
 
@@ -107,35 +111,36 @@ name: ssrf_basic_scan
 version: 1.0.0
 entrypoint: main:run
 requires:
-  - network
-config:
+
+- network
+  config:
   timeout: 5
   retries: 2
-outputs:
-  - raw_responses
-  - anomalies
-\`\`\`
+  outputs:
+- raw_responses
+- anomalies
+  \`\`\`
 
 ## 4.3 Input Schema Example
 
 \`\`\`
 class Input(BaseModel):
-    targets: List[str]
+targets: List[str]
 \`\`\`
 
 ## 4.4 Output Schema Example
 
 \`\`\`
 class Output(BaseModel):
-    raw_responses: Dict[str, str]
-    anomalies: List[str]
+raw_responses: Dict[str, str]
+anomalies: List[str]
 \`\`\`
 
 ## 4.5 Handler Responsibilities
 
-- **preflight.py** — Validate inputs  
-- **executor.py** — Perform core logic  
-- **postprocess.py** — Normalize output  
+- **preflight.py** — Validate inputs
+- **executor.py** — Perform core logic
+- **postprocess.py** — Normalize output
 
 ---
 
@@ -156,7 +161,7 @@ console run ssrf_basic_scan --targets example.com
 ## 5.3 Run Directory Structure
 
 \`\`\`
-runs/<timestamp>_<mode_name>/
+runs/<timestamp>\_<mode_name>/
 ├── input.json
 ├── output.json
 ├── anomalies.json
@@ -172,11 +177,11 @@ python -m dashboard
 
 Panels include:
 
-- Run history  
-- Anomalies  
-- Artifacts  
-- Logs  
-- Diff viewer  
+- Run history
+- Anomalies
+- Artifacts
+- Logs
+- Diff viewer
 
 ---
 
@@ -191,26 +196,31 @@ http://localhost:5000
 ## 6.2 Key Endpoints
 
 ### List MODEs
+
 \`\`\`
 GET /modes
 \`\`\`
 
 ### Run a MODE
+
 \`\`\`
 POST /modes/<mode_name>/run
 \`\`\`
 
 ### Get run output
+
 \`\`\`
 GET /runs/<run_id>/output
 \`\`\`
 
 ### Get artifacts
+
 \`\`\`
 GET /runs/<run_id>/artifacts
 \`\`\`
 
 ### Diff
+
 \`\`\`
 POST /diff
 \`\`\`
@@ -220,11 +230,12 @@ POST /diff
 # 7. Security Model
 
 ## 7.1 Principles
-- Least privilege  
-- Deterministic execution  
-- MODE isolation  
-- Immutable artifacts  
-- Transparent logging  
+
+- Least privilege
+- Deterministic execution
+- MODE isolation
+- Immutable artifacts
+- Transparent logging
 
 ## 7.2 Trust Boundaries
 
@@ -233,13 +244,14 @@ Operator → API → MODE Engine → Filesystem
 \`\`\`
 
 ## 7.3 MODE Isolation Rules
+
 MODEs cannot:
 
-- Access other MODEs  
-- Write outside run directories  
-- Read environment variables  
-- Spawn subprocesses  
-- Import arbitrary modules  
+- Access other MODEs
+- Write outside run directories
+- Read environment variables
+- Spawn subprocesses
+- Import arbitrary modules
 
 ---
 
@@ -249,29 +261,29 @@ MODEs cannot:
 
 \`\`\`
 backend:
-  port: 5000
+port: 5000
 dashboard:
-  port: 5001
+port: 5001
 storage:
-  runs_dir: runs/
+runs_dir: runs/
 \`\`\`
 
 ## 8.2 Environment Variables
 
-| Variable | Description |
-|----------|-------------|
-| SSRFC_BACKEND_PORT | Override backend port |
+| Variable             | Description             |
+| -------------------- | ----------------------- |
+| SSRFC_BACKEND_PORT   | Override backend port   |
 | SSRFC_DASHBOARD_PORT | Override dashboard port |
-| LOG_LEVEL | Logging level |
+| LOG_LEVEL            | Logging level           |
 
 ## 8.3 Configuration Precedence
 
-1. MODE defaults  
-2. MODE manifest  
-3. Global config  
-4. Environment variables  
-5. CLI overrides  
-6. API overrides  
+1. MODE defaults
+2. MODE manifest
+3. Global config
+4. Environment variables
+5. CLI overrides
+6. API overrides
 
 ---
 
@@ -279,10 +291,10 @@ storage:
 
 ## 9.1 Test Categories
 
-- Unit tests  
-- Integration tests  
-- Schema tests  
-- Snapshot regression tests  
+- Unit tests
+- Integration tests
+- Schema tests
+- Snapshot regression tests
 
 ## 9.2 Running Tests
 
@@ -292,6 +304,7 @@ pytest --cov=console
 \`\`\`
 
 ## 9.3 Coverage Requirement
+
 Minimum **85%** for new code.
 
 ---
@@ -354,10 +367,10 @@ SSRFC_BACKEND_BIND=127.0.0.1
 
 ## 12.1 ssrf_basic_scan
 
-- Basic SSRF detection  
-- HTTP request execution  
-- Raw response capture  
-- Anomaly detection  
+- Basic SSRF detection
+- HTTP request execution
+- Raw response capture
+- Anomaly detection
 
 Manifest:
 
@@ -373,16 +386,19 @@ version: 1.0.0
 ## Common Questions
 
 ### “Where do run results go?”
+
 \`\`\`
 runs/<run_id>/
 \`\`\`
 
 ### “How do I diff two runs?”
+
 \`\`\`
 console diff <run1> <run2>
 \`\`\`
 
 ### “Is the dashboard read‑only?”
+
 Yes — always.
 
 ---
@@ -390,23 +406,26 @@ Yes — always.
 # 14. Roadmap
 
 ## Near‑Term
-- RBAC  
-- MODE SDK improvements  
-- Dashboard enhancements  
+
+- RBAC
+- MODE SDK improvements
+- Dashboard enhancements
 
 ## Mid‑Term
-- Distributed execution  
-- Plugin marketplace  
-- Advanced anomaly detection  
+
+- Distributed execution
+- Plugin marketplace
+- Advanced anomaly detection
 
 ## Long‑Term
-- Full web console  
-- Multi‑tenant model  
-- Execution sandbox  
+
+- Full web console
+- Multi‑tenant model
+- Execution sandbox
 
 ---
 
 # Conclusion
 
-This manual consolidates the entire SSRF Command Console documentation suite into a single, authoritative reference.  
+This manual consolidates the entire SSRF Command Console documentation suite into a single, authoritative reference.
 It is designed for operators, developers, MODE authors, and administrators who require clarity, determinism, and professional‑grade documentation.

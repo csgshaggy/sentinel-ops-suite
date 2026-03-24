@@ -62,9 +62,11 @@ REQUIRED_TARGETS = [
     "uninstall:",
 ]
 
+
 def fail(msg):
     print(f"[ERROR] {msg}")
     sys.exit(1)
+
 
 def main():
     makefile_path = Path("Makefile")
@@ -95,6 +97,7 @@ def main():
         last_index = idx
 
     print("[OK] Makefile integrity validated successfully.")
+
 
 if __name__ == "__main__":
     main()

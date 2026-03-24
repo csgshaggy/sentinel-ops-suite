@@ -3,10 +3,13 @@
 try:
     from colorama import Fore, Style
 except ImportError:
+
     class F:
         RED = GREEN = YELLOW = CYAN = ""
+
     class S:
         RESET_ALL = ""
+
     Fore, Style = F(), S()
 
 

@@ -47,6 +47,7 @@ TEMPLATE = """
 </html>
 """
 
+
 def main():
     if not REPORT_JSON.exists():
         print("No JSON report found. Run SuperDoctor first.")
@@ -55,13 +56,11 @@ def main():
     data = json.loads(REPORT_JSON.read_text())
     pretty = json.dumps(data, indent=4)
 
-    html = TEMPLATE.format(
-        timestamp=datetime.utcnow().isoformat(),
-        content=pretty
-    )
+    html = TEMPLATE.format(timestamp=datetime.utcnow().isoformat(), content=pretty)
 
     REPORT_HTML.write_text(html)
     print(f"HTML report written to {REPORT_HTML}")
+
 
 if __name__ == "__main__":
     main()

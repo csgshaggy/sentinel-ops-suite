@@ -26,7 +26,11 @@ def run():
         rel = os.path.relpath(base, ROOT_DIR)
 
         # Skip noise
-        if rel.startswith(".git") or rel.startswith("__pycache__") or rel.startswith("venv"):
+        if (
+            rel.startswith(".git")
+            or rel.startswith("__pycache__")
+            or rel.startswith("venv")
+        ):
             continue
 
         structure.append(

@@ -1,5 +1,2 @@
 def run():
-    return {
-        "status": "ok",
-        "message": "Sample plugin executed successfully"
-    }
+    return {"status": "ok", "message": "Sample plugin executed successfully"}

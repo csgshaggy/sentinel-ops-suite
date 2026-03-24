@@ -1,7 +1,8 @@
 # Service Deployment Guide
 
 ## Overview
-This guide explains how to deploy the SSRF Command Console backend, dashboard, and supporting components as system services.  
+
+This guide explains how to deploy the SSRF Command Console backend, dashboard, and supporting components as system services.
 It covers systemd service files, environment configuration, logging, lifecycle management, and production‑grade hardening.
 
 The goal: **reliable, restart‑on‑failure, operator‑grade services**.
@@ -13,19 +14,22 @@ The goal: **reliable, restart‑on‑failure, operator‑grade services**.
 The console supports three deployment models:
 
 ### **1. Single‑Service Deployment**
-- One service runs the backend API + MODE engine  
-- Dashboard launched manually  
+
+- One service runs the backend API + MODE engine
+- Dashboard launched manually
 
 ### **2. Dual‑Service Deployment**
-- Backend API service  
-- Dashboard service  
+
+- Backend API service
+- Dashboard service
 
 ### **3. Full Multi‑Service Deployment**
-- Backend API  
-- Dashboard  
-- Worker / scheduler (optional future component)  
-- Health‑check service  
-- Watchdog service  
+
+- Backend API
+- Dashboard
+- Worker / scheduler (optional future component)
+- Health‑check service
+- Watchdog service
 
 This guide covers the **dual‑service** model, which is the recommended baseline.
 
@@ -44,9 +48,11 @@ systemd/
 \`\`\`
 
 ### **ssrf.env**
+
 Stores environment variables shared by all services.
 
 ### **install_services.sh**
+
 Copies service files into `/etc/systemd/system/` and reloads systemd.
 
 ---
@@ -64,9 +70,9 @@ LOG_LEVEL=info
 
 Rules:
 
-- Never store secrets here  
-- Keep values minimal  
-- Use absolute paths for production  
+- Never store secrets here
+- Keep values minimal
+- Use absolute paths for production
 
 ---
 
@@ -93,10 +99,10 @@ WantedBy=multi-user.target
 
 ### Key Features
 
-- **Restart on failure**  
-- **Dedicated user**  
-- **Environment isolation**  
-- **Clean working directory**  
+- **Restart on failure**
+- **Dedicated user**
+- **Environment isolation**
+- **Clean working directory**
 
 ---
 
@@ -141,8 +147,8 @@ systemctl enable ssrf-backend.service
 systemctl enable ssrf-dashboard.service
 
 echo "Services installed. Start them with:"
-echo "  systemctl start ssrf-backend"
-echo "  systemctl start ssrf-dashboard"
+echo " systemctl start ssrf-backend"
+echo " systemctl start ssrf-dashboard"
 \`\`\`
 
 ---
@@ -155,8 +161,8 @@ sudo useradd --system --no-create-home --shell /usr/sbin/nologin ssrf
 
 This user owns:
 
-- `/opt/ssrf-console`  
-- `/var/log/ssrf/` (if used)  
+- `/opt/ssrf-console`
+- `/var/log/ssrf/` (if used)
 
 ---
 
@@ -166,7 +172,7 @@ This user owns:
 
 \`\`\`
 sudo mkdir -p /opt/ssrf-console
-sudo cp -r * /opt/ssrf-console/
+sudo cp -r \* /opt/ssrf-console/
 sudo chown -R ssrf:ssrf /opt/ssrf-console
 \`\`\`
 
@@ -221,8 +227,8 @@ systemctl restart ssrf-dashboard
 
 ### **2. Restrict filesystem permissions**
 
-- MODEs must not write outside run directories  
-- Services must not run as root  
+- MODEs must not write outside run directories
+- Services must not run as root
 
 ### **3. Enable systemd sandboxing (optional)**
 
@@ -234,9 +240,9 @@ NoNewPrivileges=true
 
 ### **4. Use a reverse proxy (optional)**
 
-- Nginx  
-- Caddy  
-- Traefik  
+- Nginx
+- Caddy
+- Traefik
 
 ### **5. Enable HTTPS**
 
@@ -248,9 +254,9 @@ Terminate TLS at the proxy.
 
 You may add:
 
-- `/health` endpoint  
-- systemd watchdog  
-- periodic curl checks  
+- `/health` endpoint
+- systemd watchdog
+- periodic curl checks
 
 Example systemd watchdog:
 
@@ -274,5 +280,5 @@ sudo systemctl daemon-reload
 
 # Conclusion
 
-This guide provides a complete, production‑ready deployment model for the SSRF Command Console using systemd.  
+This guide provides a complete, production‑ready deployment model for the SSRF Command Console using systemd.
 Following these steps ensures reliable, restart‑on‑failure operation with clean isolation and operator‑grade observability.

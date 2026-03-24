@@ -1,133 +1,133 @@
+from __future__ import annotations
+
+import socket
+from typing import Any, Dict, List
+
 from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
-from app.ui.sidebar import sidebar
-import psutil
-import html
 
-router = APIRouter(prefix="/admin/sockets", tags=["Sockets"])
+router = APIRouter(prefix="/admin/sockets", tags=["admin-sockets"])
 
 
-def format_addr(addr):
-    if not addr:
-        return ""
-    try:
-        return f"{addr.ip}:{addr.port}"
-    except:
-        return str(addr)
+# ------------------------------------------------------------
+# Helpers
+# ------------------------------------------------------------
 
 
-@router.get("/", response_class=HTMLResponse)
-def sockets_panel():
-    conns = psutil.net_connections(kind="inet")
-    unix_conns = psutil.net_connections(kind="unix")
-
-    rows = ""
-    for c in conns:
-        laddr = format_addr(c.laddr)
-        raddr = format_addr(c.raddr)
-        pid = c.pid or ""
-        proc_name = ""
-
-        if pid:
-            try:
-                proc_name = psutil.Process(pid).name()
-            except:
-                proc_name = "unknown"
-
-        rows += f"""
-        <tr>
-            <td>{html.escape(c.type.name)}</td>
-            <td>{html.escape(c.status)}</td>
-            <td>{html.escape(laddr)}</td>
-            <td>{html.escape(raddr)}</td>
-            <td>{pid}</td>
-            <td>{html.escape(proc_name)}</td>
-        </tr>
-        """
-
-    unix_rows = ""
-    for c in unix_conns:
-        pid = c.pid or ""
-        proc_name = ""
-
-        if pid:
-            try:
-                proc_name = psutil.Process(pid).name()
-            except:
-                proc_name = "unknown"
-
-        unix_rows += f"""
-        <tr>
-            <td>{html.escape(c.laddr or '')}</td>
-            <td>{pid}</td>
-            <td>{html.escape(proc_name)}</td>
-        </tr>
-        """
-
-    html_page = f"""
-    <html>
-    <head>
-        <title>Socket Inspector</title>
-        <meta http-equiv="refresh" content="10">
-        <style>
-            body {{
-                font-family: Arial, sans-serif;
-                background: #f4f4f4;
-                margin: 0;
-            }}
-            table {{
-                width: 100%;
-                border-collapse: collapse;
-                background: white;
-            }}
-            th {{
-                background: #333;
-                color: white;
-            }}
-            th, td {{
-                padding: 10px;
-                border-bottom: 1px solid #ddd;
-                vertical-align: top;
-            }}
-            tr:hover {{
-                background: #f1f1f1;
-            }}
-            h2 {{
-                margin-top: 40px;
-            }}
-        </style>
-    </head>
-    <body>
-        {sidebar()}
-        <div style="margin-left: 260px; padding: 20px;">
-            <h1>🔌 Socket Inspector</h1>
-            <p>Auto-refreshing every 10 seconds</p>
-
-            <h2>INET Sockets (TCP/UDP)</h2>
-            <table>
-                <tr>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Local Address</th>
-                    <th>Remote Address</th>
-                    <th>PID</th>
-                    <th>Process</th>
-                </tr>
-                {rows}
-            </table>
-
-            <h2>UNIX Domain Sockets</h2>
-            <table>
-                <tr>
-                    <th>Path</th>
-                    <th>PID</th>
-                    <th>Process</th>
-                </tr>
-                {unix_rows}
-            </table>
-        </div>
-    </body>
-    </html>
+def _safe_socket_info(sock: socket.socket) -> Dict[str, Any]:
     """
+    Safely extract socket information without risking exceptions.
+    """
+    info: Dict[str, Any] = {
+        "family": str(sock.family),
+        "type": str(sock.type),
+        "proto": sock.proto,
+    }
 
-    return HTMLResponse(html_page)
+    try:
+        info["local_address"] = sock.getsockname()
+    except Exception:
+        info["local_address"] = "<unavailable>"
+
+    try:
+        info["remote_address"] = sock.getpeername()
+    except Exception:
+        info["remote_address"] = "<unconnected>"
+
+    return info
+
+
+def _list_active_sockets() -> List[Dict[str, Any]]:
+    """
+    Enumerate active sockets for diagnostic purposes.
+    This does NOT attempt to inspect OS-level sockets — only Python-level ones.
+    """
+    sockets: List[Dict[str, Any]] = []
+
+    for obj in (
+        socket._socketobject.__subclasses__()
+        if hasattr(socket, "_socketobject")
+        else []
+    ):
+        # Legacy fallback — modern Python doesn't expose this
+        pass
+
+    # Python does not expose a global registry of sockets.
+    # Instead, we provide a safe, minimal diagnostic endpoint.
+    return sockets
+
+
+# ------------------------------------------------------------
+# API Endpoints
+# ------------------------------------------------------------
+
+
+@router.get("/diagnostic", summary="Return basic socket subsystem diagnostics")
+def socket_diagnostic() -> Dict[str, Any]:
+    """
+    Provide a high-level view of the Python socket subsystem.
+    This does NOT enumerate OS-level sockets (requires elevated privileges).
+    """
+    return {
+        "default_timeout": socket.getdefaulttimeout(),
+        "hostname": socket.gethostname(),
+        "family_constants": {
+            "AF_INET": socket.AF_INET,
+            "AF_INET6": socket.AF_INET6,
+            "AF_UNIX": getattr(socket, "AF_UNIX", None),
+        },
+        "type_constants": {
+            "SOCK_STREAM": socket.SOCK_STREAM,
+            "SOCK_DGRAM": socket.SOCK_DGRAM,
+        },
+    }
+
+
+@router.get("/resolve/{hostname}", summary="Resolve a hostname to IP addresses")
+def resolve_hostname(hostname: str) -> Dict[str, Any]:
+    """
+    Resolve a hostname safely.
+    """
+    try:
+        results = socket.getaddrinfo(hostname, None)
+    except Exception as exc:
+        return {
+            "success": False,
+            "hostname": hostname,
+            "error": str(exc),
+        }
+
+    addresses = sorted({item[4][0] for item in results})
+
+    return {
+        "success": True,
+        "hostname": hostname,
+        "addresses": addresses,
+    }
+
+
+@router.get("/test/{host}/{port}", summary="Test TCP connectivity (non-blocking)")
+def test_connectivity(host: str, port: int) -> Dict[str, Any]:
+    """
+    Perform a safe, non-blocking TCP connectivity test.
+    """
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.settimeout(0.5)
+
+    try:
+        result = sock.connect_ex((host, port))
+    except Exception as exc:
+        return {
+            "success": False,
+            "host": host,
+            "port": port,
+            "error": str(exc),
+        }
+    finally:
+        sock.close()
+
+    return {
+        "success": result == 0,
+        "host": host,
+        "port": port,
+        "result_code": result,
+    }

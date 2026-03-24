@@ -3,6 +3,7 @@ import importlib
 
 PLUGIN_DIR = os.path.dirname(__file__)
 
+
 def load_plugins():
     plugins = {}
     for file in os.listdir(PLUGIN_DIR):

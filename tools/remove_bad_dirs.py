@@ -9,6 +9,7 @@ BAD_DIRS = [
     # "old_dashboard",
 ]
 
+
 def main():
     print("\n=== Directory Cleanup Tool ===")
     print(f"Project root: {PROJECT_ROOT}\n")
@@ -27,6 +28,7 @@ def main():
             print(f"[SKIP] {path} (not found)")
 
     print("\nCleanup complete.")
+
 
 if __name__ == "__main__":
     main()

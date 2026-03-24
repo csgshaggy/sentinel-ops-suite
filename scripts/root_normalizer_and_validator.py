@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-import os
 from pathlib import Path
 import argparse
-import shutil
 
 # ------------------------------------------------------------
 # Resolve script directory and project root
@@ -19,8 +17,14 @@ EXPECTED_DIRS = {
 }
 
 PROTECTED_DIRS = {
-    "Desktop", "Documents", "Downloads", "Music",
-    "Pictures", "Public", "Videos", "thm"
+    "Desktop",
+    "Documents",
+    "Downloads",
+    "Music",
+    "Pictures",
+    "Public",
+    "Videos",
+    "thm",
 }
 
 KEEP_FILES = {
@@ -39,7 +43,6 @@ KEEP_FILES = {
     "pdf_object_dump.py",
     "pdf_object_extractor.py",
     "targetedKerberoast.py",
-
     # Shell tools
     "subnet_scanner.sh",
     "compare_results.sh",
@@ -65,6 +68,7 @@ BINARIES = {
     "ssrf_reports",
 }
 
+
 # ------------------------------------------------------------
 # Remove empty directories
 # ------------------------------------------------------------
@@ -75,6 +79,7 @@ def remove_empty_dirs():
             if not any(item.iterdir()):
                 print(f"→ Removing empty directory: {item.name}")
                 item.rmdir()
+
 
 # ------------------------------------------------------------
 # Validate project tree
@@ -89,7 +94,11 @@ def validate_tree():
 
     # Check for unexpected directories
     for item in PROJECT_ROOT.iterdir():
-        if item.is_dir() and item.name not in EXPECTED_DIRS and item.name not in PROTECTED_DIRS:
+        if (
+            item.is_dir()
+            and item.name not in EXPECTED_DIRS
+            and item.name not in PROTECTED_DIRS
+        ):
             print(f"⚠ Unexpected directory in root: {item.name}")
 
     # Check for misplaced KEEP files
@@ -104,6 +113,7 @@ def validate_tree():
 
     print("Validation complete.")
 
+
 # ------------------------------------------------------------
 # Main
 # ------------------------------------------------------------
@@ -116,12 +126,17 @@ def run(dry_run=False):
 
     print("\nRoot normalization and validation complete.")
 
+
 # ------------------------------------------------------------
 # CLI
 # ------------------------------------------------------------
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Normalize root and validate project tree")
-    parser.add_argument("--dry-run", action="store_true", help="Show actions without modifying anything")
+    parser = argparse.ArgumentParser(
+        description="Normalize root and validate project tree"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Show actions without modifying anything"
+    )
     args = parser.parse_args()
 
     run(dry_run=args.dry_run)

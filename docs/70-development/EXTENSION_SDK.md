@@ -1,18 +1,20 @@
 # EXTENSION_SDK.md
-SSRF COMMAND CONSOLE — EXTENSION SDK  
+
+SSRF COMMAND CONSOLE — EXTENSION SDK
 Plugin Architecture • Mode Extensions • Protocol Handlers • Dashboard Integrations
 
 ---
 
 ## 1. PURPOSE OF THIS DOCUMENT
+
 This SDK defines how developers can extend the SSRF Command Console with:
 
-- New scanning modes  
-- New protocol handlers  
-- New payload generators  
-- New classification engines  
-- New dashboard panels  
-- New API extensions  
+- New scanning modes
+- New protocol handlers
+- New payload generators
+- New classification engines
+- New dashboard panels
+- New API extensions
 
 This document is the authoritative reference for building safe, stable, modular extensions.
 
@@ -21,54 +23,64 @@ This document is the authoritative reference for building safe, stable, modular 
 ## 2. EXTENSION PRINCIPLES
 
 ### 2.1 Stability
+
 Extensions must remain compatible across MINOR and PATCH releases.
 
 ### 2.2 Isolation
+
 Extensions must not:
-- Modify core modules  
-- Override built‑in modes  
-- Patch global state  
+
+- Modify core modules
+- Override built‑in modes
+- Patch global state
 
 ### 2.3 Determinism
+
 Extensions must:
-- Produce deterministic results  
-- Emit consistent logs  
-- Follow classification rules  
+
+- Produce deterministic results
+- Emit consistent logs
+- Follow classification rules
 
 ### 2.4 Security
+
 Extensions must:
-- Never leak secrets  
-- Never bypass sandboxing  
-- Never perform unauthorized network calls  
+
+- Never leak secrets
+- Never bypass sandboxing
+- Never perform unauthorized network calls
 
 ---
 
 ## 3. EXTENSION TYPES
 
 ### 3.1 Mode Extensions
+
 Add new SSRF scanning modes.
 
 ### 3.2 Protocol Handlers
+
 Add support for new protocols:
 
 gopher:// dict:// file:// ftp:// custom://
 
-
-
 ### 3.3 Payload Generators
+
 Add new payload construction logic.
 
 ### 3.4 Classification Engines
+
 Add new response classification logic.
 
 ### 3.5 Dashboard Extensions
+
 Add new UI panels or visualizations.
 
 ### 3.6 API Extensions
+
 Add new endpoints under:
 
 /api/ext/<extension_id>
-
 
 ---
 
@@ -76,9 +88,7 @@ Add new endpoints under:
 
 Extensions must follow this structure:
 
-
 extensions/ <extension_id>/ init.py manifest.json mode.py (optional) protocol.py (optional) payloads.py (optional) classifier.py (optional) api.py (optional) dashboard/ panel.json (optional) panel.js (optional)
-
 
 ---
 
@@ -173,7 +183,7 @@ Add to manifest under api.
 
 ## 10. EXTENDING THE DASHBOARD
 
-### 10.1 Panel Manifest 
+### 10.1 Panel Manifest
 {
   "id": "custom_panel",
   "name": "Custom Panel",
@@ -237,4 +247,4 @@ python print("extension loaded")
 ### 14.2 Escaped JSON Block
 
 json {"extension": "custom_mode_pack"}
-
+```

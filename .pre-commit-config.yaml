@@ -1,0 +1,48 @@
+repos:
+  # -----------------------------
+  # Core Pre-Commit Hooks
+  # -----------------------------
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: \.md$
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+
+  # -----------------------------
+  # Python Formatters & Linters
+  # -----------------------------
+  - repo: https://github.com/psf/black
+    rev: 24.3.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.4
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+
+  # -----------------------------
+  # Prettier for JS/TS/CSS/MD
+  # -----------------------------
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0
+    hooks:
+      - id: prettier
+        additional_dependencies:
+          - prettier@3.2.5
+          - prettier-plugin-organize-imports
+
+  # -----------------------------
+  # Run Backend + Dashboard Tests
+  # -----------------------------
+  - repo: local
+    hooks:
+      - id: run-tests
+        name: Run backend + dashboard tests
+        entry: bash -c "make -C backend test-unit && make -C dashboard test-unit"
+        language: system
+        pass_filenames: false

@@ -1,18 +1,20 @@
 # API_VERSIONING_POLICY.md
-SSRF COMMAND CONSOLE — API VERSIONING POLICY  
+
+SSRF COMMAND CONSOLE — API VERSIONING POLICY
 Stability Guarantees • Deprecation Rules • Version Evolution • Compatibility Strategy
 
 ---
 
 ## 1. PURPOSE OF THIS DOCUMENT
-This document defines how the SSRF Command Console API evolves over time.  
+
+This document defines how the SSRF Command Console API evolves over time.
 It ensures:
 
-- Predictable API changes  
-- Backward‑compatible evolution  
-- Safe deprecations  
-- Clear upgrade paths  
-- Stable integration for operators, extensions, and automation  
+- Predictable API changes
+- Backward‑compatible evolution
+- Safe deprecations
+- Clear upgrade paths
+- Stable integration for operators, extensions, and automation
 
 This is the authoritative reference for API versioning.
 
@@ -21,21 +23,21 @@ This is the authoritative reference for API versioning.
 ## 2. VERSIONING MODEL
 
 ### 2.1 Semantic Versioning
+
 The API follows SemVer:
 
 MAJOR.MINOR.PATCH
 
-
-- **MAJOR** — breaking changes  
-- **MINOR** — new features, backward‑compatible  
-- **PATCH** — bug fixes, no behavior changes  
+- **MAJOR** — breaking changes
+- **MINOR** — new features, backward‑compatible
+- **PATCH** — bug fixes, no behavior changes
 
 ### 2.2 API Namespace Versioning
+
 All API routes live under a versioned namespace:
 
-/api/v1 
+/api/v1
 /api/v2 ...
-
 
 Each namespace is **immutable** once released.
 
@@ -44,49 +46,59 @@ Each namespace is **immutable** once released.
 ## 3. STABILITY GUARANTEES
 
 ### 3.1 Backward Compatibility
+
 Within a major version:
-- No fields are removed  
-- No response formats change  
-- No error envelopes change  
-- No endpoints are renamed  
-- No required fields become optional or vice‑versa  
+
+- No fields are removed
+- No response formats change
+- No error envelopes change
+- No endpoints are renamed
+- No required fields become optional or vice‑versa
 
 ### 3.2 Additive Changes Only (MINOR/PATCH)
+
 Allowed changes:
-- Adding new optional fields  
-- Adding new endpoints  
-- Adding new classification types (with fallback behavior)  
-- Adding new metadata fields  
+
+- Adding new optional fields
+- Adding new endpoints
+- Adding new classification types (with fallback behavior)
+- Adding new metadata fields
 
 ### 3.3 Forbidden Changes (MINOR/PATCH)
+
 Not allowed:
-- Removing fields  
-- Changing field types  
-- Changing endpoint behavior  
-- Changing error codes  
-- Changing required fields  
+
+- Removing fields
+- Changing field types
+- Changing endpoint behavior
+- Changing error codes
+- Changing required fields
 
 ---
 
 ## 4. DEPRECATION POLICY
 
 ### 4.1 Deprecation Lifecycle
+
 Deprecation follows a strict lifecycle:
 
-1. **Mark as deprecated**  
-   - Documented in CHANGELOG.md  
-   - Warning added to API response metadata  
-   - Warning added to API docs  
+1. **Mark as deprecated**
 
-2. **Grace period**  
-   - Minimum of **one full MAJOR version**  
-   - Deprecated fields remain functional  
+   - Documented in CHANGELOG.md
+   - Warning added to API response metadata
+   - Warning added to API docs
 
-3. **Removal**  
-   - Only in the next MAJOR release  
-   - Documented in RELEASE_PROCESS.md  
+2. **Grace period**
+
+   - Minimum of **one full MAJOR version**
+   - Deprecated fields remain functional
+
+3. **Removal**
+   - Only in the next MAJOR release
+   - Documented in RELEASE_PROCESS.md
 
 ### 4.2 Deprecation Warnings
+
 Deprecated fields include:
 
 ```json
@@ -107,8 +119,8 @@ If no version is specified:
 • 	This behavior is documented and predictable
 ##$ 5.3 Extension Versioning
 Extensions must:
-• 	Declare their supported API versions in 
-• 	Use namespaced routes under 
+• 	Declare their supported API versions in
+• 	Use namespaced routes under
 • 	Avoid breaking changes within their own version
 
 
@@ -193,4 +205,4 @@ api_version: "v1"
 ### 11.2 Escaped JSON Block
 
 json {"deprecated": true, "replacement": "new_field"}
-
+```

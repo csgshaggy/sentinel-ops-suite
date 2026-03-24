@@ -32,10 +32,21 @@ class C:
     RED = "\033[91m"
     END = "\033[0m"
 
-def info(msg): print(f"{C.BLUE}[INFO]{C.END} {msg}")
-def ok(msg): print(f"{C.GREEN}[OK]{C.END} {msg}")
-def warn(msg): print(f"{C.YELLOW}[WARN]{C.END} {msg}")
-def fail(msg): print(f"{C.RED}[FAIL]{C.END} {msg}")
+
+def info(msg):
+    print(f"{C.BLUE}[INFO]{C.END} {msg}")
+
+
+def ok(msg):
+    print(f"{C.GREEN}[OK]{C.END} {msg}")
+
+
+def warn(msg):
+    print(f"{C.YELLOW}[WARN]{C.END} {msg}")
+
+
+def fail(msg):
+    print(f"{C.RED}[FAIL]{C.END} {msg}")
 
 
 # ---------------------------------------------------------
@@ -83,18 +94,22 @@ def compare_dicts(baseline: dict, current: dict):
     common = baseline_keys & current_keys
 
     for key in sorted(added):
-        diffs.append({
-            "type": "added",
-            "key": key,
-            "value": current[key],
-        })
+        diffs.append(
+            {
+                "type": "added",
+                "key": key,
+                "value": current[key],
+            }
+        )
 
     for key in sorted(removed):
-        diffs.append({
-            "type": "removed",
-            "key": key,
-            "value": baseline[key],
-        })
+        diffs.append(
+            {
+                "type": "removed",
+                "key": key,
+                "value": baseline[key],
+            }
+        )
 
     for key in sorted(common):
         b = baseline[key]
@@ -106,12 +121,14 @@ def compare_dicts(baseline: dict, current: dict):
                 n["key"] = f"{key}.{n['key']}"
             diffs.extend(nested)
         elif b != c:
-            diffs.append({
-                "type": "changed",
-                "key": key,
-                "baseline": b,
-                "current": c,
-            })
+            diffs.append(
+                {
+                    "type": "changed",
+                    "key": key,
+                    "baseline": b,
+                    "current": c,
+                }
+            )
 
     return diffs
 
@@ -126,7 +143,9 @@ def detect_drift():
     current = load_json(CURRENT)
 
     if baseline is None or current is None:
-        fail("Cannot perform drift detection without both baseline.json and current.json")
+        fail(
+            "Cannot perform drift detection without both baseline.json and current.json"
+        )
         return []
 
     info("Comparing baseline → current...")
@@ -135,10 +154,15 @@ def detect_drift():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     info(f"Writing drift results → {OUTPUT_JSON}")
-    OUTPUT_JSON.write_text(json.dumps({
-        "timestamp": datetime.utcnow().isoformat() + "Z",
-        "diffs": diffs,
-    }, indent=2))
+    OUTPUT_JSON.write_text(
+        json.dumps(
+            {
+                "timestamp": datetime.utcnow().isoformat() + "Z",
+                "diffs": diffs,
+            },
+            indent=2,
+        )
+    )
 
     if diffs:
         warn(f"Drift detected: {len(diffs)} change(s)")

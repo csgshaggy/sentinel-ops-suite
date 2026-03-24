@@ -10,7 +10,9 @@ router = APIRouter(prefix="/admin/events", tags=["Events"])
 def run_cmd(cmd):
     """Run a shell command safely and return output."""
     try:
-        result = subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.STDOUT)
+        result = subprocess.check_output(
+            cmd, shell=True, text=True, stderr=subprocess.STDOUT
+        )
         return html.escape(result)
     except Exception as e:
         return f"Error: {html.escape(str(e))}"

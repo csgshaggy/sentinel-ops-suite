@@ -8,6 +8,7 @@ router = APIRouter(prefix="/admin/logs", tags=["Logs"])
 
 LOG_FILE = "app.log"
 
+
 @router.get("/", response_class=HTMLResponse)
 def view_logs():
     if not os.path.exists(LOG_FILE):

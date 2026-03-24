@@ -1,133 +1,260 @@
-#!/usr/bin/env python3
-"""
-Super Doctor — Hardened CI‑Safe Version with Full Reporting
-"""
+from __future__ import annotations
 
+import importlib
 import json
-import os
-import sys
-from pathlib import Path
-from datetime import datetime
+import pkgutil
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from typing import Any, Callable, Dict, List, Optional
 
-# ---------------------------------------------------------
-# PATH RESOLUTION (CI‑SAFE, REPO‑RELATIVE)
-# ---------------------------------------------------------
 
-SCRIPT_DIR = Path(__file__).resolve().parent
-REPO_ROOT = SCRIPT_DIR.parent
-RUNTIME_DIR = REPO_ROOT / "runtime"
-REPORTS_DIR = REPO_ROOT / "reports"
-JSON_REPORT = REPORTS_DIR / "superdoctor_report.json"
+PLUGIN_PACKAGE = "tools.plugins"
 
-# ---------------------------------------------------------
-# COLOR OUTPUT
-# ---------------------------------------------------------
 
-GREEN = "\033[0;32m"
-YELLOW = "\033[1;33m"
-RED = "\033[0;31m"
-NC = "\033[0m"
+# ------------------------------------------------------------
+# Plugin Discovery
+# ------------------------------------------------------------
 
-def info(msg):
-    print(f"{YELLOW}[INFO]{NC} {msg}")
 
-def success(msg):
-    print(f"{GREEN}[OK]{NC} {msg}")
-
-def error(msg):
-    print(f"{RED}[ERROR]{NC} {msg}")
-
-# ---------------------------------------------------------
-# PRE-FLIGHT CHECKS
-# ---------------------------------------------------------
-
-def ensure_dirs():
+def _iter_plugin_modules() -> List[str]:
     """
-    Create required directories with parents=True so CI never fails.
+    Discover plugin modules under tools.plugins.
+    Skips packages and private modules.
     """
-    for d in [RUNTIME_DIR, REPORTS_DIR]:
-        d.mkdir(parents=True, exist_ok=True)
-        success(f"Ensured directory exists: {d}")
+    package = importlib.import_module(PLUGIN_PACKAGE)
+    path = package.__path__  # type: ignore[attr-defined]
 
-def check_writable_paths():
+    modules: List[str] = []
+    for _finder, name, ispkg in pkgutil.iter_modules(path):
+        if ispkg:
+            continue
+        if name.startswith("_"):
+            continue
+        modules.append(name)
+    return modules
+
+
+def _load_plugin_metadata(module_name: str) -> Optional[Dict[str, Any]]:
     """
-    Validate that CI/local environment can write to required paths.
+    Load plugin metadata from a module.
+
+    Convention:
+      - Optional PLUGIN_INFO dict:
+          {
+            "name": "git_status",
+            "category": "scm",
+            "entrypoint": "get_git_status",
+          }
+
+      - If PLUGIN_INFO is missing, we infer:
+          name = module_name
+          category = "general"
+          entrypoint = first callable starting with "get_"
     """
-    for path in [RUNTIME_DIR, REPORTS_DIR]:
-        if not os.access(path, os.W_OK):
-            error(f"Path is NOT writable: {path}")
-            sys.exit(1)
-        success(f"Writable: {path}")
+    module = importlib.import_module(f"{PLUGIN_PACKAGE}.{module_name}")
 
-# ---------------------------------------------------------
-# CORE CHECKS
-# ---------------------------------------------------------
-
-def check_missing_inits():
-    info("Checking for missing __init__.py files...")
-    missing = []
-
-    for p in REPO_ROOT.rglob("*"):
-        if p.is_dir():
-            init_file = p / "__init__.py"
-            if not init_file.exists():
-                missing.append(str(init_file))
-
-    if missing:
-        error("Missing __init__.py files detected:")
-        for m in missing:
-            print(f"  - {m}")
-        return {"missing_inits": missing}
-    else:
-        success("No missing __init__.py files.")
-        return {"missing_inits": []}
-
-def check_circular_imports():
-    info("Checking for circular imports...")
-    # Placeholder — your real logic goes here
-    success("No circular imports detected.")
-    return {"circular_imports": []}
-
-# ---------------------------------------------------------
-# REPORT GENERATION
-# ---------------------------------------------------------
-
-def write_json_report():
-    ensure_dirs()
-    check_writable_paths()
-
-    report = {
-        "timestamp": datetime.utcnow().isoformat(),
-        "checks": {}
+    info: Dict[str, Any] = {
+        "name": module_name,
+        "category": "general",
+        "entrypoint": None,
     }
 
-    report["checks"].update(check_missing_inits())
-    report["checks"].update(check_circular_imports())
+    plugin_info = getattr(module, "PLUGIN_INFO", None)
+    if isinstance(plugin_info, dict):
+        info.update(plugin_info)
 
-    with open(JSON_REPORT, "w") as f:
-        json.dump(report, f, indent=4)
+    if not info.get("entrypoint"):
+        for attr_name in dir(module):
+            if attr_name.startswith("get_"):
+                candidate = getattr(module, attr_name)
+                if callable(candidate):
+                    info["entrypoint"] = attr_name
+                    break
 
-    success(f"Report written to: {JSON_REPORT}")
+    if not info.get("entrypoint"):
+        return None
 
-# ---------------------------------------------------------
-# MAIN ENTRYPOINT
-# ---------------------------------------------------------
+    return info
 
-def main():
-    print("=== Super Doctor ===")
 
-    # Optional: dry-run mode
-    if "--dry-run" in sys.argv:
-        info("Running in dry-run mode (no writes).")
-        check_missing_inits()
-        check_circular_imports()
-        return
+def _load_plugin_callable(meta: Dict[str, Any]) -> Callable[[], Dict[str, Any]]:
+    """
+    Resolve the plugin callable from metadata.
+    """
+    module_name = meta["module"]
+    entrypoint = meta["entrypoint"]
+    module = importlib.import_module(f"{PLUGIN_PACKAGE}.{module_name}")
+    func = getattr(module, entrypoint)
+    if not callable(func):
+        raise TypeError(f"Entrypoint {entrypoint} in {module_name} is not callable")
+    return func
 
-    write_json_report()
+
+def _discover_plugins(config: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """
+    Discover plugins and apply config-based filtering.
+
+    Config:
+      - plugins: optional list of plugin names to run
+    """
+    enabled = config.get("plugins")
+    modules = _iter_plugin_modules()
+
+    plugins: List[Dict[str, Any]] = []
+    for module_name in modules:
+        meta = _load_plugin_metadata(module_name)
+        if not meta:
+            continue
+
+        meta["module"] = module_name
+        name = meta.get("name", module_name)
+
+        if enabled is not None and name not in enabled:
+            continue
+
+        plugins.append(meta)
+
+    return plugins
+
+
+# ------------------------------------------------------------
+# Plugin Execution
+# ------------------------------------------------------------
+
+
+def _run_plugin(
+    meta: Dict[str, Any],
+    func: Callable[[], Dict[str, Any]],
+) -> Dict[str, Any]:
+    """
+    Execute a plugin safely with timing and structured output.
+    """
+    name = meta.get("name", meta["module"])
+    category = meta.get("category", "general")
+
+    started = time.time()
+    try:
+        result = func()
+        success = bool(result.get("success", True))
+        status = "pass" if success else "fail"
+        error: Optional[str] = None
+    except Exception as exc:
+        result = {"success": False, "error": str(exc)}
+        success = False
+        status = "fail"
+        error = str(exc)
+    finished = time.time()
+
+    return {
+        "plugin": name,
+        "category": category,
+        "status": status,
+        "success": success,
+        "error": error,
+        "duration_seconds": round(finished - started, 4),
+        "result": result,
+    }
+
+
+# ------------------------------------------------------------
+# Health Scoring
+# ------------------------------------------------------------
+
+
+def _compute_health_score(checks: List[Dict[str, Any]], config: Dict[str, Any]) -> int:
+    """
+    Compute a 0-100 health score based on plugin results and optional weights.
+
+    Config example:
+      {
+        "weights": {
+          "scm": 2.0,
+          "kernel": 1.5,
+          "os": 1.0,
+          "python": 1.0,
+          "general": 1.0
+        }
+      }
+    """
+    weights_cfg: Dict[str, float] = config.get("weights", {})
+    total_weight = 0.0
+    passed_weight = 0.0
+
+    for check in checks:
+        category = check.get("category", "general")
+        weight = float(weights_cfg.get(category, 1.0))
+        total_weight += weight
+        if check.get("success"):
+            passed_weight += weight
+
+    if total_weight == 0:
+        return 100
+
+    score = int(round((passed_weight / total_weight) * 100))
+    return max(0, min(100, score))
+
+
+# ------------------------------------------------------------
+# Doctor Orchestration
+# ------------------------------------------------------------
+
+
+def run_super_doctor(config: Dict[str, Any] | None = None) -> Dict[str, Any]:
+    """
+    Execute all discovered plugins (optionally filtered) in parallel
+    and return structured results with health scoring.
+    """
+    config = config or {}
+    max_workers = int(config.get("max_workers", 4))
+
+    plugins_meta = _discover_plugins(config)
+    checks: List[Dict[str, Any]] = []
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        futures = {
+            executor.submit(
+                _run_plugin,
+                meta,
+                _load_plugin_callable(meta),
+            ): meta
+            for meta in plugins_meta
+        }
+
+        for future in as_completed(futures):
+            meta = futures[future]
+            name = meta.get("name", meta["module"])
+            try:
+                checks.append(future.result())
+            except Exception as exc:
+                checks.append(
+                    {
+                        "plugin": name,
+                        "category": "general",
+                        "status": "fail",
+                        "success": False,
+                        "error": str(exc),
+                        "duration_seconds": 0.0,
+                        "result": {"success": False, "error": str(exc)},
+                    }
+                )
+
+    passed = sum(1 for c in checks if c.get("success"))
+    failed = sum(1 for c in checks if not c.get("success"))
+    health_score = _compute_health_score(checks, config)
+
+    return {
+        "success": failed == 0,
+        "summary": {
+            "total": len(checks),
+            "passed": passed,
+            "failed": failed,
+            "overall_status": "healthy" if failed == 0 else "issues_detected",
+            "health_score": health_score,
+        },
+        "checks": checks,
+        "config_used": config,
+    }
+
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception as e:
-        error(str(e))
-        sys.exit(1)
+    print(json.dumps(run_super_doctor(), indent=2))

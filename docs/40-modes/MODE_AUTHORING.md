@@ -1,7 +1,8 @@
 # MODE Authoring Guide
 
 ## Overview
-This guide explains how to build new MODEs for the SSRF Command Console.  
+
+This guide explains how to build new MODEs for the SSRF Command Console.
 MODEs are modular, deterministic, isolated execution units that follow a strict lifecycle and produce structured, reproducible artifacts.
 
 ---
@@ -39,15 +40,16 @@ version: 1.0.0
 entrypoint: main:run
 summary: Basic SSRF scanning routine
 requires:
-  - network
-  - http
-config:
+
+- network
+- http
+  config:
   timeout: 5
   retries: 2
-outputs:
-  - raw_responses
-  - anomalies
-\`\`\`
+  outputs:
+- raw_responses
+- anomalies
+  \`\`\`
 
 ---
 
@@ -61,11 +63,11 @@ Load → Preflight → Execute → Postprocess → Emit
 
 ### Lifecycle Responsibilities
 
-- **Load** — Parse manifest, load config, import code  
-- **Preflight** — Validate inputs, overrides, environment  
-- **Execute** — Perform core logic  
-- **Postprocess** — Normalize output, detect anomalies  
-- **Emit** — Write artifacts, logs, structured output  
+- **Load** — Parse manifest, load config, import code
+- **Preflight** — Validate inputs, overrides, environment
+- **Execute** — Perform core logic
+- **Postprocess** — Normalize output, detect anomalies
+- **Emit** — Write artifacts, logs, structured output
 
 This ensures reproducibility and forensic clarity.
 
@@ -83,7 +85,7 @@ schemas/input.py
 
 \`\`\`
 class Input(BaseModel):
-    targets: List[str]
+targets: List[str]
 \`\`\`
 
 ---
@@ -100,8 +102,8 @@ schemas/output.py
 
 \`\`\`
 class Output(BaseModel):
-    raw_responses: Dict[str, str]
-    anomalies: List[str]
+raw_responses: Dict[str, str]
+anomalies: List[str]
 \`\`\`
 
 ---
@@ -121,14 +123,14 @@ Each handler exposes:
 
 \`\`\`
 def run(context):
-    ...
+...
 \`\`\`
 
 ### Handler Responsibilities
 
-- **preflight.py** — Validate inputs, environment, config  
-- **executor.py** — Perform core logic  
-- **postprocess.py** — Normalize output, detect anomalies  
+- **preflight.py** — Validate inputs, environment, config
+- **executor.py** — Perform core logic
+- **postprocess.py** — Normalize output, detect anomalies
 
 ---
 
@@ -158,10 +160,10 @@ context.artifacts.write("raw/response_1.txt", data)
 
 ### Artifact Rules
 
-- Write-once  
-- Immutable  
-- Stored under the run directory  
-- Organized by category (raw, processed, etc.)  
+- Write-once
+- Immutable
+- Stored under the run directory
+- Organized by category (raw, processed, etc.)
 
 ---
 
@@ -169,9 +171,9 @@ context.artifacts.write("raw/response_1.txt", data)
 
 MODEs must include:
 
-- Unit tests  
-- Integration tests  
-- Schema validation tests  
+- Unit tests
+- Integration tests
+- Schema validation tests
 
 Run tests with:
 
@@ -191,24 +193,24 @@ console modes validate <mode_name>
 
 Validation checks:
 
-- Manifest correctness  
-- Schema correctness  
-- Handler presence  
-- Entrypoint validity  
+- Manifest correctness
+- Schema correctness
+- Handler presence
+- Entrypoint validity
 
 ---
 
 # 11. Best Practices
 
-- Keep logic deterministic  
-- Avoid external dependencies  
-- Avoid environment variables  
-- Avoid global state  
-- Keep handlers small and focused  
-- Use schemas for all structured data  
-- Write artifacts early and consistently  
-- Never read or write outside the run directory  
-- Never import from other MODEs  
+- Keep logic deterministic
+- Avoid external dependencies
+- Avoid environment variables
+- Avoid global state
+- Keep handlers small and focused
+- Use schemas for all structured data
+- Write artifacts early and consistently
+- Never read or write outside the run directory
+- Never import from other MODEs
 
 ---
 
@@ -220,12 +222,12 @@ ssrf_basic_scan/
 ├── main.py
 ├── config.py
 ├── handlers/
-│   ├── preflight.py
-│   ├── executor.py
-│   └── postprocess.py
+│ ├── preflight.py
+│ ├── executor.py
+│ └── postprocess.py
 ├── schemas/
-│   ├── input.py
-│   └── output.py
+│ ├── input.py
+│ └── output.py
 └── tests/
 \`\`\`
 
@@ -235,8 +237,8 @@ ssrf_basic_scan/
 
 \`\`\`
 def run(context):
-    targets = context.input.targets
-    results = {}
+targets = context.input.targets
+results = {}
 
     for t in targets:
         response = context.http.get(t)
@@ -247,11 +249,12 @@ def run(context):
         "raw_responses": results,
         "anomalies": []
     }
+
 \`\`\`
 
 ---
 
 # Conclusion
 
-MODEs are the core execution units of the SSRF Command Console.  
+MODEs are the core execution units of the SSRF Command Console.
 By following this guide, you ensure your MODEs remain deterministic, isolated, testable, and fully compatible with the console’s lifecycle and dashboard.

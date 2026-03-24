@@ -1,403 +1,1674 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Super Doctor Report</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-                   Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      margin: 40px auto;
-      max-width: 1000px;
-      line-height: 1.6;
-      color: #333;
-    }
-    h1 { margin-bottom: 0.2em; }
-    h2 { margin-top: 1.8em; }
-    .summary p { margin: 4px 0; }
-    .badge {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-size: 0.85em;
-      color: #fff;
-    }
-    .FAIL { background: #d32f2f; }
-    .WARN { background: #f9a825; }
-    .INFO { background: #388e3c; }
-    .score-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: #0366d6;
-      color: #fff;
-      font-weight: 600;
-      margin-left: 10px;
-      font-size: 0.9em;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 20px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-      font-size: 0.9em;
-    }
-    th { background: #f0f0f0; }
-    .card {
-      background: #f6f8fa;
-      padding: 16px;
-      border-radius: 8px;
-      border: 1px solid #e1e4e8;
-      margin-top: 20px;
-    }
-    ul { padding-left: 20px; }
-    canvas {
-      border: 1px solid #e1e4e8;
-      margin-top: 10px;
-    }
-  </style>
-</head>
-<body>
-  <h1>Super Doctor Report <span class='score-badge'>N/A</span></h1>
-  <p>Generated: 2026-03-20T13:43:01.728133+00:00</p>
+  <head>
+    <meta charset="utf-8" />
+    <title>Super Doctor Report</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        margin: 40px auto;
+        max-width: 1000px;
+        line-height: 1.6;
+        color: #333;
+      }
+      h1 {
+        margin-bottom: 0.2em;
+      }
+      h2 {
+        margin-top: 1.8em;
+      }
+      .summary p {
+        margin: 4px 0;
+      }
+      .badge {
+        display: inline-block;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        color: #fff;
+      }
+      .FAIL {
+        background: #d32f2f;
+      }
+      .WARN {
+        background: #f9a825;
+      }
+      .INFO {
+        background: #388e3c;
+      }
+      .score-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #0366d6;
+        color: #fff;
+        font-weight: 600;
+        margin-left: 10px;
+        font-size: 0.9em;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ccc;
+        padding: 6px 10px;
+        font-size: 0.9em;
+      }
+      th {
+        background: #f0f0f0;
+      }
+      .card {
+        background: #f6f8fa;
+        padding: 16px;
+        border-radius: 8px;
+        border: 1px solid #e1e4e8;
+        margin-top: 20px;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      canvas {
+        border: 1px solid #e1e4e8;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Super Doctor Report <span class="score-badge">N/A</span></h1>
+    <p>Generated: 2026-03-20T13:43:01.728133+00:00</p>
 
-  <div class="card summary">
-    <h2>Summary</h2>
-    <p><span class="badge FAIL">FAIL: 17</span></p>
-    <p><span class="badge WARN">WARN: 184</span></p>
-    <p><span class="badge INFO">INFO: 4</span></p>
-  </div>
+    <div class="card summary">
+      <h2>Summary</h2>
+      <p><span class="badge FAIL">FAIL: 17</span></p>
+      <p><span class="badge WARN">WARN: 184</span></p>
+      <p><span class="badge INFO">INFO: 4</span></p>
+    </div>
 
-  <div class="card">
-    <h2>Diff Summary</h2>
-    <h3>New Issues</h3>
-    <ul>
-      <li>None</li>
-    </ul>
-    <h3>Resolved Issues</h3>
-    <ul>
-      <li>None</li>
-    </ul>
-  </div>
+    <div class="card">
+      <h2>Diff Summary</h2>
+      <h3>New Issues</h3>
+      <ul>
+        <li>None</li>
+      </ul>
+      <h3>Resolved Issues</h3>
+      <ul>
+        <li>None</li>
+      </ul>
+    </div>
 
-  <h2>Trend (History)</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Run Timestamp</th>
-        <th>FAIL</th>
-        <th>WARN</th>
-        <th>INFO</th>
-        <th>Score</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>20260320T123815Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
-<tr><td>20260320T123936Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
-<tr><td>20260320T124023Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
-<tr><td>20260320T124444Z</td><td class='FAIL'>17</td><td class='WARN'>184</td><td class='INFO'>4</td><td>-</td></tr>
-<tr><td>20260320T132741Z</td><td class='FAIL'>0</td><td class='WARN'>17</td><td class='INFO'>3</td><td>-</td></tr>
-<tr><td>20260320T132802Z</td><td class='FAIL'>0</td><td class='WARN'>17</td><td class='INFO'>3</td><td>-</td></tr>
-<tr><td>20260320T134249Z</td><td class='FAIL'>0</td><td class='WARN'>488</td><td class='INFO'>7</td><td>0</td></tr>
-    </tbody>
-  </table>
+    <h2>Trend (History)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Run Timestamp</th>
+          <th>FAIL</th>
+          <th>WARN</th>
+          <th>INFO</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>20260320T123815Z</td>
+          <td class="FAIL">17</td>
+          <td class="WARN">184</td>
+          <td class="INFO">4</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T123936Z</td>
+          <td class="FAIL">17</td>
+          <td class="WARN">184</td>
+          <td class="INFO">4</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T124023Z</td>
+          <td class="FAIL">17</td>
+          <td class="WARN">184</td>
+          <td class="INFO">4</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T124444Z</td>
+          <td class="FAIL">17</td>
+          <td class="WARN">184</td>
+          <td class="INFO">4</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T132741Z</td>
+          <td class="FAIL">0</td>
+          <td class="WARN">17</td>
+          <td class="INFO">3</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T132802Z</td>
+          <td class="FAIL">0</td>
+          <td class="WARN">17</td>
+          <td class="INFO">3</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>20260320T134249Z</td>
+          <td class="FAIL">0</td>
+          <td class="WARN">488</td>
+          <td class="INFO">7</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <h2>Trend Chart</h2>
-  <canvas id="trendChart" width="900" height="320"></canvas>
+    <h2>Trend Chart</h2>
+    <canvas id="trendChart" width="900" height="320"></canvas>
 
-  <h2>Detailed Entries</h2>
-  <table>
-    <thead>
-      <tr><th>Severity</th><th>Message</th></tr>
-    </thead>
-    <tbody>
-      <tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/app/core</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/app/services</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/concurrent</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/fastapi</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/fastapi/middleware</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/importlib</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/passlib</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/slowapi</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/exporters</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils</td></tr>
-<tr><td><span class='badge FAIL'>FAIL</span></td><td>Missing __init__.py in: /home/kali/ssrf-command-console/src/ssrf_console/urllib</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.actions: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.analyzer: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.app: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.backend_service: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.colors: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.config: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.console: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.dashboard: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.dashboard_web: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.dispatcher: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.favorites: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.history: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.importlib: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.main: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.manager: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.metadata_tools: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.mode_template: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.ops: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.processes: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.repair_imports: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.scanner_core: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.tui: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.ui: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.utils: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Failed to parse ssrf_console.ws_dashboard_unused: No module named 'ssrf_console'</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/actions.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/analyzer.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/__init__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/auth_rbac.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/config.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/config.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/crash_reporter.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/dependencies.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/health_bootstrap.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/ip_allowlist.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/plugin_loader.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/rate_limit.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/security.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_app.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_config.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_diagnostics.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_engine.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_favorites.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_help.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_history.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_jobs.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_launcher.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_layouts.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_mode_options.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_notifications.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_palette.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_targets.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_theme.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_widgets.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/health.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/logs_api.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/main.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/models.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/routers.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/routers/__init__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/routers/auth.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/routers/dashboard.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/routers/health.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/routers/logs_api.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/routers/ops.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/security.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/services/audit.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/services/dispatcher_service.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/app/services/websocket_manager.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/backend_service.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/colors.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/concurrent/futures.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/config.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/console/__init__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/console/colors.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/console/favorites.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/console/history.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/console/menu.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/console/tui_health.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/console/ui.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/dashboard.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/dashboard_web.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/dispatcher.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/fastapi/middleware/cors.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/fastapi/responses.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/fastapi/staticfiles.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/fastapi/templating.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/favorites.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/history.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/importlib.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/importlib/util.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/main.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/manager.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/metadata_tools.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/mode_template.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/__init__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/diagnostic_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/dns_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/file_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/gopher_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/header_probe_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/metadata_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/metdata_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/mode_d.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/raw_socket_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/redirect.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/redirect_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/smugglilne_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/smuggling.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/smuggling_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/test_mode.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ops.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/passlib/context.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/banner_grabber.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/dns_extra.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/hash_tools.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/http_extra.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/math_tools.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/metadata_tools.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/port_scanner.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/ssl_tools.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/text_tools.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/utility_tools.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/processes.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/repair_imports.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/scanner_core.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/slowapi/errors.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/slowapi/middleware.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/backend_service.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/__init__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/__main__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/actions.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/backend_service.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/config.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/processess.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui_curses.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/utils.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers/patterns.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers/redirects.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers/size_cluster.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers/timing.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/dashboard_formatter.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/exporters/json_exporter.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/parallel_scan.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/paths.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ports.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/scanner_core.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/__init__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/__init__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/banner_grabber.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/diff_engine.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/fingerprinter.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/header_mutator.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/metadata_prober.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/patterns.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/redirects.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/size_cluster.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/timing.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/cli.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/dashboard_formatter.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters/json_exporter.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/parallel_scan.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/paths.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/ports.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/scanner_core.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/ssrf_scanner.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/__init__.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/helpers.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/http_helpers.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/logger.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/progress.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/result_models.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/subnet.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils/http_helpers.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils/logger.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils/result_models.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils/subnet.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/tui.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ui.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/urllib/parse.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/utils.py</td></tr>
-<tr><td><span class='badge WARN'>WARN</span></td><td>Orphaned Python file: /home/kali/ssrf-command-console/src/ssrf_console/ws_dashboard_unused.py</td></tr>
-<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for circular imports...</td></tr>
-<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for missing __init__.py files...</td></tr>
-<tr><td><span class='badge INFO'>INFO</span></td><td>Checking for orphaned and dead Python files...</td></tr>
-<tr><td><span class='badge INFO'>INFO</span></td><td>No circular imports detected.</td></tr>
-    </tbody>
-  </table>
+    <h2>Detailed Entries</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Severity</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/services
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/concurrent
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/fastapi
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/fastapi/middleware
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/importlib
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/passlib
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/slowapi
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/exporters
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge FAIL">FAIL</span></td>
+          <td>
+            Missing __init__.py in:
+            /home/kali/ssrf-command-console/src/ssrf_console/urllib
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.actions: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.analyzer: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.app: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.backend_service: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.colors: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.config: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.console: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.dashboard: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.dashboard_web: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.dispatcher: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.favorites: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.history: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.importlib: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.main: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.manager: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.metadata_tools: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.mode_template: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.ops: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.processes: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.repair_imports: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.scanner_core: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.tui: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.ui: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.utils: No module named 'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Failed to parse ssrf_console.ws_dashboard_unused: No module named
+            'ssrf_console'
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/actions.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/analyzer.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/__init__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/auth_rbac.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/config.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/config.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/crash_reporter.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/dependencies.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/health_bootstrap.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/ip_allowlist.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/plugin_loader.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/rate_limit.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/security.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_app.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_config.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_diagnostics.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_engine.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_favorites.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_help.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_history.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_jobs.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_launcher.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_layouts.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_mode_options.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_notifications.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_palette.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_targets.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_theme.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/core/tui_widgets.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/health.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/logs_api.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/main.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/models.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/routers.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/routers/__init__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/routers/auth.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/routers/dashboard.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/routers/health.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/routers/logs_api.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/routers/ops.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/security.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/services/audit.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/services/dispatcher_service.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/app/services/websocket_manager.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/backend_service.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/colors.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/concurrent/futures.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/config.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/console/__init__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/console/colors.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/console/favorites.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/console/history.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/console/menu.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/console/tui_health.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/console/ui.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/dashboard.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/dashboard_web.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/dispatcher.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/fastapi/middleware/cors.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/fastapi/responses.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/fastapi/staticfiles.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/fastapi/templating.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/favorites.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/history.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/importlib.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/importlib/util.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/main.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/manager.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/metadata_tools.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/mode_template.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/__init__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/diagnostic_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/dns_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/file_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/gopher_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/header_probe_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/metadata_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/metdata_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/mode_d.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/raw_socket_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/redirect.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/redirect_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/smugglilne_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/smuggling.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/smuggling_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/modes/modes/test_mode.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ops.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/passlib/context.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/banner_grabber.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/dns_extra.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/hash_tools.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/http_extra.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/math_tools.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/metadata_tools.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/port_scanner.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/ssl_tools.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/text_tools.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/plugins/plugins/utility_tools.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/processes.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/repair_imports.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/scanner_core.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/slowapi/errors.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/slowapi/middleware.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/backend_service.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/__init__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/__main__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/actions.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/backend_service.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/config.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/manager.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/processess.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/tui_curses.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_manager/ssrf_manager/ssrf_manager/utils.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers/patterns.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers/redirects.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers/size_cluster.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/analyzers/timing.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/dashboard_formatter.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/exporters/json_exporter.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/parallel_scan.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/paths.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ports.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/scanner_core.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/__init__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/__init__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/banner_grabber.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/diff_engine.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/fingerprinter.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/header_mutator.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/metadata_prober.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/patterns.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/redirects.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/size_cluster.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/analyzers/timing.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/cli.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/dashboard_formatter.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/exporters/json_exporter.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/parallel_scan.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/paths.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/ports.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/scanner_core.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/ssrf_scanner.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/__init__.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/helpers.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/http_helpers.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/logger.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/progress.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/result_models.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/ssrf_scanner/utils/subnet.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils/http_helpers.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils/logger.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils/result_models.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ssrf_scanner/utils/subnet.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/tui.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ui.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/urllib/parse.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/utils.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge WARN">WARN</span></td>
+          <td>
+            Orphaned Python file:
+            /home/kali/ssrf-command-console/src/ssrf_console/ws_dashboard_unused.py
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge INFO">INFO</span></td>
+          <td>Checking for circular imports...</td>
+        </tr>
+        <tr>
+          <td><span class="badge INFO">INFO</span></td>
+          <td>Checking for missing __init__.py files...</td>
+        </tr>
+        <tr>
+          <td><span class="badge INFO">INFO</span></td>
+          <td>Checking for orphaned and dead Python files...</td>
+        </tr>
+        <tr>
+          <td><span class="badge INFO">INFO</span></td>
+          <td>No circular imports detected.</td>
+        </tr>
+      </tbody>
+    </table>
 
-  <script>
-    const labels = ["20260320T123815Z", "20260320T123936Z", "20260320T124023Z", "20260320T124444Z", "20260320T132741Z", "20260320T132802Z", "20260320T134249Z"];
-    const failData = [17, 17, 17, 17, 0, 0, 0];
-    const warnData = [184, 184, 184, 184, 17, 17, 488];
-    const infoData = [4, 4, 4, 4, 3, 3, 7];
-    const scoreData = [0, 0, 0, 0, 0, 0, 0];
-
-    const canvas = document.getElementById('trendChart');
-    const ctx = canvas.getContext('2d');
-
-    function normalize(value, maxValue, height, offset) {
-      if (maxValue === 0) return height - offset;
-      return height - offset - (value / maxValue) * (height - 2 * offset);
-    }
-
-    function drawLine(data, color, maxValue, height, offset) {
-      ctx.beginPath();
-      ctx.strokeStyle = color;
-      ctx.lineWidth = 2;
-
-      data.forEach((value, index) => {
-        const x = 50 + index * 50;
-        const y = normalize(value, maxValue, height, offset);
-        if (index === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-
-      ctx.stroke();
-    }
-
-    function drawChart() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const height = canvas.height;
-      const offset = 20;
-
-      const maxCount = Math.max(
-        ...failData,
-        ...warnData,
-        ...infoData,
-        1
-      );
-      const maxScore = Math.max(...scoreData, 100);
-
-      // Axes
-      ctx.strokeStyle = '#ccc';
-      ctx.beginPath();
-      ctx.moveTo(40, 10);
-      ctx.lineTo(40, height - 30);
-      ctx.lineTo(canvas.width - 10, height - 30);
-      ctx.stroke();
-
-      // Lines
-      drawLine(failData, '#d32f2f', maxCount, height, offset);
-      drawLine(warnData, '#f9a825', maxCount, height, offset);
-      drawLine(infoData, '#388e3c', maxCount, height, offset);
-      drawLine(scoreData, '#0366d6', maxScore, height, offset);
-
-      // Legend
-      const legend = [
-        ['FAIL', '#d32f2f'],
-        ['WARN', '#f9a825'],
-        ['INFO', '#388e3c'],
-        ['Score', '#0366d6'],
+    <script>
+      const labels = [
+        "20260320T123815Z",
+        "20260320T123936Z",
+        "20260320T124023Z",
+        "20260320T124444Z",
+        "20260320T132741Z",
+        "20260320T132802Z",
+        "20260320T134249Z",
       ];
-      let lx = 60;
-      const ly = 15;
-      legend.forEach(([label, color]) => {
-        ctx.fillStyle = color;
-        ctx.fillRect(lx, ly, 10, 10);
-        ctx.fillStyle = '#000';
-        ctx.fillText(label, lx + 15, ly + 10);
-        lx += 80;
-      });
-    }
+      const failData = [17, 17, 17, 17, 0, 0, 0];
+      const warnData = [184, 184, 184, 184, 17, 17, 488];
+      const infoData = [4, 4, 4, 4, 3, 3, 7];
+      const scoreData = [0, 0, 0, 0, 0, 0, 0];
 
-    drawChart();
-  </script>
-</body>
+      const canvas = document.getElementById("trendChart");
+      const ctx = canvas.getContext("2d");
+
+      function normalize(value, maxValue, height, offset) {
+        if (maxValue === 0) return height - offset;
+        return height - offset - (value / maxValue) * (height - 2 * offset);
+      }
+
+      function drawLine(data, color, maxValue, height, offset) {
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+
+        data.forEach((value, index) => {
+          const x = 50 + index * 50;
+          const y = normalize(value, maxValue, height, offset);
+          if (index === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+
+        ctx.stroke();
+      }
+
+      function drawChart() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const height = canvas.height;
+        const offset = 20;
+
+        const maxCount = Math.max(...failData, ...warnData, ...infoData, 1);
+        const maxScore = Math.max(...scoreData, 100);
+
+        // Axes
+        ctx.strokeStyle = "#ccc";
+        ctx.beginPath();
+        ctx.moveTo(40, 10);
+        ctx.lineTo(40, height - 30);
+        ctx.lineTo(canvas.width - 10, height - 30);
+        ctx.stroke();
+
+        // Lines
+        drawLine(failData, "#d32f2f", maxCount, height, offset);
+        drawLine(warnData, "#f9a825", maxCount, height, offset);
+        drawLine(infoData, "#388e3c", maxCount, height, offset);
+        drawLine(scoreData, "#0366d6", maxScore, height, offset);
+
+        // Legend
+        const legend = [
+          ["FAIL", "#d32f2f"],
+          ["WARN", "#f9a825"],
+          ["INFO", "#388e3c"],
+          ["Score", "#0366d6"],
+        ];
+        let lx = 60;
+        const ly = 15;
+        legend.forEach(([label, color]) => {
+          ctx.fillStyle = color;
+          ctx.fillRect(lx, ly, 10, 10);
+          ctx.fillStyle = "#000";
+          ctx.fillText(label, lx + 15, ly + 10);
+          lx += 80;
+        });
+      }
+
+      drawChart();
+    </script>
+  </body>
 </html>

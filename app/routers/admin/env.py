@@ -23,7 +23,9 @@ def read_file(path):
 @router.get("/", response_class=HTMLResponse)
 def env_panel():
     # Environment variables
-    env_vars = "<br>".join(f"{html.escape(k)}={html.escape(v)}" for k, v in os.environ.items())
+    env_vars = "<br>".join(
+        f"{html.escape(k)}={html.escape(v)}" for k, v in os.environ.items()
+    )
 
     # .env file
     dotenv = read_file(".env")

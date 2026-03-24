@@ -1,10 +1,5 @@
 {
-  "index": [
-    "DOCS_INDEX.md",
-    "README.md",
-    "GLOSSARY.md",
-    "FAQ.md"
-  ],
+  "index": ["DOCS_INDEX.md", "README.md", "GLOSSARY.md", "FAQ.md"],
   "overview": [
     "QUICKSTART.md",
     "MANUAL.md",
@@ -53,21 +48,9 @@
     "CONTRIBUTOR_TROUBLESHOOTING.md",
     "EXTENSION_SDK.md"
   ],
-  "deployment": [
-    "RELEASE_PROCESS.md",
-    "UPGRADE_GUIDE.md",
-    "ROADMAP.md"
-  ],
-  "governance": [
-    "CHANGELOG.md"
-  ],
-  "examples": [
-    "REAL_WORLD_EXAMPLES.md"
-  ],
-  "meta": [
-    "STYLE_GUIDE.md"
-  ],
-  "testing": [
-    "TESTING_GUIDE.md"
-  ]
+  "deployment": ["RELEASE_PROCESS.md", "UPGRADE_GUIDE.md", "ROADMAP.md"],
+  "governance": ["CHANGELOG.md"],
+  "examples": ["REAL_WORLD_EXAMPLES.md"],
+  "meta": ["STYLE_GUIDE.md"],
+  "testing": ["TESTING_GUIDE.md"]
 }

@@ -1,18 +1,20 @@
 # UPGRADE_GUIDE.md
-SSRF COMMAND CONSOLE — UPGRADE GUIDE  
+
+SSRF COMMAND CONSOLE — UPGRADE GUIDE
 Version Migration • Breaking Changes • Deprecation • Safe Rollouts
 
 ---
 
 ## 1. PURPOSE OF THIS DOCUMENT
-This guide explains how to safely upgrade the SSRF Command Console between versions.  
+
+This guide explains how to safely upgrade the SSRF Command Console between versions.
 It ensures:
 
-- Predictable upgrades  
-- Zero‑downtime transitions  
-- Clear handling of breaking changes  
-- Safe migration of configuration, modes, and extensions  
-- Backward‑compatible evolution of the API and dashboard  
+- Predictable upgrades
+- Zero‑downtime transitions
+- Clear handling of breaking changes
+- Safe migration of configuration, modes, and extensions
+- Backward‑compatible evolution of the API and dashboard
 
 This is the authoritative reference for all upgrade procedures.
 
@@ -21,19 +23,20 @@ This is the authoritative reference for all upgrade procedures.
 ## 2. VERSIONING MODEL
 
 ### 2.1 Semantic Versioning
+
 The project uses SemVer:
 
 MAJOR.MINOR.PATCH
 
-
-- **MAJOR** — breaking changes  
-- **MINOR** — new features, backward‑compatible  
-- **PATCH** — bug fixes, no behavior changes  
+- **MAJOR** — breaking changes
+- **MINOR** — new features, backward‑compatible
+- **PATCH** — bug fixes, no behavior changes
 
 ### 2.2 Stability Guarantees
-- MINOR and PATCH upgrades must not break existing modes  
-- API fields are never removed except in MAJOR releases  
-- Extensions remain compatible across MINOR/PATCH releases  
+
+- MINOR and PATCH upgrades must not break existing modes
+- API fields are never removed except in MAJOR releases
+- Extensions remain compatible across MINOR/PATCH releases
 
 ---
 
@@ -45,26 +48,30 @@ Before upgrading, verify:
 
 Python version matches required version Dependencies are compatible Virtual environment is clean
 
-
 ### 3.2 Configuration
-- Backup `config/` directory  
-- Validate JSON/YAML syntax  
-- Check for deprecated fields  
+
+- Backup `config/` directory
+- Validate JSON/YAML syntax
+- Check for deprecated fields
 
 ### 3.3 Modes
-- Ensure custom modes follow the latest BaseMode API  
-- Validate mode manifests  
-- Run mode tests  
+
+- Ensure custom modes follow the latest BaseMode API
+- Validate mode manifests
+- Run mode tests
 
 ### 3.4 Extensions
-- Validate extension manifests  
-- Check for deprecated entrypoints  
-- Run extension tests  
+
+- Validate extension manifests
+- Check for deprecated entrypoints
+- Run extension tests
 
 ### 3.5 Database / History
+
 If persistent history is enabled:
-- Backup history storage  
-- Validate schema compatibility  
+
+- Backup history storage
+- Validate schema compatibility
 
 ---
 
@@ -74,70 +81,74 @@ If persistent history is enabled:
 
 git pull origin main
 
-
 ### 4.2 Step 2 — Reinstall Dependencies
 
-
 ### 4.2 Step 2 — Reinstall Dependencies
-
 
 pip install -r requirements.txt
 
 ### 4.3 Step 3 — Run Preflight Checks
+
 python scripts/preflight_check.py
 
-
-
 Checks include:
-- Dependency mismatches  
-- Deprecated config fields  
-- Mode compatibility  
-- Extension compatibility  
+
+- Dependency mismatches
+- Deprecated config fields
+- Mode compatibility
+- Extension compatibility
 
 ### 4.4 Step 4 — Run Tests
 
 pytest -q
 
-
 ### 4.5 Step 5 — Start Console in Safe Mode
 
 python main.py --safe
 
-
 Safe mode:
-- Loads core modes only  
-- Skips extensions  
-- Skips custom protocol handlers  
+
+- Loads core modes only
+- Skips extensions
+- Skips custom protocol handlers
 
 ### 4.6 Step 6 — Re‑enable Extensions
+
 Enable one extension at a time to detect compatibility issues.
 
 ### 4.7 Step 7 — Validate Dashboard
+
 Verify:
-- Mode execution  
-- History panel  
-- Logs  
-- Metrics  
-- Traces  
+
+- Mode execution
+- History panel
+- Logs
+- Metrics
+- Traces
 
 ---
 
 ## 5. HANDLING BREAKING CHANGES
 
 ### 5.1 Identifying Breaking Changes
+
 Breaking changes are documented in:
-- CHANGELOG.md  
-- RELEASE_PROCESS.md  
-- API_CONTRACTS.md  
+
+- CHANGELOG.md
+- RELEASE_PROCESS.md
+- API_CONTRACTS.md
 
 ### 5.2 Migration Steps
+
 For each breaking change:
-- Update configuration fields  
-- Update mode definitions  
-- Update extension manifests  
-- Update API clients  
+
+- Update configuration fields
+- Update mode definitions
+- Update extension manifests
+- Update API clients
 
 ### 5.3 Deprecated Fields
+
 Deprecated fields remain functional for **one MAJOR version** before removal.
 
 ---
@@ -145,18 +156,22 @@ Deprecated fields remain functional for **one MAJOR version** before removal.
 ## 6. MIGRATING MODES
 
 ### 6.1 Required Updates
+
 Check for:
-- New BaseMode methods  
-- Changed method signatures  
-- New classification rules  
-- New payload requirements  
+
+- New BaseMode methods
+- Changed method signatures
+- New classification rules
+- New payload requirements
 
 ### 6.2 Migration Example
+
 Old:
+
 ```python
 async def execute(self, url): ...
 
-New: 
+New:
 
 async def execute(self, payload: dict): ...
 
@@ -230,3 +245,4 @@ bash git pull origin main
 
 ### 11.2 Escaped JSON Block
 json {"deprecated": true, "replacement": "new_field"}
+```

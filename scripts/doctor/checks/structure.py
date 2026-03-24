@@ -42,6 +42,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 # Structure Checks
 # ---------------------------------------------------------
 
+
 def check_required_scripts() -> Dict[str, str]:
     """Ensure all core scripts exist."""
     required = [
@@ -57,13 +58,11 @@ def check_required_scripts() -> Dict[str, str]:
         return result(
             "Required Scripts Present",
             "fail",
-            f"Missing script(s): {', '.join(missing)}"
+            f"Missing script(s): {', '.join(missing)}",
         )
 
     return result(
-        "Required Scripts Present",
-        "pass",
-        "All required scripts are present."
+        "Required Scripts Present", "pass", "All required scripts are present."
     )
 
 
@@ -84,13 +83,11 @@ def check_required_workflows() -> Dict[str, str]:
         return result(
             "Required Workflows Present",
             "fail",
-            f"Missing workflow(s): {', '.join(missing)}"
+            f"Missing workflow(s): {', '.join(missing)}",
         )
 
     return result(
-        "Required Workflows Present",
-        "pass",
-        "All required workflows are present."
+        "Required Workflows Present", "pass", "All required workflows are present."
     )
 
 
@@ -98,22 +95,12 @@ def check_docs_directory() -> Dict[str, str]:
     """Ensure docs/ exists and is a directory."""
     path = REPO_ROOT / "docs"
     if not path.exists():
-        return result(
-            "Docs Directory Exists",
-            "warn",
-            "docs/ directory is missing."
-        )
+        return result("Docs Directory Exists", "warn", "docs/ directory is missing.")
     if not path.is_dir():
         return result(
-            "Docs Directory Exists",
-            "fail",
-            "docs/ exists but is not a directory."
+            "Docs Directory Exists", "fail", "docs/ exists but is not a directory."
         )
-    return result(
-        "Docs Directory Exists",
-        "pass",
-        "docs/ directory is present."
-    )
+    return result("Docs Directory Exists", "pass", "docs/ directory is present.")
 
 
 def check_github_structure() -> Dict[str, str]:
@@ -130,11 +117,9 @@ def check_github_structure() -> Dict[str, str]:
         return result(
             "GitHub Directory Structure",
             "fail",
-            f"Missing GitHub directory(ies): {', '.join(missing)}"
+            f"Missing GitHub directory(ies): {', '.join(missing)}",
         )
 
     return result(
-        "GitHub Directory Structure",
-        "pass",
-        "GitHub directory structure is valid."
+        "GitHub Directory Structure", "pass", "GitHub directory structure is valid."
     )

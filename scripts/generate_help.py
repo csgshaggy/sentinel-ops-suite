@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os
 from pathlib import Path
 
 # ------------------------------------------------------------
@@ -13,6 +12,7 @@ HELP_FILE = PROJECT_ROOT / "HELP.md"
 if not DOCS_DIR.exists():
     raise SystemExit(f"ERROR: docs/ directory not found at {DOCS_DIR}")
 
+
 # ------------------------------------------------------------
 # Utility: natural sort for categories like 00, 10, 20...
 # ------------------------------------------------------------
@@ -21,13 +21,11 @@ def natural_key(path: Path):
     prefix = name.split("-")[0]
     return int(prefix) if prefix.isdigit() else 9999
 
+
 # ------------------------------------------------------------
 # Scan categories
 # ------------------------------------------------------------
-categories = sorted(
-    [p for p in DOCS_DIR.iterdir() if p.is_dir()],
-    key=natural_key
-)
+categories = sorted([p for p in DOCS_DIR.iterdir() if p.is_dir()], key=natural_key)
 
 # Include testing directory last if present
 testing_dir = DOCS_DIR / "testing"

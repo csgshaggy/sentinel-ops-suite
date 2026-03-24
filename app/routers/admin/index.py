@@ -20,7 +20,6 @@ SECTIONS = {
         ("Kernel", "/admin/kernel"),
         ("Packages", "/admin/packages"),
     ],
-
     "Runtime & Environment": [
         ("Runtime", "/admin/runtime"),
         ("Environment", "/admin/env"),
@@ -30,7 +29,6 @@ SECTIONS = {
         ("Performance", "/admin/performance"),
         ("Health", "/admin/health"),
     ],
-
     "Threads & Concurrency": [
         ("Threads", "/admin/threads"),
         ("Deadlock Inspector", "/admin/threads/deadlock"),
@@ -38,7 +36,6 @@ SECTIONS = {
         ("Timers", "/admin/timers"),
         ("AsyncIO", "/admin/async"),
     ],
-
     "Diagnostics & Forensics": [
         ("Logs", "/admin/logs"),
         ("Events", "/admin/events"),

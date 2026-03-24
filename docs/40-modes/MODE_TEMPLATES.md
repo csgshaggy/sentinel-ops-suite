@@ -1,20 +1,21 @@
 # MODE Templates
 
 ## Overview
-This document provides complete, ready‑to‑use templates for building new MODEs in the SSRF Command Console.  
+
+This document provides complete, ready‑to‑use templates for building new MODEs in the SSRF Command Console.
 Each template follows the deterministic lifecycle and directory structure defined in `MODE_AUTHORING.md`.
 
 Templates include:
 
-- Directory structure  
-- mode.yaml  
-- config.py  
-- Input/Output schemas  
-- Preflight handler  
-- Executor handler  
-- Postprocess handler  
-- main.py entrypoint  
-- Test templates  
+- Directory structure
+- mode.yaml
+- config.py
+- Input/Output schemas
+- Preflight handler
+- Executor handler
+- Postprocess handler
+- main.py entrypoint
+- Test templates
 
 Use these as starting points for new MODE development.
 
@@ -28,16 +29,16 @@ console/modes/<mode_name>/
 ├── main.py
 ├── config.py
 ├── handlers/
-│   ├── preflight.py
-│   ├── executor.py
-│   └── postprocess.py
+│ ├── preflight.py
+│ ├── executor.py
+│ └── postprocess.py
 ├── schemas/
-│   ├── input.py
-│   └── output.py
+│ ├── input.py
+│ └── output.py
 └── tests/
-    ├── test_integration.py
-    ├── test_schemas.py
-    └── test_unit.py
+├── test_integration.py
+├── test_schemas.py
+└── test_unit.py
 \`\`\`
 
 ---
@@ -51,17 +52,19 @@ entrypoint: main:run
 summary: <short description of what this MODE does>
 
 requires:
-  - network
-  - http
+
+- network
+- http
 
 config:
-  timeout: 5
-  retries: 2
+timeout: 5
+retries: 2
 
 outputs:
-  - raw_responses
-  - anomalies
-\`\`\`
+
+- raw_responses
+- anomalies
+  \`\`\`
 
 ---
 
@@ -69,10 +72,10 @@ outputs:
 
 \`\`\`
 DEFAULT_CONFIG = {
-    "timeout": 5,
-    "retries": 2,
-    "max_redirects": 3,
-    "user_agent": "SSRF-Console/1.0"
+"timeout": 5,
+"retries": 2,
+"max_redirects": 3,
+"user_agent": "SSRF-Console/1.0"
 }
 \`\`\`
 
@@ -85,7 +88,7 @@ from pydantic import BaseModel, HttpUrl
 from typing import List
 
 class Input(BaseModel):
-    targets: List[str]
+targets: List[str]
 \`\`\`
 
 ---
@@ -97,8 +100,8 @@ from pydantic import BaseModel
 from typing import Dict, List
 
 class Output(BaseModel):
-    raw_responses: Dict[str, str]
-    anomalies: List[str]
+raw_responses: Dict[str, str]
+anomalies: List[str]
 \`\`\`
 
 ---
@@ -106,10 +109,9 @@ class Output(BaseModel):
 # 6. Preflight Handler Template (handlers/preflight.py)
 
 \`\`\`
-def run(input_data, config):
-    # Validate targets
-    if not input_data.targets:
-        raise ValueError("At least one target is required.")
+def run(input_data, config): # Validate targets
+if not input_data.targets:
+raise ValueError("At least one target is required.")
 
     for t in input_data.targets:
         if not isinstance(t, str):
@@ -123,6 +125,7 @@ def run(input_data, config):
         "validated_targets": input_data.targets,
         "config": config
     }
+
 \`\`\`
 
 ---
@@ -133,8 +136,8 @@ def run(input_data, config):
 import requests
 
 def run(preflight_data):
-    targets = preflight_data["validated_targets"]
-    config = preflight_data["config"]
+targets = preflight_data["validated_targets"]
+config = preflight_data["config"]
 
     responses = {}
 
@@ -151,6 +154,7 @@ def run(preflight_data):
             responses[target] = f"ERROR: {str(e)}"
 
     return {"raw_responses": responses}
+
 \`\`\`
 
 ---
@@ -159,8 +163,8 @@ def run(preflight_data):
 
 \`\`\`
 def run(executor_data):
-    raw = executor_data["raw_responses"]
-    anomalies = []
+raw = executor_data["raw_responses"]
+anomalies = []
 
     for target, body in raw.items():
         if "metadata" in body.lower():
@@ -170,6 +174,7 @@ def run(executor_data):
         "raw_responses": raw,
         "anomalies": anomalies
     }
+
 \`\`\`
 
 ---
@@ -182,9 +187,8 @@ from schemas.output import Output
 from handlers import preflight, executor, postprocess
 from config import DEFAULT_CONFIG
 
-def run(input_data: dict, overrides: dict = None):
-    # Load input
-    parsed_input = Input(**input_data)
+def run(input_data: dict, overrides: dict = None): # Load input
+parsed_input = Input(\*\*input_data)
 
     # Merge config
     config = DEFAULT_CONFIG.copy()
@@ -198,6 +202,7 @@ def run(input_data: dict, overrides: dict = None):
 
     # Validate output
     return Output(**post).dict()
+
 \`\`\`
 
 ---
@@ -208,8 +213,8 @@ def run(input_data: dict, overrides: dict = None):
 
 \`\`\`
 def test_timeout_config():
-    from config import DEFAULT_CONFIG
-    assert DEFAULT_CONFIG["timeout"] > 0
+from config import DEFAULT_CONFIG
+assert DEFAULT_CONFIG["timeout"] > 0
 \`\`\`
 
 ---
@@ -221,12 +226,12 @@ import pytest
 from schemas.input import Input
 
 def test_input_schema_valid():
-    i = Input(targets=["example.com"])
-    assert i.targets == ["example.com"]
+i = Input(targets=["example.com"])
+assert i.targets == ["example.com"]
 
 def test_input_schema_invalid():
-    with pytest.raises(Exception):
-        Input(targets=[123])
+with pytest.raises(Exception):
+Input(targets=[123])
 \`\`\`
 
 ---
@@ -235,16 +240,17 @@ def test_input_schema_invalid():
 
 \`\`\`
 def test_mode_integration(tmp_path):
-    from main import run
+from main import run
 
     result = run({"targets": ["example.com"]})
     assert "raw_responses" in result
     assert "anomalies" in result
+
 \`\`\`
 
 ---
 
 # Conclusion
 
-These templates provide a complete, deterministic starting point for building new MODEs.  
+These templates provide a complete, deterministic starting point for building new MODEs.
 They enforce structure, isolation, and reproducibility across the entire MODE ecosystem.

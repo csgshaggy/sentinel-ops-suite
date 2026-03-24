@@ -1,16 +1,17 @@
 # Quickstart Guide
 
 ## Overview
-This quickstart provides the fastest path to installing, running, and using the SSRF Command Console.  
+
+This quickstart provides the fastest path to installing, running, and using the SSRF Command Console.
 It is designed for new users, operators, and developers who want to get hands‑on immediately with minimal setup.
 
 You will learn how to:
 
-- Install the console  
-- Run your first MODE  
-- Explore run output  
-- Use the dashboard  
-- Perform snapshots and diffs  
+- Install the console
+- Run your first MODE
+- Explore run output
+- Use the dashboard
+- Perform snapshots and diffs
 
 ---
 
@@ -65,7 +66,7 @@ console run ssrf_basic_scan --targets example.com --timeout 10
 Each run creates a directory:
 
 \`\`\`
-runs/<timestamp>_<mode_name>/
+runs/<timestamp>\_<mode_name>/
 \`\`\`
 
 Inside:
@@ -80,11 +81,11 @@ logs/
 
 ### Key Files
 
-- **input.json** — What was executed  
-- **output.json** — Final structured output  
-- **anomalies.json** — Detected anomalies  
-- **artifacts/** — Raw and processed data  
-- **logs/** — Execution logs  
+- **input.json** — What was executed
+- **output.json** — Final structured output
+- **anomalies.json** — Detected anomalies
+- **artifacts/** — Raw and processed data
+- **logs/** — Execution logs
 
 ---
 
@@ -104,11 +105,11 @@ http://localhost:5001
 
 ### Dashboard Features
 
-- Run history  
-- Artifact viewer  
-- Anomaly viewer  
-- Log viewer  
-- Diff viewer  
+- Run history
+- Artifact viewer
+- Anomaly viewer
+- Log viewer
+- Diff viewer
 
 ---
 
@@ -138,41 +139,44 @@ console diff <run1> <run2>
 
 Use cases:
 
-- Detect drift  
-- Validate changes  
-- Compare environments  
+- Detect drift
+- Validate changes
+- Compare environments
 
 ---
 
 # 7. Common Commands
 
-| Task | Command |
-|------|---------|
-| List MODEs | `console modes list` |
-| Run a MODE | `console run <mode>` |
-| Override config | `console run <mode> --key value` |
-| Start dashboard | `python -m dashboard` |
+| Task            | Command                            |
+| --------------- | ---------------------------------- |
+| List MODEs      | `console modes list`               |
+| Run a MODE      | `console run <mode>`               |
+| Override config | `console run <mode> --key value`   |
+| Start dashboard | `python -m dashboard`              |
 | Create snapshot | `console snapshot create <run_id>` |
-| Diff runs | `console diff <run1> <run2>` |
+| Diff runs       | `console diff <run1> <run2>`       |
 
 ---
 
 # 8. Troubleshooting
 
 ### MODE not found
-- Check `console/modes/`  
-- Validate with:  
+
+- Check `console/modes/`
+- Validate with:
   \`\`\`
   console modes validate <mode_name>
   \`\`\`
 
 ### Dashboard not loading
-- Check port conflicts  
-- Ensure dependencies installed  
+
+- Check port conflicts
+- Ensure dependencies installed
 
 ### Run directory missing
-- Ensure MODE executed successfully  
-- Check logs in `runs/<run_id>/logs/`  
+
+- Ensure MODE executed successfully
+- Check logs in `runs/<run_id>/logs/`
 
 ---
 
@@ -180,15 +184,15 @@ Use cases:
 
 After completing this quickstart, explore:
 
-- `OPERATOR_GUIDE.md`  
-- `MODE_AUTHORING.md`  
-- `API_REFERENCE.md`  
-- `SERVICE_DEPLOYMENT.md`  
-- `TESTING_GUIDE.md`  
+- `OPERATOR_GUIDE.md`
+- `MODE_AUTHORING.md`
+- `API_REFERENCE.md`
+- `SERVICE_DEPLOYMENT.md`
+- `TESTING_GUIDE.md`
 
 ---
 
 # Conclusion
 
-You are now ready to run MODEs, explore artifacts, use the dashboard, and perform snapshot/diff analysis.  
+You are now ready to run MODEs, explore artifacts, use the dashboard, and perform snapshot/diff analysis.
 This quickstart gives you everything needed to begin using the SSRF Command Console effectively.

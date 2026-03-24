@@ -18,10 +18,12 @@ PROJECT_ROOT = Path.home() / "ssrf-command-console"
 RUNTIME_DIR = PROJECT_ROOT / "runtime"
 LATEST_JSON = RUNTIME_DIR / "super_doctor_report.json"
 
+
 def load_latest():
     if not LATEST_JSON.exists():
         return []
     return json.loads(LATEST_JSON.read_text(encoding="utf-8"))
+
 
 def extract_health_score(entries):
     for e in entries:
@@ -34,6 +36,7 @@ def extract_health_score(entries):
                 return None
     return None
 
+
 def compute_color_for_score(score):
     if score is None:
         return "lightgrey"
@@ -41,7 +44,8 @@ def compute_color_for_score(score):
         return "2ea44f"  # green
     if score >= 70:
         return "f9a825"  # yellow
-    return "d32f2f"      # red
+    return "d32f2f"  # red
+
 
 def main():
     entries = load_latest()
@@ -64,11 +68,14 @@ def main():
     score_label = f"{score}/100" if score is not None else "N/A"
 
     print("## Super Doctor Status\n")
-    print(f"![Health Score](https://img.shields.io/badge/health-{score_label.replace('/', '%2F')}-{score_color})")
+    print(
+        f"![Health Score](https://img.shields.io/badge/health-{score_label.replace('/', '%2F')}-{score_color})"
+    )
     print(f"![Last Run](https://img.shields.io/badge/last_run-{last_run_str}-blue)")
     print(f"![Failures](https://img.shields.io/badge/fail-{fail}-d32f2f)")
     print(f"![Warnings](https://img.shields.io/badge/warn-{warn}-f9a825)")
     print(f"![Info](https://img.shields.io/badge/info-{info}-388e3c)")
+
 
 if __name__ == "__main__":
     main()

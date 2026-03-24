@@ -17,7 +17,6 @@ make ci-security
 
 make deps
 
-
 ## Hardening Recommendations
 
 - Use Docker for isolation

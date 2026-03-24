@@ -11,12 +11,14 @@ EXPECTED = {
     "data": "runtime or input data",
 }
 
+
 def main():
     print("\n=== Project Root Normalizer ===")
     print(f"Project root: {PROJECT_ROOT}\n")
 
     found = {
-        d for d in os.listdir(PROJECT_ROOT)
+        d
+        for d in os.listdir(PROJECT_ROOT)
         if os.path.isdir(os.path.join(PROJECT_ROOT, d))
     }
 
@@ -35,6 +37,7 @@ def main():
             print(f"  - {d}")
 
     print("\nNormalization complete.")
+
 
 if __name__ == "__main__":
     main()

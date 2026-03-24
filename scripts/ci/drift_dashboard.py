@@ -30,10 +30,21 @@ class C:
     RED = "\033[91m"
     END = "\033[0m"
 
-def info(msg): print(f"{C.BLUE}[INFO]{C.END} {msg}")
-def ok(msg): print(f"{C.GREEN}[OK]{C.END} {msg}")
-def warn(msg): print(f"{C.YELLOW}[WARN]{C.END} {msg}")
-def fail(msg): print(f"{C.RED}[FAIL]{C.END} {msg}")
+
+def info(msg):
+    print(f"{C.BLUE}[INFO]{C.END} {msg}")
+
+
+def ok(msg):
+    print(f"{C.GREEN}[OK]{C.END} {msg}")
+
+
+def warn(msg):
+    print(f"{C.YELLOW}[WARN]{C.END} {msg}")
+
+
+def fail(msg):
+    print(f"{C.RED}[FAIL]{C.END} {msg}")
 
 
 # ---------------------------------------------------------

@@ -1,6 +1,6 @@
 # Onboarding Guide — SSRF Command Console
 
-Welcome to the SSRF Command Console.  
+Welcome to the SSRF Command Console.
 This guide walks you from zero to fully operational with clear, operator‑grade steps.
 
 ---
@@ -9,11 +9,11 @@ This guide walks you from zero to fully operational with clear, operator‑grade
 
 Before starting, ensure you have:
 
-- Git  
-- Python 3.10+ or 3.11  
-- Make  
-- pip, uv, or Poetry (choose one)  
-- Docker (recommended for isolation)  
+- Git
+- Python 3.10+ or 3.11
+- Make
+- pip, uv, or Poetry (choose one)
+- Docker (recommended for isolation)
 
 ---
 
@@ -120,5 +120,4 @@ docs/architecture.md
 docs/operations.md
 docs/development.md
 CONTRIBUTING.md
-
-
+```

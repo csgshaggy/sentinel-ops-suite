@@ -33,7 +33,6 @@ jobs:
         run: |
           make doctor
 
-
   integrity:
     name: Repo Integrity Validation
     runs-on: ubuntu-latest
@@ -51,7 +50,6 @@ jobs:
         run: |
           echo "[INFO] Running repo integrity checks..."
           bash .github/scripts/repo_integrity.sh
-
 
   drift:
     name: Drift Detection
@@ -81,7 +79,6 @@ jobs:
           name: drift-results
           path: runtime/drift_results.json
           if-no-files-found: ignore
-
 
   drift_dashboard:
     name: Drift Dashboard Generation
@@ -117,7 +114,6 @@ jobs:
         with:
           path: runtime
 
-
   cleanup:
     name: Cleanup Runtime
     runs-on: ubuntu-latest
@@ -130,7 +126,6 @@ jobs:
       - name: Clean runtime directory
         run: |
           make clean-runtime
-
 
   deploy:
     name: Deploy Drift Dashboard to Pages

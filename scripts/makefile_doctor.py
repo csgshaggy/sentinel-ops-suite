@@ -9,6 +9,7 @@ RESET = "\033[0m"
 
 TARGET_PATTERN = re.compile(r"^([a-zA-Z0-9\-_]+):")
 
+
 def main():
     try:
         with open("Makefile", "r") as f:
@@ -32,10 +33,13 @@ def main():
     if duplicates:
         print(f"{RED}[DUPLICATES FOUND]{RESET}")
         for target, lines in duplicates.items():
-            print(f"  Target '{target}' defined multiple times at lines: {targets[target]}, {', '.join(map(str, lines))}")
+            print(
+                f"  Target '{target}' defined multiple times at lines: {targets[target]}, {', '.join(map(str, lines))}"
+            )
         sys.exit(1)
 
     print(f"{GREEN}[OK]{RESET} No duplicate Makefile targets detected.")
+
 
 if __name__ == "__main__":
     main()

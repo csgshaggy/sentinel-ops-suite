@@ -23,8 +23,16 @@ def storage_panel():
     for part in partitions:
         try:
             usage = psutil.disk_usage(part.mountpoint)
-            read_bytes = io_stats.get(part.device, None).read_bytes if part.device in io_stats else 0
-            write_bytes = io_stats.get(part.device, None).write_bytes if part.device in io_stats else 0
+            read_bytes = (
+                io_stats.get(part.device, None).read_bytes
+                if part.device in io_stats
+                else 0
+            )
+            write_bytes = (
+                io_stats.get(part.device, None).write_bytes
+                if part.device in io_stats
+                else 0
+            )
 
             rows += f"""
             <tr>

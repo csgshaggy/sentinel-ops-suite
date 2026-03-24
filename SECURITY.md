@@ -8,7 +8,7 @@ The project is designed with an operator‑grade security posture, emphasizing d
 
 ## Supported Versions
 
-Security fixes are applied to the `main` branch.  
+Security fixes are applied to the `main` branch.
 Consumers should track `main` or tagged releases.
 
 ---
@@ -17,21 +17,21 @@ Consumers should track `main` or tagged releases.
 
 If you discover a security issue related to:
 
-- SSRF handling  
-- Request forwarding  
-- Plugin execution  
-- Authentication or authorization  
-- Misconfiguration that could lead to unsafe behavior  
+- SSRF handling
+- Request forwarding
+- Plugin execution
+- Authentication or authorization
+- Misconfiguration that could lead to unsafe behavior
 
 Please follow these steps:
 
-1. **Do not** open a public issue containing exploit details.  
-2. Provide a minimal, reproducible description privately.  
+1. **Do not** open a public issue containing exploit details.
+2. Provide a minimal, reproducible description privately.
 3. Include:
-   - Environment details  
-   - Sanitized configuration  
-   - Steps to reproduce  
-   - Expected vs. actual behavior  
+   - Environment details
+   - Sanitized configuration
+   - Steps to reproduce
+   - Expected vs. actual behavior
 
 Clear, actionable reports help maintainers respond quickly and safely.
 
@@ -42,6 +42,7 @@ Clear, actionable reports help maintainers respond quickly and safely.
 The SSRF Command Console is built with:
 
 ### **1. Structural Validation**
+
 Validators enforce project integrity:
 
 - `project_structure_validator.py`
@@ -105,3 +106,4 @@ Ensure the project structure remains safe and predictable.
 
 ### Responsible Disclosure
 We appreciate responsible disclosure and will work with you to validate, patch, and release fixes promptly.
+```

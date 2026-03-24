@@ -1,158 +1,92 @@
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
-from app.ui.sidebar import sidebar
-import threading
-import asyncio
-import inspect
-import html
+from __future__ import annotations
+
 import time
+from typing import Any, Dict
 
-router = APIRouter(prefix="/admin/timers", tags=["Timers"])
+from fastapi import APIRouter
 
-
-def find_threading_timers():
-    """Return all active threading.Timer objects."""
-    timers = []
-    for t in threading.enumerate():
-        if isinstance(t, threading.Timer):
-            timers.append(t)
-    return timers
+router = APIRouter(prefix="/admin/timers", tags=["admin-timers"])
 
 
-def find_asyncio_timers():
-    """Return asyncio scheduled callbacks if an event loop is running."""
-    try:
-        loop = asyncio.get_event_loop()
-        scheduled = []
-        for handle in loop._scheduled:
-            when = getattr(handle, "_when", None)
-            callback = getattr(handle, "_callback", None)
-            scheduled.append((handle, when, callback))
-        return scheduled
-    except:
-        return []
+# ------------------------------------------------------------
+# Internal timing utilities
+# ------------------------------------------------------------
+
+START_TIME = time.monotonic()
 
 
-def find_scheduler_timers():
-    """Detect APScheduler or custom scheduler timers."""
-    timers = []
-    for obj in globals().values():
-        if hasattr(obj, "next_run_time"):
-            timers.append(obj)
-    return timers
+def _now_ms() -> int:
+    return int(time.time() * 1000)
 
 
-@router.get("/", response_class=HTMLResponse)
-def timers_panel():
-    threading_timers = find_threading_timers()
-    asyncio_timers = find_asyncio_timers()
-    scheduler_timers = find_scheduler_timers()
+def _uptime_seconds() -> float:
+    return round(time.monotonic() - START_TIME, 3)
 
-    # Build HTML rows
-    thread_rows = ""
-    for t in threading_timers:
-        thread_rows += f"""
-        <tr>
-            <td>{html.escape(t.name)}</td>
-            <td>{t.interval}</td>
-            <td>{t.is_alive()}</td>
-            <td>{t.daemon}</td>
-            <td>{t.finished.is_set()}</td>
-        </tr>
-        """
 
-    asyncio_rows = ""
-    for handle, when, callback in asyncio_timers:
-        cb_name = getattr(callback, "__name__", str(callback))
-        asyncio_rows += f"""
-        <tr>
-            <td>{html.escape(cb_name)}</td>
-            <td>{when}</td>
-            <td>{when - time.time():.2f}</td>
-        </tr>
-        """
-
-    scheduler_rows = ""
-    for job in scheduler_timers:
-        scheduler_rows += f"""
-        <tr>
-            <td>{html.escape(str(job))}</td>
-            <td>{html.escape(str(getattr(job, 'next_run_time', 'N/A')))}</td>
-        </tr>
-        """
-
-    html_page = f"""
-    <html>
-    <head>
-        <title>Timer Inspector</title>
-        <meta http-equiv="refresh" content="10">
-        <style>
-            body {{
-                font-family: Arial, sans-serif;
-                background: #f4f4f4;
-                margin: 0;
-            }}
-            table {{
-                width: 100%;
-                border-collapse: collapse;
-                background: white;
-            }}
-            th {{
-                background: #333;
-                color: white;
-            }}
-            th, td {{
-                padding: 10px;
-                border-bottom: 1px solid #ddd;
-                vertical-align: top;
-            }}
-            tr:hover {{
-                background: #f1f1f1;
-            }}
-            h2 {{
-                margin-top: 40px;
-            }}
-        </style>
-    </head>
-    <body>
-        {sidebar()}
-        <div style="margin-left: 260px; padding: 20px;">
-            <h1>⏱️ Timer Inspector</h1>
-            <p>Auto-refreshing every 10 seconds</p>
-
-            <h2>Threading Timers</h2>
-            <table>
-                <tr>
-                    <th>Name</th>
-                    <th>Interval</th>
-                    <th>Alive</th>
-                    <th>Daemon</th>
-                    <th>Finished</th>
-                </tr>
-                {thread_rows}
-            </table>
-
-            <h2>AsyncIO Scheduled Callbacks</h2>
-            <table>
-                <tr>
-                    <th>Callback</th>
-                    <th>Scheduled Time</th>
-                    <th>Seconds Until Run</th>
-                </tr>
-                {asyncio_rows}
-            </table>
-
-            <h2>Scheduler Timers (APScheduler / Custom)</h2>
-            <table>
-                <tr>
-                    <th>Job</th>
-                    <th>Next Run Time</th>
-                </tr>
-                {scheduler_rows}
-            </table>
-        </div>
-    </body>
-    </html>
+def _timestamp_info() -> Dict[str, Any]:
     """
+    Provide a consistent snapshot of timing information.
+    """
+    return {
+        "epoch_seconds": time.time(),
+        "epoch_ms": _now_ms(),
+        "uptime_seconds": _uptime_seconds(),
+        "localtime": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+        "utc": time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime()),
+    }
 
-    return HTMLResponse(html_page)
+
+# ------------------------------------------------------------
+# API Endpoints
+# ------------------------------------------------------------
+
+
+@router.get("/now", summary="Return current timestamp information")
+def get_current_time() -> Dict[str, Any]:
+    """
+    Return a structured view of current time, uptime, and clock state.
+    """
+    return {
+        "success": True,
+        "data": _timestamp_info(),
+    }
+
+
+@router.get("/uptime", summary="Return process uptime in seconds")
+def get_uptime() -> Dict[str, Any]:
+    """
+    Return the number of seconds the process has been running.
+    """
+    return {
+        "success": True,
+        "uptime_seconds": _uptime_seconds(),
+    }
+
+
+@router.get("/sleep/{ms}", summary="Perform a controlled sleep (for testing)")
+def sleep_for(ms: int) -> Dict[str, Any]:
+    """
+    Sleep for a specified number of milliseconds.
+    Useful for testing async behavior, latency, and timing.
+    """
+    if ms < 0:
+        return {
+            "success": False,
+            "error": "Sleep duration must be non-negative",
+        }
+
+    seconds = ms / 1000.0
+
+    try:
+        time.sleep(seconds)
+    except Exception as exc:
+        return {
+            "success": False,
+            "error": str(exc),
+        }
+
+    return {
+        "success": True,
+        "slept_ms": ms,
+        "after": _timestamp_info(),
+    }

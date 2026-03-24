@@ -1,6 +1,7 @@
 # Architecture Overview
 
 ## Purpose
+
 This document provides a high-level architectural overview of the SSRF Command Console.
 
 ---
@@ -9,9 +10,9 @@ This document provides a high-level architectural overview of the SSRF Command C
 
 The system is composed of four major subsystems:
 
-1. **Backend Core**  
-2. **MODE Ecosystem**  
-3. **Dashboard**  
+1. **Backend Core**
+2. **MODE Ecosystem**
+3. **Dashboard**
 4. **Services Layer**
 
 Each subsystem is isolated, deterministic, and designed for forensic clarity.
@@ -32,12 +33,12 @@ This represents the primary data and control flow through the system.
 
 The backend is responsible for:
 
-- MODE execution  
-- Logging  
-- Artifact management  
-- Snapshot creation  
-- Diffing  
-- API exposure  
+- MODE execution
+- Logging
+- Artifact management
+- Snapshot creation
+- Diffing
+- API exposure
 
 It is intentionally stateless and relies entirely on the filesystem for persistence.
 
@@ -64,11 +65,11 @@ Load → Preflight → Execute → Postprocess → Emit
 
 ### Lifecycle Responsibilities
 
-- **Load** — Parse manifest, load config, import code  
-- **Preflight** — Validate inputs, overrides, environment  
-- **Execute** — Perform core logic  
-- **Postprocess** — Normalize output, detect anomalies  
-- **Emit** — Write artifacts, logs, structured output  
+- **Load** — Parse manifest, load config, import code
+- **Preflight** — Validate inputs, overrides, environment
+- **Execute** — Perform core logic
+- **Postprocess** — Normalize output, detect anomalies
+- **Emit** — Write artifacts, logs, structured output
 
 ---
 
@@ -76,12 +77,12 @@ Load → Preflight → Execute → Postprocess → Emit
 
 The dashboard provides:
 
-- Run history  
-- Run summaries  
-- Anomaly visualization  
-- Artifact browsing  
-- Log viewing  
-- Diff viewer  
+- Run history
+- Run summaries
+- Anomaly visualization
+- Artifact browsing
+- Log viewing
+- Diff viewer
 
 It reads from the filesystem and never mutates data.
 
@@ -102,7 +103,7 @@ This loop ensures transparency and reproducibility.
 Each run is stored in an immutable directory:
 
 \`\`\`
-runs/<timestamp>_<mode_name>/
+runs/<timestamp>\_<mode_name>/
 ├── input.json
 ├── output.json
 ├── anomalies.json
@@ -112,10 +113,10 @@ runs/<timestamp>_<mode_name>/
 
 ### Storage Guarantees
 
-- Write-once  
-- Immutable  
-- Deterministic  
-- Human-readable  
+- Write-once
+- Immutable
+- Deterministic
+- Human-readable
 
 ---
 
@@ -123,11 +124,11 @@ runs/<timestamp>_<mode_name>/
 
 Logs include:
 
-- Timestamp  
-- Event  
-- Target  
-- Duration  
-- Correlation ID  
+- Timestamp
+- Event
+- Target
+- Duration
+- Correlation ID
 
 Logs are stored per run:
 
@@ -141,11 +142,11 @@ runs/<run_id>/logs/execution.log
 
 The API exposes:
 
-- MODE execution  
-- Run retrieval  
-- Artifact access  
-- Snapshot creation  
-- Diffing  
+- MODE execution
+- Run retrieval
+- Artifact access
+- Snapshot creation
+- Diffing
 
 It is built on FastAPI and uses Pydantic for validation.
 
@@ -155,10 +156,10 @@ It is built on FastAPI and uses Pydantic for validation.
 
 The system supports:
 
-- New MODEs  
-- New dashboard panels  
-- New API endpoints  
-- New services  
+- New MODEs
+- New dashboard panels
+- New API endpoints
+- New services
 
 Extensibility is achieved through strict boundaries and deterministic behavior.
 
@@ -168,11 +169,11 @@ Extensibility is achieved through strict boundaries and deterministic behavior.
 
 Security is enforced through:
 
-- Input validation  
-- MODE isolation  
-- Filesystem restrictions  
-- Authentication (optional)  
-- No cross-MODE access  
-- No environment variable access inside MODEs  
+- Input validation
+- MODE isolation
+- Filesystem restrictions
+- Authentication (optional)
+- No cross-MODE access
+- No environment variable access inside MODEs
 
 The architecture prioritizes safety, determinism, and forensic clarity.

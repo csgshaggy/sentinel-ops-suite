@@ -1,6 +1,7 @@
 # Installation and Setup Guide
 
 ## Overview
+
 This guide walks you through installing, configuring, and verifying the SSRF Command Console.
 
 ---
@@ -8,14 +9,16 @@ This guide walks you through installing, configuring, and verifying the SSRF Com
 ## System Requirements
 
 ### Supported OS
-- Linux  
-- macOS  
+
+- Linux
+- macOS
 - Windows (native or WSL2)
 
 ### Required Software
-- Python 3.10+  
-- Git  
-- pip or pipx  
+
+- Python 3.10+
+- Git
+- pip or pipx
 
 ---
 
@@ -62,9 +65,9 @@ python scripts/init_structure.py
 
 This creates:
 
-- `runs/`  
-- Default MODEs  
-- Dashboard scaffolding  
+- `runs/`
+- Default MODEs
+- Dashboard scaffolding
 
 ---
 

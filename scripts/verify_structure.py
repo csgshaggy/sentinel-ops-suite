@@ -15,8 +15,8 @@ NC = "\033[0m"
 # ------------------------------------------------------------
 # Configuration
 # ------------------------------------------------------------
-STRICT_MODE = False       # If True: fail on missing directories
-JSON_OUTPUT = False       # If True: output JSON instead of text
+STRICT_MODE = False  # If True: fail on missing directories
+JSON_OUTPUT = False  # If True: output JSON instead of text
 
 # Allowed top-level structure
 ALLOWED_TOP_LEVEL = {
@@ -45,6 +45,7 @@ REQUIRED_DIRS = [
     "scripts",
 ]
 
+
 # ------------------------------------------------------------
 # Helpers
 # ------------------------------------------------------------
@@ -55,8 +56,10 @@ def print_header():
     print(f"{BLUE}        SSRF Command Console — Structure Verification       {NC}")
     print(f"{BLUE}============================================================{NC}")
 
+
 def scan_top_level():
     return sorted(os.listdir("."))
+
 
 def ensure_directories():
     created = []
@@ -66,11 +69,13 @@ def ensure_directories():
             created.append(d)
     return created
 
+
 def recursive_scan(path):
     structure = {}
     for root, dirs, files in os.walk(path):
         structure[root] = {"dirs": dirs, "files": files}
     return structure
+
 
 # ------------------------------------------------------------
 # Main validation logic
@@ -137,6 +142,7 @@ def validate():
 
     print(f"{GREEN}Structure OK — no anomalies detected.{NC}")
     sys.exit(0)
+
 
 # ------------------------------------------------------------
 # Entry point

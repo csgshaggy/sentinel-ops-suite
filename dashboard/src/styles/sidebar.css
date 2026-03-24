@@ -1,0 +1,15 @@
+.sidebar {
+  width: 240px;
+  padding: 1rem;
+  border-right: 1px solid var(--border);
+}
+
+.theme-toggle {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

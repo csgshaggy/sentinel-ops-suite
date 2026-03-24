@@ -30,7 +30,9 @@ def run():
         errors.append(f"Static {static_url} failed: {e}")
 
     status = ok_root and ok_static
-    details = "OK" if status else "; ".join(errors) if errors else "Unknown static issue"
+    details = (
+        "OK" if status else "; ".join(errors) if errors else "Unknown static issue"
+    )
 
     return {
         "name": "static_files_check",

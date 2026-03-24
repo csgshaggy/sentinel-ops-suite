@@ -1,7 +1,8 @@
 # Service Hardening Guide
 
 ## Overview
-This guide provides a comprehensive hardening strategy for deploying the SSRF Command Console in production environments.  
+
+This guide provides a comprehensive hardening strategy for deploying the SSRF Command Console in production environments.
 It focuses on reducing attack surface, enforcing isolation, securing the filesystem, and ensuring deterministic, observable service behavior.
 
 This document complements `SERVICE_DEPLOYMENT.md` by adding security‑focused controls.
@@ -12,11 +13,11 @@ This document complements `SERVICE_DEPLOYMENT.md` by adding security‑focused c
 
 The hardening model is built around:
 
-- **Isolation** — services run with minimal privileges  
-- **Integrity** — code, artifacts, and logs cannot be tampered with  
-- **Determinism** — services behave predictably under all conditions  
-- **Observability** — all actions are logged and auditable  
-- **Resilience** — services restart safely and consistently  
+- **Isolation** — services run with minimal privileges
+- **Integrity** — code, artifacts, and logs cannot be tampered with
+- **Determinism** — services behave predictably under all conditions
+- **Observability** — all actions are logged and auditable
+- **Resilience** — services restart safely and consistently
 
 ---
 
@@ -30,10 +31,10 @@ sudo useradd --system --no-create-home --shell /usr/sbin/nologin ssrf
 
 ### User Restrictions
 
-- No login shell  
-- No home directory  
-- No sudo privileges  
-- No access outside `/opt/ssrf-console` and `/var/log/ssrf`  
+- No login shell
+- No home directory
+- No sudo privileges
+- No access outside `/opt/ssrf-console` and `/var/log/ssrf`
 
 ### Directory Ownership
 
@@ -48,12 +49,12 @@ sudo chown -R ssrf:ssrf /var/log/ssrf
 
 ### Recommended Directory Permissions
 
-| Directory | Permissions | Owner | Notes |
-|----------|-------------|--------|-------|
-| `/opt/ssrf-console` | 750 | ssrf:ssrf | Code + MODEs |
-| `/var/log/ssrf` | 750 | ssrf:ssrf | Logs |
-| `runs/` | 750 | ssrf:ssrf | Immutable run output |
-| `snapshots/` | 750 | ssrf:ssrf | Immutable snapshots |
+| Directory           | Permissions | Owner     | Notes                |
+| ------------------- | ----------- | --------- | -------------------- |
+| `/opt/ssrf-console` | 750         | ssrf:ssrf | Code + MODEs         |
+| `/var/log/ssrf`     | 750         | ssrf:ssrf | Logs                 |
+| `runs/`             | 750         | ssrf:ssrf | Immutable run output |
+| `snapshots/`        | 750         | ssrf:ssrf | Immutable snapshots  |
 
 ### Immutability Enforcement
 
@@ -88,11 +89,11 @@ MemoryDenyWriteExecute=true
 
 ### Explanation of Key Directives
 
-- **ProtectSystem=full** — root filesystem becomes read‑only  
-- **PrivateTmp=true** — isolates `/tmp`  
-- **NoNewPrivileges=true** — prevents privilege escalation  
-- **MemoryDenyWriteExecute=true** — blocks W+X memory regions  
-- **PrivateDevices=true** — hides `/dev` except essentials  
+- **ProtectSystem=full** — root filesystem becomes read‑only
+- **PrivateTmp=true** — isolates `/tmp`
+- **NoNewPrivileges=true** — prevents privilege escalation
+- **MemoryDenyWriteExecute=true** — blocks W+X memory regions
+- **PrivateDevices=true** — hides `/dev` except essentials
 
 These dramatically reduce attack surface.
 
@@ -113,9 +114,9 @@ SSRFC_DASHBOARD_BIND=127.0.0.1
 
 Terminate TLS at:
 
-- Nginx  
-- Caddy  
-- Traefik  
+- Nginx
+- Caddy
+- Traefik
 
 ### Firewall Rules (UFW Example)
 
@@ -167,13 +168,13 @@ sudo chown ssrf:ssrf /var/log/ssrf
 Add `/etc/logrotate.d/ssrf`:
 
 \`\`\`
-/var/log/ssrf/*.log {
-    daily
-    rotate 14
-    compress
-    missingok
-    notifempty
-    copytruncate
+/var/log/ssrf/\*.log {
+daily
+rotate 14
+compress
+missingok
+notifempty
+copytruncate
 }
 \`\`\`
 
@@ -196,14 +197,14 @@ In `config.yaml`:
 
 \`\`\`
 security:
-  allow_unauthenticated: false
+allow_unauthenticated: false
 \`\`\`
 
 ### Enforce token authentication
 
-- Use long, random tokens  
-- Store tokens outside repo  
-- Rotate tokens regularly  
+- Use long, random tokens
+- Store tokens outside repo
+- Rotate tokens regularly
 
 ### Rate Limiting (via reverse proxy)
 
@@ -223,15 +224,15 @@ Enforce:
 
 \`\`\`
 dashboard:
-  read_only: true
+read_only: true
 \`\`\`
 
 ### Disable file downloads if required
 
 Add a proxy rule to block:
 
-- `/artifacts/*`  
-- `/logs/*`  
+- `/artifacts/*`
+- `/logs/*`
 
 ---
 
@@ -239,12 +240,12 @@ Add a proxy rule to block:
 
 ### MODEs must not:
 
-- Spawn subprocesses  
-- Access environment variables  
-- Write outside run directories  
-- Import arbitrary modules  
-- Access other MODEs  
-- Perform network operations unless declared  
+- Spawn subprocesses
+- Access environment variables
+- Write outside run directories
+- Import arbitrary modules
+- Access other MODEs
+- Perform network operations unless declared
 
 ### Enforce capability checks
 
@@ -252,9 +253,10 @@ MODE manifest:
 
 \`\`\`
 requires:
-  - network
-  - http
-\`\`\`
+
+- network
+- http
+  \`\`\`
 
 The engine must reject undeclared capabilities.
 
@@ -264,9 +266,9 @@ The engine must reject undeclared capabilities.
 
 Snapshots must be:
 
-- Immutable  
-- Signed (optional future feature)  
-- Stored in restricted directories  
+- Immutable
+- Signed (optional future feature)
+- Stored in restricted directories
 
 ### Protect snapshots
 
@@ -307,9 +309,9 @@ WatchdogSec=10
 
 ### External Monitoring
 
-- Prometheus exporters  
-- UptimeRobot  
-- Grafana dashboards  
+- Prometheus exporters
+- UptimeRobot
+- Grafana dashboards
 
 ---
 
@@ -317,20 +319,20 @@ WatchdogSec=10
 
 ### Backup Directories
 
-- `runs/`  
-- `snapshots/`  
-- `config.yaml`  
-- `mode.yaml` files  
+- `runs/`
+- `snapshots/`
+- `config.yaml`
+- `mode.yaml` files
 
 ### Recommended Backup Frequency
 
-- Snapshots: daily  
-- Runs: hourly or per‑run  
-- Config: on change  
+- Snapshots: daily
+- Runs: hourly or per‑run
+- Config: on change
 
 ---
 
 # Conclusion
 
-This hardening guide provides a complete, production‑grade security posture for the SSRF Command Console.  
+This hardening guide provides a complete, production‑grade security posture for the SSRF Command Console.
 By applying these controls, operators ensure isolation, integrity, and resilience across all deployed services.

@@ -7,6 +7,7 @@ YELLOW = "\033[1;33m"
 RED = "\033[1;31m"
 RESET = "\033[0m"
 
+
 def run(cmd, label):
     print(f"{YELLOW}[CHECK]{RESET} {label}")
     result = subprocess.run(cmd, shell=True)
@@ -15,6 +16,7 @@ def run(cmd, label):
         return False
     print(f"{GREEN}[OK]{RESET} {label}")
     return True
+
 
 def main():
     ok = True
@@ -29,6 +31,7 @@ def main():
     else:
         print(f"{RED}Repo integrity: FAIL{RESET}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

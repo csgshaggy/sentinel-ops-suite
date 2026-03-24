@@ -9,6 +9,7 @@ The format follows a simplified version of Keep a Changelog.
 ## [Unreleased]
 
 ### Added
+
 - Operator‑grade Makefile with full lifecycle coverage.
 - Documentation suite under `docs/` (architecture, operations, development, troubleshooting, security, Makefile reference).
 - GitHub Actions CI workflow using Makefile targets.
@@ -19,11 +20,13 @@ The format follows a simplified version of Keep a Changelog.
 - Makefile integrity validator (`validators/makefile_integrity_validator.py`).
 
 ### Improved
+
 - Consistent operator‑grade echo banners across scripts.
 - Deterministic environment setup workflows (pip, uv, Poetry).
 - Docker build and run workflows.
 
 ### Fixed
+
 - Structural drift issues caught by validators.
 - Minor inconsistencies in Makefile target descriptions.
 
@@ -32,6 +35,7 @@ The format follows a simplified version of Keep a Changelog.
 ## [0.1.0] — Initial Operator Console
 
 ### Added
+
 - Initial FastAPI backend structure.
 - Basic SSRF scanning pipeline.
 - Core validators:
