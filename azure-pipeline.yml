@@ -1,0 +1,34 @@
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: "3.10"
+
+  - script: |
+      python3 -m venv .venv
+      source .venv/bin/activate
+      pip install -e .
+      pip install -r requirements-dev.txt
+    displayName: Install dependencies
+
+  - script: make structure
+    displayName: Validate structure
+
+  - script: make lint
+    displayName: Lint
+
+  - script: make test
+    displayName: Test
+
+  - script: make build
+    displayName: Build package
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: dist
+      artifactName: dist

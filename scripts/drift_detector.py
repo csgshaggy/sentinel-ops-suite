@@ -1,183 +1,96 @@
 #!/usr/bin/env python3
-"""
-Drift Detector
-
-Compares:
-- baseline.json  (expected state)
-- current.json   (current state)
-
-Produces:
-- runtime/drift_results.json
-
-This script is intentionally simple, deterministic, and
-operator-grade. It does not assume any specific schema beyond
-JSON-serializable dictionaries.
-"""
-
-from __future__ import annotations
-
+import hashlib
 import json
-import sys
 from pathlib import Path
-from datetime import datetime
+
+ROOT = Path(__file__).resolve().parents[1]
+SNAPSHOT = ROOT / "scripts" / "drift_snapshot.json"
+
+IGNORE_DIRS = {
+    "__pycache__",
+    ".git",
+    ".pytest_cache",
+    "pytest_cache",
+    "venv",
+    "src/ssrf_command_console.egg-info",
+}
+
+IGNORE_EXT = {".pyc", ".pyo", ".pth"}
+
+IGNORE_FILES = {str(SNAPSHOT.relative_to(ROOT))}
 
 
-# ---------------------------------------------------------
-# Color helpers (CI-safe)
-# ---------------------------------------------------------
-class C:
-    BLUE = "\033[94m"
-    GREEN = "\033[92m"
-    YELLOW = "\033[93m"
-    RED = "\033[91m"
-    END = "\033[0m"
+def should_ignore(path: Path) -> bool:
+    rel = str(path.relative_to(ROOT))
+
+    if rel in IGNORE_FILES:
+        return True
+
+    if any(part in IGNORE_DIRS for part in path.parts):
+        return True
+
+    if path.suffix in IGNORE_EXT:
+        return True
+
+    if "egg-info" in path.parts:
+        return True
+
+    return False
 
 
-def info(msg):
-    print(f"{C.BLUE}[INFO]{C.END} {msg}")
+def hash_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(8192), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
-def ok(msg):
-    print(f"{C.GREEN}[OK]{C.END} {msg}")
+def collect_current_state():
+    state = {}
+    for p in ROOT.rglob("*"):
+        if p.is_file() and not should_ignore(p):
+            rel = str(p.relative_to(ROOT))
+            state[rel] = hash_file(p)
+    return state
 
 
-def warn(msg):
-    print(f"{C.YELLOW}[WARN]{C.END} {msg}")
+def main() -> int:
+    if not SNAPSHOT.exists():
+        print("[!] No drift snapshot found. Run: make snapshot")
+        return 1
 
+    baseline = json.loads(SNAPSHOT.read_text())
+    current = collect_current_state()
 
-def fail(msg):
-    print(f"{C.RED}[FAIL]{C.END} {msg}")
-
-
-# ---------------------------------------------------------
-# Path resolution
-# ---------------------------------------------------------
-THIS_FILE = Path(__file__).resolve()
-SCRIPTS_DIR = THIS_FILE.parent
-REPO_ROOT = SCRIPTS_DIR.parent
-
-BASELINE = REPO_ROOT / "baseline.json"
-CURRENT = REPO_ROOT / "current.json"
-
-OUTPUT_DIR = REPO_ROOT / "runtime"
-OUTPUT_JSON = OUTPUT_DIR / "drift_results.json"
-
-
-# ---------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------
-def load_json(path: Path):
-    if not path.exists():
-        warn(f"Missing file: {path}")
-        return None
-    try:
-        return json.loads(path.read_text())
-    except Exception as e:
-        fail(f"Failed to parse {path}: {e}")
-        return None
-
-
-def compare_dicts(baseline: dict, current: dict):
-    """
-    Simple recursive diff:
-    - keys added
-    - keys removed
-    - values changed
-    """
-    diffs = []
-
-    baseline_keys = set(baseline.keys())
-    current_keys = set(current.keys())
-
-    added = current_keys - baseline_keys
-    removed = baseline_keys - current_keys
-    common = baseline_keys & current_keys
-
-    for key in sorted(added):
-        diffs.append(
-            {
-                "type": "added",
-                "key": key,
-                "value": current[key],
-            }
-        )
-
-    for key in sorted(removed):
-        diffs.append(
-            {
-                "type": "removed",
-                "key": key,
-                "value": baseline[key],
-            }
-        )
-
-    for key in sorted(common):
-        b = baseline[key]
-        c = current[key]
-
-        if isinstance(b, dict) and isinstance(c, dict):
-            nested = compare_dicts(b, c)
-            for n in nested:
-                n["key"] = f"{key}.{n['key']}"
-            diffs.extend(nested)
-        elif b != c:
-            diffs.append(
-                {
-                    "type": "changed",
-                    "key": key,
-                    "baseline": b,
-                    "current": c,
-                }
-            )
-
-    return diffs
-
-
-# ---------------------------------------------------------
-# Drift detection
-# ---------------------------------------------------------
-def detect_drift():
-    info("Loading baseline and current state...")
-
-    baseline = load_json(BASELINE)
-    current = load_json(CURRENT)
-
-    if baseline is None or current is None:
-        fail(
-            "Cannot perform drift detection without both baseline.json and current.json"
-        )
-        return []
-
-    info("Comparing baseline → current...")
-    diffs = compare_dicts(baseline, current)
-
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-    info(f"Writing drift results → {OUTPUT_JSON}")
-    OUTPUT_JSON.write_text(
-        json.dumps(
-            {
-                "timestamp": datetime.utcnow().isoformat() + "Z",
-                "diffs": diffs,
-            },
-            indent=2,
-        )
+    added = sorted(set(current) - set(baseline))
+    removed = sorted(set(baseline) - set(current))
+    modified = sorted(
+        [f for f in current if f in baseline and current[f] != baseline[f]]
     )
 
-    if diffs:
-        warn(f"Drift detected: {len(diffs)} change(s)")
-    else:
-        ok("No drift detected.")
+    if not (added or removed or modified):
+        print("[*] No drift detected.")
+        return 0
 
-    return diffs
+    print("[!] Drift detected:")
+    if added:
+        print("  [+] Added:")
+        for f in added:
+            print(f"      - {f}")
+
+    if removed:
+        print("  [-] Removed:")
+        for f in removed:
+            print(f"      - {f}")
+
+    if modified:
+        print("  [~] Modified:")
+        for f in modified:
+            print(f"      - {f}")
+
+    return 1
 
 
-# ---------------------------------------------------------
-# Entry point
-# ---------------------------------------------------------
 if __name__ == "__main__":
-    try:
-        detect_drift()
-    except Exception as e:
-        fail(str(e))
-        sys.exit(1)
+    raise SystemExit(main())
