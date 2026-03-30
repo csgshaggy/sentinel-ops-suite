@@ -1,98 +1,160 @@
-# =====================================================================
-# SSRF Command Console — Root Makefile (Hardened + Drift-Aware)
-# =====================================================================
+# ============================================================
+# SSRF Command Console — Operator‑Grade Makefile
+# Monorepo: backend/ + frontend/
+# ============================================================
 
 SHELL := /bin/bash
 
-# ---------------------------------------------------------------------
-# Include modular Makefile components
-# ---------------------------------------------------------------------
-include mk/core.mk
-include mk/env.mk
-include mk/docs.mk
-include mk/release.mk
-include mk/validate.mk
+# ------------------------------------------------------------
+# Git Hooks
+# ------------------------------------------------------------
 
-# ---------------------------------------------------------------------
-# High-level operator targets
-# ---------------------------------------------------------------------
+HOOKS = pre-commit pre-push pre-rebase pre-commit-msg commit-msg post-merge
 
-.PHONY: help
+install-hooks:
+	@echo "🔧 Installing Git hooks..."
+	@for hook in $(HOOKS); do \
+		if [ -f .git/hooks/$$hook ]; then rm -f .git/hooks/$$hook; fi; \
+		cp .git/hooks/$$hook .git/hooks/$$hook; \
+		chmod +x .git/hooks/$$hook; \
+		echo "   ✔ Installed $$hook"; \
+	done
+	@echo "✔ All hooks installed."
+
+verify-hooks:
+	@echo "🔍 Verifying hook presence..."
+	@for hook in $(HOOKS); do \
+		if [ ! -f .git/hooks/$$hook ]; then \
+			echo "❌ Missing hook: $$hook"; \
+			exit 1; \
+		fi; \
+	done
+	@echo "✔ All hooks present."
+
+# ------------------------------------------------------------
+# Repo Structure Validation
+# ------------------------------------------------------------
+
+validate-structure:
+	@./scripts/validate_structure.sh
+
+# ------------------------------------------------------------
+# Backend Commands
+# ------------------------------------------------------------
+
+backend-run:
+	@echo "🚀 Starting backend..."
+	cd backend && uvicorn ssrf_command_console.main:app --reload
+
+backend-format:
+	@echo "🧹 Formatting backend (Black)..."
+	cd backend && black src
+
+backend-lint:
+	@echo "🔎 Linting backend (Ruff)..."
+	cd backend && ruff src
+
+backend-test:
+	@echo "🧪 Running backend tests..."
+	cd backend && pytest
+
+backend-all: backend-format backend-lint backend-test
+
+# ------------------------------------------------------------
+# Frontend Commands
+# ------------------------------------------------------------
+
+frontend-dev:
+	@echo "🚀 Starting frontend dev server..."
+	cd frontend && npm run dev
+
+frontend-build:
+	@echo "🏗️ Building frontend..."
+	cd frontend && npm run build
+
+frontend-format:
+	@echo "🧹 Formatting frontend (Prettier)..."
+	cd frontend && npx prettier --write src
+
+frontend-typecheck:
+	@echo "🔎 Type-checking frontend..."
+	cd frontend && npx tsc --noEmit
+
+frontend-all: frontend-format frontend-typecheck frontend-build
+
+# ------------------------------------------------------------
+# Drift Detection
+# ------------------------------------------------------------
+
+drift:
+	@echo "🔍 Running drift detector..."
+
+	# Structure drift
+	@test -d backend/src/ssrf_command_console || (echo "❌ Drift: backend/src/ssrf_command_console missing" && exit 1)
+	@test -d frontend/src || (echo "❌ Drift: frontend/src missing" && exit 1)
+
+	# Python formatting drift
+	if command -v black >/dev/null 2>&1; then \
+		black --check backend/src || (echo "❌ Python formatting drift detected" && exit 1); \
+	fi
+
+	# JS/TS formatting drift
+	if command -v npx >/dev/null 2>&1; then \
+		npx prettier --check "frontend/src/**/*.{js,jsx,ts,tsx}" || (echo "❌ JS/TS formatting drift detected" && exit 1); \
+	fi
+
+	@echo "✔ No drift detected."
+
+# ------------------------------------------------------------
+# CI Pipeline
+# ------------------------------------------------------------
+
+ci-backend:
+	@echo "🏁 CI: Backend pipeline..."
+	make validate-structure
+	make backend-all
+
+ci-frontend:
+	@echo "🏁 CI: Frontend pipeline..."
+	make validate-structure
+	make frontend-all
+
+ci-full:
+	@echo "🏁 CI: Full monorepo CI..."
+	make validate-structure
+	make backend-all
+	make frontend-all
+	make drift
+	@echo "✅ CI: All checks passed."
+
+# ------------------------------------------------------------
+# Clean
+# ------------------------------------------------------------
+
+clean:
+	@echo "🧽 Cleaning build artifacts..."
+	rm -rf frontend/dist
+	rm -rf backend/.pytest_cache
+	rm -rf backend/__pycache__
+	find backend -type d -name "__pycache__" -exec rm -rf {} +
+	@echo "✔ Clean complete."
+
+# ------------------------------------------------------------
+# Default
+# ------------------------------------------------------------
+
 help:
 	@echo ""
-	@echo "=== SSRF Command Console — Operator Targets ==="
+	@echo "SSRF Command Console — Makefile Commands"
+	@echo "----------------------------------------"
+	@echo "make install-hooks        Install Git hooks"
+	@echo "make verify-hooks         Verify hooks exist"
+	@echo "make validate-structure   Validate monorepo layout"
+	@echo "make backend-run          Run backend server"
+	@echo "make backend-all          Format + lint + test backend"
+	@echo "make frontend-dev         Run frontend dev server"
+	@echo "make frontend-all         Format + typecheck + build frontend"
+	@echo "make drift                Run drift detector"
+	@echo "make ci-full              Full CI pipeline"
+	@echo "make clean                Clean build artifacts"
 	@echo ""
-	@echo "  make validate        - Run structure validator"
-	@echo "  make drift-check     - Run drift-aware validator"
-	@echo "  make drift-report    - Alias for drift-check"
-	@echo "  make status          - Show repo status summary"
-	@echo "  make clean           - Clean build artifacts"
-	@echo "  make safe-clean      - Run safe_clean.sh workflow"
-	@echo "  make doctor          - Full health check"
-	@echo ""
-
-# ---------------------------------------------------------------------
-# Drift-Aware Validator
-# ---------------------------------------------------------------------
-
-.PHONY: drift-check
-drift-check:
-	@echo "=== DRIFT CHECK ==="
-	@python3 scripts/validators/drift_validator.py
-
-.PHONY: drift-report
-drift-report: drift-check
-
-# ---------------------------------------------------------------------
-# Safe Clean
-# ---------------------------------------------------------------------
-
-.PHONY: safe-clean
-safe-clean:
-	@echo "=== SAFE CLEAN ==="
-	@bash scripts/safe_clean.sh
-
-# ---------------------------------------------------------------------
-# Status Summary
-# ---------------------------------------------------------------------
-
-.PHONY: status
-status:
-	@echo "=== STATUS ==="
-	@git status
-	@echo ""
-	@echo "=== VALIDATE ==="
-	@python3 scripts/structure_validator.py || true
-	@echo ""
-	@echo "=== DRIFT CHECK ==="
-	@python3 scripts/validators/drift_validator.py || true
-
-# ---------------------------------------------------------------------
-# Doctor (Full Health Check)
-# ---------------------------------------------------------------------
-
-.PHONY: doctor
-doctor:
-	@echo "=== DOCTOR ==="
-	@echo ""
-	@echo "[1/3] Structure Validator"
-	@python3 scripts/structure_validator.py
-	@echo ""
-	@echo "[2/3] Drift-Aware Validator"
-	@python3 scripts/validators/drift_validator.py
-	@echo ""
-	@echo "[3/3] Environment Check"
-	@$(MAKE) env.inspect
-	@echo ""
-	@echo "Doctor complete."
-
-# ---------------------------------------------------------------------
-# Clean
-# ---------------------------------------------------------------------
-
-.PHONY: clean
-clean:
-	@echo "=== CLEAN ==="
-	@find . -type d -name "__pycache__" -exec rm -rf {} +
-	@find . -type f -name "*.pyc" -delete
-	@rm -rf build dist .pytest_cache

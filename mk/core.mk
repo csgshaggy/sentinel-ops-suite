@@ -1,54 +1,28 @@
-# ============================================================
-# mk/core.mk
-# Core operational targets for the hybrid Makefile system
-# ============================================================
+# ================================
+# mk/core.mk — Core Build Logic
+# ================================
 
 SHELL := /bin/bash
 
-# ------------------------------------------------------------
-# Bootstrap
-# ------------------------------------------------------------
-.PHONY: bootstrap
 bootstrap:
-	@echo "[BOOTSTRAP] Initializing environment..."
-	@python3 scripts/bootstrap.py
+	@echo "[bootstrap] Installing dependencies..."
+	@pip install -r requirements.txt >/dev/null 2>&1 || true
+	@npm install --prefix dashboard >/dev/null 2>&1 || true
+	@echo "[bootstrap] Done."
 
-# ------------------------------------------------------------
-# Clean
-# ------------------------------------------------------------
-.PHONY: clean
 clean:
-	@echo "[CLEAN] Removing build artifacts..."
-	@rm -rf build dist .cache __pycache__
+	@echo "[clean] Removing build artifacts..."
+	@find . -type d -name "__pycache__" -exec rm -rf {} + || true
+	@find . -type d -name "dist" -exec rm -rf {} + || true
+	@find . -type d -name "build" -exec rm -rf {} + || true
+	@echo "[clean] Done."
 
-# ------------------------------------------------------------
-# Self-Check (Makefile + module integrity)
-# ------------------------------------------------------------
-.PHONY: self-check
-self-check:
-	@echo "[SELF-CHECK] Validating Makefile structure..."
-	@python3 scripts/validate_makefile.py
-
-# ------------------------------------------------------------
-# Environment Inspector
-# ------------------------------------------------------------
-.PHONY: env.inspect
 env.inspect:
-	@echo "[ENV] Inspecting environment..."
-	@python3 scripts/env/inspect.py
+	@echo "[env] Python: $$(python3 --version)"
+	@echo "[env] Node:   $$(node --version)"
+	@echo "[env] NPM:    $$(npm --version)"
+	@echo "[env] Git:    $$(git --version)"
 
-# ------------------------------------------------------------
-# Dependency Graph
-# ------------------------------------------------------------
-.PHONY: deps.graph
 deps.graph:
-	@echo "[DEPS] Generating dependency graph..."
-	@python3 scripts/deps/generate_graph.py
-
-# ------------------------------------------------------------
-# Plugin Loader
-# ------------------------------------------------------------
-.PHONY: plugins.load
-plugins.load:
-	@echo "[PLUGINS] Loading plugins..."
-	@python3 scripts/plugins/load_plugins.py
+	@echo "[deps] Generating dependency graph..."
+	@pipdeptree || echo "pipdeptree not installed"

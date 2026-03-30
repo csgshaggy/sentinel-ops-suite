@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Drift-aware structure validator for SSRF Command Console.
-
-Focus: canonical paths, required files, and obvious structural drift.
+SSRF Command Console — Drift-Aware Validator
+Canonical Makefile + mk/ layout enforcement.
 """
 
 import sys
@@ -10,76 +9,60 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 
-REQUIRED_PATHS = [
-    "Makefile",
-    "backend",
-    "dashboard",
-    "scripts",
-    "scripts/canonical",
-    "scripts/validators",
-    "src",
-    "src/ssrf_command_console",
-    "mk",
-]
-
 REQUIRED_FILES = [
     "Makefile",
-    "scripts/structure_validator.py",
-    "scripts/safe_clean.sh",
     "mk/core.mk",
-    "mk/env.mk",
     "mk/docs.mk",
-    "mk/release.mk",
     "mk/validate.mk",
+    "mk/util.mk",
+    "mk/audit.mk",
+    "mk/release.mk",
+    "mk/env.mk",
 ]
 
-def rel(p: Path) -> str:
-    try:
-        return str(p.relative_to(ROOT))
-    except ValueError:
-        return str(p)
+ALLOWED_MK_FILES = {
+    "core.mk",
+    "docs.mk",
+    "validate.mk",
+    "util.mk",
+    "audit.mk",
+    "release.mk",
+    "env.mk",
+}
 
-def check_required_paths():
-    missing = []
-    for rel_path in REQUIRED_PATHS:
-        p = ROOT / rel_path
-        if not p.exists():
-            missing.append(rel_path)
-    return missing
-
-def check_required_files():
-    missing = []
-    for rel_path in REQUIRED_FILES:
-        p = ROOT / rel_path
-        if not p.is_file():
-            missing.append(rel_path)
-    return missing
 
 def main() -> int:
-    print("=== SSRF Command Console — Drift-Aware Validator ===")
-    missing_paths = check_required_paths()
-    missing_files = check_required_files()
+    print("=== SSRF Command Console — Drift-Aware Validator ===\n")
 
-    had_error = False
+    missing = []
+    for rel in REQUIRED_FILES:
+        if not (ROOT / rel).exists():
+            missing.append(rel)
 
-    if missing_paths:
-        had_error = True
-        print("\n[DRIFT] Missing required paths:")
-        for p in missing_paths:
-            print(f"  - {p}")
+    if missing:
+        print("[DRIFT] Missing required files:")
+        for m in missing:
+            print(f"  - {m}")
+        print("\n[FAIL] Structural drift detected. See details above.")
+        return 1
 
-    if missing_files:
-        had_error = True
-        print("\n[DRIFT] Missing required files:")
-        for f in missing_files:
-            print(f"  - {f}")
+    mk_dir = ROOT / "mk"
+    unexpected = []
+    if mk_dir.exists():
+        for p in mk_dir.glob("*.mk"):
+            if p.name not in ALLOWED_MK_FILES:
+                unexpected.append(p.name)
 
-    if not had_error:
-        print("\n[OK] No structural drift detected.")
-        return 0
+    if unexpected:
+        print("[DRIFT] Unexpected mk/*.mk files detected:")
+        for name in unexpected:
+            print(f"  - {name}")
+        print("\n[FAIL] Structural drift detected. See details above.")
+        return 1
 
-    print("\n[FAIL] Structural drift detected. See details above.")
-    return 1
+    print("[OK] No structural drift detected.")
+    return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

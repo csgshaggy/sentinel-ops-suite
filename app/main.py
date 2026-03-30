@@ -1,68 +1,47 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Admin routers
-from app.routers.admin.home import router as home_router
-from app.routers.admin.logs import router as logs_router
-from app.routers.admin.system import router as system_router
-from app.routers.admin.docs import router as docs_router
-from app.routers.admin.superdoctor import router as superdoctor_router
+# Core settings
+from app.core.config import settings
 
-# Settings / config
-from utils.settings import Settings
-from utils.logging import init_logging
+# Routers
+from app.api.routes.auth import router as auth_router
+from app.auth.mfa import router as mfa_router
+# Add additional routers here as your project grows:
+# from app.api.routes.users import router as users_router
+# from app.api.routes.admin import router as admin_router
 
 
 def create_app() -> FastAPI:
-    """
-    Create and configure the FastAPI application.
-    This is the authoritative entrypoint for the backend.
-    """
-
-    # Load settings
-    settings = Settings()
-
-    # Initialize logging early
-    init_logging()
-
     app = FastAPI(
-        title="SSRF Console Backend",
-        description="Operator-grade backend with diagnostics, admin panels, and observability.",
+        title=settings.PROJECT_NAME,
         version="1.0.0",
+        docs_url="/docs",
+        redoc_url="/redoc",
     )
 
-    # ------------------------------------------------------------
-    # CORS (optional, but common for dashboards)
-    # ------------------------------------------------------------
-    if settings.enable_cors:
-        app.add_middleware(
-            CORSMiddleware,
-            allow_origins=settings.cors_origins,
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-        )
+    # -----------------------------
+    # CORS
+    # -----------------------------
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],  # tighten in production
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-    # ------------------------------------------------------------
-    # Register routers
-    # ------------------------------------------------------------
-    app.include_router(home_router, prefix="/admin")
-    app.include_router(logs_router, prefix="/admin")
-    app.include_router(system_router, prefix="/admin")
-    app.include_router(docs_router, prefix="/admin")
-    app.include_router(superdoctor_router, prefix="/admin")
+    # -----------------------------
+    # Routers
+    # -----------------------------
+    app.include_router(auth_router, prefix="/auth")
+    app.include_router(mfa_router, prefix="/auth")  # MFA lives under /auth/mfa/*
 
-    # ------------------------------------------------------------
-    # Health check
-    # ------------------------------------------------------------
-    @app.get("/health")
-    def health():
-        return {"status": "ok"}
+    # Example future routers:
+    # app.include_router(users_router, prefix="/users")
+    # app.include_router(admin_router, prefix="/admin")
 
     return app
 
 
-# ------------------------------------------------------------
-# ASGI entrypoint
-# ------------------------------------------------------------
 app = create_app()

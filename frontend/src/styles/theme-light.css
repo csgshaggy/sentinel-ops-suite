@@ -1,0 +1,25 @@
+/* ========================================================================== */
+/*  LIGHT THEME                                                               */
+/*  dashboard/src/styles/theme-light.css                                      */
+/* ========================================================================== */
+
+:root[data-theme="light"] {
+  --color-bg: #f3f4f6;
+  --color-bg-alt: #ffffff;
+  --color-surface: #ffffff;
+  --color-border: #d1d5db;
+
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+
+  --color-accent: #2563eb;
+  --color-accent-hover: #1d4ed8;
+
+  --color-danger: #dc2626;
+  --color-warning: #d97706;
+  --color-success: #16a34a;
+
+  --scrollbar-bg: #e5e7eb;
+  --scrollbar-thumb: #cbd5f5;
+  --scrollbar-thumb-hover: #9ca3af;
+}
