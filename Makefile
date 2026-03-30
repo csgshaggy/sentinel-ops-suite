@@ -36,6 +36,8 @@ help:
 	@printf "%-20s %s\n" "drift:" "Detect formatting + structure drift"
 	@printf "%-20s %s\n" "frontend:" "Run frontend dev server"
 	@printf "%-20s %s\n" "backend:" "Run backend API"
+	@printf "%-20s %s\n" "sync:" "Run sync workflow"
+	@printf "%-20s %s\n" "pre-sync:" "Run pre-sync validator"
 	@printf "%-20s %s\n" "docker-build:" "Build Docker image"
 	@printf "%-20s %s\n" "docker-run:" "Run Docker container"
 	@printf "%-20s %s\n" "uninstall:" "Full uninstall suite"
@@ -95,6 +97,20 @@ test:
 rebuild:
 	$(MAKE) clean
 	$(MAKE) deps
+
+
+# --- NEW: Pre-Sync Validator ---
+pre-sync:
+	@echo "🔍 Running pre-sync validator..."
+	@chmod +x ./pre_sync_validator.sh
+	@./pre_sync_validator.sh
+
+
+# --- NEW: Sync Target ---
+sync:
+	@$(MAKE) pre-sync
+	@chmod +x ./sync.sh
+	@./sync.sh
 
 
 
