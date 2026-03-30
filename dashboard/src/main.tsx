@@ -1,15 +1,39 @@
+// =====================================================================
+// SSRF Command Console — Root Entrypoint (main.tsx)
+// Wraps entire app in global providers + router
+// =====================================================================
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import { ThemeProvider } from "./context/ThemeContext";
+import { BrowserRouter } from "react-router-dom";
 
-import "./styles/theme.css";
+import AppRoutes from "./routes/AppRoutes";
+
+// Global Providers
+import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
+import { LayoutProvider } from "./context/LayoutContext";
+import { NotificationProvider } from "./context/NotificationContext";
+
+// Global UI
+import NotificationCenter from "./components/NotificationCenter";
+
+// Global Styles
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <NotificationProvider>
+          <LayoutProvider>
+            <BrowserRouter>
+              <AppRoutes />
+              <NotificationCenter />
+            </BrowserRouter>
+          </LayoutProvider>
+        </NotificationProvider>
+      </ThemeProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

@@ -1,0 +1,25 @@
+/* ========================================================================== */
+/*  TABLE COMPONENT                                                           */
+/* ========================================================================== */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table th {
+  text-align: left;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.table tr:hover {
+  background: var(--color-bg-alt);
+}

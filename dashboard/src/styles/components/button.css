@@ -1,0 +1,25 @@
+/* ========================================================================== */
+/*  BUTTON COMPONENT                                                          */
+/* ========================================================================== */
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 500;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+}
+
+.btn-success {
+  background: var(--color-success);
+}

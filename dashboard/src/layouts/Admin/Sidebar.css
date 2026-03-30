@@ -1,0 +1,55 @@
+/* ====================================================================
+   SSRF Command Console — Sidebar Styles
+   ==================================================================== */
+
+.admin-sidebar {
+  width: 220px;
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.2s ease;
+  overflow: hidden;
+}
+
+.admin-sidebar.collapsed {
+  width: 60px;
+}
+
+.admin-sidebar-title {
+  padding: 1rem;
+  font-weight: bold;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+.admin-sidebar-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+.admin-sidebar-nav li {
+  padding: 0.55rem 1rem;
+  transition: background 0.15s ease;
+}
+
+.admin-sidebar-nav li:hover {
+  background: var(--panel-accent);
+}
+
+.admin-sidebar-nav li.active {
+  background: var(--panel-accent);
+}
+
+.admin-sidebar-nav li a {
+  color: var(--text);
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}

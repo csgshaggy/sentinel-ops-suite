@@ -1,0 +1,25 @@
+/* ========================================================================== */
+/*  FORM COMPONENTS                                                           */
+/* ========================================================================== */
+
+.input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border var(--transition-fast);
+}
+
+.input:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
