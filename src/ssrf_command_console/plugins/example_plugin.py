@@ -1,5 +1,6 @@
 from .base import SSRFPlugin
 
+
 class ExamplePlugin(SSRFPlugin):
     name = "example"
 

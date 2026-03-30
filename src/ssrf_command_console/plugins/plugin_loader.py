@@ -2,6 +2,7 @@ import pkgutil
 import importlib
 from .plugins.base import SSRFPlugin
 
+
 def load_plugins():
     """
     Dynamically discover and load all SSRF plugins.
@@ -15,7 +16,11 @@ def load_plugins():
 
         for attr in dir(module):
             obj = getattr(module, attr)
-            if isinstance(obj, type) and issubclass(obj, SSRFPlugin) and obj is not SSRFPlugin:
+            if (
+                isinstance(obj, type)
+                and issubclass(obj, SSRFPlugin)
+                and obj is not SSRFPlugin
+            ):
                 instance = obj()
                 plugins[instance.name] = instance
 

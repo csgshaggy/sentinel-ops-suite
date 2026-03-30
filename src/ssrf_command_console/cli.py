@@ -29,6 +29,7 @@ _app = typer.Typer(
 # VERSION COMMAND
 # ============================================================================
 
+
 @_app.command("version")
 def version_command() -> None:
     """
@@ -40,6 +41,7 @@ def version_command() -> None:
 # ============================================================================
 # HELLO COMMAND
 # ============================================================================
+
 
 @_app.command("hello")
 def hello_command(name: str = "operator") -> None:
