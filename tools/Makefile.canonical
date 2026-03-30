@@ -1,150 +1,17 @@
-# =====================================================================
-# SSRF COMMAND CONSOLE — MASTER MAKEFILE
-# Operator‑grade, deterministic, colorized, and modular
-# =====================================================================
+# ============================================
+# CANONICAL MAKEFILE — HARDENED EDITION
+# ============================================
 
-SHELL := /bin/bash
-.ONESHELL:
-.SHELLFLAGS := -eu -o pipefail -c
+.PHONY: canonical
+canonical:
+	@echo "=== CANONICAL STRUCTURE CHECK ==="
+	@python3 scripts/structure_validator.py
 
-# Colors
-GREEN  := \033[1;32m
-YELLOW := \033[1;33m
-BLUE   := \033[1;34m
-RED    := \033[1;31m
-RESET  := \033[0m
+.PHONY: safe-clean
+safe-clean:
+	@echo "Delegating safe-clean to root Makefile..."
+	@make -C .. safe-clean
 
-# Python
-PYTHON := python3
-
-# Paths
-BACKEND_DIR := backend
-TOOLS_DIR   := tools
-SCRIPTS_DIR := scripts
-DASHBOARD_DIR := dashboard
-
-# =====================================================================
-# HELP
-# =====================================================================
-
-.PHONY: help
-help:
-	@echo -e "$(GREEN)SSRF COMMAND CONSOLE — AVAILABLE TARGETS$(RESET)"
-	@echo ""
-	@echo -e "$(BLUE)Backend$(RESET)"
-	@echo "  make backend-run        — Run FastAPI backend"
-	@echo "  make backend-dev        — Auto-reload backend"
-	@echo ""
-	@echo -e "$(BLUE)Dashboard$(RESET)"
-	@echo "  make dashboard-dev      — Run React/Vite dashboard"
-	@echo "  make dashboard-build    — Build dashboard for production"
-	@echo ""
-	@echo -e "$(BLUE)Diagnostics$(RESET)"
-	@echo "  make doctor-check       — Run Super Doctor with CI health gate"
-	@echo "  make doctor-view        — Run plugin registry viewer"
-	@echo "  make doctor-tui         — Launch curses TUI dashboard"
-	@echo ""
-	@echo -e "$(BLUE)Makefile Governance$(RESET)"
-	@echo "  make makefile-validate  — Validate Makefile structure"
-	@echo "  make makefile-health    — Compute Makefile health score"
-	@echo "  make makefile-index     — Generate docs/MAKEFILE.md"
-	@echo ""
-	@echo -e "$(BLUE)Utilities$(RESET)"
-	@echo "  make plugin-new name=X category=Y  — Generate new plugin"
-	@echo ""
-
-# =====================================================================
-# BACKEND
-# =====================================================================
-
-.PHONY: backend-run
-backend-run:
-	@echo -e "$(GREEN)[backend] starting FastAPI server...$(RESET)"
-	cd $(BACKEND_DIR)
-	$(PYTHON) -m uvicorn main:app --host 0.0.0.0 --port 8000
-
-.PHONY: backend-dev
-backend-dev:
-	@echo -e "$(GREEN)[backend] starting FastAPI dev server (reload)...$(RESET)"
-	cd $(BACKEND_DIR)
-	$(PYTHON) -m uvicorn main:app --reload --host 0.0.0.0 --port 8000
-
-# =====================================================================
-# DASHBOARD
-# =====================================================================
-
-.PHONY: dashboard-dev
-dashboard-dev:
-	@echo -e "$(GREEN)[dashboard] starting Vite dev server...$(RESET)"
-	cd $(DASHBOARD_DIR)
-	npm run dev
-
-.PHONY: dashboard-build
-dashboard-build:
-	@echo -e "$(GREEN)[dashboard] building production bundle...$(RESET)"
-	cd $(DASHBOARD_DIR)
-	npm run build
-
-# =====================================================================
-# DIAGNOSTICS
-# =====================================================================
-
-.PHONY: doctor-check
-doctor-check:
-	@echo -e "$(YELLOW)[doctor] running Super Doctor with min health 90...$(RESET)"
-	cd $(TOOLS_DIR)
-	$(PYTHON) -m tools.cli_super_doctor --min-health 90
-
-.PHONY: doctor-view
-doctor-view:
-	@echo -e "$(YELLOW)[doctor] listing plugin registry...$(RESET)"
-	cd $(TOOLS_DIR)
-	$(PYTHON) -m tools.plugin_registry_viewer
-
-.PHONY: doctor-tui
-doctor-tui:
-	@echo -e "$(YELLOW)[doctor] launching TUI dashboard...$(RESET)"
-	cd $(SCRIPTS_DIR)
-	$(PYTHON) tui_dashboard.py
-
-# =====================================================================
-# MAKEFILE GOVERNANCE
-# =====================================================================
-
-.PHONY: makefile-validate
-makefile-validate:
-	@echo -e "$(YELLOW)[makefile] validating Makefile structure...$(RESET)"
-	cd $(TOOLS_DIR)
-	$(PYTHON) -m tools.makefile_validator
-
-.PHONY: makefile-health
-makefile-health:
-	@echo -e "$(YELLOW)[makefile] computing Makefile health score...$(RESET)"
-	cd $(TOOLS_DIR)
-	$(PYTHON) -m tools.makefile_health
-
-.PHONY: makefile-index
-makefile-index:
-	@echo -e "$(YELLOW)[makefile] generating Makefile index...$(RESET)"
-	cd $(TOOLS_DIR)
-	$(PYTHON) -m tools.makefile_index_generator
-
-# =====================================================================
-# PLUGIN GENERATOR
-# =====================================================================
-
-.PHONY: plugin-new
-plugin-new:
-ifndef name
-	$(error Usage: make plugin-new name=<plugin_name> category=<category>)
-endif
-ifndef category
-	$(error Usage: make plugin-new name=<plugin_name> category=<category>)
-endif
-	@echo -e "$(BLUE)[plugin] generating plugin '$(name)' in category '$(category)'...$(RESET)"
-	cd $(TOOLS_DIR)
-	$(PYTHON) -m tools.generate_plugin $(name) --category $(category)
-
-# =====================================================================
-# END
-# =====================================================================
+.PHONY: validate
+validate:
+	@python3 scripts/structure_validator.py

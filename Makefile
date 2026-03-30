@@ -1,80 +1,58 @@
-# ============================================================================
-# SSRF Command Console — Operator-Grade Makefile
-# ============================================================================
+# ============================================
+# ROOT MAKEFILE — HARDENED EDITION
+# ============================================
 
-PYTHON := .venv/bin/python
-PIP := .venv/bin/pip
+# Include modular Makefile components
+include mk/core.mk
+include mk/env.mk
+include mk/docs.mk
+include mk/release.mk
+include mk/validate.mk
 
-# ----------------------------------------------------------------------------
-# ENVIRONMENT
-# ----------------------------------------------------------------------------
+.PHONY: all
+all: validate
 
-.PHONY: venv
-venv:
-	python3 -m venv .venv
-	$(PIP) install --upgrade pip
+# --------------------------------------------
+# VALIDATION
+# --------------------------------------------
+.PHONY: validate
+validate:
+	@echo "=== VALIDATE ==="
+	@python3 scripts/structure_validator.py
+	@echo "Structure OK."
 
-.PHONY: install
-install: venv
-	$(PIP) install -e .[dev]
+# --------------------------------------------
+# SAFE CLEAN (HARDENED)
+# --------------------------------------------
+.PHONY: safe-clean
+safe-clean:
+	@echo "=== SAFE CLEAN ==="
+	@./scripts/safe_clean.sh --force-clean
 
-# ----------------------------------------------------------------------------
-# LINTING & FORMATTING
-# ----------------------------------------------------------------------------
-
-.PHONY: lint
-lint:
-	$(PYTHON) -m ruff check src/ssrf_command_console
-
-.PHONY: format
-format:
-	$(PYTHON) -m ruff format src/ssrf_command_console
-
-# ----------------------------------------------------------------------------
-# TESTING
-# ----------------------------------------------------------------------------
-
-.PHONY: test
-test:
-	$(PYTHON) -m pytest --cov=ssrf_command_console
-
-# ----------------------------------------------------------------------------
-# STRUCTURE VALIDATION
-# ----------------------------------------------------------------------------
-
-.PHONY: structure
-structure:
-	$(PYTHON) scripts/structure_validator.py
-
-# ----------------------------------------------------------------------------
-# CLI STRUCTURE VALIDATION (NO HEREDOC)
-# ----------------------------------------------------------------------------
-
-.PHONY: cli-validate
-cli-validate:
-	$(PYTHON) scripts/cli_validator.py
-
-# ----------------------------------------------------------------------------
-# FULL DOCTOR SUITE
-# ----------------------------------------------------------------------------
-
+# --------------------------------------------
+# DOCTOR
+# --------------------------------------------
 .PHONY: doctor
 doctor:
-	@echo ""
-	@echo "Running full doctor suite..."
-	$(MAKE) structure
-	$(MAKE) lint
-	$(MAKE) test
-	$(MAKE) cli-validate
-	@echo ""
-	@echo "All checks passed!"
-	@echo ""
+	@python3 scripts/doctor/run_doctor.py
 
-# ----------------------------------------------------------------------------
-# CLEANUP
-# ----------------------------------------------------------------------------
+# --------------------------------------------
+# STATUS
+# --------------------------------------------
+.PHONY: status
+status:
+	@python3 scripts/project_health.py
 
-.PHONY: clean
-clean:
-	find . -name "*.pyc" -delete
-	find . -name "__pycache__" -type d -exec rm -rf {} +
+# --------------------------------------------
+# RUN BACKEND + FRONTEND
+# --------------------------------------------
+.PHONY: run
+run:
+	@echo "Starting backend..."
+	@uvicorn app.main:app --reload
+
+.PHONY: build
+build:
+	@echo "Building backend + dashboard..."
+	@make -C backend build
+	@make -C dashboard build

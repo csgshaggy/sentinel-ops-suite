@@ -1,74 +1,35 @@
 # ============================================
-# Dashboard Makefile
-# Location: dashboard/Makefile
-# Purpose: Unified test + dev automation
+# DASHBOARD MAKEFILE — HARDENED EDITION
 # ============================================
 
-SHELL := /bin/bash
-
-# Colors
-GREEN := \033[0;32m
-BLUE  := \033[0;34m
-CYAN  := \033[0;36m
-RESET := \033[0m
-
-# --------------------------------------------
-# HELP
-# --------------------------------------------
-.PHONY: help
-help:
-	@echo -e "$(CYAN)Dashboard Makefile Targets$(RESET)"
-	@echo -e "$(BLUE)make dev$(RESET)            - Start Vite dev server"
-	@echo -e "$(BLUE)make test-unit$(RESET)       - Run Vitest unit tests"
-	@echo -e "$(BLUE)make test-ui$(RESET)         - Run Playwright E2E tests"
-	@echo -e "$(BLUE)make test-ui-ci$(RESET)      - Run Playwright tests in CI mode"
-	@echo -e "$(BLUE)make install$(RESET)         - Install npm dependencies"
-	@echo -e "$(BLUE)make browsers$(RESET)        - Install Playwright browsers"
-	@echo -e "$(BLUE)make clean$(RESET)           - Remove node_modules + lockfile"
-
-# --------------------------------------------
-# INSTALLATION
-# --------------------------------------------
 .PHONY: install
 install:
-	npm install
+	@npm install
 
-.PHONY: browsers
-browsers:
-	npx playwright install --with-deps
-
-# --------------------------------------------
-# DEVELOPMENT
-# --------------------------------------------
 .PHONY: dev
 dev:
-	npm run dev
+	@npm run dev
+
+.PHONY: build
+build:
+	@npm run build
+
+.PHONY: test
+test:
+	@npm test
 
 # --------------------------------------------
-# UNIT TESTS (VITEST)
+# SAFE CLEAN (delegates to root)
 # --------------------------------------------
-.PHONY: test-unit
-test-unit:
-	npx vitest run
+.PHONY: safe-clean
+safe-clean:
+	@echo "Delegating safe-clean to root Makefile..."
+	@make -C .. safe-clean
 
 # --------------------------------------------
-# E2E TESTS (PLAYWRIGHT)
+# VALIDATE
 # --------------------------------------------
-.PHONY: test-ui
-test-ui:
-	npx playwright test
-
-# --------------------------------------------
-# CI MODE (NO WATCH, NO HEADLESS OVERRIDE)
-# --------------------------------------------
-.PHONY: test-ui-ci
-test-ui-ci:
-	npx playwright install --with-deps
-	npx playwright test --reporter=line
-
-# --------------------------------------------
-# CLEAN
-# --------------------------------------------
-.PHONY: clean
-clean:
-	rm -rf node_modules package-lock.json
+.PHONY: validate
+validate:
+	@echo "Validating dashboard structure..."
+	@python3 ../scripts/structure_validator.py
