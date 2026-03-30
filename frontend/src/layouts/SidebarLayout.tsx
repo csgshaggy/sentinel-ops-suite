@@ -1,11 +1,7 @@
 import { useTheme } from "../context/ThemeContext";
 import "./SidebarLayout.css";
 
-export default function SidebarLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function SidebarLayout({ children }: { children: React.ReactNode }) {
   const { theme, toggleTheme } = useTheme();
 
   return (

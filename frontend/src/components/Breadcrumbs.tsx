@@ -15,9 +15,7 @@ export default function Breadcrumbs() {
     const parts = location.pathname.split("/").filter(Boolean);
 
     const mapped = parts.map((part, idx) => {
-      const label =
-        part.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) ||
-        "Home";
+      const label = part.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) || "Home";
 
       return {
         label,

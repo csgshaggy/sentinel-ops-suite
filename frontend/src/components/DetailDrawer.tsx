@@ -13,11 +13,7 @@ interface DetailDrawerProps {
   onClose: () => void;
 }
 
-const DetailDrawer: React.FC<DetailDrawerProps> = ({
-  open,
-  plugin,
-  onClose,
-}) => {
+const DetailDrawer: React.FC<DetailDrawerProps> = ({ open, plugin, onClose }) => {
   if (!open || !plugin) return null;
 
   return (
@@ -27,9 +23,7 @@ const DetailDrawer: React.FC<DetailDrawerProps> = ({
       {plugin.description && <p>{plugin.description}</p>}
       <p>
         <strong>Last Run:</strong>{" "}
-        {plugin.lastRunAt
-          ? new Date(plugin.lastRunAt).toLocaleString()
-          : "Never"}
+        {plugin.lastRunAt ? new Date(plugin.lastRunAt).toLocaleString() : "Never"}
       </p>
     </div>
   );

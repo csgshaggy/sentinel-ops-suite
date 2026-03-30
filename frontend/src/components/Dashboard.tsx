@@ -31,10 +31,7 @@ export default function Dashboard() {
   // ------------------------------------------------------------
   const loadData = async () => {
     try {
-      const [pluginData, timingData] = await Promise.all([
-        fetchPlugins(),
-        fetchTimingBuckets(),
-      ]);
+      const [pluginData, timingData] = await Promise.all([fetchPlugins(), fetchTimingBuckets()]);
 
       setPlugins(pluginData);
       setTiming(timingData);
@@ -68,8 +65,7 @@ export default function Dashboard() {
 
     const matchesStatus = statusFilter === "all" || p.status === statusFilter;
 
-    const matchesCategory =
-      categoryFilter === "all" || p.category === categoryFilter;
+    const matchesCategory = categoryFilter === "all" || p.category === categoryFilter;
 
     return matchesSearch && matchesStatus && matchesCategory;
   });
@@ -125,17 +121,11 @@ export default function Dashboard() {
             />
           </div>
 
-          <PluginTable
-            plugins={filteredPlugins}
-            onSelect={(plugin) => setSelectedPlugin(plugin)}
-          />
+          <PluginTable plugins={filteredPlugins} onSelect={(plugin) => setSelectedPlugin(plugin)} />
         </div>
       </div>
 
-      <DetailDrawer
-        plugin={selectedPlugin}
-        onClose={() => setSelectedPlugin(null)}
-      />
+      <DetailDrawer plugin={selectedPlugin} onClose={() => setSelectedPlugin(null)} />
     </div>
   );
 }

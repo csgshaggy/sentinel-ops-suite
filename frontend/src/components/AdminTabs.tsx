@@ -17,9 +17,7 @@ type Props = {
 };
 
 export default function AdminTabs({ tabs, defaultTabId }: Props) {
-  const [activeId, setActiveId] = useState(
-    defaultTabId ?? (tabs[0] ? tabs[0].id : ""),
-  );
+  const [activeId, setActiveId] = useState(defaultTabId ?? (tabs[0] ? tabs[0].id : ""));
 
   const activeTab = tabs.find((t) => t.id === activeId);
 

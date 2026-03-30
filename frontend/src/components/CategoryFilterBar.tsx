@@ -8,17 +8,9 @@ interface Props {
   categories: string[];
 }
 
-export default function CategoryFilterBar({
-  value,
-  onChange,
-  categories,
-}: Props) {
+export default function CategoryFilterBar({ value, onChange, categories }: Props) {
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      style={{ padding: "0.5rem" }}
-    >
+    <select value={value} onChange={(e) => onChange(e.target.value)} style={{ padding: "0.5rem" }}>
       <option value="all">All Categories</option>
 
       {categories.map((cat) => (

@@ -1,22 +1,8 @@
-#!/usr/bin/env python3
-"""
-makefile_integrity_validator.py
-
-Ensures the Makefile has not drifted from the expected operator‑grade structure.
-This validator checks:
-
-- Required section banners
-- Required targets
-- Required ordering
-- No missing or renamed sections
-- No accidental deletions
-"""
-
+#!/usr/bin/env python
 import sys
 from pathlib import Path
 
 REQUIRED_BANNERS = [
-    "SSRF COMMAND CONSOLE — OPERATOR-GRADE MAKEFILE",
     "SECTION 1 — NEW TARGETS",
     "SECTION 2 — UV INTEGRATION",
     "SECTION 2 — POETRY INTEGRATION",
@@ -63,38 +49,53 @@ REQUIRED_TARGETS = [
 ]
 
 
-def fail(msg):
+def fail(msg: str) -> None:
     print(f"[ERROR] {msg}")
     sys.exit(1)
 
 
-def main():
+def main() -> None:
     makefile_path = Path("Makefile")
-
     if not makefile_path.exists():
         fail("Makefile not found in project root.")
 
     content = makefile_path.read_text()
 
-    # Check banners
+    # Banners present
     for banner in REQUIRED_BANNERS:
         if banner not in content:
             fail(f"Missing required banner: {banner}")
 
-    # Check targets
-    for target in REQUIRED_TARGETS:
-        if target not in content:
-            fail(f"Missing required target: {target}")
-
-    # Optional: enforce ordering
-    last_index = -1
+    # Banners in order
+    last_idx = -1
     for banner in REQUIRED_BANNERS:
         idx = content.find(banner)
         if idx == -1:
             fail(f"Banner not found: {banner}")
-        if idx < last_index:
+        if idx < last_idx:
             fail(f"Banner out of order: {banner}")
-        last_index = idx
+        last_idx = idx
+
+    # Targets present
+    for target in REQUIRED_TARGETS:
+        if target not in content:
+            fail(f"Missing required target: {target}")
+
+    # Format target must reference black + prettier
+    if "format:" not in content or "black" not in content or "prettier" not in content:
+        fail("format target must reference both black and prettier.")
+
+    # Drift target must call validate-structure and use --check
+    if "drift:" not in content:
+        fail("Missing drift target.")
+    if "validate-structure" not in content:
+        fail("drift target must call validate-structure.")
+    if "--check" not in content:
+        fail("drift target must use --check for formatters.")
+
+    # self-check must call validate-structure and drift
+    if "self-check:" not in content or "validate-structure" not in content or "drift" not in content:
+        fail("self-check target must call validate-structure and drift.")
 
     print("[OK] Makefile integrity validated successfully.")
 

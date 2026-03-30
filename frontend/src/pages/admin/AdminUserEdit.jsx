@@ -65,11 +65,7 @@ export default function AdminUserEdit({ userId }) {
       </select>
 
       <label style={{ marginTop: "1rem" }}>
-        <input
-          type="checkbox"
-          checked={isActive}
-          onChange={(e) => setIsActive(e.target.checked)}
-        />
+        <input type="checkbox" checked={isActive} onChange={(e) => setIsActive(e.target.checked)} />
         Active
       </label>
 

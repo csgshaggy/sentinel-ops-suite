@@ -72,9 +72,7 @@ export default function AdminUsers() {
           is_active: u.is_active ? "Yes" : "No",
           actions: (
             <div style={{ display: "flex", gap: "0.5rem" }}>
-              <button onClick={() => handleResetPassword(u.id)}>
-                Reset Password
-              </button>
+              <button onClick={() => handleResetPassword(u.id)}>Reset Password</button>
 
               <button
                 style={{

@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  fetchMakefileHealth,
-  fetchPlugins,
-  fetchTimingBuckets,
-} from "../api/client";
+import { fetchMakefileHealth, fetchPlugins, fetchTimingBuckets } from "../api/client";
 
 export default function HealthSummaryWidget() {
   const [makefileHealth, setMakefileHealth] = useState(100);
@@ -22,9 +18,7 @@ export default function HealthSummaryWidget() {
 
       const timing = await fetchTimingBuckets();
       const total = timing.reduce((a, b) => a + b.count, 0);
-      const fast = timing
-        .filter((b) => b.bucket.includes("0-50"))
-        .reduce((a, b) => a + b.count, 0);
+      const fast = timing.filter((b) => b.bucket.includes("0-50")).reduce((a, b) => a + b.count, 0);
       setTimingHealth(Math.round((fast / total) * 100));
     };
 
@@ -54,8 +48,7 @@ export default function HealthSummaryWidget() {
       </p>
 
       <h2 style={{ marginTop: "1rem" }}>
-        Overall Score:{" "}
-        {Math.round((makefileHealth + pluginHealth + timingHealth) / 3)}
+        Overall Score: {Math.round((makefileHealth + pluginHealth + timingHealth) / 3)}
       </h2>
     </div>
   );

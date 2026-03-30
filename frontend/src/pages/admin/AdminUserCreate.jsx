@@ -40,11 +40,7 @@ export default function AdminUserCreate() {
         onSubmit={handleSubmit}
         style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
       >
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
         <input
           placeholder="Temporary Password"

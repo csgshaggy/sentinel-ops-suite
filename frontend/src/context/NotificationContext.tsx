@@ -3,13 +3,7 @@
 // Global toast system • Auto-dismiss • Theme-compatible
 // =====================================================================
 
-import {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useCallback,
-} from "react";
+import { createContext, useContext, useState, ReactNode, useCallback } from "react";
 
 export type NotificationType = "info" | "success" | "error";
 
@@ -25,9 +19,7 @@ type NotificationContextType = {
   remove: (id: string) => void;
 };
 
-const NotificationContext = createContext<NotificationContextType | undefined>(
-  undefined,
-);
+const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export function NotificationProvider({ children }: { children: ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -46,7 +38,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
       // Auto-dismiss after 4 seconds
       setTimeout(() => remove(id), 4000);
     },
-    [remove],
+    [remove]
   );
 
   return (
@@ -65,9 +57,7 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
 export function useNotifications() {
   const ctx = useContext(NotificationContext);
   if (!ctx) {
-    throw new Error(
-      "useNotifications must be used within NotificationProvider",
-    );
+    throw new Error("useNotifications must be used within NotificationProvider");
   }
   return ctx;
 }

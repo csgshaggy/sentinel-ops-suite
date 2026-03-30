@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 interface Props {
   data: { name: string; value: number }[];
@@ -19,12 +12,7 @@ export default function TimingLineChart({ data }: Props) {
         <XAxis dataKey="name" stroke="var(--text)" />
         <YAxis stroke="var(--text)" />
         <Tooltip />
-        <Line
-          type="monotone"
-          dataKey="value"
-          stroke="#9b59b6"
-          strokeWidth={2}
-        />
+        <Line type="monotone" dataKey="value" stroke="#9b59b6" strokeWidth={2} />
       </LineChart>
     </ResponsiveContainer>
   );

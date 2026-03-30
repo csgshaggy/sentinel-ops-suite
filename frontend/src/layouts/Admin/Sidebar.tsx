@@ -32,9 +32,7 @@ export default function Sidebar() {
         <ul className="admin-sidebar-nav">
           {/* Dashboard */}
           <li className={isActive("/admin/dashboard") ? "active" : ""}>
-            <Link to="/admin/dashboard">
-              {!sidebarCollapsed && "Dashboard"}
-            </Link>
+            <Link to="/admin/dashboard">{!sidebarCollapsed && "Dashboard"}</Link>
           </li>
 
           {/* Users (admin/operator only) */}
@@ -45,9 +43,7 @@ export default function Sidebar() {
               </li>
 
               <li className={isActive("/admin/users/create") ? "active" : ""}>
-                <Link to="/admin/users/create">
-                  {!sidebarCollapsed && "Create User"}
-                </Link>
+                <Link to="/admin/users/create">{!sidebarCollapsed && "Create User"}</Link>
               </li>
             </>
           )}
@@ -55,9 +51,7 @@ export default function Sidebar() {
           {/* Audit Logs (admin only) */}
           {canViewAuditLogs && (
             <li className={isActive("/admin/audit-logs") ? "active" : ""}>
-              <Link to="/admin/audit-logs">
-                {!sidebarCollapsed && "Audit Logs"}
-              </Link>
+              <Link to="/admin/audit-logs">{!sidebarCollapsed && "Audit Logs"}</Link>
             </li>
           )}
         </ul>

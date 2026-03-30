@@ -19,11 +19,7 @@ export default function PluginTable({ plugins, onSelect }: Props) {
       </thead>
       <tbody>
         {plugins.map((p) => (
-          <tr
-            key={p.id}
-            onClick={() => onSelect(p)}
-            style={{ cursor: "pointer" }}
-          >
+          <tr key={p.id} onClick={() => onSelect(p)} style={{ cursor: "pointer" }}>
             <td>{p.name}</td>
             <td>{p.category}</td>
             <td>{p.status}</td>

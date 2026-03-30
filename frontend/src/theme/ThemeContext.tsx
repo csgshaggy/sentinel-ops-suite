@@ -23,11 +23,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     document.body.dataset.theme = theme;
   }, [theme]);
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

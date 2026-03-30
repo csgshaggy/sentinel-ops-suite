@@ -20,10 +20,7 @@ export default function Topbar() {
     <header className="admin-topbar">
       <div className="admin-topbar-left">
         {/* Sidebar collapse toggle */}
-        <button
-          className="sidebar-toggle"
-          onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-        >
+        <button className="sidebar-toggle" onClick={() => setSidebarCollapsed(!sidebarCollapsed)}>
           {sidebarCollapsed ? "☰" : "⮜"}
         </button>
 

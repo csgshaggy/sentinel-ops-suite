@@ -1,9 +1,6 @@
 export default function Table({ columns, data }) {
   return (
-    <table
-      className="panel"
-      style={{ width: "100%", borderCollapse: "collapse" }}
-    >
+    <table className="panel" style={{ width: "100%", borderCollapse: "collapse" }}>
       <thead>
         <tr>
           {columns.map((c) => (

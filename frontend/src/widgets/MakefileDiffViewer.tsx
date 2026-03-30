@@ -20,11 +20,7 @@ export default function MakefileDiffViewer() {
     <div style={{ marginTop: "1rem" }}>
       <h3>Makefile Diff (Health: {health})</h3>
 
-      {warning && (
-        <div style={{ color: "#ff9800", marginBottom: "0.5rem" }}>
-          {warning}
-        </div>
-      )}
+      {warning && <div style={{ color: "#ff9800", marginBottom: "0.5rem" }}>{warning}</div>}
 
       <pre
         style={{

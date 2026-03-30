@@ -36,10 +36,7 @@ export default function AdminAuditLogs() {
 
       {error && <div className="error">{error}</div>}
 
-      <Table
-        columns={["timestamp", "actor_email", "action", "target", "details"]}
-        data={logs}
-      />
+      <Table columns={["timestamp", "actor_email", "action", "target", "details"]} data={logs} />
     </div>
   );
 }
