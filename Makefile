@@ -1,8 +1,34 @@
+# ============================================================================
+# SSRF Command Console — Operator-Grade Makefile (VENV-AWARE + DRIFT-PROOF)
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# PATHS & BINARIES
+# ----------------------------------------------------------------------------
+PYTHON := .venv/bin/python
+PIP := .venv/bin/pip
+RUFF := .venv/bin/ruff
+BLACK := .venv/bin/black
+PRETTIER := npx prettier
+
+LINT_PATHS := app backend
+
+# ----------------------------------------------------------------------------
+# ENVIRONMENT SETUP
+# ----------------------------------------------------------------------------
+
+.PHONY: venv
+venv:
+	python3 -m venv .venv
+	$(PIP) install --upgrade pip
+
+.PHONY: install
+install: venv
+	$(PIP) install -e .[dev]
+
 # ----------------------------------------------------------------------------
 # LINTING & FORMATTING (AUTO-FIX)
 # ----------------------------------------------------------------------------
-
-LINT_PATHS := app backend
 
 .PHONY: lint
 lint:
@@ -16,7 +42,18 @@ format:
 	$(BLACK) $(LINT_PATHS)
 
 # ----------------------------------------------------------------------------
-# CI-FAST (VALIDATION ONLY — NO AUTO-FIX)
+# VALIDATION (NO AUTO-FIX — DRIFT-PROOF)
+# ----------------------------------------------------------------------------
+
+.PHONY: validate
+validate:
+	@echo "[VALIDATE] Running plugin + structure validation..."
+	python tools/validate_plugins.py
+	python tools/validate_structure.py
+	@echo "Validation complete."
+
+# ----------------------------------------------------------------------------
+# CI-FAST (VALIDATION ONLY — NEVER MODIFIES FILES)
 # ----------------------------------------------------------------------------
 
 .PHONY: ci-fast
@@ -26,3 +63,27 @@ ci-fast:
 	$(RUFF) format --check $(LINT_PATHS)
 	$(BLACK) --check $(LINT_PATHS)
 	@echo "Validation complete."
+
+# ----------------------------------------------------------------------------
+# TESTING
+# ----------------------------------------------------------------------------
+
+.PHONY: test
+test:
+	$(PYTHON) -m pytest --cov=ssrf_command_console
+
+# ----------------------------------------------------------------------------
+# REPO HYGIENE
+# ----------------------------------------------------------------------------
+
+.PHONY: heal
+heal: lint validate
+	@echo "[HEAL] Repo healed and validated."
+
+.PHONY: doctor
+doctor:
+	@echo "[DOCTOR] Checking environment..."
+	@command -v $(RUFF) >/dev/null || echo "Missing: ruff"
+	@command -v $(BLACK) >/dev/null || echo "Missing: black"
+	@command -v $(PYTHON) >/dev/null || echo "Missing: python"
+	@echo "[DOCTOR] Done."
