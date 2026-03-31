@@ -2,19 +2,16 @@
 # SSRF Command Console — Operator-Grade Makefile (VENV-AWARE + DRIFT-PROOF)
 # ============================================================================
 
-# ----------------------------------------------------------------------------
-# PATHS & BINARIES
-# ----------------------------------------------------------------------------
-PYTHON := .venv/bin/python
-PIP := .venv/bin/pip
-RUFF := .venv/bin/ruff
-BLACK := .venv/bin/black
+PYTHON   := .venv/bin/python
+PIP      := .venv/bin/pip
+RUFF     := .venv/bin/ruff
+BLACK    := .venv/bin/black
 PRETTIER := npx prettier
 
 LINT_PATHS := app backend
 
 # ----------------------------------------------------------------------------
-# ENVIRONMENT SETUP
+# ENVIRONMENT
 # ----------------------------------------------------------------------------
 
 .PHONY: venv
@@ -50,7 +47,6 @@ validate:
 	@echo "[VALIDATE] No plugin/structure validators found — skipping."
 	@echo "Validation complete."
 
-
 # ----------------------------------------------------------------------------
 # CI-FAST (VALIDATION ONLY — NEVER MODIFIES FILES)
 # ----------------------------------------------------------------------------
@@ -69,7 +65,7 @@ ci-fast:
 
 .PHONY: test
 test:
-	$(PYTHON) -m pytest --cov=ssrf_command_console
+	$(PYTHON) -m pytest
 
 # ----------------------------------------------------------------------------
 # REPO HYGIENE
@@ -82,7 +78,7 @@ heal: lint validate
 .PHONY: doctor
 doctor:
 	@echo "[DOCTOR] Checking environment..."
-	@command -v $(RUFF) >/dev/null || echo "Missing: ruff"
-	@command -v $(BLACK) >/dev/null || echo "Missing: black"
+	@command -v $(RUFF)   >/dev/null || echo "Missing: ruff"
+	@command -v $(BLACK)  >/dev/null || echo "Missing: black"
 	@command -v $(PYTHON) >/dev/null || echo "Missing: python"
 	@echo "[DOCTOR] Done."
