@@ -1,28 +1,16 @@
-# ================================
-# mk/core.mk — Core Build Logic
-# ================================
+# =====================================================================
+# core.mk — Core Init / Clean
+# =====================================================================
 
-SHELL := /bin/bash
+.PHONY: core.init core.clean
 
-bootstrap:
-	@echo "[bootstrap] Installing dependencies..."
-	@pip install -r requirements.txt >/dev/null 2>&1 || true
-	@npm install --prefix dashboard >/dev/null 2>&1 || true
-	@echo "[bootstrap] Done."
+core.init:
+	$(call util.section,Core init)
+	$(call util.ensure_dir,$(BUILD_DIR))
+	$(call util.ensure_dir,$(DIST_DIR))
+	$(call util.ok,Core init complete)
 
-clean:
-	@echo "[clean] Removing build artifacts..."
-	@find . -type d -name "__pycache__" -exec rm -rf {} + || true
-	@find . -type d -name "dist" -exec rm -rf {} + || true
-	@find . -type d -name "build" -exec rm -rf {} + || true
-	@echo "[clean] Done."
-
-env.inspect:
-	@echo "[env] Python: $$(python3 --version)"
-	@echo "[env] Node:   $$(node --version)"
-	@echo "[env] NPM:    $$(npm --version)"
-	@echo "[env] Git:    $$(git --version)"
-
-deps.graph:
-	@echo "[deps] Generating dependency graph..."
-	@pipdeptree || echo "pipdeptree not installed"
+core.clean:
+	$(call util.section,Cleaning build + dist)
+	rm -rf "$(BUILD_DIR)" "$(DIST_DIR)"
+	$(call util.ok,Clean complete)

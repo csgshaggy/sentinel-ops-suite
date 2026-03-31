@@ -1,8 +1,10 @@
+import html
+import importlib.metadata
+
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+
 from app.ui.sidebar import sidebar
-import importlib.metadata
-import html
 
 router = APIRouter(prefix="/admin/packages", tags=["Packages"])
 

@@ -1,24 +1,12 @@
 name: Drift Dashboard
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
-  dashboard:
-    name: Generate Drift Dashboard
+  drift-dashboard:
     runs-on: ubuntu-latest
-
-    env:
-      PYTHONUNBUFFERED: "1"
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
     steps:
       - name: Checkout repository
@@ -29,40 +17,17 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install dependencies (if any)
+      - name: Install dependencies
         run: |
-          echo "No external dependencies required."
+          pip install -r requirements.txt || true
 
       - name: Generate drift dashboard
         run: |
           make drift-dashboard
 
-      - name: Upload drift results (JSON)
-        uses: actions/upload-artifact@v4
+      - name: Post dashboard to PR
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          name: drift-results
-          path: runtime/drift_results.json
-
-      - name: Upload drift dashboard (Markdown)
-        uses: actions/upload-artifact@v4
-        with:
-          name: drift-dashboard
+          recreate: true
           path: runtime/drift_dashboard.md
-
-      - name: Upload dashboard to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: runtime
-
-  deploy:
-    name: Deploy Drift Dashboard to Pages
-    needs: dashboard
-    runs-on: ubuntu-latest
-
-    permissions:
-      pages: write
-      id-token: write
-
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4

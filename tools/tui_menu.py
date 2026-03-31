@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from super_doctor import run_checks, print_report, dashboard
+from super_doctor import dashboard, print_report, run_checks
 
 
 def menu():

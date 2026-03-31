@@ -3,11 +3,11 @@
 from fastapi import APIRouter, HTTPException
 
 from backend.app.utils.file_utils import (
-    read_file_lines,
-    unified_diff,
     compute_health_score,
     ensure_reference_makefile,
     file_exists,
+    read_file_lines,
+    unified_diff,
 )
 
 router = APIRouter()

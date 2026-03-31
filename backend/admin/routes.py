@@ -3,39 +3,46 @@
 # User CRUD • Password Reset • Audit Logs • Metrics Dashboard
 # =====================================================================
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from sqlalchemy import func
 import secrets
 
-from backend.database import get_db
-from backend.auth.models import User as UserModel, AuditLog
-from backend.auth.security import hash_password
-from backend.auth.dependencies import require_role, get_current_user
-from backend.auth.audit import log_event
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import func
+from sqlalchemy.orm import Session
+
 from backend.admin.schemas import (
-    AdminUserOut,
     AdminUserCreate,
+    AdminUserOut,
     AdminUserUpdate,
     AuditLogOut,
 )
+from backend.auth.audit import log_event
+from backend.auth.dependencies import get_current_user, require_role
+from backend.auth.models import AuditLog
+from backend.auth.models import User as UserModel
+from backend.auth.security import hash_password
+from backend.database import get_db
 
 router = APIRouter(
     prefix="/admin",
     tags=["admin"],
-    dependencies=[Depends(require_role("admin"))],  # admin-only
+    dependencies=[Depends(require_role("admin"))],
 )
 
 # ---------------------------------------------------------------------
 # List Users
 # ---------------------------------------------------------------------
+
+
 @router.get("/users", response_model=list[AdminUserOut])
 def list_users(db: Session = Depends(get_db)):
     return db.query(UserModel).all()
 
+
 # ---------------------------------------------------------------------
 # Create User
 # ---------------------------------------------------------------------
+
+
 @router.post("/users", response_model=AdminUserOut)
 def create_user(
     payload: AdminUserCreate,
@@ -67,9 +74,12 @@ def create_user(
 
     return user
 
+
 # ---------------------------------------------------------------------
-# Update User (role + active state)
+# Update User
 # ---------------------------------------------------------------------
+
+
 @router.put("/users/{user_id}", response_model=AdminUserOut)
 def update_user(
     user_id: int,
@@ -97,9 +107,12 @@ def update_user(
 
     return user
 
+
 # ---------------------------------------------------------------------
-# Reset Password (Admin-Initiated)
+# Reset Password
 # ---------------------------------------------------------------------
+
+
 @router.post("/users/{user_id}/reset-password")
 def reset_password(
     user_id: int,
@@ -111,8 +124,8 @@ def reset_password(
         raise HTTPException(status_code=404, detail="User not found")
 
     temp_password = secrets.token_urlsafe(10)
-
     user.hashed_password = hash_password(temp_password)
+
     db.commit()
 
     log_event(
@@ -125,35 +138,31 @@ def reset_password(
 
     return {"temporary_password": temp_password}
 
+
 # ---------------------------------------------------------------------
 # Audit Logs
 # ---------------------------------------------------------------------
+
+
 @router.get("/audit-logs", response_model=list[AuditLogOut])
 def list_audit_logs(db: Session = Depends(get_db)):
-    return (
-        db.query(AuditLog)
-        .order_by(AuditLog.timestamp.desc())
-        .limit(200)
-        .all()
-    )
+    return db.query(AuditLog).order_by(AuditLog.timestamp.desc()).limit(200).all()
+
 
 # ---------------------------------------------------------------------
-# Metrics Dashboard Endpoint
+# Metrics Dashboard
 # ---------------------------------------------------------------------
+
+
 @router.get("/metrics")
 def get_metrics(db: Session = Depends(get_db)):
-    # Total users
     total_users = db.query(func.count(UserModel.id)).scalar()
 
-    # Active vs inactive
     active_users = (
-        db.query(func.count(UserModel.id))
-        .filter(UserModel.is_active == True)
-        .scalar()
+        db.query(func.count(UserModel.id)).filter(UserModel.is_active).scalar()
     )
     inactive_users = total_users - active_users
 
-    # Role distribution
     roles = (
         db.query(UserModel.role, func.count(UserModel.id))
         .group_by(UserModel.role)
@@ -161,12 +170,12 @@ def get_metrics(db: Session = Depends(get_db)):
     )
     role_counts = {role: count for role, count in roles}
 
-    # Recent login activity (last 7 days)
     recent_logins = (
         db.query(func.count(AuditLog.id))
         .filter(AuditLog.action == "login")
         .filter(
-            AuditLog.timestamp >= func.now() - func.cast("7 days", db.bind.dialect.interval)
+            AuditLog.timestamp
+            >= func.now() - func.cast("7 days", db.bind.dialect.interval)
         )
         .scalar()
     )

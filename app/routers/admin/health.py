@@ -1,9 +1,11 @@
+import html
+import subprocess
+
+import psutil
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+
 from app.ui.sidebar import sidebar
-import psutil
-import subprocess
-import html
 
 router = APIRouter(prefix="/admin/health", tags=["Health"])
 

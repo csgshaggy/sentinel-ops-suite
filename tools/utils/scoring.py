@@ -11,9 +11,9 @@ The scoring model is intentionally simple and stable.
 """
 
 from typing import List
+
 from tools.super_doctor import CheckResult
 from utils.modes import Mode
-
 
 # ------------------------------------------------------------
 # Severity weights

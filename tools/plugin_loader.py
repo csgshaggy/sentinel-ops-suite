@@ -8,11 +8,11 @@ Responsible for:
 """
 
 from pathlib import Path
-from typing import Iterable, List, Dict
+from typing import Dict, Iterable, List
 
-from utils.modes import Mode
+from tools.plugins import PluginMeta, get_plugin, list_plugins
 from tools.super_doctor import CheckResult
-from tools.plugins import list_plugins, get_plugin, PluginMeta
+from utils.modes import Mode
 
 
 def run_selected_plugins(

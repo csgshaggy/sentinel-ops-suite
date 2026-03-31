@@ -8,12 +8,11 @@ Generates a static HTML dashboard at:
 Cross‑platform (Windows + Linux) and GitHub Pages‑safe.
 """
 
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, Any
+from pathlib import Path
+from typing import Any, Dict
 
 from utils.paths import ensure_directory
-
 
 # ------------------------------------------------------------
 # HTML TEMPLATE

@@ -1,16 +1,17 @@
+import pyotp
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
-import pyotp
 
 from app.core.config import settings
+from app.dependencies import get_current_user, get_db  # adjust to your project
 from app.models.user import User
-from app.dependencies import get_db, get_current_user  # adjust to your project
 
 router = APIRouter(prefix="/mfa", tags=["mfa"])
 
 
 # ---------- Schemas ----------
+
 
 class MFAEnrollResponse(BaseModel):
     otpauth_url: str
@@ -27,6 +28,7 @@ class MFAStatusResponse(BaseModel):
 
 # ---------- Helpers ----------
 
+
 def _generate_mfa_secret() -> str:
     return pyotp.random_base32()
 
@@ -41,6 +43,7 @@ def _get_totp(secret: str) -> pyotp.TOTP:
 
 
 # ---------- Routes ----------
+
 
 @router.get("/status", response_model=MFAStatusResponse)
 def get_mfa_status(

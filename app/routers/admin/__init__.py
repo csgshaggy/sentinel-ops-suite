@@ -1,6 +1,7 @@
-from fastapi import APIRouter
-import pkgutil
 import importlib
+import pkgutil
+
+from fastapi import APIRouter
 
 router = APIRouter()
 

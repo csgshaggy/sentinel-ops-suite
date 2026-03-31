@@ -12,14 +12,13 @@ Checks:
 """
 
 import os
-import sys
 import platform
+import sys
 from pathlib import Path
 from typing import List, Optional
 
 from tools.super_doctor import CheckResult
 from utils.modes import Mode
-
 
 # ------------------------------------------------------------
 # Helpers

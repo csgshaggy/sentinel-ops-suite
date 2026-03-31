@@ -1,6 +1,7 @@
-from fastapi import APIRouter
-import time
 import platform
+import time
+
+from fastapi import APIRouter
 
 router = APIRouter()
 

@@ -1,399 +1,77 @@
-# ============================================================
-#  SSRF COMMAND CONSOLE — OPERATOR-GRADE MAKEFILE
-#  Deterministic, drift‑proof, operator‑grade
-# ============================================================
+# =====================================================================
+# SSRF Command Console — Operator‑Grade Makefile
+# Deterministic linting, formatting, testing, and runtime workflows
+# =====================================================================
 
-SHELL := /bin/bash
+PYTHON := python
+PIP := pip
 
-FRONTEND_DIR := frontend
-BACKEND_DIR  := backend
-APP_DIR      := app
+# ---------------------------------------------------------------------
+# Environment
+# ---------------------------------------------------------------------
 
-FRONTEND_SRC := $(FRONTEND_DIR)/src
-BACKEND_SRC  := $(BACKEND_DIR)/src
+.PHONY: venv
+venv:
+	$(PYTHON) -m venv venv
+	. venv/bin/activate && $(PIP) install -U pip
 
+.PHONY: install
+install:
+	. venv/bin/activate && $(PIP) install -e .[dev]
 
-# ============================================================
-#  SECTION 1 — PRIMARY COMMAND SURFACE
-# ============================================================
+# ---------------------------------------------------------------------
+# Linting & Formatting
+# ---------------------------------------------------------------------
 
-help:
-	@echo "Available targets:"
-	@printf "%-28s %s\n" "bootstrap:" "Initialize repo structure + dependencies"
-	@printf "%-28s %s\n" "repair:" "Run repair routines"
-	@printf "%-28s %s\n" "env-inspect:" "Inspect environment details"
-	@printf "%-28s %s\n" "deps:" "Install all dependencies"
-	@printf "%-28s %s\n" "plugins:" "List or manage plugins"
-	@printf "%-28s %s\n" "release:" "Build release artifacts"
-	@printf "%-28s %s\n" "format:" "Auto-format Python + JS/TS"
-	@printf "%-28s %s\n" "lint:" "Run linters"
-	@printf "%-28s %s\n" "test:" "Run test suite"
-	@printf "%-28s %s\n" "clean:" "Remove caches + artifacts"
-	@printf "%-28s %s\n" "rebuild:" "Clean + rebuild"
-	@printf "%-28s %s\n" "self-check:" "Run Makefile integrity checks"
-	@printf "%-28s %s\n" "validate-structure:" "Validate monorepo structure"
-	@printf "%-28s %s\n" "validate-makefile-indent:" "Check Makefile for TAB-only indentation"
-	@printf "%-28s %s\n" "fix-makefile-indent:" "Auto-fix Makefile indentation"
-	@printf "%-28s %s\n" "check-makefile-tabs:" "Detect tab drift in Makefile"
-	@printf "%-28s %s\n" "drift:" "Detect formatting + structure drift"
-	@printf "%-28s %s\n" "frontend:" "Run frontend dev server"
-	@printf "%-28s %s\n" "backend:" "Run backend API"
-	@printf "%-28s %s\n" "sync:" "Run sync workflow"
-	@printf "%-28s %s\n" "pre-sync:" "Run pre-sync validator"
-	@printf "%-28s %s\n" "sync-log:" "View sync.log"
-	@printf "%-28s %s\n" "sync-history:" "View sync history dashboard (CLI)"
-	@printf "%-28s %s\n" "backend-sync-history:" "Run backend with Sync History API"
-	@printf "%-28s %s\n" "frontend-sync-history:" "Run frontend with Sync History UI"
-	@printf "%-28s %s\n" "docker-build:" "Build Docker image"
-	@printf "%-28s %s\n" "docker-run:" "Run Docker container"
-	@printf "%-28s %s\n" "uninstall:" "Full uninstall suite"
-	@printf "%-28s %s\n" "repair-permissions:" "Auto-repair script permissions"
-	@printf "%-28s %s\n" "sync-summary:" "Run sync summary"
-	@printf "%-28s %s\n" "ci-sync:" "Run CI-safe sync mirror"
-	@printf "%-28s %s\n" "install-sync-timer:" "Install hourly sync systemd timer"
-	@printf "%-28s %s\n" "uninstall-sync-timer:" "Remove hourly sync systemd timer"
-	@printf "%-28s %s\n" "install-health-timer:" "Install daily health scoring timer"
-	@printf "%-28s %s\n" "uninstall-health-timer:" "Remove daily health scoring timer"
-	@printf "%-28s %s\n" "health:" "Compute health score"
-	@printf "%-28s %s\n" "health-history:" "View health history"
-	@printf "%-28s %s\n" "health-dashboard:" "View health dashboard (CLI)"
-	@printf "%-28s %s\n" "health-trend:" "View health trend dashboard (CLI)"
-	@printf "%-28s %s\n" "anomalies:" "View anomaly dashboard (CLI)"
-
-
-bootstrap:
-	@echo "🚀 Bootstrapping SSRF Command Console..."
-	mkdir -p $(FRONTEND_DIR) $(BACKEND_DIR) $(APP_DIR)
-	$(MAKE) deps
-	@echo "✔ Bootstrap complete"
-
-
-repair:
-	@echo "🛠️ Running repair routines..."
-	$(MAKE) clean
-	$(MAKE) deps
-	@echo "✔ Repair complete"
-
-
-env-inspect:
-	@echo "🔎 Environment inspection:"
-	@echo "Python: $$(python3 --version)"
-	@echo "Node:   $$(node --version 2>/dev/null || echo 'not installed')"
-	@echo "NPM:    $$(npm --version 2>/dev/null || echo 'not installed')"
-	@echo "Shell:  $(SHELL)"
-
-
-deps:
-	@echo "📦 Installing Python dependencies..."
-	pip install -r requirements.txt || true
-	@echo "📦 Installing frontend dependencies..."
-	cd $(FRONTEND_DIR) && npm install || true
-
-
-plugins:
-	@echo "🔌 Plugin system not implemented yet (stub)."
-
-
-release:
-	@echo "📦 Building release artifacts (stub)."
-
-
+.PHONY: lint
 lint:
-	@echo "🔍 Running linters..."
-	@if command -v npx >/dev/null 2>&1; then \
-		npx eslint "$(FRONTEND_SRC)" || true; \
-	else \
-		echo "ESLint not installed — skipping."; \
-	fi
+	@echo "== Running Linters =="
+	ruff check .
+	black --check .
+	prettier -c .
 
+.PHONY: fix
+fix:
+	@echo "== Auto‑fixing Codebase =="
+	ruff check . --fix
+	black .
+	prettier -w .
 
+# ---------------------------------------------------------------------
+# Testing
+# ---------------------------------------------------------------------
+
+.PHONY: test
 test:
-	@echo "🧪 Running tests..."
-	pytest || echo "Tests not implemented."
+	pytest -q
 
+# ---------------------------------------------------------------------
+# Application Runtime
+# ---------------------------------------------------------------------
 
-rebuild:
-	$(MAKE) clean
-	$(MAKE) deps
+.PHONY: run
+run:
+	uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 
+# ---------------------------------------------------------------------
+# Project Health & Structure Validation
+# ---------------------------------------------------------------------
 
-# --- Pre-Sync Validator ---
-pre-sync:
-	@echo "🔍 Running pre-sync validator..."
-	@chmod +x ./pre_sync_validator.sh
-	@./pre_sync_validator.sh
+.PHONY: doctor
+doctor:
+	@echo "== Running Project Doctor =="
+	$(PYTHON) tools/validate_structure.py
 
+# ---------------------------------------------------------------------
+# Cleanup
+# ---------------------------------------------------------------------
 
-# --- Sync Target ---
-sync:
-	@$(MAKE) pre-sync
-	@chmod +x ./sync.sh
-	@./sync.sh
-
-
-# --- Sync Log Viewer ---
-sync-log:
-	@echo "📜 Viewing sync.log (last 100 lines)..."
-	@chmod +x ./view_sync_log.sh
-	@./view_sync_log.sh
-
-
-# --- Sync History Dashboard (CLI) ---
-sync-history:
-	@echo "📊 Sync History Dashboard (CLI)"
-	@chmod +x ./sync_history_dashboard.sh
-	@./sync_history_dashboard.sh
-
-
-# --- Backend Sync History Runner ---
-backend-sync-history:
-	@echo "🚀 Running backend with Sync History API..."
-	cd $(BACKEND_DIR) && uvicorn app.main:app --reload
-
-
-# --- Frontend Sync History Runner ---
-frontend-sync-history:
-	@echo "🚀 Running frontend with Sync History UI..."
-	cd $(FRONTEND_DIR) && npm run dev
-
-
-# --- CI Sync Mirror ---
-ci-sync:
-	@echo "🔁 Running CI sync mirror..."
-	@chmod +x ./ci_sync.sh
-	@./ci_sync.sh
-
-
-# --- Health Scoring ---
-health:
-	@echo "🩺 Computing health score..."
-	@python3 - << 'EOF'
-	from backend.app.health_score import compute_health_score
-	print(compute_health_score())
-	EOF
-
-health-history:
-	@echo "📈 Showing last 20 health entries..."
-	@tail -n 20 health_history.jsonl
-
-health-dashboard:
-	@chmod +x ./health_dashboard.sh
-	@./health_dashboard.sh
-
-health-trend:
-	@chmod +x ./health_trend_dashboard.sh
-	@./health_trend_dashboard.sh
-
-
-# --- Anomaly Dashboard ---
-anomalies:
-	@chmod +x ./anomaly_dashboard.sh
-	@./anomaly_dashboard.sh
-
-
-# --- Systemd Timers ---
-install-sync-timer:
-	@echo "🕒 Installing systemd sync timer..."
-	sudo cp systemd/ssrf-sync.service /etc/systemd/system/ssrf-sync.service
-	sudo cp systemd/ssrf-sync.timer /etc/systemd/system/ssrf-sync.timer
-	sudo systemctl daemon-reload
-	sudo systemctl enable ssrf-sync.timer
-	sudo systemctl start ssrf-sync.timer
-	@echo "✔ Sync timer installed and running"
-
-uninstall-sync-timer:
-	@echo "🛑 Removing systemd sync timer..."
-	sudo systemctl stop ssrf-sync.timer || true
-	sudo systemctl disable ssrf-sync.timer || true
-	sudo rm -f /etc/systemd/system/ssrf-sync.timer
-	sudo rm -f /etc/systemd/system/ssrf-sync.service
-	sudo systemctl daemon-reload
-	@echo "✔ Sync timer removed"
-
-install-health-timer:
-	@echo "🩺 Installing systemd health scoring timer..."
-	sudo cp systemd/ssrf-health.service /etc/systemd/system/ssrf-health.service
-	sudo cp systemd/ssrf-health.timer /etc/systemd/system/ssrf-health.timer
-	sudo systemctl daemon-reload
-	sudo systemctl enable ssrf-health.timer
-	sudo systemctl start ssrf-health.timer
-	@echo "✔ Health scoring timer installed and running"
-
-uninstall-health-timer:
-	@echo "🛑 Removing systemd health scoring timer..."
-	sudo systemctl stop ssrf-health.timer || true
-	sudo systemctl disable ssrf-health.timer || true
-	sudo rm -f /etc/systemd/system/ssrf-health.timer
-	sudo rm -f /etc/systemd/system/ssrf-health.service
-	sudo systemctl daemon-reload
-	@echo "✔ Health scoring timer removed"
-
-
-# ============================================================
-#  SECTION 2 — UV INTEGRATION
-# ============================================================
-
-uv-bootstrap:
-	uv pip install -r requirements.txt
-
-uv-sync:
-	uv pip sync
-
-uv-run:
-	uv run python -m app.main
-
-
-# ============================================================
-#  SECTION 3 — POETRY INTEGRATION
-# ============================================================
-
-poetry-bootstrap:
-	poetry install
-
-poetry-lock:
-	poetry lock
-
-poetry-run:
-	poetry run python -m app.main
-
-
-# ============================================================
-#  SECTION 4 — DOCKER
-# ============================================================
-
-docker-build:
-	docker build -t ssrf-console .
-
-docker-run:
-	docker run -p 8000:8000 ssrf-console
-
-docker-shell:
-	docker run -it ssrf-console /bin/bash
-
-docker-clean:
-	docker system prune -f
-
-docker-rebuild:
-	$(MAKE) docker-clean
-	$(MAKE) docker-build
-
-
-# ============================================================
-#  SECTION 5 — CI GATES
-# ============================================================
-
-self-check:
-	@echo "🔐 Running Makefile self-check..."
-	$(MAKE) validate-structure
-	$(MAKE) drift
-	$(MAKE) validate-makefile-indent
-	$(MAKE) check-makefile-tabs
-	@echo "✔ Makefile self-check passed"
-
-ci-check:
-	@echo "🔐 Running CI gates..."
-	$(MAKE) self-check
-	@echo "✔ CI gates passed"
-
-ci-fast:
-	@echo "⚡ Fast CI checks (stub)."
-
-ci-strict:
-	@echo "🛡️ Strict CI checks (stub)."
-
-ci-security:
-	@echo "🔒 Security scan (stub)."
-
-ci-precommit:
-	@echo "🧹 Pre-commit checks (stub)."
-
-
-# ============================================================
-#  SECTION 6 — UNINSTALL SUITE
-# ============================================================
-
-uninstall-env:
-	rm -rf venv
-
-uninstall-docker:
-	docker system prune -f
-
-uninstall-hooks:
-	rm -f .git/hooks/pre-commit
-	rm -f .git/hooks/pre-push
-
-uninstall-cache:
-	find . -type d -name "__pycache__" -exec rm -rf {} +
-	find . -type d -name ".pytest_cache" -exec rm -rf {} +
-
-uninstall:
-	$(MAKE) uninstall-env
-	$(MAKE) uninstall-docker
-	$(MAKE) uninstall-hooks
-	$(MAKE) uninstall-cache
-	rm -rf $(FRONTEND_DIR)/node_modules
-	@echo "✔ Full uninstall complete"
-
-
-# ============================================================
-#  FRONTEND / BACKEND RUNNERS
-# ============================================================
-
-frontend:
-	cd $(FRONTEND_DIR) && npm run dev
-
-backend:
-	cd $(BACKEND_DIR) && uvicorn app.main:app --reload
-
-
-# ============================================================
-#  CLEANUP
-# ============================================================
-
+.PHONY: clean
 clean:
-	@echo "🧹 Cleaning caches..."
 	find . -type d -name "__pycache__" -exec rm -rf {} +
-	find . -type d -name ".pytest_cache" -exec rm -rf {} +
-	find . -type d -name "dist" -exec rm -rf {} +
-	find . -type d -name "build" -exec rm -rf {} +
-	@echo "✔ Cleanup complete"
+	find . -type f -name "*.pyc" -delete
+	find . -type f -name "*.pyo" -delete
 
-
-# ============================================================
-#  FORMATTING + DRIFT DETECTION
-# ============================================================
-
-format:
-	@echo "🛠️ Running full repo formatter..."
-	@if command -v black >/dev/null 2>&1; then \
-		black $(BACKEND_SRC) $(APP_DIR); \
-	else echo "Black not installed."; fi
-	@if command -v npx >/dev/null 2>&1; then \
-		npx prettier --write "$(FRONTEND_SRC)/**/*.{js,jsx,ts,tsx}"; \
-	else echo "Prettier not installed."; fi
-	@echo "✔ Formatting complete"
-
-drift:
-	@echo "🔍 Running drift detector..."
-	$(MAKE) validate-structure
-	@if command -v black >/dev/null 2>&1; then \
-		black --check $(BACKEND_SRC) $(APP_DIR) || (echo "❌ Python drift" && exit 1); \
-	fi
-	@if command -v npx >/dev/null 2>&1; then \
-		npx prettier --check "$(FRONTEND_SRC)/**/*.{js,jsx,ts,tsx}" || (echo "❌ JS/TS drift" && exit 1); \
-	fi
-	@$(MAKE) makefile-diff
-	@echo "✔ No drift detected"
-
-validate-structure:
-	python makefile_integrity_validator.py
-
-validate-makefile-indent:
-	python3 makefile_indent_validator.py
-
-fix-makefile-indent:
-	python3 makefile_indent_autofix.py
-	python3 makefile_indent_validator.py
-
-check-makefile-tabs:
-	./makefile_tab_drift_checker.sh
+.PHONY: reset
+reset: clean
+	rm -rf venv

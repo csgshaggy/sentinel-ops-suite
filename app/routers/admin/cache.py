@@ -1,13 +1,13 @@
 from __future__ import annotations
 
+import socket
+import sys
+import time
 from functools import lru_cache
 from typing import Any, Dict
 
 import psutil
 from fastapi import APIRouter
-import socket
-import sys
-import time
 
 router = APIRouter(prefix="/admin/cache", tags=["admin-cache"])
 

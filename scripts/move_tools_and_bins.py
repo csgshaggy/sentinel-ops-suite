@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+import argparse
 import shutil
 from pathlib import Path
-import argparse
 
 # ------------------------------------------------------------
 # Resolve script directory and project root

@@ -1,8 +1,10 @@
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
-from app.ui.sidebar import sidebar
 import html
 import threading
+
+from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
+
+from app.ui.sidebar import sidebar
 
 router = APIRouter(prefix="/admin/scheduler", tags=["Scheduler"])
 
@@ -10,7 +12,6 @@ router = APIRouter(prefix="/admin/scheduler", tags=["Scheduler"])
 def detect_scheduler():
     """Try to detect APScheduler if installed and running."""
     try:
-
         # Try to find any running scheduler instance
         schedulers = []
 
@@ -33,7 +34,6 @@ def detect_scheduler():
 def get_jobs():
     """Return APScheduler jobs if available."""
     try:
-
         jobs = []
 
         # Try to find a scheduler instance

@@ -1,5 +1,6 @@
-from fastapi import APIRouter
 from pathlib import Path
+
+from fastapi import APIRouter
 
 from app.utils.modes import Mode
 from tools.super_doctor_runner import run_super_doctor

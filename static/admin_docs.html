@@ -13,10 +13,9 @@
         --danger: #ff4c4c;
         --border: #2b3545;
         --muted: #7b7f86;
-        --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-          "Liberation Mono", "Courier New", monospace;
-        --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          sans-serif;
+        --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+        --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       }
 
       * {
@@ -319,20 +318,14 @@
           <div id="title">Loading admin documentation…</div>
           <div id="meta"></div>
         </div>
-        <div style="font-size: 11px; color: var(--muted)">
-          Source: <code>/admin/docs</code>
-        </div>
+        <div style="font-size: 11px; color: var(--muted)">Source: <code>/admin/docs</code></div>
       </div>
 
       <div id="content">
         <div id="routes-panel">
           <div id="routes-header">
             <span>Routes</span>
-            <input
-              id="route-search"
-              type="text"
-              placeholder="Filter routes..."
-            />
+            <input id="route-search" type="text" placeholder="Filter routes..." />
           </div>
           <div id="routes-list"></div>
         </div>
@@ -366,8 +359,7 @@
       }
 
       function setCounts(modCount, routeCount) {
-        el("counts-text").textContent =
-          `Modules: ${modCount} | Routes: ${routeCount}`;
+        el("counts-text").textContent = `Modules: ${modCount} | Routes: ${routeCount}`;
       }
 
       function methodClass(method) {
@@ -431,10 +423,7 @@
           container.appendChild(div);
         });
 
-        const totalRoutes = docsData.modules.reduce(
-          (acc, m) => acc + m.routes.length,
-          0,
-        );
+        const totalRoutes = docsData.modules.reduce((acc, m) => acc + m.routes.length, 0);
         setCounts(filteredModules.length, totalRoutes);
       }
 
@@ -513,8 +502,7 @@
         }
 
         if (!activeRoute) {
-          body.innerHTML =
-            "<div style='color: var(--muted);'>Select a route to see details.</div>";
+          body.innerHTML = "<div style='color: var(--muted);'>Select a route to see details.</div>";
           return;
         }
 
@@ -533,15 +521,21 @@
 
         const methodsPill = document.createElement("div");
         methodsPill.className = "pill";
-        methodsPill.innerHTML = `<span class="pill-label">Methods</span><span class="pill-value">${(activeRoute.methods || []).join(", ")}</span>`;
+        methodsPill.innerHTML = `<span class="pill-label">Methods</span><span class="pill-value">${(
+          activeRoute.methods || []
+        ).join(", ")}</span>`;
 
         const namePill = document.createElement("div");
         namePill.className = "pill";
-        namePill.innerHTML = `<span class="pill-label">Name</span><span class="pill-value">${activeRoute.name || "(none)"}</span>`;
+        namePill.innerHTML = `<span class="pill-label">Name</span><span class="pill-value">${
+          activeRoute.name || "(none)"
+        }</span>`;
 
         const endpointPill = document.createElement("div");
         endpointPill.className = "pill";
-        endpointPill.innerHTML = `<span class="pill-label">Endpoint</span><span class="pill-value">${activeRoute.endpoint || "(unknown)"}</span>`;
+        endpointPill.innerHTML = `<span class="pill-label">Endpoint</span><span class="pill-value">${
+          activeRoute.endpoint || "(unknown)"
+        }</span>`;
 
         pills.appendChild(methodsPill);
         pills.appendChild(namePill);

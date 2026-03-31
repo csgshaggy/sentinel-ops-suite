@@ -1,5 +1,6 @@
-import pkgutil
 import importlib
+import pkgutil
+
 from .plugins.base import SSRFPlugin
 
 

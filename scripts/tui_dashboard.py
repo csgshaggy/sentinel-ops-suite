@@ -5,19 +5,23 @@ import json
 import time
 from typing import Any, Dict, List
 
-from tools.super_doctor import run_super_doctor
+from tools.anomaly_detector import detect_anomalies
+from tools.makefile.autorepair import autorepair
 from tools.makefile.drift_detector import detect_drift
 from tools.makefile.health import compute_health
 from tools.makefile.linter import lint_makefile
-from tools.makefile.autorepair import autorepair
 from tools.makefile.version_check import check_version
 from tools.plugin_registry_viewer import list_plugins
-from tools.anomaly_detector import detect_anomalies
 from tools.security.file_integrity_monitor import (
-    scan as fim_scan,
     build_baseline as fim_build_baseline,
+)
+from tools.security.file_integrity_monitor import (
     load_baseline as fim_load_baseline,
 )
+from tools.security.file_integrity_monitor import (
+    scan as fim_scan,
+)
+from tools.super_doctor import run_super_doctor
 
 EVENT_LOG_PATH = "logs/events.log"
 FIM_MONITORED_PATHS = [".", "tools/", "scripts/", "/etc", "/usr/local/bin"]

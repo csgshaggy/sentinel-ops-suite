@@ -1,11 +1,13 @@
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
-from app.ui.sidebar import sidebar
+import html
+import os
 import platform
 import sys
-import os
+
 import psutil
-import html
+from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
+
+from app.ui.sidebar import sidebar
 
 router = APIRouter(prefix="/admin/runtime", tags=["Runtime"])
 

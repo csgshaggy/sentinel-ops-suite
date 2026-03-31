@@ -14,11 +14,10 @@ Checks:
 
 import logging
 from pathlib import Path
-from typing import List, Dict
+from typing import Dict, List
 
 from tools.super_doctor import CheckResult
 from utils.modes import Mode
-
 
 # ------------------------------------------------------------
 # Helpers

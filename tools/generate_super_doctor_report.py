@@ -1,7 +1,7 @@
 import json
-from pathlib import Path
 from collections import Counter
 from datetime import datetime, timezone
+from pathlib import Path
 
 PROJECT_ROOT = Path.home() / "ssrf-command-console"
 RUNTIME_DIR = PROJECT_ROOT / "runtime"

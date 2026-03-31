@@ -1,11 +1,13 @@
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
-from app.ui.sidebar import sidebar
+import html
 import os
 import sys
-import psutil
-import html
 from pathlib import Path
+
+import psutil
+from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
+
+from app.ui.sidebar import sidebar
 
 router = APIRouter(prefix="/admin/paths", tags=["Paths"])
 

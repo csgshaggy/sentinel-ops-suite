@@ -4,8 +4,8 @@
 
 from fastapi import FastAPI
 
-from backend.auth.routes import router as auth_router
 from backend.admin.routes import router as admin_router
+from backend.auth.routes import router as auth_router
 
 app = FastAPI(
     title="SSRF Command Console",
@@ -23,6 +23,7 @@ app.include_router(admin_router)
 # ---------------------------------------------------------------------
 # Health / Meta
 # ---------------------------------------------------------------------
+
 
 @app.get("/health", tags=["meta"])
 def health():

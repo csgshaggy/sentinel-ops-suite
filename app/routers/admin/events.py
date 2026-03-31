@@ -1,8 +1,10 @@
+import html
+import subprocess
+
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+
 from app.ui.sidebar import sidebar
-import subprocess
-import html
 
 router = APIRouter(prefix="/admin/events", tags=["Events"])
 

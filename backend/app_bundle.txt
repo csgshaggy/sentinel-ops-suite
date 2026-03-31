@@ -1,0 +1,518 @@
+import json
+from pathlib import Path
+import numpy as np
+
+HISTORY_FILE = Path("health_history.jsonl")
+THRESHOLD_FILE = Path("adaptive_thresholds.json")
+
+DEFAULTS = {
+    "low_score_threshold": 50,
+    "sudden_drop_threshold": 15,
+    "trend_slope_threshold": -5,
+}
+
+
+def load_thresholds():
+    if not THRESHOLD_FILE.exists():
+        return DEFAULTS.copy()
+    return json.loads(THRESHOLD_FILE.read_text())
+
+
+def save_thresholds(thresholds):
+    THRESHOLD_FILE.write_text(json.dumps(thresholds, indent=2))
+
+
+def compute_adaptive_thresholds():
+    """
+    Computes new thresholds based on:
+    - rolling average
+    - rolling variance
+    - trend slope
+    - predictive modeling
+    """
+
+    if not HISTORY_FILE.exists():
+        return DEFAULTS.copy()
+
+    lines = HISTORY_FILE.read_text().strip().split("\n")[-40:]
+    history = [json.loads(l) for l in lines]
+
+    if len(history) < 5:
+        return DEFAULTS.copy()
+
+    scores = np.array([h["score"] for h in history])
+    avg = float(np.mean(scores))
+    std = float(np.std(scores))
+
+    # Adaptive thresholds
+    thresholds = {
+        "low_score_threshold": max(20, avg - std * 1.5),
+        "sudden_drop_threshold": max(5, std * 1.2),
+        "trend_slope_threshold": -abs(std / 2),
+    }
+
+    save_thresholds(thresholds)
+    return thresholds
+import json
+from pathlib import Path
+from typing import List, Dict, Any
+
+from .adaptive_thresholds import load_thresholds, compute_adaptive_thresholds
+from .predictive_model import predict_health
+
+HISTORY_FILE = Path("health_history.jsonl")
+ANOMALY_FILE = Path("anomalies.jsonl")
+
+
+def _load_recent_history(window: int) -> List[Dict[str, Any]]:
+    if not HISTORY_FILE.exists():
+        return []
+    lines = HISTORY_FILE.read_text().strip().split("\n")[-window:]
+    return [json.loads(l) for l in lines if l.strip()]
+
+
+def detect_predictive_anomalies() -> List[Dict[str, Any]]:
+    """
+    Uses the predictive model to detect future‑oriented anomalies.
+    """
+    result = predict_health(5)
+    future = result.get("predictions", [])
+    slope = result.get("trend_slope", 0.0)
+
+    anomalies: List[Dict[str, Any]] = []
+
+    if future and any(p < 40 for p in future):
+        anomalies.append(
+            {
+                "type": "predicted_low_score",
+                "message": "Predicted health score will fall below 40",
+                "future_scores": future,
+            }
+        )
+
+    if slope < -5:
+        anomalies.append(
+            {
+                "type": "negative_future_trend",
+                "message": "Future trend slope is sharply negative",
+                "slope": slope,
+            }
+        )
+
+    return anomalies
+
+
+def detect_anomalies(window: int = 10) -> List[Dict[str, Any]]:
+    """
+    Detects anomalies based on:
+    - adaptive low score threshold
+    - adaptive sudden drop threshold
+    - adaptive negative trend slope
+    - predictive anomalies (future‑oriented)
+    """
+
+    history = _load_recent_history(window)
+    if not history:
+        return []
+
+    thresholds = load_thresholds()
+    low_score_threshold = thresholds["low_score_threshold"]
+    sudden_drop_threshold = thresholds["sudden_drop_threshold"]
+    trend_slope_threshold = thresholds["trend_slope_threshold"]
+
+    anomalies: List[Dict[str, Any]] = []
+
+    # 1. Score below adaptive threshold
+    for entry in history:
+        if entry["score"] < low_score_threshold:
+            anomalies.append(
+                {
+                    "type": "low_score",
+                    "score": entry["score"],
+                    "timestamp": entry["timestamp"],
+                    "threshold": low_score_threshold,
+                    "message": f"Health score dropped below adaptive threshold {low_score_threshold}",
+                }
+            )
+
+    # 2. Sudden drop detection (adaptive)
+    for prev, curr in zip(history, history[1:]):
+        if curr["score"] < prev["score"] - sudden_drop_threshold:
+            anomalies.append(
+                {
+                    "type": "sudden_drop",
+                    "from": prev["score"],
+                    "to": curr["score"],
+                    "delta": prev["score"] - curr["score"],
+                    "threshold": sudden_drop_threshold,
+                    "timestamp": curr["timestamp"],
+                    "message": "Sudden health score drop detected (adaptive threshold)",
+                }
+            )
+
+    # 3. Trend slope detection (simple start vs end, adaptive)
+    scores = [h["score"] for h in history]
+    if len(scores) >= 3:
+        start = scores[0]
+        end = scores[-1]
+        slope = end - start
+        if slope < trend_slope_threshold:
+            anomalies.append(
+                {
+                    "type": "negative_trend",
+                    "from": start,
+                    "to": end,
+                    "slope": slope,
+                    "threshold": trend_slope_threshold,
+                    "message": "Negative health trend detected (adaptive threshold)",
+                }
+            )
+
+    # 4. Predictive anomalies (future‑oriented)
+    anomalies.extend(detect_predictive_anomalies())
+
+    # Persist anomalies
+    if anomalies:
+        with ANOMALY_FILE.open("a", encoding="utf-8") as f:
+            for a in anomalies:
+                f.write(json.dumps(a) + "\n")
+
+    # Recompute thresholds after each detection pass to keep them fresh
+    compute_adaptive_thresholds()
+
+    return anomalies
+import json
+import subprocess
+from datetime import datetime
+from pathlib import Path
+
+HEALTH_FILE = Path("health.json")
+HISTORY_FILE = Path("health_history.jsonl")
+
+
+def run(cmd):
+    try:
+        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+
+def compute_health_score():
+    score = 100
+    checks = {}
+
+    # Drift check
+    drift_ok = run("make drift")
+    checks["drift"] = drift_ok
+    if not drift_ok:
+        score -= 25
+
+    # Lint check
+    lint_ok = run("make lint")
+    checks["lint"] = lint_ok
+    if not lint_ok:
+        score -= 15
+
+    # Format check
+    format_ok = run("make format")
+    checks["format"] = format_ok
+    if not format_ok:
+        score -= 10
+
+    # CI-fast
+    ci_ok = run("make ci-fast")
+    checks["ci_fast"] = ci_ok
+    if not ci_ok:
+        score -= 25
+
+    # Permissions check
+    perm_ok = run("./auto_repair_permissions.sh")
+    checks["permissions"] = perm_ok
+    if not perm_ok:
+        score -= 10
+
+    # Final score floor
+    score = max(score, 0)
+
+    result = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "score": score,
+        "checks": checks,
+    }
+
+    # Write current health
+    HEALTH_FILE.write_text(json.dumps(result, indent=2))
+
+    # Append to history
+    with HISTORY_FILE.open("a") as f:
+        f.write(json.dumps(result) + "\n")
+
+    return result
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from pathlib import Path
+import json
+
+# Routers
+from .routers import plugins
+from .routers import makefile_admin
+from .routers import doctor
+from .routers import admin
+from .routers import auth
+
+# Sync history parser
+from .sync_history import parse_sync_history
+
+# Health scoring engine
+from .health_score import compute_health_score
+
+# Anomaly detector
+from .anomaly_detector import detect_anomalies
+
+# Repair engine
+from .repair_engine import run_repair
+
+# Predictive model (Item #14)
+from .predictive_model import predict_health
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title="SSRF Command Console Backend",
+        description="Operator‑grade backend API",
+        version="1.0.0",
+    )
+
+    # ---------------------------------------------------------
+    # CORS
+    # ---------------------------------------------------------
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    # ---------------------------------------------------------
+    # ROUTERS
+    # ---------------------------------------------------------
+    app.include_router(plugins.router, prefix="/plugins", tags=["plugins"])
+    app.include_router(makefile_admin.router, prefix="/makefile", tags=["makefile"])
+    app.include_router(doctor.router, prefix="/doctor", tags=["doctor"])
+    app.include_router(admin.router, prefix="/admin", tags=["admin"])
+    app.include_router(auth.router, prefix="/auth", tags=["auth"])
+
+    # ---------------------------------------------------------
+    # SYNC HISTORY API
+    # ---------------------------------------------------------
+    @app.get("/sync/history", tags=["sync"])
+    def get_sync_history(limit: int = 20):
+        return {"history": parse_sync_history(limit)}
+
+    # ---------------------------------------------------------
+    # HEALTH SCORE API
+    # ---------------------------------------------------------
+    @app.get("/health/score", tags=["health"])
+    def get_health_score():
+        return compute_health_score()
+
+    # ---------------------------------------------------------
+    # HEALTH TREND HISTORY API
+    # ---------------------------------------------------------
+    HISTORY_FILE = Path("health_history.jsonl")
+
+    @app.get("/health/history", tags=["health"])
+    def get_health_history(limit: int = 50):
+        if not HISTORY_FILE.exists():
+            return {"history": []}
+
+        lines = HISTORY_FILE.read_text().strip().split("\n")[-limit:]
+        return {"history": [json.loads(l) for l in lines]}
+
+    # ---------------------------------------------------------
+    # HEALTH ANOMALIES API
+    # ---------------------------------------------------------
+    @app.get("/health/anomalies", tags=["health"])
+    def get_anomalies():
+        return {"anomalies": detect_anomalies()}
+
+    # ---------------------------------------------------------
+    # AUTO‑REPAIR API
+    # ---------------------------------------------------------
+    @app.post("/repair/auto", tags=["repair"])
+    def auto_repair():
+        return run_repair()
+
+    @app.get("/repair/history", tags=["repair"])
+    def repair_history(limit: int = 20):
+        f = Path("repair_history.jsonl")
+        if not f.exists():
+            return {"history": []}
+
+        lines = f.read_text().strip().split("\n")[-limit:]
+        return {"history": [json.loads(l) for l in lines]}
+
+    # ---------------------------------------------------------
+    # PREDICTIVE HEALTH API (Item #14 Step 2)
+    # ---------------------------------------------------------
+    @app.get("/health/predict", tags=["health"])
+    def predict(n_future: int = 5):
+        """
+        Predict future health scores using ML-lite linear regression.
+        """
+        return predict_health(n_future)
+
+    return app
+
+
+# ---------------------------------------------------------
+# Entry point for: python -m backend.app.main
+# ---------------------------------------------------------
+app = create_app()
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(
+        "backend.app.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+    )
+import json
+from pathlib import Path
+import numpy as np
+
+HISTORY_FILE = Path("health_history.jsonl")
+
+
+def predict_health(n_future: int = 5):
+    """
+    Predicts future health scores using simple linear regression.
+    ML-lite, no external dependencies.
+    """
+
+    if not HISTORY_FILE.exists():
+        return {"predictions": []}
+
+    lines = HISTORY_FILE.read_text().strip().split("\n")[-30:]
+    history = [json.loads(l) for l in lines]
+
+    if len(history) < 3:
+        return {"predictions": []}
+
+    scores = np.array([h["score"] for h in history])
+    x = np.arange(len(scores))
+
+    # Linear regression
+    m, b = np.polyfit(x, scores, 1)
+
+    future = []
+    for i in range(1, n_future + 1):
+        future.append(float(m * (len(scores) + i) + b))
+
+    return {
+        "trend_slope": float(m),
+        "predictions": future,
+        "last_score": scores[-1],
+    }
+import json
+from pathlib import Path
+from datetime import datetime
+
+ANOMALY_FILE = Path("anomalies.jsonl")
+REPAIR_LOG = Path("repair_history.jsonl")
+
+
+def run_repair():
+    """
+    Executes automated repair actions based on recent anomalies.
+    """
+
+    if not ANOMALY_FILE.exists():
+        return {"status": "no_anomalies", "repairs": []}
+
+    lines = ANOMALY_FILE.read_text().strip().split("\n")[-5:]
+    anomalies = [json.loads(l) for l in lines]
+
+    repairs = []
+
+    for a in anomalies:
+        if a["type"] == "low_score":
+            repairs.append(
+                {
+                    "action": "restart_services",
+                    "message": "Restarting backend services due to low health score",
+                }
+            )
+
+        if a["type"] == "sudden_drop":
+            repairs.append(
+                {
+                    "action": "clear_cache",
+                    "message": "Clearing cache due to sudden health drop",
+                }
+            )
+
+        if a["type"] == "negative_trend":
+            repairs.append(
+                {
+                    "action": "rebuild_frontend",
+                    "message": "Rebuilding frontend due to negative health trend",
+                }
+            )
+
+    # Execute repairs (stubbed)
+    for r in repairs:
+        print(f"[REPAIR] {r['action']}: {r['message']}")
+
+    # Log repairs
+    entry = {
+        "timestamp": datetime.utcnow().isoformat(),
+        "repairs": repairs,
+        "anomalies": anomalies,
+    }
+
+    with REPAIR_LOG.open("a") as f:
+        f.write(json.dumps(entry) + "\n")
+
+    return entry
+import re
+from pathlib import Path
+
+LOG_PATH = Path("sync.log")
+
+
+def parse_sync_history(limit: int = 20):
+    if not LOG_PATH.exists():
+        return []
+
+    content = LOG_PATH.read_text().splitlines()
+    entries = []
+    current = []
+
+    for line in content:
+        if "=== One‑Command Sync ===" in line:
+            if current:
+                entries.append(current)
+                current = []
+        current.append(line)
+
+    if current:
+        entries.append(current)
+
+    # Convert to structured objects
+    parsed = []
+    for block in entries[-limit:]:
+        parsed.append(
+            {
+                "raw": block,
+                "start": next((l for l in block if "One‑Command Sync" in l), None),
+                "end": next((l for l in block if "Sync Complete" in l), None),
+                "commit": next((l for l in block if "sync:" in l), None),
+            }
+        )
+
+    return parsed

@@ -15,13 +15,12 @@ Each entry contains:
 Cross‑platform (Windows + Linux).
 """
 
-from pathlib import Path
 import json
 from datetime import datetime
-from typing import Dict, Any
+from pathlib import Path
+from typing import Any, Dict
 
 from utils.paths import ensure_directory
-
 
 HISTORY_FILENAME = "history.jsonl"
 

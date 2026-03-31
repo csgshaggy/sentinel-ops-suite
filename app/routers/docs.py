@@ -1,8 +1,9 @@
+import json
+from pathlib import Path
+
+import markdown
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
-from pathlib import Path
-import json
-import markdown
 
 router = APIRouter(prefix="/admin/docs", tags=["Documentation"])
 
@@ -19,9 +20,10 @@ SITE_DIR = PROJECT_ROOT / "docs_site"
 # ---------------------------------------------------------
 @router.get("/dashboard")
 def docs_dashboard():
-    from scripts.docs_dashboard import main as dashboard_main
     import io
     import sys
+
+    from scripts.docs_dashboard import main as dashboard_main
 
     buf = io.StringIO()
     sys_stdout = sys.stdout
@@ -78,9 +80,10 @@ def view_doc(category: str, file: str):
 # ---------------------------------------------------------
 @router.get("/health")
 def docs_health():
-    from scripts.docs_health import main as health_main
     import io
     import sys
+
+    from scripts.docs_health import main as health_main
 
     buf = io.StringIO()
     sys_stdout = sys.stdout
@@ -100,9 +103,10 @@ def docs_health():
 # ---------------------------------------------------------
 @router.get("/diff")
 def docs_diff():
-    from scripts.docs_diff import main as diff_main
     import io
     import sys
+
+    from scripts.docs_diff import main as diff_main
 
     buf = io.StringIO()
     sys_stdout = sys.stdout

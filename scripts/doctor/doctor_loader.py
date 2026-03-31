@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import importlib
-import os
 import json
+import os
 
 VALIDATOR_DIR = "validators"
 

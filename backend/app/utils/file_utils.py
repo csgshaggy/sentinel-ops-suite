@@ -1,10 +1,9 @@
 # backend/app/utils/file_utils.py
 
+import difflib
 import os
 import shutil
-import difflib
-from typing import List, Dict
-
+from typing import Dict, List
 
 # ------------------------------------------------------------
 # Basic file helpers

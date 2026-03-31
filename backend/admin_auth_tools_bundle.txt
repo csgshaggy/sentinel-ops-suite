@@ -1,0 +1,261 @@
+# =====================================================================
+# SSRF Command Console — Admin API
+# User CRUD • Password Reset • Audit Logs • Metrics Dashboard
+# =====================================================================
+
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from sqlalchemy import func
+import secrets
+
+from backend.database import get_db
+from backend.auth.models import User as UserModel, AuditLog
+from backend.auth.security import hash_password
+from backend.auth.dependencies import require_role, get_current_user
+from backend.auth.audit import log_event
+from backend.admin.schemas import (
+    AdminUserOut,
+    AdminUserCreate,
+    AdminUserUpdate,
+    AuditLogOut,
+)
+
+router = APIRouter(
+    prefix="/admin",
+    tags=["admin"],
+    dependencies=[Depends(require_role("admin"))],  # admin-only
+)
+
+
+# ---------------------------------------------------------------------
+# List Users
+# ---------------------------------------------------------------------
+@router.get("/users", response_model=list[AdminUserOut])
+def list_users(db: Session = Depends(get_db)):
+    return db.query(UserModel).all()
+
+
+# ---------------------------------------------------------------------
+# Create User
+# ---------------------------------------------------------------------
+@router.post("/users", response_model=AdminUserOut)
+def create_user(
+    payload: AdminUserCreate,
+    db: Session = Depends(get_db),
+    actor: UserModel = Depends(get_current_user),
+):
+    existing = db.query(UserModel).filter(UserModel.email == payload.email).first()
+    if existing:
+        raise HTTPException(status_code=400, detail="User already exists")
+
+    user = UserModel(
+        email=payload.email,
+        hashed_password=hash_password(payload.password),
+        role=payload.role,
+        is_active=True,
+    )
+
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    log_event(
+        db,
+        actor_email=actor.email,
+        action="user_create",
+        target=f"user:{user.email}",
+        details=f"Role={user.role}",
+    )
+
+    return user
+
+
+# ---------------------------------------------------------------------
+# Update User (role + active state)
+# ---------------------------------------------------------------------
+@router.put("/users/{user_id}", response_model=AdminUserOut)
+def update_user(
+    user_id: int,
+    payload: AdminUserUpdate,
+    db: Session = Depends(get_db),
+    actor: UserModel = Depends(get_current_user),
+):
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user.role = payload.role
+    user.is_active = payload.is_active
+
+    db.commit()
+    db.refresh(user)
+
+    log_event(
+        db,
+        actor_email=actor.email,
+        action="user_update",
+        target=f"user:{user.email}",
+        details=f"Role={user.role}, Active={user.is_active}",
+    )
+
+    return user
+
+
+# ---------------------------------------------------------------------
+# Reset Password (Admin-Initiated)
+# ---------------------------------------------------------------------
+@router.post("/users/{user_id}/reset-password")
+def reset_password(
+    user_id: int,
+    db: Session = Depends(get_db),
+    actor: UserModel = Depends(get_current_user),
+):
+    user = db.query(UserModel).filter(UserModel.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    temp_password = secrets.token_urlsafe(10)
+
+    user.hashed_password = hash_password(temp_password)
+    db.commit()
+
+    log_event(
+        db,
+        actor_email=actor.email,
+        action="password_reset",
+        target=f"user:{user.email}",
+        details="Admin-initiated password reset",
+    )
+
+    return {"temporary_password": temp_password}
+
+
+# ---------------------------------------------------------------------
+# Audit Logs
+# ---------------------------------------------------------------------
+@router.get("/audit-logs", response_model=list[AuditLogOut])
+def list_audit_logs(db: Session = Depends(get_db)):
+    return db.query(AuditLog).order_by(AuditLog.timestamp.desc()).limit(200).all()
+
+
+# ---------------------------------------------------------------------
+# Metrics Dashboard Endpoint
+# ---------------------------------------------------------------------
+@router.get("/metrics")
+def get_metrics(db: Session = Depends(get_db)):
+    # Total users
+    total_users = db.query(func.count(UserModel.id)).scalar()
+
+    # Active vs inactive
+    active_users = (
+        db.query(func.count(UserModel.id)).filter(UserModel.is_active == True).scalar()
+    )
+    inactive_users = total_users - active_users
+
+    # Role distribution
+    roles = (
+        db.query(UserModel.role, func.count(UserModel.id))
+        .group_by(UserModel.role)
+        .all()
+    )
+    role_counts = {role: count for role, count in roles}
+
+    # Recent login activity (last 7 days)
+    recent_logins = (
+        db.query(func.count(AuditLog.id))
+        .filter(AuditLog.action == "login")
+        .filter(
+            AuditLog.timestamp
+            >= func.now() - func.cast("7 days", db.bind.dialect.interval)
+        )
+        .scalar()
+    )
+
+    return {
+        "total_users": total_users,
+        "active_users": active_users,
+        "inactive_users": inactive_users,
+        "roles": role_counts,
+        "recent_logins": recent_logins,
+    }
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import jwt, JWTError
+from sqlalchemy.orm import Session
+
+from backend.auth.security import ALGORITHM, SECRET_KEY
+from backend.auth.models import User
+from backend.database import get_db  # assumes you have a DB module
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+
+
+def get_current_user(
+    token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)
+) -> User:
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            raise HTTPException(status_code=401, detail="Invalid token")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return user
+
+
+def require_role(role: str):
+    def wrapper(user: User = Depends(get_current_user)):
+        if user.role != role:
+            raise HTTPException(status_code=403, detail="Insufficient permissions")
+        return user
+
+    return wrapper
+import pyotp
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
+
+router = APIRouter(prefix="/auth/mfa", tags=["mfa"])
+
+# In production, store this in DB per-user
+user_mfa_secrets = {}
+
+
+class VerifyCode(BaseModel):
+    code: str
+
+
+@router.post("/enroll")
+def enroll_mfa(user_id: int = 1):
+    # Generate secret
+    secret = pyotp.random_base32()
+
+    # Store it (replace with DB logic)
+    user_mfa_secrets[user_id] = secret
+
+    # Build otpauth URL
+    totp = pyotp.TOTP(secret)
+    otpauth_url = totp.provisioning_uri(
+        name=f"user{user_id}@ssrf-console", issuer_name="SSRF Command Console"
+    )
+
+    return {"secret": secret, "otpauth_url": otpauth_url}
+
+
+@router.post("/verify-enrollment")
+def verify_enrollment(payload: VerifyCode, user_id: int = 1):
+    secret = user_mfa_secrets.get(user_id)
+    if not secret:
+        raise HTTPException(status_code=400, detail="MFA not initialized")
+
+    totp = pyotp.TOTP(secret)
+
+    if not totp.verify(payload.code):
+        raise HTTPException(status_code=400, detail="Invalid code")
+
+    # Mark MFA as enabled (DB flag)
+    return {"status": "verified"}

@@ -1,9 +1,11 @@
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
-from app.ui.sidebar import sidebar
-import psutil
 import datetime
 import platform
+
+import psutil
+from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
+
+from app.ui.sidebar import sidebar
 
 router = APIRouter(prefix="/admin/system", tags=["System"])
 

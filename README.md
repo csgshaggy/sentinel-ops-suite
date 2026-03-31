@@ -1,95 +1,55 @@
-# SSRF Command Console
+# Operator‑Grade Makefile System
 
-![CI](https://github.com/csgshaggy/ssrf-command-console/actions/workflows/structure-ci.yml/badge.svg)
-![CI Status](https://github.com/csgshaggy/ssrf-command-console/actions/workflows/doctor-ci.yml/badge.svg)
-![Release](https://img.shields.io/github/v/release/csgshaggy/ssrf-command-console)
-![License](https://img.shields.io/github/license/csgshaggy/ssrf-command-console)
+![Makefile Integrity](https://github.com/csgshaggy/ssrf-command-console/actions/workflows/makefile-ci.yml/badge.svg)
 
-# 🔍 Features Overview
+![Lint & Validate](https://github.com/csgshaggy/ssrf-command-console/actions/workflows/lint.yml/badge.svg)
 
-The SSRF Command Console provides a modular, operator‑grade toolkit for analyzing, validating, and managing SSRF‑related workflows. The system is built for clarity, reproducibility, and extensibility.
+A fully modular, deterministic, drift‑proof Makefile architecture designed for operator consoles, CI enforcement, and reproducible workflows.  
+This repository uses a clean separation of responsibilities across `mk/` modules, with strict validation, auditing, documentation governance, and release automation.
 
-## Core Features
+---
 
-- **Modular Architecture** — Clean separation between console logic, scripts, runtime assets, and operational tooling.
-- **Automated Project Health Checks** — `doctor.py` validates imports, module placement, encoding, and structural integrity.
-- **Root Cleanup & Repair Tools** — `cleanup_root.py` detects root‑owned files, misplaced modules, and environment drift.
-- **Unified Dashboard Asset Pipeline** — All static files, templates, and UI assets consolidated under `scripts/`.
-- **CI Integration** — GitHub Actions workflow (`doctor-ci.yml`) ensures every commit passes structural validation.
-- **Operator‑Grade Makefile** — Provides deterministic commands for validation, cleanup, and environment management.
-- **Extensible Mode System** — Designed for future plugin‑style scanning modes and dashboard integrations.
+## 🔧 Features
 
-# 🛣️ Roadmap for v1.1.0
+- Modular Makefile system (`mk/*.mk`)
+- Deterministic module loading
+- Environment validation + snapshots + diffs
+- Repo hygiene + drift detection
+- Documentation governance + drift hashing
+- Release automation with versioning + packaging
+- CI workflows enforcing integrity
+- Pre‑commit hooks mirroring CI behavior
+- Colorized, operator‑grade output
 
-The next release focuses on authentication, role‑based access, and dashboard modernization.
+---
 
-## Planned Enhancements
+## 📁 Repository Structure
+Makefile mk/ util.mk core.mk env.mk validate.mk audit.mk docs.mk release.mk test.mk (optional) docs/ MAKEFILE_ARCHITECTURE.md build/ dist/ VERSION .github/ workflows/ makefile-ci.yml release.yml
 
-### 🔐 Authentication & Security
+---
 
-- Add OAuth2 login flow (FastAPI‑native)
-- Implement secure session cookies
-- Add refresh tokens and session persistence
-- Introduce RBAC (Role‑Based Access Control)
+## 🧱 Makefile Architecture Overview
 
-### 🖥️ Dashboard Modernization
+The root `Makefile` contains **no business logic**.  
+It delegates to modules in a deterministic order:
 
-- Replace static HTML with dynamic, authenticated dashboard views
-- Add role‑based UI rendering
-- Integrate real‑time scan status and logs
+1. `util.mk` — shared helpers, colors, paths  
+2. `core.mk` — init, clean, dependency checks  
+3. `env.mk` — environment validation, snapshots, diffs  
+4. `validate.mk` — structural validation, module integrity  
+5. `audit.mk` — repo hygiene, drift detection, git cleanliness  
+6. `docs.mk` — documentation build + drift hashing  
+7. `release.mk` — versioning, packaging, artifacts  
+8. `test.mk` — Makefile self‑tests (optional)
 
-### 🧩 Backend Improvements
+A full architecture explanation lives in:
+docs/MAKEFILE_ARCHITECTURE.md
 
-- Convert operator scripts into plugin‑style modules
-- Add structured logging with timestamps and trace IDs
-- Introduce environment validation hooks
 
-### 🧪 Testing & CI
+---
 
-- Add unit tests for doctor and cleanup utilities
-- Add integration tests for dashboard endpoints
-- Expand CI to include linting and type checks
+## 🚀 Quick Start
 
-## Target Release Window
-
-**v1.1.0 — Q2 2026**
-
-# 🔄 Migration Notes for Developers (v1.0.0)
-
-This release includes a full structural migration. Developers upgrading from earlier versions should review the following changes.
-
-## Directory Changes
-
-- All dashboard assets moved from:
-  src/ssrf_console/app/static/ src/ssrf_console/app/templates/ src/ssrf_console/dashboard/dashboard/ src/ssrf_console/static/static/
-  to scripts/.
-
-## Removed Modules
-
-The following modules were deprecated and removed:
-
-- `auto_repair_structure.py`
-- `fix_imports.py`
-- `project_doctor.py`
-
-## Updated Tools
-
-- `doctor.py` now performs full project‑health validation.
-- `cleanup_root.py` now detects root‑owned files and venv placement.
-
-## Developer Actions Required
-
-- Update any imports referencing old dashboard paths.
-- Ensure your local environment uses the updated Makefile targets.
-- Recreate your virtual environment if it lives inside the project root.
-
-## ⚡ Quickstart
-
-Follow these steps to get the SSRF Command Console running locally.
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/csgshaggy/ssrf-command-console.git
-cd ssrf-command-console
-```
+### Initialize the environment
+```sh
+make init

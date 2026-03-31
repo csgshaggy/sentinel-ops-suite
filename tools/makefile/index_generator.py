@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from pathlib import Path
 
-
 CANONICAL = Path(__file__).parent / "Makefile.canonical"
 OUTPUT = Path(__file__).parents[2] / "docs" / "MAKEFILE.md"
 

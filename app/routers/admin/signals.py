@@ -1,9 +1,11 @@
+import html
+import inspect
+import signal
+
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+
 from app.ui.sidebar import sidebar
-import signal
-import inspect
-import html
 
 router = APIRouter(prefix="/admin/signals", tags=["Signals"])
 

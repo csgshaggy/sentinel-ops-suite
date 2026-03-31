@@ -1,8 +1,9 @@
-from fastapi import APIRouter
-from fastapi.routing import APIRoute
 import importlib
 import pkgutil
-from typing import Dict, List, Any
+from typing import Any, Dict, List
+
+from fastapi import APIRouter
+from fastapi.routing import APIRoute
 
 router = APIRouter(prefix="/docs", tags=["docs"])
 

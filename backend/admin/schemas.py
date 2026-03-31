@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr
 
+
 class AdminUserOut(BaseModel):
     id: int
     email: EmailStr
@@ -9,10 +10,12 @@ class AdminUserOut(BaseModel):
     class Config:
         orm_mode = True
 
+
 class AdminUserCreate(BaseModel):
     email: EmailStr
     password: str
     role: str = "viewer"
+
 
 class AdminUserUpdate(BaseModel):
     role: str

@@ -6,8 +6,7 @@ import os
 import stat
 import time
 from pathlib import Path
-from typing import Dict, Any, List
-
+from typing import Any, Dict, List
 
 BASELINE_PATH = Path("state/fim_baseline.json")
 EVENT_LOG = Path("logs/events.log")
@@ -135,7 +134,6 @@ def scan(targets: List[str]) -> Dict[str, Any]:
 
     # Detect modifications & deletions
     for path, old_meta in baseline.items():
-
         # Deleted file
         if path not in current:
             anomalies.append({"type": "deleted", "path": path})

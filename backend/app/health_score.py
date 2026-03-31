@@ -6,12 +6,14 @@ from pathlib import Path
 HEALTH_FILE = Path("health.json")
 HISTORY_FILE = Path("health_history.jsonl")
 
+
 def run(cmd):
     try:
         subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
         return True
     except subprocess.CalledProcessError:
         return False
+
 
 def compute_health_score():
     score = 100

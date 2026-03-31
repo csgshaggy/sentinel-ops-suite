@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import json
-from pathlib import Path
 import re
+from pathlib import Path
 
 BLUE = "\033[34m"
 GREEN = "\033[32m"

@@ -19,7 +19,6 @@ from typing import List, Set
 from tools.super_doctor import CheckResult
 from utils.modes import Mode
 
-
 # ------------------------------------------------------------
 # Helpers
 # ------------------------------------------------------------

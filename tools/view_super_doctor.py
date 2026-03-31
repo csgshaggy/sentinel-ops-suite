@@ -1,6 +1,6 @@
 import json
-from pathlib import Path
 from collections import Counter
+from pathlib import Path
 
 PROJECT_ROOT = Path.home() / "ssrf-command-console"
 LOG_PATH = PROJECT_ROOT / "runtime" / "super_doctor_report.json"

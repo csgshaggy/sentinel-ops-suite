@@ -1,8 +1,8 @@
 # scripts/checks/imports_check.py
 
+import importlib
 import os
 import pkgutil
-import importlib
 
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 APP_PACKAGE = "app"

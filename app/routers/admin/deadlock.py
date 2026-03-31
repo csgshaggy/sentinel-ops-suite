@@ -1,11 +1,13 @@
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
-from app.ui.sidebar import sidebar
-import threading
-import sys
 import gc
 import html
+import sys
+import threading
 import traceback
+
+from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
+
+from app.ui.sidebar import sidebar
 
 router = APIRouter(prefix="/admin/threads/deadlock", tags=["Threads Deadlock"])
 

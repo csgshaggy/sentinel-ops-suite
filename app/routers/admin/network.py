@@ -1,8 +1,10 @@
+import socket
+
+import psutil
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+
 from app.ui.sidebar import sidebar
-import psutil
-import socket
 
 router = APIRouter(prefix="/admin/network", tags=["Network"])
 

@@ -4,6 +4,7 @@ from pathlib import Path
 
 MAKEFILE = Path("Makefile")
 
+
 def main() -> int:
     if not MAKEFILE.exists():
         print("Makefile not found", file=sys.stderr)

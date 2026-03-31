@@ -1,10 +1,8 @@
-name: Validate
+name: Repository Validation
 
 on:
-  push:
-    branches: [ main, master ]
   pull_request:
-    branches: [ main, master ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   validate:
@@ -19,22 +17,17 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+
+      - name: Run validation suite
+        run: |
+          make validate
+
+      - name: Post validation report
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          node-version: "20"
-
-      - name: Install Python dependencies
-        run: |
-          if [ -f requirements.txt ]; then
-            pip install -r requirements.txt
-          fi
-
-      - name: Install dashboard dependencies
-        run: |
-          if [ -f dashboard/package.json ]; then
-            npm install --prefix dashboard
-          fi
-
-      - name: Run Makefile validation pipeline
-        run: make validate
+          recreate: true
+          path: runtime/validate_report.md

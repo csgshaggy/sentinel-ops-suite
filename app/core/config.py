@@ -1,5 +1,6 @@
 from pydantic import BaseSettings
 
+
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Operator Console"
     MFA_ISSUER: str = "OperatorConsole"  # shows in authenticator app
@@ -8,5 +9,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+
 
 settings = Settings()

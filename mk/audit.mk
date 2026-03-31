@@ -1,30 +1,25 @@
-# ================================
-# mk/audit.mk — Makefile Self-Audit
-# ================================
+# =====================================================================
+# audit.mk — Repo Hygiene / Drift
+# =====================================================================
 
-self.audit:
-	@echo "[self.audit] Running Makefile self-audit..."
+.PHONY: audit.gitclean audit.state audit.all
 
-	@echo "[self.audit] Checking for unexpected mk/*.mk files..."
-	@allowed="core.mk docs.mk validate.mk util.mk audit.mk release.mk env.mk"; \
-	for f in mk/*.mk; do \
-		base=$$(basename $$f); \
-		echo "$$allowed" | grep -qw "$$base" || { \
-			echo "[self.audit] Unexpected mk file: $$base"; \
-			exit 1; \
-		}; \
-	done
-
-	@echo "[self.audit] Checking for duplicate targets..."
-	@dups=$$(grep -R "^[a-zA-Z0-9_.-]\+:" -n Makefile mk/ \
-		| awk -F: '{print $$3}' \
-		| sed 's/ .*//' \
-		| sort \
-		| uniq -d); \
-	if [ -n "$$dups" ]; then \
-		echo "[self.audit] Duplicate targets detected:"; \
-		echo "$$dups"; \
-		exit 1; \
+audit.gitclean:
+	$(call util.section,Checking git working tree cleanliness)
+	if ! git diff --quiet || ! git diff --cached --quiet; then \
+		$(call util.warn,Git tree is not clean); \
+		git status --short; \
+	else \
+		$(call util.ok,Git tree is clean); \
 	fi
 
-	@echo "[self.audit] Self-audit passed."
+audit.state:
+	$(call util.section,Checking state/ + drift artifacts)
+	if [ -d "$(ROOT_DIR)/state" ]; then \
+		$(call util.ok,state/ directory present); \
+	else \
+		$(call util.warn,state/ directory missing); \
+	fi
+
+audit.all: audit.gitclean audit.state
+	$(call util.ok,Audit suite complete)

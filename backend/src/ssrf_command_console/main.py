@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from ssrf_command_console.auth.mfa import router as mfa_router
 from ssrf_command_console.auth.login import router as login_router
+from ssrf_command_console.auth.mfa import router as mfa_router
 
 app = FastAPI(
     title="SSRF Command Console Backend",
@@ -27,12 +26,14 @@ app.add_middleware(
 app.include_router(mfa_router)
 app.include_router(login_router)
 
+
 # ---------------------------------------------------------
 # HEALTH CHECK
 # ---------------------------------------------------------
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
 
 # ---------------------------------------------------------
 # MAIN ENTRYPOINT

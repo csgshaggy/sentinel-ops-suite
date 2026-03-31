@@ -1,5 +1,5 @@
-from ssrf_command_console.cli import cli
 import click
+from ssrf_command_console.cli import cli
 
 assert isinstance(cli, click.core.Group), "CLI must export a Click Group"
 

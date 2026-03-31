@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from tools.super_doctor import run_super_doctor
 from tools.makefile_drift_detector import detect_drift
 from tools.makefile_health import compute_health
 from tools.makefile_linter import lint_makefile
 from tools.makefile_version_check import check_version
 from tools.plugin_registry_viewer import list_plugins
+from tools.super_doctor import run_super_doctor
 
 
 def detect_anomalies() -> Dict[str, Any]:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-import sys
 import ast
 import json
+import sys
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent

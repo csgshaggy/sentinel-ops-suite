@@ -15,11 +15,10 @@ Checks:
 import importlib
 import pkgutil
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import Dict, List, Optional
 
 from tools.super_doctor import CheckResult
 from utils.modes import Mode
-
 
 # ------------------------------------------------------------
 # Helpers

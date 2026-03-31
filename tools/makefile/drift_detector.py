@@ -4,8 +4,7 @@ import difflib
 import json
 import time
 from pathlib import Path
-from typing import Dict, Any
-
+from typing import Any, Dict
 
 CANONICAL = Path(__file__).parent / "Makefile.canonical"
 TARGET = Path(__file__).parents[2] / "Makefile"

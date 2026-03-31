@@ -1,36 +1,81 @@
+[build-system]
+requires = ["setuptools>=69.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "ssrf-command-console"
 version = "0.1.0"
-description = "SSRF Command Console — modular CLI toolkit for SSRF analysis and operator workflows."
-authors = [
-    { name = "Charles Roberts" }
-]
-requires-python = ">=3.10"
+description = "Operator-grade SSRF Command Console with FastAPI backend and CLI tooling."
 readme = "README.md"
-
-# Runtime dependencies
-dependencies = [
-    "click>=8.1.0",
-    "rich>=13.0",
-    "typer>=0.12.0",
-
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [
+  { name = "Charlie", email = "charlie@example.com" }
 ]
 
-# CLI entrypoint (Typer-based)
-[project.scripts]
-ssrf-console = "ssrf_command_console.cli:cli"
+dependencies = [
+  "fastapi>=0.110.0",
+  "uvicorn>=0.29.0",
+  "httpx>=0.27.0",
+  "pydantic>=2.6.0",
+  "python-multipart>=0.0.9",
+  "jinja2>=3.1.0",
+  "rich>=13.7.0",
+  "typer>=0.12.0",
+]
 
-# Optional dependency groups
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-    "ruff>=0.1.0",
-]
-ops = [
-    "rich>=13.0",
+  "ruff>=0.3.0",
+  "black>=24.3.0",
+  "pytest>=8.1.0",
+  "pytest-asyncio>=0.23.0",
+  "pre-commit>=3.6.0",
 ]
 
-[build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+[project.scripts]
+ssrf-console = "backend.cli:app"
+
+# -------------------------------------------------------------------
+# Ruff Configuration (modern schema, fix enabled)
+# -------------------------------------------------------------------
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+fix = true
+
+exclude = [
+  "venv",
+  "docs",
+  "static",
+  "frontend/node_modules",
+]
+
+[tool.ruff.lint]
+extend-select = ["I"]  # import sorting
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
+
+# -------------------------------------------------------------------
+# Black Configuration
+# -------------------------------------------------------------------
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+skip-string-normalization = false
+
+# -------------------------------------------------------------------
+# Pytest Configuration
+# -------------------------------------------------------------------
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "-q"
+
+# -------------------------------------------------------------------
+# Setuptools Package Discovery
+# -------------------------------------------------------------------
+[tool.setuptools.packages.find]
+where = ["src"]

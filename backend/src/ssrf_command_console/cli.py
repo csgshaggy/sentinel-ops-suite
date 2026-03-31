@@ -11,8 +11,8 @@ pytest and external tooling can import `cli` directly.
 
 import typer
 from typer.main import get_group
-from .version import __version__
 
+from .version import __version__
 
 # ============================================================================
 # ROOT APPLICATION

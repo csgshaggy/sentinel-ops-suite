@@ -94,7 +94,11 @@ def main() -> None:
         fail("drift target must use --check for formatters.")
 
     # self-check must call validate-structure and drift
-    if "self-check:" not in content or "validate-structure" not in content or "drift" not in content:
+    if (
+        "self-check:" not in content
+        or "validate-structure" not in content
+        or "drift" not in content
+    ):
         fail("self-check target must call validate-structure and drift.")
 
     print("[OK] Makefile integrity validated successfully.")

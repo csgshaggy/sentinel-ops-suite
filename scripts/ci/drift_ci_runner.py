@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import os
 import sys
-from scripts.drift_detector import walk_tree, load_baseline, compare
+
+from scripts.drift_detector import compare, load_baseline, walk_tree
 
 OUTPUT_MD = "runtime/drift_ci_comment.md"
 os.makedirs("runtime", exist_ok=True)

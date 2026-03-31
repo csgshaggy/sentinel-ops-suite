@@ -1,5 +1,5 @@
-from ssrf_command_console.cli import cli
 import click
+from ssrf_command_console.cli import cli
 
 
 def test_cli_is_group():

@@ -1,8 +1,10 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text
-from sqlalchemy.orm import declarative_base
 from datetime import datetime
 
+from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text
+from sqlalchemy.orm import declarative_base
+
 Base = declarative_base()
+
 
 class User(Base):
     __tablename__ = "users"
@@ -20,6 +22,6 @@ class AuditLog(Base):
     id = Column(Integer, primary_key=True, index=True)
     timestamp = Column(DateTime, default=datetime.utcnow, index=True)
     actor_email = Column(String, index=True, nullable=True)
-    action = Column(String, nullable=False)          # e.g. "login", "user_create"
-    target = Column(String, nullable=True)           # e.g. "user:alice@example.com"
+    action = Column(String, nullable=False)  # e.g. "login", "user_create"
+    target = Column(String, nullable=True)  # e.g. "user:alice@example.com"
     details = Column(Text, nullable=True)

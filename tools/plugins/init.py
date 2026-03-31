@@ -1,5 +1,5 @@
-import os
 import importlib
+import os
 
 PLUGIN_DIR = os.path.dirname(__file__)
 

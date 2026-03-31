@@ -1,7 +1,8 @@
+import psutil
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+
 from app.ui.sidebar import sidebar
-import psutil
 
 router = APIRouter(prefix="/admin/services", tags=["Services"])
 

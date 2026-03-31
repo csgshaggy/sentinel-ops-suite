@@ -1,9 +1,11 @@
+import html
+import sys
+import threading
+
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+
 from app.ui.sidebar import sidebar
-import threading
-import sys
-import html
 
 router = APIRouter(prefix="/admin/threads", tags=["Threads"])
 

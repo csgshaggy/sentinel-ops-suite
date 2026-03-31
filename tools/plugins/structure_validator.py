@@ -16,7 +16,6 @@ from typing import List
 from tools.super_doctor import CheckResult
 from utils.modes import Mode
 
-
 # ------------------------------------------------------------
 # Expected structure for ssrf-command-console
 # ------------------------------------------------------------

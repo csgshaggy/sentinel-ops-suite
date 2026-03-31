@@ -20,7 +20,6 @@ from typing import Dict, List, Tuple
 from tools.super_doctor import CheckResult
 from utils.modes import Mode
 
-
 # ------------------------------------------------------------
 # Helpers
 # ------------------------------------------------------------

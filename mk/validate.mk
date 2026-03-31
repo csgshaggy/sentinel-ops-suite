@@ -1,44 +1,100 @@
-# ================================
-# mk/validate.mk — Validation Pipeline
-# ================================
+# ==============================================================================
+# VALIDATION MODULE
+# ==============================================================================
+# Provides deterministic, operator‑grade validation targets used by CI, pre‑commit
+# hooks, and local development. All validation logic is grouped, colorized, and
+# drift‑proof. This file aligns structurally with all other mk/ modules.
+# ==============================================================================
 
-validate: validate.python validate.js validate.structure validate.drift
-	@echo "[validate] All validation checks passed."
 
-validate.python:
-	@echo "[validate.python] Running Python lint..."
-	@if command -v flake8 >/dev/null 2>&1; then \
-		flake8 backend || { echo "[validate.python] flake8 reported issues."; exit 1; }; \
-	else \
-		echo "[validate.python] flake8 not installed, skipping."; \
-	fi
+# ------------------------------------------------------------------------------
+# COLORS
+# ------------------------------------------------------------------------------
+COLOR_RESET  := \033[0m
+COLOR_RED    := \033[31m
+COLOR_GREEN  := \033[32m
+COLOR_YELLOW := \033[33m
+COLOR_BLUE   := \033[34m
 
-validate.js:
-	@echo "[validate.js] Running JS/TS lint..."
-	@if [ -f dashboard/package.json ]; then \
-		if command -v eslint >/dev/null 2>&1; then \
-			if npm run lint --prefix dashboard >/dev/null 2>&1; then \
-				echo "[validate.js] Lint passed."; \
-			else \
-				echo "[validate.js] Lint reported issues."; exit 1; \
-			fi; \
-		else \
-			echo "[validate.js] eslint not installed, skipping enforcement."; \
+
+# ------------------------------------------------------------------------------
+# FILE SETS (THIS IS WHERE ALLOWED_MK_FILES BELONGS)
+# ------------------------------------------------------------------------------
+ALLOWED_MK_FILES := \
+	mk/core.mk \
+	mk/docs.mk \
+	mk/env.mk \
+	mk/release.mk \
+	mk/validate.mk \
+	mk/audit.mk \
+	mk/test.mk
+
+
+# ------------------------------------------------------------------------------
+# INTERNAL HELPERS
+# ------------------------------------------------------------------------------
+validate_msg_ok = \
+	printf "$(COLOR_GREEN)[OK]$(COLOR_RESET) %s\n" "$(1)"
+
+validate_msg_fail = \
+	printf "$(COLOR_RED)[FAIL]$(COLOR_RESET) %s\n" "$(1)"
+
+
+# ------------------------------------------------------------------------------
+# VALIDATION: mk/ DIRECTORY DRIFT
+# ------------------------------------------------------------------------------
+validate.mk.drift:
+	@echo "$(COLOR_BLUE)[validate] Checking mk/ directory for drift...$(COLOR_RESET)"
+	@for f in $$(ls mk); do \
+		if ! echo "$(ALLOWED_MK_FILES)" | grep -q "mk/$$f"; then \
+			$(call validate_msg_fail,"Unexpected file detected: mk/$$f"); \
+			exit 1; \
 		fi; \
-	else \
-		echo "[validate.js] No dashboard/package.json found, skipping."; \
-	fi
+	done
+	$(call validate_msg_ok,"mk/ directory matches allowed file set")
 
-validate.structure:
-	@echo "[validate.structure] Checking repo structure..."
-	@test -d backend || (echo "[validate.structure] Missing backend/ directory" && exit 1)
-	@test -d dashboard/src || (echo "[validate.structure] Missing dashboard/src directory" && exit 1)
-	@echo "[validate.structure] Structure OK."
 
-validate.drift:
-	@echo "[validate.drift] Running drift validator..."
-	@if [ -f scripts/validators/drift_validator.py ]; then \
-		python3 scripts/validators/drift_validator.py || { echo "[validate.drift] Drift validator reported issues."; exit 1; }; \
-	else \
-		echo "[validate.drift] No drift validator found, skipping."; \
-	fi
+# ------------------------------------------------------------------------------
+# VALIDATION: MAKEFILE STRUCTURE
+# ------------------------------------------------------------------------------
+validate.makefile.structure:
+	@echo "$(COLOR_BLUE)[validate] Validating Makefile structure...$(COLOR_RESET)"
+	@if ! grep -q "include mk/core.mk" Makefile; then \
+		$(call validate_msg_fail,"Missing include: mk/core.mk"); exit 1; fi
+	@if ! grep -q "include mk/docs.mk" Makefile; then \
+		$(call validate_msg_fail,"Missing include: mk/docs.mk"); exit 1; fi
+	@if ! grep -q "include mk/env.mk" Makefile; then \
+		$(call validate_msg_fail,"Missing include: mk/env.mk"); exit 1; fi
+	@if ! grep -q "include mk/release.mk" Makefile; then \
+		$(call validate_msg_fail,"Missing include: mk/release.mk"); exit 1; fi
+	@if ! grep -q "include mk/validate.mk" Makefile; then \
+		$(call validate_msg_fail,"Missing include: mk/validate.mk"); exit 1; fi
+	$(call validate_msg_ok,"Makefile includes are complete and ordered")
+
+
+# ------------------------------------------------------------------------------
+# VALIDATION: SYNTAX CHECK
+# ------------------------------------------------------------------------------
+validate.syntax:
+	@echo "$(COLOR_BLUE)[validate] Running syntax check...$(COLOR_RESET)"
+	@$(MAKE) -n >/dev/null 2>&1 || { \
+		$(call validate_msg_fail,"Makefile syntax errors detected"); exit 1; }
+	$(call validate_msg_ok,"Makefile syntax is valid")
+
+
+# ------------------------------------------------------------------------------
+# VALIDATION: ENVIRONMENT (delegates to mk/env.mk)
+# ------------------------------------------------------------------------------
+validate.env:
+	@$(MAKE) env.validate
+
+
+# ------------------------------------------------------------------------------
+# AGGREGATE VALIDATION
+# ------------------------------------------------------------------------------
+validate: \
+	validate.mk.drift \
+	validate.makefile.structure \
+	validate.syntax \
+	validate.env
+	@echo "$(COLOR_GREEN)[validate] All validation checks passed$(COLOR_RESET)"

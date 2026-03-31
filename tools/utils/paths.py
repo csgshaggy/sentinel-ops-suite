@@ -11,7 +11,6 @@ Provides:
 from pathlib import Path
 from typing import Optional
 
-
 # ------------------------------------------------------------
 # Project root detection
 # ------------------------------------------------------------

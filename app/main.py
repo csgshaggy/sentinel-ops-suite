@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Core settings
-from app.core.config import settings
-
 # Routers
 from app.api.routes.auth import router as auth_router
 from app.auth.mfa import router as mfa_router
+
+# Core settings
+from app.core.config import settings
+
 # Add additional routers here as your project grows:
 # from app.api.routes.users import router as users_router
 # from app.api.routes.admin import router as admin_router

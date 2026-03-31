@@ -1,0 +1,22 @@
+[general]
+ignore = [
+  "PHONY",          # We use many phony targets intentionally
+  "missing-help",   # Root help is explicit; modules may omit
+]
+
+[paths]
+# Lint root Makefile and all mk/ modules
+include = [
+  "Makefile",
+  "mk/*.mk",
+]
+
+[rules]
+# Enforce tabs for recipes
+recipe-indentation = "error"
+
+# Require .PHONY for public targets
+phony-declaration = "warning"
+
+# Disallow recursive make in modules (root handles delegation)
+recursive-make = "warning"

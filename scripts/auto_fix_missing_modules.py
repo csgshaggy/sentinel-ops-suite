@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
+import ast
 import sys
 from pathlib import Path
-import ast
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 SRC_ROOT = PROJECT_ROOT / "src"

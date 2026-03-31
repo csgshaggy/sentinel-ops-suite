@@ -1,10 +1,12 @@
-from fastapi import APIRouter
-from fastapi.responses import HTMLResponse
-from app.ui.sidebar import sidebar
-import os
-import pwd
 import grp
 import html
+import os
+import pwd
+
+from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
+
+from app.ui.sidebar import sidebar
 
 router = APIRouter(prefix="/admin/env", tags=["Environment"])
 

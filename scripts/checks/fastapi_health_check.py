@@ -1,6 +1,7 @@
 # scripts/checks/fastapi_health_check.py
 
 import os
+
 import requests
 
 

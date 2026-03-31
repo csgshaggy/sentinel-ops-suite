@@ -2,9 +2,7 @@
 // PANEL SWITCHING
 // ------------------------------
 function showPanel(name) {
-  document
-    .querySelectorAll(".panel")
-    .forEach((p) => p.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach((p) => p.classList.remove("active"));
   document.getElementById(`panel-${name}`).classList.add("active");
 }
 
@@ -62,11 +60,7 @@ async function runMode() {
   }
 
   const data = await apiPost("/api/run_mode", { mode, target, options });
-  document.getElementById("runOutput").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
+  document.getElementById("runOutput").textContent = JSON.stringify(data, null, 2);
 }
 
 // ------------------------------
@@ -75,11 +69,7 @@ async function runMode() {
 async function runLastMode() {
   const data = await apiPost("/api/run_last");
   alert("Last mode executed");
-  document.getElementById("runOutput").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
+  document.getElementById("runOutput").textContent = JSON.stringify(data, null, 2);
 }
 
 // ------------------------------
@@ -110,8 +100,7 @@ function startLiveScan() {
     const out = document.getElementById("liveOutput");
 
     if (data.type === "result") {
-      out.textContent +=
-        `\n[${data.ip}]\n` + JSON.stringify(data.data, null, 2) + "\n";
+      out.textContent += `\n[${data.ip}]\n` + JSON.stringify(data.data, null, 2) + "\n";
     } else if (data.type === "done") {
       out.textContent += `\n--- Scan complete (${data.count} IPs) ---\n`;
     } else if (data.type === "error") {
@@ -121,8 +110,7 @@ function startLiveScan() {
     out.scrollTop = out.scrollHeight;
   };
 
-  document.getElementById("liveOutput").textContent =
-    `Starting scan for ${ips.length} IP(s)...\n`;
+  document.getElementById("liveOutput").textContent = `Starting scan for ${ips.length} IP(s)...\n`;
 }
 
 // ------------------------------
@@ -172,11 +160,7 @@ async function removeFavorite() {
 // ------------------------------
 async function loadDiagnostics() {
   const data = await apiGet("/api/diagnostics");
-  document.getElementById("diagnosticsOutput").textContent = JSON.stringify(
-    data,
-    null,
-    2,
-  );
+  document.getElementById("diagnosticsOutput").textContent = JSON.stringify(data, null, 2);
 }
 
 // ------------------------------
@@ -184,8 +168,7 @@ async function loadDiagnostics() {
 // ------------------------------
 async function loadStructureCheck() {
   const data = await apiGet("/api/structure_check");
-  document.getElementById("structureOutput").textContent =
-    data.output.join("\n");
+  document.getElementById("structureOutput").textContent = data.output.join("\n");
 }
 
 // ------------------------------

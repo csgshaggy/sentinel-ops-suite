@@ -5,8 +5,8 @@ for GitHub Pages publishing.
 """
 
 import json
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 REPORT_JSON = Path("reports/superdoctor_report.json")
 REPORT_HTML = Path("reports/superdoctor_report.html")

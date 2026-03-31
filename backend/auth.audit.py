@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
+
 from backend.auth.models import AuditLog
+
 
 def log_event(
     db: Session,

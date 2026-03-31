@@ -1,8 +1,10 @@
+import datetime
+
+import psutil
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+
 from app.ui.sidebar import sidebar
-import psutil
-import datetime
 
 router = APIRouter(prefix="/admin/metrics", tags=["Metrics"])
 

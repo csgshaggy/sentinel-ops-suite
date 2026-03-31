@@ -1,7 +1,8 @@
 from __future__ import annotations
 
-from fastapi import APIRouter
 from typing import Any, Dict
+
+from fastapi import APIRouter
 
 from tools.super_doctor import run_super_doctor
 

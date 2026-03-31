@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+
 import numpy as np
 
 HISTORY_FILE = Path("health_history.jsonl")
@@ -11,13 +12,16 @@ DEFAULTS = {
     "trend_slope_threshold": -5,
 }
 
+
 def load_thresholds():
     if not THRESHOLD_FILE.exists():
         return DEFAULTS.copy()
     return json.loads(THRESHOLD_FILE.read_text())
 
+
 def save_thresholds(thresholds):
     THRESHOLD_FILE.write_text(json.dumps(thresholds, indent=2))
+
 
 def compute_adaptive_thresholds():
     """
@@ -32,16 +36,15 @@ def compute_adaptive_thresholds():
         return DEFAULTS.copy()
 
     lines = HISTORY_FILE.read_text().strip().split("\n")[-40:]
-    history = [json.loads(l) for l in lines]
+    history = [json.loads(line) for line in lines]
 
     if len(history) < 5:
         return DEFAULTS.copy()
 
-    scores = np.array([h["score"] for h in history])
+    scores = np.array([entry["score"] for entry in history])
     avg = float(np.mean(scores))
     std = float(np.std(scores))
 
-    # Adaptive thresholds
     thresholds = {
         "low_score_threshold": max(20, avg - std * 1.5),
         "sudden_drop_threshold": max(5, std * 1.2),

@@ -1,5 +1,5 @@
 import pyotp
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 router = APIRouter(prefix="/auth/mfa", tags=["mfa"])
@@ -7,28 +7,24 @@ router = APIRouter(prefix="/auth/mfa", tags=["mfa"])
 # In production, store this in DB per-user
 user_mfa_secrets = {}
 
+
 class VerifyCode(BaseModel):
     code: str
 
+
 @router.post("/enroll")
 def enroll_mfa(user_id: int = 1):
-    # Generate secret
     secret = pyotp.random_base32()
-
-    # Store it (replace with DB logic)
     user_mfa_secrets[user_id] = secret
 
-    # Build otpauth URL
     totp = pyotp.TOTP(secret)
     otpauth_url = totp.provisioning_uri(
         name=f"user{user_id}@ssrf-console",
-        issuer_name="SSRF Command Console"
+        issuer_name="SSRF Command Console",
     )
 
-    return {
-        "secret": secret,
-        "otpauth_url": otpauth_url
-    }
+    return {"secret": secret, "otpauth_url": otpauth_url}
+
 
 @router.post("/verify-enrollment")
 def verify_enrollment(payload: VerifyCode, user_id: int = 1):
@@ -41,5 +37,4 @@ def verify_enrollment(payload: VerifyCode, user_id: int = 1):
     if not totp.verify(payload.code):
         raise HTTPException(status_code=400, detail="Invalid code")
 
-    # Mark MFA as enabled (DB flag)
     return {"status": "verified"}

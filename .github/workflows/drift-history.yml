@@ -1,0 +1,35 @@
+name: Drift History Archive
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # Daily at 3 AM UTC
+  workflow_dispatch:
+
+jobs:
+  archive-drift:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+
+      - name: Generate drift snapshot
+        run: |
+          make drift-snapshot
+
+      - name: Commit drift snapshot
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add runtime/drift-history/
+          git commit -m "Archive drift snapshot" || true
+          git push

@@ -1,29 +1,26 @@
+import json
+from pathlib import Path
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pathlib import Path
-import json
-
-# Routers
-from .routers import plugins
-from .routers import makefile_admin
-from .routers import doctor
-from .routers import admin
-from .routers import auth
-
-# Sync history parser
-from .sync_history import parse_sync_history
-
-# Health scoring engine
-from .health_score import compute_health_score
 
 # Anomaly detector
 from .anomaly_detector import detect_anomalies
 
+# Health scoring engine
+from .health_score import compute_health_score
+
+# Predictive model
+from .predictive_model import predict_health
+
 # Repair engine
 from .repair_engine import run_repair
 
-# Predictive model (Item #14)
-from .predictive_model import predict_health
+# Routers
+from .routers import admin, auth, doctor, makefile_admin, plugins
+
+# Sync history parser
+from .sync_history import parse_sync_history
 
 
 def create_app() -> FastAPI:
@@ -70,15 +67,15 @@ def create_app() -> FastAPI:
     # ---------------------------------------------------------
     # HEALTH TREND HISTORY API
     # ---------------------------------------------------------
-    HISTORY_FILE = Path("health_history.jsonl")
+    history_file = Path("health_history.jsonl")
 
     @app.get("/health/history", tags=["health"])
     def get_health_history(limit: int = 50):
-        if not HISTORY_FILE.exists():
+        if not history_file.exists():
             return {"history": []}
 
-        lines = HISTORY_FILE.read_text().strip().split("\n")[-limit:]
-        return {"history": [json.loads(l) for l in lines]}
+        lines = history_file.read_text().strip().split("\n")[-limit:]
+        return {"history": [json.loads(line) for line in lines]}
 
     # ---------------------------------------------------------
     # HEALTH ANOMALIES API
@@ -96,15 +93,15 @@ def create_app() -> FastAPI:
 
     @app.get("/repair/history", tags=["repair"])
     def repair_history(limit: int = 20):
-        f = Path("repair_history.jsonl")
-        if not f.exists():
+        repair_file = Path("repair_history.jsonl")
+        if not repair_file.exists():
             return {"history": []}
 
-        lines = f.read_text().strip().split("\n")[-limit:]
-        return {"history": [json.loads(l) for l in lines]}
+        lines = repair_file.read_text().strip().split("\n")[-limit:]
+        return {"history": [json.loads(line) for line in lines]}
 
     # ---------------------------------------------------------
-    # PREDICTIVE HEALTH API (Item #14 Step 2)
+    # PREDICTIVE HEALTH API
     # ---------------------------------------------------------
     @app.get("/health/predict", tags=["health"])
     def predict(n_future: int = 5):

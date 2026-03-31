@@ -4,6 +4,7 @@ from pathlib import Path
 
 MAKEFILE = Path("Makefile")
 
+
 def is_command_line(prev_line: str) -> bool:
     """
     Heuristic: a line is a command if the previous non-empty,
@@ -13,6 +14,7 @@ def is_command_line(prev_line: str) -> bool:
     if not prev or prev.startswith("#"):
         return False
     return prev.endswith(":")
+
 
 def main() -> int:
     if not MAKEFILE.exists():

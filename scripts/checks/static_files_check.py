@@ -1,6 +1,7 @@
 # scripts/checks/static_files_check.py
 
 import os
+
 import requests
 
 

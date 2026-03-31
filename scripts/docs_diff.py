@@ -4,7 +4,6 @@ import difflib
 import os
 from typing import Dict, List
 
-
 # ------------------------------------------------------------
 # ANSI color helpers
 # ------------------------------------------------------------

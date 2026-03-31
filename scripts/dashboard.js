@@ -36,10 +36,7 @@ async function runScan() {
     .value.split(",")
     .map((x) => x.trim())
     .filter(Boolean);
-  const workers = parseInt(
-    document.getElementById("scan-workers").value || "10",
-    10,
-  );
+  const workers = parseInt(document.getElementById("scan-workers").value || "10", 10);
 
   document.getElementById("scan-output").textContent = "Running scan...";
 
@@ -51,19 +48,10 @@ async function runScan() {
     });
 
     const data = await res.json();
-    document.getElementById("scan-output").textContent = JSON.stringify(
-      data,
-      null,
-      2,
-    );
-    document.getElementById("results-output").textContent = JSON.stringify(
-      data.summaries,
-      null,
-      2,
-    );
+    document.getElementById("scan-output").textContent = JSON.stringify(data, null, 2);
+    document.getElementById("results-output").textContent = JSON.stringify(data.summaries, null, 2);
   } catch (e) {
-    document.getElementById("scan-output").textContent =
-      "Error contacting backend.";
+    document.getElementById("scan-output").textContent = "Error contacting backend.";
   }
 }
 
