@@ -84,7 +84,7 @@ def deadlock_panel():
         <tr>
             <td>{html.escape(t.name)}</td>
             <td>{t.ident}</td>
-            <td>{'Daemon' if t.daemon else 'Normal'}</td>
+            <td>{"Daemon" if t.daemon else "Normal"}</td>
             <td>{html.escape(status)}</td>
             <td><pre>{html.escape(stack)}</pre></td>
         </tr>

@@ -62,8 +62,8 @@ def scheduler_panel():
             scheduler_rows += f"""
             <tr>
                 <td>{html.escape(str(s))}</td>
-                <td>{html.escape(getattr(s, 'state', 'Unknown'))}</td>
-                <td>{html.escape(str(getattr(s, 'running', 'Unknown')))}</td>
+                <td>{html.escape(getattr(s, "state", "Unknown"))}</td>
+                <td>{html.escape(str(getattr(s, "running", "Unknown")))}</td>
             </tr>
             """
     else:

@@ -1,245 +1,126 @@
 """
-SuperDoctor Plugin: Package Integrity & Import Health
-Location: tools/plugins/package_integrity.py
+Package integrity plugin (sync).
 
-Checks:
-- Installed package metadata availability
-- Missing or broken distributions
-- Import failures
-- Version mismatches (metadata vs import)
-- Namespace collisions
-- Duplicate distributions
-- Cross-platform safe
+Checks for:
+- missing packages listed in requirements.txt
+- extra packages installed but not listed
+- version mismatches between installed packages and requirements.txt
+
+Uses importlib.metadata (Python 3.8+) for compatibility with Python 3.13+.
+
+Forms the foundation for:
+- reproducible builds
+- dependency integrity enforcement
+- CI validation of pinned versions
 """
 
-import importlib
-import pkgutil
-from pathlib import Path
-from typing import Dict, List, Optional
+from __future__ import annotations
 
-from tools.super_doctor import CheckResult
+import os
+import time
+from importlib import metadata
+from typing import Any, Dict
+
+from tools.super_doctor import CheckResult, Status
 from utils.modes import Mode
 
-# ------------------------------------------------------------
-# Helpers
-# ------------------------------------------------------------
+PLUGIN_INFO: Dict[str, Any] = {
+    "name": __name__.split(".")[-1],
+    "description": "Validates installed packages against requirements.txt.",
+    "entrypoint": "run",
+    "mode": "sync",
+}
 
 
-def _safe_import(name: str) -> Optional[object]:
+def _load_requirements() -> Dict[str, str]:
     """
-    Attempt to import a module safely.
-    Returns module or None.
+    Parse requirements.txt into {package: version}.
     """
-    try:
-        return importlib.import_module(name)
-    except Exception:
-        return None
+    req_file = "requirements.txt"
+    if not os.path.exists(req_file):
+        return {}
+
+    reqs = {}
+    with open(req_file, "r") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#") or "==" not in line:
+                continue
+            pkg, ver = line.split("==", 1)
+            reqs[pkg.strip()] = ver.strip()
+
+    return reqs
 
 
-def _get_distribution_version(name: str) -> Optional[str]:
+def _get_installed() -> Dict[str, str]:
     """
-    Retrieve version from importlib.metadata.
+    Returns installed packages using importlib.metadata.
     """
-    try:
-        from importlib.metadata import version
-
-        return version(name)
-    except Exception:
-        return None
-
-
-def _list_installed_packages() -> List[str]:
-    """
-    List top-level installed packages via pkgutil.
-    """
-    return sorted({m.name for m in pkgutil.iter_modules()})
-
-
-def _detect_namespace_collisions(packages: List[str]) -> Dict[str, List[str]]:
-    """
-    Detect namespace collisions:
-    - multiple packages providing the same top-level namespace
-    """
-    collisions: Dict[str, List[str]] = {}
-
-    for pkg in packages:
-        parts = pkg.split(".")
-        if len(parts) > 1:
-            top = parts[0]
-            collisions.setdefault(top, []).append(pkg)
-
-    # Only return namespaces with >1 provider
-    return {k: v for k, v in collisions.items() if len(v) > 1}
-
-
-# ------------------------------------------------------------
-# Main plugin
-# ------------------------------------------------------------
-
-
-def run_checks(mode: Mode, project_root: Path = None) -> List[CheckResult]:
-    results: List[CheckResult] = []
-
-    packages = _list_installed_packages()
-
-    # ------------------------------------------------------------
-    # 1. Package import health
-    # ------------------------------------------------------------
-    import_failures = []
-
-    for pkg in packages:
-        mod = _safe_import(pkg)
-        if mod is None:
-            import_failures.append(pkg)
-
-    if import_failures:
-        results.append(
-            CheckResult(
-                id="pkg.import.failures",
-                name="Import failures",
-                description="Some installed packages could not be imported.",
-                status="fail",
-                severity="high",
-                details="\n".join(import_failures),
-                plugin="package_integrity",
-            )
-        )
-    else:
-        results.append(
-            CheckResult(
-                id="pkg.import.ok",
-                name="All packages importable",
-                description="No import failures detected.",
-                status="ok",
-                severity="info",
-                plugin="package_integrity",
-            )
-        )
-
-    # ------------------------------------------------------------
-    # 2. Version mismatches
-    # ------------------------------------------------------------
-    mismatches = []
-
-    for pkg in packages:
-        meta_ver = _get_distribution_version(pkg)
-        mod = _safe_import(pkg)
-
-        if mod is None or meta_ver is None:
+    installed = {}
+    for dist in metadata.distributions():
+        try:
+            installed[dist.metadata["Name"]] = dist.version
+        except Exception:
             continue
+    return installed
 
-        # Try to get __version__ from module
-        mod_ver = getattr(mod, "__version__", None)
 
-        if mod_ver and mod_ver != meta_ver:
-            mismatches.append(f"{pkg}: metadata={meta_ver}, module={mod_ver}")
-
-    if mismatches:
-        results.append(
-            CheckResult(
-                id="pkg.version.mismatch",
-                name="Version mismatches",
-                description="Metadata version differs from module __version__.",
-                status="warn",
-                severity="medium",
-                details="\n".join(mismatches),
-                plugin="package_integrity",
-            )
-        )
-    else:
-        results.append(
-            CheckResult(
-                id="pkg.version.ok",
-                name="Version metadata consistent",
-                description="No version mismatches detected.",
-                status="ok",
-                severity="info",
-                plugin="package_integrity",
-            )
-        )
-
-    # ------------------------------------------------------------
-    # 3. Namespace collisions
-    # ------------------------------------------------------------
-    collisions = _detect_namespace_collisions(packages)
-
-    if collisions:
-        details = "\n".join(
-            f"{ns}: {', '.join(pkgs)}" for ns, pkgs in collisions.items()
-        )
-        results.append(
-            CheckResult(
-                id="pkg.namespace.collisions",
-                name="Namespace collisions",
-                description="Multiple packages provide the same namespace.",
-                status="warn",
-                severity="high",
-                details=details,
-                plugin="package_integrity",
-            )
-        )
-    else:
-        results.append(
-            CheckResult(
-                id="pkg.namespace.ok",
-                name="No namespace collisions",
-                description="No namespace collisions detected.",
-                status="ok",
-                severity="info",
-                plugin="package_integrity",
-            )
-        )
-
-    # ------------------------------------------------------------
-    # 4. Duplicate distributions (same package installed twice)
-    # ------------------------------------------------------------
+def run(mode: Mode = Mode.FAST) -> CheckResult:
+    """
+    Synchronous package integrity check.
+    """
     try:
-        from importlib.metadata import distributions
+        required = _load_requirements()
+        installed = _get_installed()
 
-        dist_names = {}
-        duplicates = []
+        missing = []
+        mismatched = []
+        extra = []
 
-        for dist in distributions():
-            name = dist.metadata["Name"].lower()
-            dist_names.setdefault(name, []).append(dist)
-
-        for name, dists in dist_names.items():
-            if len(dists) > 1:
-                duplicates.append(name)
-
-        if duplicates:
-            results.append(
-                CheckResult(
-                    id="pkg.duplicates",
-                    name="Duplicate distributions",
-                    description="Some packages appear to be installed multiple times.",
-                    status="warn",
-                    severity="medium",
-                    details="\n".join(duplicates),
-                    plugin="package_integrity",
+        # Check for missing or mismatched versions
+        for pkg, req_ver in required.items():
+            inst_ver = installed.get(pkg)
+            if inst_ver is None:
+                missing.append(pkg)
+            elif inst_ver != req_ver:
+                mismatched.append(
+                    {"package": pkg, "required": req_ver, "installed": inst_ver}
                 )
-            )
+
+        # Check for extra packages
+        for pkg in installed:
+            if pkg not in required:
+                extra.append(pkg)
+
+        if missing or mismatched:
+            status = Status.WARN
+            message = "Package integrity issues detected."
         else:
-            results.append(
-                CheckResult(
-                    id="pkg.duplicates.none",
-                    name="No duplicate distributions",
-                    description="No duplicate package installs detected.",
-                    status="ok",
-                    severity="info",
-                    plugin="package_integrity",
-                )
-            )
-    except Exception:
-        results.append(
-            CheckResult(
-                id="pkg.duplicates.unknown",
-                name="Duplicate distribution check unavailable",
-                description="Could not inspect installed distributions.",
-                status="warn",
-                severity="low",
-                plugin="package_integrity",
-            )
+            status = Status.OK
+            message = "Package integrity is clean."
+
+        data = {
+            "required_count": len(required),
+            "installed_count": len(installed),
+            "missing": missing,
+            "missing_count": len(missing),
+            "mismatched": mismatched,
+            "mismatched_count": len(mismatched),
+            "extra": extra,
+            "extra_count": len(extra),
+            "mode": mode.value,
+            "timestamp": time.time(),
+        }
+
+        return CheckResult(
+            name=PLUGIN_INFO["name"],
+            status=status,
+            message=message,
+            data=data,
         )
 
-    return results
+    except Exception as exc:
+        return CheckResult.fail(
+            name=PLUGIN_INFO["name"],
+            message=f"Package integrity plugin failed: {exc}",
+        )

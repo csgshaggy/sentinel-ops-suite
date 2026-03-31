@@ -107,7 +107,7 @@ def metrics_panel():
 
             <div class="metric">
                 <h2>System Uptime</h2>
-                <p>{str(uptime).split('.')[0]}</p>
+                <p>{str(uptime).split(".")[0]}</p>
             </div>
         </div>
     </body>

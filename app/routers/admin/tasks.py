@@ -31,7 +31,7 @@ def tasks_panel():
         <tr>
             <td>{html.escape(t.name)}</td>
             <td>{t.ident}</td>
-            <td>{'Alive' if t.is_alive() else 'Dead'}</td>
+            <td>{"Alive" if t.is_alive() else "Dead"}</td>
             <td>{t.daemon}</td>
         </tr>
         """

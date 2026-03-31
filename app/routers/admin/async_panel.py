@@ -85,10 +85,10 @@ def async_panel():
         <tr>
             <td>{html.escape(str(id(t)))}</td>
             <td>{html.escape(state)}</td>
-            <td>{html.escape(str(info.get('done')))}</td>
-            <td>{html.escape(str(info.get('cancelled')))}</td>
-            <td><pre>{html.escape(info.get('coro', ''))}</pre></td>
-            <td><pre>{html.escape(info.get('stack', ''))}</pre></td>
+            <td>{html.escape(str(info.get("done")))}</td>
+            <td>{html.escape(str(info.get("cancelled")))}</td>
+            <td><pre>{html.escape(info.get("coro", ""))}</pre></td>
+            <td><pre>{html.escape(info.get("stack", ""))}</pre></td>
         </tr>
         """
 

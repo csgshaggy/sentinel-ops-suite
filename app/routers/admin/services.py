@@ -51,10 +51,10 @@ def services_panel():
     for svc in services:
         rows += f"""
         <tr>
-            <td>{svc['name']}</td>
-            <td>{svc['display_name']}</td>
-            <td>{svc['status']}</td>
-            <td>{svc['start_type']}</td>
+            <td>{svc["name"]}</td>
+            <td>{svc["display_name"]}</td>
+            <td>{svc["status"]}</td>
+            <td>{svc["start_type"]}</td>
         </tr>
         """
 

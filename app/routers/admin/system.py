@@ -51,7 +51,7 @@ def system_dashboard():
             <div class="metric">CPU Usage: {cpu}%</div>
             <div class="metric">Memory: {mem.percent}% ({format_bytes(mem.used)} / {format_bytes(mem.total)})</div>
             <div class="metric">Disk: {disk.percent}% ({format_bytes(disk.used)} / {format_bytes(disk.total)})</div>
-            <div class="metric">Uptime: {str(uptime).split('.')[0]}</div>
+            <div class="metric">Uptime: {str(uptime).split(".")[0]}</div>
             <div class="metric">OS: {platform.system()} {platform.release()}</div>
         </div>
     </body>

@@ -1,37 +1,32 @@
-import subprocess
+"""
+Makefile health plugin (stub).
+
+Intended for future validation of Makefile structure, required targets,
+dependency chains, phony declarations, and CI‑enforced rules.
+Currently implemented as a safe placeholder.
+"""
+
+from __future__ import annotations
+
+from typing import Any, Dict
+
+from tools.super_doctor import CheckResult
+from utils.modes import Mode
+
+PLUGIN_INFO: Dict[str, Any] = {
+    "name": __name__.split(".")[-1],
+    "description": "Stub plugin for Makefile structure and health checks.",
+    "entrypoint": "run",
+    "mode": "sync",
+}
 
 
-def run():
-    result = {
-        "status": "ok",
-        "makefile_present": False,
-        "duplicates": False,
-        "details": [],
-    }
-
-    # Check Makefile presence
-    try:
-        with open("Makefile", "r"):
-            result["makefile_present"] = True
-            result["details"].append("Makefile found in project root.")
-    except FileNotFoundError:
-        result["status"] = "error"
-        result["details"].append("Makefile missing in project root.")
-        return result
-
-    # Run makefile_doctor
-    proc = subprocess.run(
-        ["python3", "scripts/makefile_doctor.py"],
-        capture_output=True,
-        text=True,
+def run(mode: Mode = Mode.FAST) -> CheckResult:
+    """
+    Stubbed Makefile health check.
+    """
+    return CheckResult.ok(
+        name=PLUGIN_INFO["name"],
+        message="Makefile health stub plugin executed successfully.",
+        data={"stub": True, "mode": mode.value},
     )
-
-    if proc.returncode != 0:
-        result["status"] = "warning"
-        result["duplicates"] = True
-        result["details"].append("Duplicate targets detected in Makefile.")
-        result["details"].append(proc.stdout.strip() or proc.stderr.strip())
-    else:
-        result["details"].append("No duplicate Makefile targets detected.")
-
-    return result

@@ -42,7 +42,7 @@ def network_panel():
         rows += f"""
         <tr>
             <td>{iface}</td>
-            <td>{'Up' if stats.isup else 'Down'}</td>
+            <td>{"Up" if stats.isup else "Down"}</td>
             <td>{ip}</td>
             <td>{mac}</td>
             <td>{io.bytes_sent / (1024 * 1024):.2f} MB</td>

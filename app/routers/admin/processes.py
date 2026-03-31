@@ -36,11 +36,11 @@ def list_processes():
     for p in processes:
         rows += f"""
         <tr>
-            <td>{p['pid']}</td>
-            <td>{p['name']}</td>
-            <td>{p['status']}</td>
-            <td>{p['cpu']}%</td>
-            <td>{p['memory'] / (1024 * 1024):.2f} MB</td>
+            <td>{p["pid"]}</td>
+            <td>{p["name"]}</td>
+            <td>{p["status"]}</td>
+            <td>{p["cpu"]}%</td>
+            <td>{p["memory"] / (1024 * 1024):.2f} MB</td>
         </tr>
         """
 

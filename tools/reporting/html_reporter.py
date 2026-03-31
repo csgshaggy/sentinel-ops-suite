@@ -127,11 +127,11 @@ def _build_row(result: Dict[str, Any]) -> str:
 
     return f"""
     <tr>
-        <td>{result['id']}</td>
-        <td>{result.get('plugin', '')}</td>
-        <td>{result['name']}</td>
-        <td class="{status_class}">{result['status'].upper()}</td>
-        <td>{result['severity']}</td>
+        <td>{result["id"]}</td>
+        <td>{result.get("plugin", "")}</td>
+        <td>{result["name"]}</td>
+        <td class="{status_class}">{result["status"].upper()}</td>
+        <td>{result["severity"]}</td>
         <td>{details}</td>
     </tr>
     """

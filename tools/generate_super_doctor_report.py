@@ -103,9 +103,9 @@ def generate_html(entries, history):
   <p>Generated: {timestamp}</p>
 
   <div class="summary">
-    <p><span class="badge FAIL">FAIL: {counts.get('FAIL', 0)}</span></p>
-    <p><span class="badge WARN">WARN: {counts.get('WARN', 0)}</span></p>
-    <p><span class="badge INFO">INFO: {counts.get('INFO', 0)}</span></p>
+    <p><span class="badge FAIL">FAIL: {counts.get("FAIL", 0)}</span></p>
+    <p><span class="badge WARN">WARN: {counts.get("WARN", 0)}</span></p>
+    <p><span class="badge INFO">INFO: {counts.get("INFO", 0)}</span></p>
   </div>
 
   <h2>Trend (History)</h2>

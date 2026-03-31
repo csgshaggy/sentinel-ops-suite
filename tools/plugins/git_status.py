@@ -1,62 +1,119 @@
+"""
+Git status plugin (sync).
+
+Reports:
+- current branch
+- dirty state (modified, untracked, staged)
+- ahead/behind counts
+- last commit hash and timestamp
+
+Forms the foundation for:
+- CI drift detection
+- repo hygiene enforcement
+- operator console status indicators
+"""
+
 from __future__ import annotations
 
 import subprocess
-from typing import Any, Dict, List, Optional
+import time
+from typing import Any, Dict
 
-PLUGIN_INFO = {
-    "name": "git_status",
-    "category": "scm",
-    "entrypoint": "get_git_status",
+from tools.super_doctor import CheckResult, Status
+from utils.modes import Mode
+
+PLUGIN_INFO: Dict[str, Any] = {
+    "name": __name__.split(".")[-1],
+    "description": "Reports Git repository status.",
+    "entrypoint": "run",
+    "mode": "sync",
 }
 
 
-def _run_git_command(args: List[str]) -> Optional[str]:
+def _run(cmd: list[str]) -> str:
     """
-    Run a Git command safely and return stdout or None on failure.
+    Safely run a git command and return stdout as text.
     """
     try:
-        result = subprocess.run(
-            ["git"] + args,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=2,
-        )
+        out = subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
+        return out.decode().strip()
     except Exception:
-        return None
-
-    if result.returncode != 0:
-        return None
-
-    return result.stdout.strip()
+        return ""
 
 
-def get_git_status() -> Dict[str, Any]:
-    """
-    Return branch, commit, and working tree status.
-    """
-    branch = _run_git_command(["rev-parse", "--abbrev-ref", "HEAD"])
-    commit = _run_git_command(["rev-parse", "HEAD"])
-    status_raw = _run_git_command(["status", "--porcelain"])
+def _get_branch() -> str:
+    return _run(["git", "rev-parse", "--abbrev-ref", "HEAD"])
 
-    if branch is None or commit is None:
-        return {
-            "success": False,
-            "error": "Not a Git repository or Git is unavailable",
-        }
 
-    changes: List[str] = status_raw.splitlines() if status_raw else []
+def _get_dirty() -> bool:
+    return bool(_run(["git", "status", "--porcelain"]))  # any output = dirty
+
+
+def _get_ahead_behind() -> Dict[str, int]:
+    out = _run(["git", "rev-list", "--left-right", "--count", "HEAD...@{upstream}"])
+    if not out:
+        return {"ahead": 0, "behind": 0}
+
+    try:
+        ahead, behind = out.split()
+        return {"ahead": int(ahead), "behind": int(behind)}
+    except Exception:
+        return {"ahead": 0, "behind": 0}
+
+
+def _get_last_commit() -> Dict[str, Any]:
+    commit_hash = _run(["git", "rev-parse", "HEAD"])
+    commit_ts = _run(["git", "show", "-s", "--format=%ct", "HEAD"])
+    try:
+        commit_ts = int(commit_ts)
+    except Exception:
+        commit_ts = None
 
     return {
-        "success": True,
-        "branch": branch,
-        "commit": commit,
-        "changes": changes,
-        "dirty": len(changes) > 0,
+        "hash": commit_hash,
+        "timestamp": commit_ts,
     }
 
 
-if __name__ == "__main__":
-    import json
+def run(mode: Mode = Mode.FAST) -> CheckResult:
+    """
+    Synchronous Git status check.
+    """
+    try:
+        branch = _get_branch()
+        dirty = _get_dirty()
+        ahead_behind = _get_ahead_behind()
+        last_commit = _get_last_commit()
 
-    print(json.dumps(get_git_status(), indent=2))
+        if not branch:
+            status = Status.WARN
+            message = "Not a Git repository or unable to read Git status."
+        elif dirty:
+            status = Status.WARN
+            message = "Repository has uncommitted changes."
+        else:
+            status = Status.OK
+            message = "Git repository is clean."
+
+        data = {
+            "branch": branch,
+            "dirty": dirty,
+            "ahead": ahead_behind["ahead"],
+            "behind": ahead_behind["behind"],
+            "last_commit": last_commit,
+            "mode": mode.value,
+            "timestamp": time.time(),
+        }
+
+        return CheckResult(
+            name=PLUGIN_INFO["name"],
+            status=status,
+            message=message,
+            data=data,
+        )
+
+    except Exception as exc:
+        return CheckResult.fail(
+            name=PLUGIN_INFO["name"],
+            message=f"Git status plugin failed: {exc}",
+        )

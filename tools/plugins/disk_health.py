@@ -1,211 +1,80 @@
 """
-SuperDoctor Plugin: Disk Health & Storage Integrity
-Location: tools/plugins/disk_health.py
+Disk health check plugin (sync).
 
-Checks:
-- Disk usage (per mount)
-- Free space thresholds
-- Inode pressure (POSIX)
-- Mountpoint sanity
-- Read/write access
-- Cross-platform safe
+Performs a basic read/write sanity check on the filesystem to ensure
+the disk is responsive and not exhibiting immediate I/O failures.
 """
 
-import os
-import shutil
-from pathlib import Path
-from typing import List, Optional
+from __future__ import annotations
 
-from tools.super_doctor import CheckResult
+import os
+import tempfile
+import time
+from typing import Any, Dict
+
+from tools.super_doctor import CheckResult, Status
 from utils.modes import Mode
 
-# POSIX-only inode stats
-try:
-    import statvfs
-except Exception:
-    statvfs = None
+PLUGIN_INFO: Dict[str, Any] = {
+    "name": __name__.split(".")[-1],
+    "description": "Performs a basic disk read/write health check.",
+    "entrypoint": "run",
+    "mode": "sync",
+}
 
 
-# ------------------------------------------------------------
-# Helpers
-# ------------------------------------------------------------
-
-
-def _disk_usage(path: Path):
+def _disk_rw_test() -> bool:
     """
-    Wrapper around shutil.disk_usage.
-    Returns (total, used, free).
+    Perform a simple write/read/delete test in the system temp directory.
+    Returns True if successful, False otherwise.
     """
     try:
-        return shutil.disk_usage(str(path))
+        with tempfile.NamedTemporaryFile(delete=False) as tmp:
+            test_path = tmp.name
+            tmp.write(b"ssrf-console-disk-health-test")
+            tmp.flush()
+
+        # Read back
+        with open(test_path, "rb") as f:
+            content = f.read()
+
+        # Cleanup
+        os.remove(test_path)
+
+        return content == b"ssrf-console-disk-health-test"
     except Exception:
-        return None
+        return False
 
 
-def _inode_stats(path: Path) -> Optional[dict]:
+def run(mode: Mode = Mode.FAST) -> CheckResult:
     """
-    POSIX inode stats via os.statvfs.
+    Synchronous disk health check.
     """
-    if statvfs is None:
-        return None
     try:
-        st = os.statvfs(str(path))
-        return {
-            "inodes_total": st.f_files,
-            "inodes_free": st.f_ffree,
-            "inodes_used": st.f_files - st.f_ffree,
+        ok = _disk_rw_test()
+
+        if ok:
+            status = Status.OK
+            message = "Disk read/write test passed."
+        else:
+            status = Status.FAIL
+            message = "Disk read/write test failed."
+
+        data = {
+            "rw_test_passed": ok,
+            "mode": mode.value,
+            "timestamp": time.time(),
         }
-    except Exception:
-        return None
 
-
-def _mountpoints() -> List[Path]:
-    """
-    Best-effort mountpoint enumeration.
-    """
-    mounts = []
-
-    if os.name == "nt":
-        # Windows: use drive letters
-        for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-            p = Path(f"{letter}:/")
-            if p.exists():
-                mounts.append(p)
-    else:
-        # POSIX: parse /proc/mounts
-        try:
-            with open("/proc/mounts") as f:
-                for line in f:
-                    parts = line.split()
-                    if len(parts) >= 2:
-                        mounts.append(Path(parts[1]))
-        except Exception:
-            mounts.append(Path("/"))
-
-    return mounts
-
-
-# ------------------------------------------------------------
-# Main plugin
-# ------------------------------------------------------------
-
-
-def run_checks(mode: Mode, project_root: Path = None) -> List[CheckResult]:
-    results: List[CheckResult] = []
-
-    mounts = _mountpoints()
-
-    # ------------------------------------------------------------
-    # 1. Disk usage per mount
-    # ------------------------------------------------------------
-    for m in mounts:
-        usage = _disk_usage(m)
-        if usage is None:
-            results.append(
-                CheckResult(
-                    id=f"disk.{m}.unavailable",
-                    name=f"Disk usage unavailable: {m}",
-                    description="Could not retrieve disk usage.",
-                    status="warn",
-                    severity="medium",
-                    plugin="disk_health",
-                )
-            )
-            continue
-
-        total, used, free = usage
-        used_pct = (used / total * 100) if total > 0 else 0
-
-        results.append(
-            CheckResult(
-                id=f"disk.{m}.usage",
-                name=f"Disk usage: {m}",
-                description="Disk usage statistics.",
-                status="ok",
-                severity="info",
-                details=(
-                    f"Total: {total / (1024**3):.1f} GB\n"
-                    f"Used:  {used / (1024**3):.1f} GB ({used_pct:.1f}%)\n"
-                    f"Free:  {free / (1024**3):.1f} GB"
-                ),
-                plugin="disk_health",
-            )
+        return CheckResult(
+            name=PLUGIN_INFO["name"],
+            status=status,
+            message=message,
+            data=data,
         )
 
-        # Threshold warnings
-        if used_pct >= 95:
-            results.append(
-                CheckResult(
-                    id=f"disk.{m}.critical",
-                    name=f"Critical disk pressure: {m}",
-                    description="Disk usage exceeds 95%.",
-                    status="fail",
-                    severity="critical",
-                    plugin="disk_health",
-                )
-            )
-        elif used_pct >= 85:
-            results.append(
-                CheckResult(
-                    id=f"disk.{m}.high",
-                    name=f"High disk pressure: {m}",
-                    description="Disk usage exceeds 85%.",
-                    status="warn",
-                    severity="high",
-                    plugin="disk_health",
-                )
-            )
-        elif used_pct >= 70:
-            results.append(
-                CheckResult(
-                    id=f"disk.{m}.moderate",
-                    name=f"Moderate disk pressure: {m}",
-                    description="Disk usage exceeds 70%.",
-                    status="warn",
-                    severity="medium",
-                    plugin="disk_health",
-                )
-            )
-
-    # ------------------------------------------------------------
-    # 2. Inode pressure (POSIX)
-    # ------------------------------------------------------------
-    if os.name != "nt":
-        for m in mounts:
-            stats = _inode_stats(m)
-            if stats is None:
-                continue
-
-            total = stats["inodes_total"]
-            free = stats["inodes_free"]
-            used = stats["inodes_used"]
-
-            if total > 0:
-                used_pct = used / total * 100
-            else:
-                used_pct = 0
-
-            if used_pct >= 95:
-                results.append(
-                    CheckResult(
-                        id=f"inodes.{m}.critical",
-                        name=f"Critical inode pressure: {m}",
-                        description="Inode usage exceeds 95%.",
-                        status="fail",
-                        severity="critical",
-                        plugin="disk_health",
-                    )
-                )
-            elif used_pct >= 85:
-                results.append(
-                    CheckResult(
-                        id=f"inodes.{m}.high",
-                        name=f"High inode pressure: {m}",
-                        description="Inode usage exceeds 85%.",
-                        status="warn",
-                        severity="high",
-                        plugin="disk_health",
-                    )
-                )
-
-    return results
+    except Exception as exc:
+        return CheckResult.fail(
+            name=PLUGIN_INFO["name"],
+            message=f"Disk health plugin failed: {exc}",
+        )

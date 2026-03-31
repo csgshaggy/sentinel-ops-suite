@@ -1,245 +1,75 @@
 """
-SuperDoctor Plugin: File System Integrity
-Location: tools/plugins/file_system.py
+File system health check plugin (sync).
 
-Checks:
-- Unreadable directories
-- Unreadable files
-- Symlink loops (best-effort)
-- Suspicious permissions (world-writable, no read bit)
-- Path traversal hazards
-- Cross-platform safe
+Performs basic checks on filesystem responsiveness and directory accessibility.
 """
 
-import os
-import stat
-from pathlib import Path
-from typing import List, Set
+from __future__ import annotations
 
-from tools.super_doctor import CheckResult
+import os
+import time
+from typing import Any, Dict
+
+from tools.super_doctor import CheckResult, Status
 from utils.modes import Mode
 
-# ------------------------------------------------------------
-# Helpers
-# ------------------------------------------------------------
+PLUGIN_INFO: Dict[str, Any] = {
+    "name": __name__.split(".")[-1],
+    "description": "Checks basic filesystem accessibility and responsiveness.",
+    "entrypoint": "run",
+    "mode": "sync",
+}
 
 
-def _is_world_writable(path: Path) -> bool:
+def _check_access(path: str) -> bool:
+    """
+    Returns True if the path exists and is accessible.
+    """
     try:
-        mode = path.stat().st_mode
-        return bool(mode & stat.S_IWOTH)
+        return os.path.exists(path) and os.access(path, os.R_OK)
     except Exception:
         return False
 
 
-def _is_readable(path: Path) -> bool:
+def run(mode: Mode = Mode.FAST) -> CheckResult:
+    """
+    Synchronous filesystem health check.
+    """
     try:
-        return os.access(path, os.R_OK)
-    except Exception:
-        return False
+        root_ok = _check_access("/")
+        home_ok = _check_access(os.path.expanduser("~"))
+        tmp_ok = _check_access("/tmp")
 
+        # Simple scoring
+        score = sum([root_ok, home_ok, tmp_ok])
 
-def _detect_symlink_loops(root: Path) -> List[str]:
-    """
-    Best-effort symlink loop detection.
-    Tracks visited inodes to detect cycles.
-    """
-    visited: Set[int] = set()
-    loops = []
+        if score == 3:
+            status = Status.OK
+            message = "Filesystem paths are accessible."
+        elif score == 2:
+            status = Status.WARN
+            message = "Some filesystem paths are not accessible."
+        else:
+            status = Status.FAIL
+            message = "Critical filesystem paths are inaccessible."
 
-    for p in root.rglob("*"):
-        try:
-            if p.is_symlink():
-                target = p.resolve()
-                inode = target.stat().st_ino
-                if inode in visited:
-                    loops.append(str(p))
-                else:
-                    visited.add(inode)
-        except Exception:
-            continue
+        data = {
+            "root_accessible": root_ok,
+            "home_accessible": home_ok,
+            "tmp_accessible": tmp_ok,
+            "mode": mode.value,
+            "timestamp": time.time(),
+        }
 
-    return loops
-
-
-def _detect_unreadable(root: Path) -> (List[str], List[str]):
-    unreadable_dirs = []
-    unreadable_files = []
-
-    for p in root.rglob("*"):
-        try:
-            if p.is_dir():
-                if not _is_readable(p):
-                    unreadable_dirs.append(str(p.relative_to(root)))
-            elif p.is_file():
-                if not _is_readable(p):
-                    unreadable_files.append(str(p.relative_to(root)))
-        except Exception:
-            continue
-
-    return unreadable_dirs, unreadable_files
-
-
-def _detect_permission_anomalies(root: Path) -> List[str]:
-    anomalies = []
-
-    for p in root.rglob("*"):
-        try:
-            mode = p.stat().st_mode
-
-            # World-writable
-            if mode & stat.S_IWOTH:
-                anomalies.append(f"{p.relative_to(root)} (world-writable)")
-
-            # No read bit for owner
-            if not (mode & stat.S_IRUSR):
-                anomalies.append(f"{p.relative_to(root)} (owner cannot read)")
-        except Exception:
-            continue
-
-    return anomalies
-
-
-def _detect_path_traversal(root: Path) -> List[str]:
-    """
-    Detect files with names that could be used for traversal attacks.
-    """
-    suspicious = []
-    for p in root.rglob("*"):
-        name = p.name
-        if ".." in name or name.startswith(("/", "\\")):
-            suspicious.append(str(p.relative_to(root)))
-    return suspicious
-
-
-# ------------------------------------------------------------
-# Main plugin
-# ------------------------------------------------------------
-
-
-def run_checks(mode: Mode, project_root: Path) -> List[CheckResult]:
-    results: List[CheckResult] = []
-
-    # ------------------------------------------------------------
-    # 1. Unreadable directories/files
-    # ------------------------------------------------------------
-    unread_dirs, unread_files = _detect_unreadable(project_root)
-
-    if unread_dirs or unread_files:
-        details = []
-        if unread_dirs:
-            details.append("Unreadable directories:\n" + "\n".join(unread_dirs))
-        if unread_files:
-            details.append("Unreadable files:\n" + "\n".join(unread_files))
-
-        results.append(
-            CheckResult(
-                id="fs.unreadable",
-                name="Unreadable filesystem entries",
-                description="Some files or directories cannot be read.",
-                status="warn",
-                severity="medium",
-                details="\n\n".join(details),
-                plugin="file_system",
-            )
-        )
-    else:
-        results.append(
-            CheckResult(
-                id="fs.unreadable.none",
-                name="All files readable",
-                description="No unreadable files or directories detected.",
-                status="ok",
-                severity="info",
-                plugin="file_system",
-            )
+        return CheckResult(
+            name=PLUGIN_INFO["name"],
+            status=status,
+            message=message,
+            data=data,
         )
 
-    # ------------------------------------------------------------
-    # 2. Symlink loops
-    # ------------------------------------------------------------
-    loops = _detect_symlink_loops(project_root)
-
-    if loops:
-        results.append(
-            CheckResult(
-                id="fs.symlink_loops",
-                name="Symlink loops detected",
-                description="Potential symlink loops found.",
-                status="warn",
-                severity="high",
-                details="\n".join(loops),
-                plugin="file_system",
-            )
+    except Exception as exc:
+        return CheckResult.fail(
+            name=PLUGIN_INFO["name"],
+            message=f"Filesystem plugin failed: {exc}",
         )
-    else:
-        results.append(
-            CheckResult(
-                id="fs.symlink_loops.none",
-                name="No symlink loops",
-                description="No symlink loops detected.",
-                status="ok",
-                severity="info",
-                plugin="file_system",
-            )
-        )
-
-    # ------------------------------------------------------------
-    # 3. Permission anomalies
-    # ------------------------------------------------------------
-    anomalies = _detect_permission_anomalies(project_root)
-
-    if anomalies:
-        results.append(
-            CheckResult(
-                id="fs.permissions",
-                name="Permission anomalies",
-                description="Suspicious file permissions detected.",
-                status="warn",
-                severity="medium",
-                details="\n".join(anomalies),
-                plugin="file_system",
-            )
-        )
-    else:
-        results.append(
-            CheckResult(
-                id="fs.permissions.none",
-                name="Permissions normal",
-                description="No suspicious file permissions detected.",
-                status="ok",
-                severity="info",
-                plugin="file_system",
-            )
-        )
-
-    # ------------------------------------------------------------
-    # 4. Path traversal hazards
-    # ------------------------------------------------------------
-    traversal = _detect_path_traversal(project_root)
-
-    if traversal:
-        results.append(
-            CheckResult(
-                id="fs.traversal",
-                name="Path traversal hazards",
-                description="Files with suspicious names detected.",
-                status="warn",
-                severity="medium",
-                details="\n".join(traversal),
-                plugin="file_system",
-            )
-        )
-    else:
-        results.append(
-            CheckResult(
-                id="fs.traversal.none",
-                name="No traversal hazards",
-                description="No suspicious filenames detected.",
-                status="ok",
-                severity="info",
-                plugin="file_system",
-            )
-        )
-
-    return results

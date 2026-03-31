@@ -59,9 +59,6 @@ def print_regressions(regressions):
         return
 
     for r in regressions:
-        print(
-            f"{Fore.RED}- [{r['type']}] {r['check']}: "
-            f"{r['detail']}{Style.RESET_ALL}"
-        )
+        print(f"{Fore.RED}- [{r['type']}] {r['check']}: {r['detail']}{Style.RESET_ALL}")
 
     print()

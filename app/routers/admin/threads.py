@@ -36,7 +36,7 @@ def get_thread_stacks():
         <tr>
             <td>{html.escape(thread.name)}</td>
             <td>{ident}</td>
-            <td>{'Alive' if thread.is_alive() else 'Dead'}</td>
+            <td>{"Alive" if thread.is_alive() else "Dead"}</td>
             <td>{thread.daemon}</td>
             <td>{stack_text}</td>
         </tr>

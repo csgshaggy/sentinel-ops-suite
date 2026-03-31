@@ -211,7 +211,7 @@ def create_stub(path: Path):
     print(f"[CREATE] {path}")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        "# Auto-generated stub module\n" "def placeholder():\n" "    return 'stub'\n"
+        "# Auto-generated stub module\ndef placeholder():\n    return 'stub'\n"
     )
 
 

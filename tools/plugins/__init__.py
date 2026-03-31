@@ -1,177 +1,81 @@
 """
-SuperDoctor Plugin Registry
+Canonical plugin registry for SuperDoctor.
 
-Central index of all plugins and their human-readable metadata.
-Each plugin must expose:
+This file is the authoritative source of truth for:
+- plugin imports
+- plugin metadata
+- plugin entrypoints
+- sync/async mode declarations
 
-    run_checks(mode: Mode, project_root: Path | None) -> List[CheckResult]
+SuperDoctor imports ONLY from this registry.
+No dynamic imports. No drift. No ambiguity.
 """
 
-from pathlib import Path
-from typing import Callable, Dict, List, Optional
+from __future__ import annotations
 
-from tools.super_doctor import CheckResult
-from utils.modes import Mode
+from typing import Callable, Dict
 
-# Import all plugin modules
-from . import (
-    async_health,
-    build_artifacts,
-    config_files,
-    cpu_load,
-    dependency_lock,
-    disk_health,
-    env_vars,
-    event_loop,
-    file_system,
-    git_status,
-    import_latency,
-    kernel_info,
-    logging_config,
-    memory_health,
-    module_conflicts,
-    network_health,
-    os_release,
-    package_integrity,
-    path_sanity,
-    pip_health,
-    process_tree,
-    project_structure,
-    python_flags,
-    python_paths,
-    python_process,
-    python_version,
-    runtime_limits,
-    security_basics,
-    signals,
-    site_packages,
-    symlink_safety,
-    temp_files,
-    thread_deadlock,
-    trace_hooks,
-    uptime_clock,
-    virtualenv,
-)
+# --- Explicit plugin imports (alphabetical, deterministic) ---
+from .cpu_load import run as cpu_load
+from .dependency_drift import run as dependency_drift
+from .disk_space import run as disk_space
+from .env_vars import run as env_vars
+from .file_system import run as file_system
+from .git_status import run as git_status
+from .kernel_info import run as kernel_info
+from .logging_config import run as logging_config
+from .makefile_health import run as makefile_health
+from .memory_health import run as memory_health
+from .network_health import run as network_health
+from .os_info import run as os_info
+from .os_release import run as os_release
+from .package_integrity import run as package_integrity
+from .process_health import run as process_health
+from .python_version import run as python_version
+from .requirements_lock import run as requirements_lock
+from .security_baseline import run as security_baseline
+from .shell_env import run as shell_env
+from .storage_health import run as storage_health
+from .system_limits import run as system_limits
+from .system_services import run as system_services
+from .system_uptime import run as system_uptime
+from .temp_sensors import run as temp_sensors
+from .time_sync import run as time_sync
+from .user_sessions import run as user_sessions
+from .virtualization import run as virtualization
+from .zombie_processes import run as zombie_processes
 
-PluginFn = Callable[[Mode, Optional[Path]], List[CheckResult]]
+# --- Canonical plugin registry map ---
 
-
-class PluginMeta:
-    def __init__(
-        self,
-        id: str,
-        name: str,
-        category: str,
-        module: object,
-        entrypoint: str = "run_checks",
-        description: str | None = None,
-    ) -> None:
-        self.id = id
-        self.name = name
-        self.category = category
-        self.module = module
-        self.entrypoint = entrypoint
-        self.description = description or name
-
-    @property
-    def fn(self) -> PluginFn:
-        return getattr(self.module, self.entrypoint)
-
-
-# Central registry
-PLUGINS: Dict[str, PluginMeta] = {
-    # System & OS Health
-    "cpu_load": PluginMeta("cpu_load", "CPU Load & Saturation", "system", cpu_load),
-    "memory_health": PluginMeta(
-        "memory_health", "Memory Health", "system", memory_health
-    ),
-    "disk_health": PluginMeta(
-        "disk_health", "Disk Health & Storage", "system", disk_health
-    ),
-    "network_health": PluginMeta(
-        "network_health", "Network Health", "system", network_health
-    ),
-    "file_system": PluginMeta(
-        "file_system", "Filesystem Sanity", "system", file_system
-    ),
-    "runtime_limits": PluginMeta(
-        "runtime_limits", "Runtime Limits", "system", runtime_limits
-    ),
-    "process_tree": PluginMeta("process_tree", "Process Tree", "system", process_tree),
-    "kernel_info": PluginMeta("kernel_info", "Kernel Info", "system", kernel_info),
-    "os_release": PluginMeta("os_release", "OS Release", "system", os_release),
-    "uptime_clock": PluginMeta(
-        "uptime_clock", "Uptime & Clock", "system", uptime_clock
-    ),
-    # Python Environment
-    "python_paths": PluginMeta("python_paths", "Python Paths", "python", python_paths),
-    "python_process": PluginMeta(
-        "python_process", "Python Process", "python", python_process
-    ),
-    "python_version": PluginMeta(
-        "python_version", "Python Version", "python", python_version
-    ),
-    "virtualenv": PluginMeta(
-        "virtualenv", "Virtualenv Integrity", "python", virtualenv
-    ),
-    "package_integrity": PluginMeta(
-        "package_integrity", "Package Integrity", "python", package_integrity
-    ),
-    "pip_health": PluginMeta("pip_health", "pip Health", "python", pip_health),
-    "site_packages": PluginMeta(
-        "site_packages", "site-packages Layout", "python", site_packages
-    ),
-    "import_latency": PluginMeta(
-        "import_latency", "Import Latency", "python", import_latency
-    ),
-    "module_conflicts": PluginMeta(
-        "module_conflicts", "Module Conflicts", "python", module_conflicts
-    ),
-    "python_flags": PluginMeta("python_flags", "Python Flags", "python", python_flags),
-    # Project / Repo Integrity
-    "git_status": PluginMeta("git_status", "Git Status", "project", git_status),
-    "env_vars": PluginMeta("env_vars", "Environment Variables", "project", env_vars),
-    "security_basics": PluginMeta(
-        "security_basics", "Security Basics", "project", security_basics
-    ),
-    "temp_files": PluginMeta("temp_files", "Temporary Files", "project", temp_files),
-    "project_structure": PluginMeta(
-        "project_structure", "Project Structure", "project", project_structure
-    ),
-    "config_files": PluginMeta("config_files", "Config Files", "project", config_files),
-    "dependency_lock": PluginMeta(
-        "dependency_lock", "Dependency Lock", "project", dependency_lock
-    ),
-    "build_artifacts": PluginMeta(
-        "build_artifacts", "Build Artifacts", "project", build_artifacts
-    ),
-    "symlink_safety": PluginMeta(
-        "symlink_safety", "Symlink Safety", "project", symlink_safety
-    ),
-    "path_sanity": PluginMeta("path_sanity", "Path Sanity", "project", path_sanity),
-    # Observability & Diagnostics
-    "logging_config": PluginMeta(
-        "logging_config", "Logging Config", "observability", logging_config
-    ),
-    "trace_hooks": PluginMeta(
-        "trace_hooks", "Trace Hooks", "observability", trace_hooks
-    ),
-    "thread_deadlock": PluginMeta(
-        "thread_deadlock", "Thread Deadlock", "observability", thread_deadlock
-    ),
-    "async_health": PluginMeta(
-        "async_health", "Async Health", "observability", async_health
-    ),
-    "signals": PluginMeta("signals", "Signal Handling", "observability", signals),
-    "event_loop": PluginMeta("event_loop", "Event Loop", "observability", event_loop),
+PLUGIN_REGISTRY: Dict[str, Callable] = {
+    "cpu_load": cpu_load,
+    "dependency_drift": dependency_drift,
+    "disk_space": disk_space,
+    "env_vars": env_vars,
+    "file_system": file_system,
+    "git_status": git_status,
+    "kernel_info": kernel_info,
+    "logging_config": logging_config,
+    "makefile_health": makefile_health,
+    "memory_health": memory_health,
+    "network_health": network_health,
+    "os_info": os_info,
+    "os_release": os_release,
+    "package_integrity": package_integrity,
+    "process_health": process_health,
+    "python_version": python_version,
+    "requirements_lock": requirements_lock,
+    "security_baseline": security_baseline,
+    "shell_env": shell_env,
+    "storage_health": storage_health,
+    "system_limits": system_limits,
+    "system_services": system_services,
+    "system_uptime": system_uptime,
+    "temp_sensors": temp_sensors,
+    "time_sync": time_sync,
+    "user_sessions": user_sessions,
+    "virtualization": virtualization,
+    "zombie_processes": zombie_processes,
 }
 
-
-def list_plugins(category: str | None = None) -> List[PluginMeta]:
-    if category is None:
-        return list(PLUGINS.values())
-    return [p for p in PLUGINS.values() if p.category == category]
-
-
-def get_plugin(plugin_id: str) -> PluginMeta:
-    return PLUGINS[plugin_id]
+__all__ = ["PLUGIN_REGISTRY"]

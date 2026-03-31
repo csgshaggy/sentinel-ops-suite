@@ -1,66 +1,52 @@
+"""
+Kernel information plugin (sync).
+
+Reports basic kernel details such as version, release, and machine type.
+Useful for environment diagnostics and baseline system profiling.
+"""
+
 from __future__ import annotations
 
 import platform
-import subprocess
-from typing import Any, Dict, Optional
+import time
+from typing import Any, Dict
 
-PLUGIN_INFO = {
-    "name": "kernel_info",
-    "category": "kernel",
-    "entrypoint": "get_kernel_info",
+from tools.super_doctor import CheckResult, Status
+from utils.modes import Mode
+
+PLUGIN_INFO: Dict[str, Any] = {
+    "name": __name__.split(".")[-1],
+    "description": "Reports kernel version and platform information.",
+    "entrypoint": "run",
+    "mode": "sync",
 }
 
 
-def _run_uname(flag: str) -> Optional[str]:
+def run(mode: Mode = Mode.FAST) -> CheckResult:
     """
-    Run uname with a specific flag and return output or None on failure.
+    Synchronous kernel information check.
     """
     try:
-        result = subprocess.run(
-            ["uname", flag],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=1,
+        data = {
+            "system": platform.system(),
+            "node": platform.node(),
+            "release": platform.release(),
+            "version": platform.version(),
+            "machine": platform.machine(),
+            "processor": platform.processor(),
+            "mode": mode.value,
+            "timestamp": time.time(),
+        }
+
+        return CheckResult(
+            name=PLUGIN_INFO["name"],
+            status=Status.OK,
+            message="Kernel information retrieved successfully.",
+            data=data,
         )
-    except Exception:
-        return None
 
-    if result.returncode != 0:
-        return None
-
-    return result.stdout.strip()
-
-
-def get_kernel_info() -> Dict[str, Any]:
-    """
-    Collect kernel and platform information.
-    """
-    system = platform.system()
-    release = platform.release()
-    version = platform.version()
-    machine = platform.machine()
-    processor = platform.processor()
-
-    return {
-        "success": True,
-        "platform": {
-            "system": system,
-            "release": release,
-            "version": version,
-            "machine": machine,
-            "processor": processor,
-        },
-        "uname": {
-            "kernel_name": _run_uname("-s"),
-            "kernel_release": _run_uname("-r"),
-            "kernel_version": _run_uname("-v"),
-            "machine": _run_uname("-m"),
-        },
-    }
-
-
-if __name__ == "__main__":
-    import json
-
-    print(json.dumps(get_kernel_info(), indent=2))
+    except Exception as exc:
+        return CheckResult.fail(
+            name=PLUGIN_INFO["name"],
+            message=f"Kernel info plugin failed: {exc}",
+        )

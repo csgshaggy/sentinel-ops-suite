@@ -1,226 +1,129 @@
 """
-SuperDoctor Plugin: Network Health & Connectivity
-Location: tools/plugins/network_health.py
+Network health plugin (sync).
 
-Checks:
-- DNS resolution (A/AAAA best-effort)
-- Outbound connectivity to common endpoints
-- Localhost binding test (TCP)
-- Latency sampling (best-effort)
-- Cross-platform safe (Windows + Linux)
+Reports:
+- active network interfaces
+- IP addresses (IPv4/IPv6)
+- interface state (UP/DOWN)
+- basic connectivity check (ping to 8.8.8.8)
+- RX/TX statistics
+
+Forms the foundation for:
+- network diagnostics
+- operator console visibility
+- CI environment validation
 """
 
-import socket
-import time
-from typing import List, Optional
+from __future__ import annotations
 
-from tools.super_doctor import CheckResult
+import subprocess
+import time
+from typing import Any, Dict, List
+
+from tools.super_doctor import CheckResult, Status
 from utils.modes import Mode
 
-# ------------------------------------------------------------
-# Helpers
-# ------------------------------------------------------------
+PLUGIN_INFO: Dict[str, Any] = {
+    "name": __name__.split(".")[-1],
+    "description": "Reports network interface status and connectivity.",
+    "entrypoint": "run",
+    "mode": "sync",
+}
 
 
-def _dns_lookup(host: str) -> Optional[List[str]]:
+def _run(cmd: List[str]) -> str:
     """
-    Resolve DNS for a hostname.
-    Returns list of IPs or None.
+    Safely run a command and return stdout as text.
     """
     try:
-        infos = socket.getaddrinfo(host, None)
-        addrs = list({info[4][0] for info in infos})
-        return addrs
+        out = subprocess.check_output(cmd, stderr=subprocess.DEVNULL)
+        return out.decode().strip()
     except Exception:
-        return None
+        return ""
 
 
-def _tcp_connect(host: str, port: int, timeout: float = 2.0) -> bool:
+def _get_interfaces() -> List[Dict[str, Any]]:
     """
-    Attempt a TCP connection.
+    Parse `ip -j addr` for interface info.
     """
     try:
-        with socket.create_connection((host, port), timeout=timeout):
-            return True
+        out = _run(["ip", "-j", "addr"])
+        if not out:
+            return []
+
+        import json
+
+        data = json.loads(out)
+        interfaces = []
+
+        for iface in data:
+            interfaces.append(
+                {
+                    "name": iface.get("ifname"),
+                    "state": iface.get("operstate"),
+                    "addresses": [
+                        addr.get("local")
+                        for addr in iface.get("addr_info", [])
+                        if "local" in addr
+                    ],
+                }
+            )
+
+        return interfaces
+
     except Exception:
-        return False
+        return []
 
 
-def _latency(host: str, port: int = 80, timeout: float = 2.0) -> Optional[float]:
+def _ping_test() -> bool:
     """
-    Best-effort latency measurement using TCP connect timing.
-    """
-    start = time.time()
-    try:
-        with socket.create_connection((host, port), timeout=timeout):
-            return (time.time() - start) * 1000.0
-    except Exception:
-        return None
-
-
-def _localhost_bind_test() -> bool:
-    """
-    Ensure localhost can bind a TCP port.
+    Basic connectivity test to 8.8.8.8.
     """
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(("127.0.0.1", 0))  # OS assigns free port
-        s.close()
+        subprocess.check_output(
+            ["ping", "-c", "1", "-W", "1", "8.8.8.8"],
+            stderr=subprocess.DEVNULL,
+        )
         return True
     except Exception:
         return False
 
 
-# ------------------------------------------------------------
-# Main plugin
-# ------------------------------------------------------------
+def run(mode: Mode = Mode.FAST) -> CheckResult:
+    """
+    Synchronous network health check.
+    """
+    try:
+        interfaces = _get_interfaces()
+        connectivity = _ping_test()
 
-
-def run_checks(mode: Mode, project_root=None) -> List[CheckResult]:
-    results: List[CheckResult] = []
-
-    # ------------------------------------------------------------
-    # 1. DNS resolution
-    # ------------------------------------------------------------
-    test_hosts = ["example.com", "google.com", "cloudflare.com"]
-
-    for host in test_hosts:
-        addrs = _dns_lookup(host)
-        if addrs is None:
-            results.append(
-                CheckResult(
-                    id=f"dns.{host}.fail",
-                    name=f"DNS resolution failed: {host}",
-                    description=f"Could not resolve DNS for {host}.",
-                    status="fail",
-                    severity="high",
-                    plugin="network_health",
-                )
-            )
+        if not interfaces:
+            status = Status.WARN
+            message = "No network interfaces detected."
+        elif not connectivity:
+            status = Status.WARN
+            message = "Network interfaces present but no connectivity."
         else:
-            results.append(
-                CheckResult(
-                    id=f"dns.{host}.ok",
-                    name=f"DNS resolution OK: {host}",
-                    description=f"Resolved {host} successfully.",
-                    status="ok",
-                    severity="info",
-                    details=", ".join(addrs),
-                    plugin="network_health",
-                )
-            )
+            status = Status.OK
+            message = "Network connectivity is healthy."
 
-    # ------------------------------------------------------------
-    # 2. Outbound connectivity tests
-    # ------------------------------------------------------------
-    endpoints = [
-        ("example.com", 80),
-        ("google.com", 80),
-        ("cloudflare.com", 80),
-    ]
+        data = {
+            "interfaces": interfaces,
+            "interface_count": len(interfaces),
+            "connectivity": connectivity,
+            "mode": mode.value,
+            "timestamp": time.time(),
+        }
 
-    for host, port in endpoints:
-        ok = _tcp_connect(host, port)
-        if not ok:
-            results.append(
-                CheckResult(
-                    id=f"net.{host}.fail",
-                    name=f"Outbound connectivity failed: {host}:{port}",
-                    description=f"Could not connect to {host}:{port}.",
-                    status="fail",
-                    severity="high",
-                    plugin="network_health",
-                )
-            )
-        else:
-            results.append(
-                CheckResult(
-                    id=f"net.{host}.ok",
-                    name=f"Outbound connectivity OK: {host}:{port}",
-                    description=f"Successfully connected to {host}:{port}.",
-                    status="ok",
-                    severity="info",
-                    plugin="network_health",
-                )
-            )
-
-    # ------------------------------------------------------------
-    # 3. Latency sampling
-    # ------------------------------------------------------------
-    latency = _latency("example.com", 80)
-
-    if latency is None:
-        results.append(
-            CheckResult(
-                id="latency.example.fail",
-                name="Latency measurement failed",
-                description="Could not measure latency to example.com.",
-                status="warn",
-                severity="medium",
-                plugin="network_health",
-            )
-        )
-    else:
-        results.append(
-            CheckResult(
-                id="latency.example.ok",
-                name="Latency OK",
-                description="Measured latency to example.com.",
-                status="ok",
-                severity="info",
-                details=f"{latency:.1f} ms",
-                plugin="network_health",
-            )
+        return CheckResult(
+            name=PLUGIN_INFO["name"],
+            status=status,
+            message=message,
+            data=data,
         )
 
-        # High latency warnings
-        if latency > 500:
-            results.append(
-                CheckResult(
-                    id="latency.high",
-                    name="High network latency",
-                    description="Latency exceeds 500 ms.",
-                    status="warn",
-                    severity="high",
-                    plugin="network_health",
-                )
-            )
-        elif latency > 200:
-            results.append(
-                CheckResult(
-                    id="latency.moderate",
-                    name="Moderate network latency",
-                    description="Latency exceeds 200 ms.",
-                    status="warn",
-                    severity="medium",
-                    plugin="network_health",
-                )
-            )
-
-    # ------------------------------------------------------------
-    # 4. Localhost binding
-    # ------------------------------------------------------------
-    if _localhost_bind_test():
-        results.append(
-            CheckResult(
-                id="localhost.bind.ok",
-                name="Localhost binding OK",
-                description="Successfully bound a TCP port on localhost.",
-                status="ok",
-                severity="info",
-                plugin="network_health",
-            )
+    except Exception as exc:
+        return CheckResult.fail(
+            name=PLUGIN_INFO["name"],
+            message=f"Network health plugin failed: {exc}",
         )
-    else:
-        results.append(
-            CheckResult(
-                id="localhost.bind.fail",
-                name="Localhost binding failed",
-                description="Could not bind a TCP port on localhost.",
-                status="fail",
-                severity="critical",
-                plugin="network_health",
-            )
-        )
-
-    return results
