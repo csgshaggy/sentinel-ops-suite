@@ -1,63 +1,70 @@
-import json
-from datetime import datetime
 from pathlib import Path
+import sys
+import difflib
 
-ANOMALY_FILE = Path("anomalies.jsonl")
-REPAIR_LOG = Path("repair_history.jsonl")
+
+ROOT = Path(__file__).resolve().parents[2]
+SNAPSHOT_DIR = ROOT / "data"
+MAKEFILE = ROOT / "Makefile"
+MAKEFILE_SNAPSHOT = SNAPSHOT_DIR / "Makefile.snapshot"
 
 
-def run_repair():
-    """
-    Executes automated repair actions based on recent anomalies.
-    """
+def snapshot_repo() -> int:
+    SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
+    if MAKEFILE.exists():
+        MAKEFILE_SNAPSHOT.write_text(MAKEFILE.read_text())
+        print("[snapshot] Makefile snapshot updated.")
+    else:
+        print("[snapshot] Makefile not found.", file=sys.stderr)
+        return 1
+    return 0
 
-    if not ANOMALY_FILE.exists():
-        return {"status": "no_anomalies", "repairs": []}
 
-    lines = ANOMALY_FILE.read_text().strip().split("\n")[-5:]
-    anomalies = [json.loads(line) for line in lines]
+def check_drift() -> int:
+    if not MAKEFILE.exists() or not MAKEFILE_SNAPSHOT.exists():
+        print("[drift] Makefile or snapshot missing.", file=sys.stderr)
+        return 1
 
-    repairs = []
+    current = MAKEFILE.read_text().splitlines()
+    baseline = MAKEFILE_SNAPSHOT.read_text().splitlines()
+    diff = list(difflib.unified_diff(baseline, current, fromfile="snapshot", tofile="Makefile"))
 
-    for anomaly in anomalies:
-        anomaly_type = anomaly.get("type")
+    if not diff:
+        print("[drift] No Makefile drift detected.")
+        return 0
 
-        if anomaly_type == "low_score":
-            repairs.append(
-                {
-                    "action": "restart_services",
-                    "message": "Restarting backend services due to low health score",
-                }
-            )
+    print("[drift] Makefile drift detected:")
+    for line in diff:
+        print(line)
+    return 1
 
-        if anomaly_type == "sudden_drop":
-            repairs.append(
-                {
-                    "action": "clear_cache",
-                    "message": "Clearing cache due to sudden health drop",
-                }
-            )
 
-        if anomaly_type == "negative_trend":
-            repairs.append(
-                {
-                    "action": "rebuild_frontend",
-                    "message": "Rebuilding frontend due to negative health trend",
-                }
-            )
+def heal_makefile() -> int:
+    if not MAKEFILE_SNAPSHOT.exists():
+        print("[heal] No Makefile snapshot found.", file=sys.stderr)
+        return 1
+    MAKEFILE.write_text(MAKEFILE_SNAPSHOT.read_text())
+    print("[heal] Makefile restored from snapshot.")
+    return 0
 
-    # Execute repairs (stubbed)
-    for repair in repairs:
-        print(f"[REPAIR] {repair['action']}: {repair['message']}")
 
-    # Log repairs
-    entry = {
-        "timestamp": datetime.utcnow().isoformat(),
-        "repairs": repairs,
-        "anomalies": anomalies,
-    }
+def main() -> None:
+    import argparse
 
-    with REPAIR_LOG.open("a", encoding="utf-8") as file:
-        file.write(json.dumps(entry) + "\n")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--mode", required=True)
+    args = parser.parse_args()
 
-    return entry
+    if args.mode == "snapshot":
+        sys.exit(snapshot_repo())
+    elif args.mode == "drift":
+        sys.exit(check_drift())
+    elif args.mode == "makefile-heal":
+        sys.exit(heal_makefile())
+    else:
+        print(f"Unknown mode: {args.mode}", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
