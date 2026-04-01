@@ -8,6 +8,8 @@ from app.routers import (
     health_trend,
     anomaly_correlation,
     alerts,
+    makefile_status,
+    health_predict,
 )
 
 def create_app() -> FastAPI:
@@ -26,6 +28,8 @@ def create_app() -> FastAPI:
     app.include_router(health_trend.router)
     app.include_router(anomaly_correlation.router)
     app.include_router(alerts.router)
+    app.include_router(makefile_status.router)
+    app.include_router(health_predict.router)
 
     return app
 
