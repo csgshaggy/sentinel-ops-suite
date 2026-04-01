@@ -76,24 +76,15 @@ git pull --rebase origin main || {
 # ------------------------------------------------------------
 echo "[5/5] Pushing..."
 
-# Pre-push CI gates
 echo "[PRE-PUSH] Running Makefile self-check + CI-fast gate..."
-
-make self-check || {
-    echo "[ERROR] Makefile self-check failed."
-    exit 1
-}
-
-make ci-fast || {
-    echo "[ERROR] CI-fast gate failed."
-    exit 1
-}
+make self-check
+make ci-fast
 
 git push origin main
 
 
 # ------------------------------------------------------------
-# SYNC SUMMARY (Item #6)
+# SYNC SUMMARY
 # ------------------------------------------------------------
 if [[ -f "./sync_summary.sh" ]]; then
     ./sync_summary.sh | tee -a sync.log
@@ -101,5 +92,11 @@ else
     echo "[WARNING] sync_summary.sh missing — cannot generate summary."
 fi
 
+
+# ------------------------------------------------------------
+# FINAL: REATTACH HEAD TO MAIN
+# ------------------------------------------------------------
+echo "[FINAL] Ensuring HEAD is attached to main..."
+git checkout main >/dev/null 2>&1 || true
 
 echo "=== Sync Complete ==="
