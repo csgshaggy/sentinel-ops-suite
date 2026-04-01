@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from ssrf_command_console.auth.login import router as login_router
 from ssrf_command_console.auth.mfa import router as mfa_router
 

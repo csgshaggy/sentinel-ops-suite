@@ -1,31 +1,47 @@
-title: SSRF Command Console
-description: Operator‑grade SSRF command and observability console
+# -----------------------------------------------------------------------------
+# GitHub Pages / Jekyll Configuration
+# Clean, minimal, and isolated to prevent Liquid errors from code directories.
+# -----------------------------------------------------------------------------
+
+# Build ONLY the documentation directory
+source: docs
+
+# Basic site metadata
+title: "SSRF Command Console Documentation"
+description: "Documentation for the SSRF Command Console project"
 theme: minima
 
-markdown: kramdown
-
-# Default layout for all pages
-defaults:
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: "page"
-
-# GitHub Pages settings
+# GitHub Pages–approved plugins
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-github-metadata
+  - jekyll-relative-links
+  - jekyll-readme-index
+  - jekyll-default-layout
+  - jekyll-titles-from-headings
 
-# Exclude internal directories from the site
+# Exclude everything outside docs to prevent Liquid parsing errors
 exclude:
-  - scripts/
-  - scripts/windows/
-  - tools/
-  - validators/
+  - frontend
+  - backend
+  - src
+  - tools
+  - tests
+  - node_modules
+  - venv
+  - runtime
+  - static
+  - mk
+  - app
+  - .ruff_cache
+  - .git
+  - package.json
+  - package-lock.json
+  - yarn.lock
+  - pnpm-lock.yaml
   - Makefile
   - README.md
-  - CONTRIBUTING.md
   - SECURITY.md
-  - CHANGELOG.md
-  - ONBOARDING.md
+  - scripts

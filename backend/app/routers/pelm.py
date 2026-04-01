@@ -1,68 +1,68 @@
 from typing import Any, Dict, List
 
-from fastapi import APIRouter
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException
+
+from tools.plugins.pelm import get_pelm_metadata, run_pelm_scan
 
 router = APIRouter(prefix="/pelm", tags=["PELM"])
 
 
-# ------------------------------------------------------------
-# Schemas
-# ------------------------------------------------------------
-
-class PelmEvent(BaseModel):
-    timestamp: str
-    identity: str
-    action: str
-    severity: str
-    details: Dict[str, Any]
-
-
-class PelmSummary(BaseModel):
-    total_events: int
-    high_risk_identities: int
-    lateral_movement_attempts: int
-    privilege_escalations: int
-    drift_score: float
-
-
-class PelmRisk(BaseModel):
-    identity: str
-    risk_score: float
-    reasons: List[str]
+@router.get("/summary")
+def get_pelm_summary() -> Dict[str, Any]:
+    """
+    Returns the PELM summary block:
+    - high-level status
+    - last scan timestamp
+    - risk score
+    - metadata
+    """
+    try:
+        result = run_pelm_scan()
+        return {
+            "status": result.get("status", "unknown"),
+            "last_scan": result.get("timestamp"),
+            "risk_score": result.get("risk_score"),
+            "metadata": get_pelm_metadata(),
+        }
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
-class PelmGraph(BaseModel):
-    nodes: List[Dict[str, Any]]
-    edges: List[Dict[str, Any]]
+@router.get("/events")
+def get_pelm_events() -> List[Dict[str, Any]]:
+    """
+    Returns the last N PELM events (non-streaming).
+    The streaming version is handled in pelm_stream.py.
+    """
+    try:
+        result = run_pelm_scan()
+        return result.get("events", [])
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
-# ------------------------------------------------------------
-# Endpoints
-# ------------------------------------------------------------
-
-@router.get("/events", response_model=List[PelmEvent])
-def get_pelm_events():
-    # Placeholder — will be wired to your PELM engine
-    return []
-
-
-@router.get("/summary", response_model=PelmSummary)
-def get_pelm_summary():
-    return PelmSummary(
-        total_events=0,
-        high_risk_identities=0,
-        lateral_movement_attempts=0,
-        privilege_escalations=0,
-        drift_score=0.0,
-    )
+@router.get("/risks")
+def get_pelm_risks() -> List[Dict[str, Any]]:
+    """
+    Returns the PELM risk surface:
+    - risk categories
+    - severity
+    - affected components
+    """
+    try:
+        result = run_pelm_scan()
+        return result.get("risks", [])
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
-@router.get("/risks", response_model=List[PelmRisk])
-def get_pelm_risks():
-    return []
-
-
-@router.get("/graph", response_model=PelmGraph)
-def get_pelm_graph():
-    return PelmGraph(nodes=[], edges=[])
+@router.get("/graph")
+def get_pelm_graph() -> Dict[str, Any]:
+    """
+    Returns the PELM dependency/relationship graph.
+    """
+    try:
+        result = run_pelm_scan()
+        return result.get("graph", {})
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))

@@ -1,6 +1,7 @@
 import pyotp
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+
 from ssrf_command_console.auth.mfa import user_mfa_secrets
 
 router = APIRouter(prefix="/auth", tags=["auth"])
