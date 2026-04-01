@@ -3,9 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Core Routers
 from backend.app.routers import (
-    health,
     admin,
-    git_snapshots,   # NEW: Snapshot HTML viewer route
+    git_snapshots,  # NEW: Snapshot HTML viewer route
+    health,
 )
 
 # Settings (if you have a settings module)

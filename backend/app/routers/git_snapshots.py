@@ -1,5 +1,6 @@
-from fastapi import APIRouter, Response
 from pathlib import Path
+
+from fastapi import APIRouter, Response
 
 router = APIRouter(prefix="/snapshots", tags=["Git Snapshots"])
 
