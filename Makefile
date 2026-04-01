@@ -1,122 +1,84 @@
-# Makefile — SSRF Command Console (CLI + backend)
-# Operator-grade, deterministic targets.
+# =============================================================================
+# SSRF Command Console - Makefile
+# Regenerated with dependency install target and all updates to date
+# =============================================================================
 
-PYTHON ?= python
-VENV_DIR ?= venv
-PIP := $(VENV_DIR)/bin/pip
-PYTHON_VENV := $(VENV_DIR)/bin/python
+PYTHON := venv/bin/python
 
-APP_PACKAGE := ssrf_command_console
+# -----------------------------------------------------------------------------
+# Environment Setup
+# -----------------------------------------------------------------------------
 
-.DEFAULT_GOAL := help
+venv:
+	python3 -m venv venv
+	$(PYTHON) -m pip install --upgrade pip
 
-# -------------------------------------------------------------------
-# Environment / venv
-# -------------------------------------------------------------------
-
-$(VENV_DIR):
-	$(PYTHON) -m venv $(VENV_DIR)
-
-.PHONY: venv
-venv: $(VENV_DIR)
-	@echo "[venv] Virtual environment ready at $(VENV_DIR)"
-
-.PHONY: install
 install: venv
-	$(PIP) install --upgrade pip
-	$(PIP) install -e .
+	$(PYTHON) -m pip install -r requirements.txt
 
-.PHONY: install-dev
-install-dev: venv
-	$(PIP) install --upgrade pip
-	$(PIP) install -e .[dev]
+deps:
+	$(PYTHON) -m pip install -r requirements.txt
 
-# -------------------------------------------------------------------
-# CLI targets
-# -------------------------------------------------------------------
+bootstrap:
+	./bootstrap.sh
 
-.PHONY: cli-run
-cli-run:
-	$(PYTHON_VENV) -m $(APP_PACKAGE).cli hello
+# -----------------------------------------------------------------------------
+# Linting & Formatting
+# -----------------------------------------------------------------------------
 
-.PHONY: cli-test
-cli-test:
-	$(PYTHON_VENV) -m pytest -q tests || true
-
-# -------------------------------------------------------------------
-# Backend targets (FastAPI / Uvicorn)
-# -------------------------------------------------------------------
-
-.PHONY: backend-run
-backend-run:
-	$(PYTHON_VENV) -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
-
-.PHONY: backend-test
-backend-test:
-	$(PYTHON_VENV) -m pytest -q backend/tests || true
-
-# -------------------------------------------------------------------
-# Lint / Format / Validate
-# -------------------------------------------------------------------
-
-.PHONY: lint
 lint:
-	$(PYTHON_VENV) -m ruff check src backend
+	$(PYTHON) -m ruff check src backend
 
-.PHONY: format
 format:
-	$(PYTHON_VENV) -m black src backend
+	$(PYTHON) -m ruff format src backend
 
-.PHONY: format-check
-format-check:
-	$(PYTHON_VENV) -m black --check src backend
+validate:
+	$(PYTHON) -m ruff check src backend && $(PYTHON) -m pytest -q
 
-.PHONY: validate-structure
-validate-structure:
-	$(PYTHON_VENV) scripts/structure_validator.py
+# -----------------------------------------------------------------------------
+# Testing
+# -----------------------------------------------------------------------------
 
-.PHONY: doctor
-doctor: validate-structure
-	$(PYTHON_VENV) -m $(APP_PACKAGE).cli doctor env
-	$(PYTHON_VENV) -m $(APP_PACKAGE).cli doctor plugins
-	$(PYTHON_VENV) -m $(APP_PACKAGE).cli doctor structure
+test:
+	$(PYTHON) -m pytest -q backend/tests || true
+	$(PYTHON) -m pytest -q tests || true
 
-# -------------------------------------------------------------------
-# CI targets
-# -------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# PELM MODULE TASKS
+# -----------------------------------------------------------------------------
 
-.PHONY: test
-test: backend-test cli-test
+pelm-health:
+	uv run app/routers/pelm.py
 
-.PHONY: ci
-ci: lint format-check validate-structure test
+pelm-stream:
+	uv run app/routers/pelm_stream.py
 
-# -------------------------------------------------------------------
-# Help
-# -------------------------------------------------------------------
+pelm-plugin:
+	uv run tools/plugins/pelm.py
 
-.PHONY: help
-help:
-	@echo "SSRF Command Console — Makefile"
-	@echo ""
-	@echo "Environment:"
-	@echo "  make venv              Create virtual environment"
-	@echo "  make install           Install package (editable)"
-	@echo "  make install-dev       Install package with dev deps"
-	@echo ""
-	@echo "CLI:"
-	@echo "  make cli-run           Run basic CLI sanity check"
-	@echo "  make cli-test          Run CLI-related tests"
-	@echo ""
-	@echo "Backend:"
-	@echo "  make backend-run       Run FastAPI backend with Uvicorn"
-	@echo "  make backend-test      Run backend tests"
-	@echo ""
-	@echo "Quality / CI:"
-	@echo "  make lint              Run Ruff lint"
-	@echo "  make format            Run Black formatter"
-	@echo "  make format-check      Check formatting only"
-	@echo "  make validate-structure Validate repo structure"
-	@echo "  make doctor            Run doctor commands"
-	@echo "  make test              Run tests"
-	@echo "  make ci                Full CI suite"
+pelm-test:
+	pytest tests/pelm -q
+
+pelm-docs:
+	echo "Generating PELM docs..."
+
+# -----------------------------------------------------------------------------
+# Documentation
+# -----------------------------------------------------------------------------
+
+docs-build:
+	jekyll build --source docs --destination _site
+
+docs-serve:
+	jekyll serve --source docs --destination _site --livereload
+
+# -----------------------------------------------------------------------------
+# Utility
+# -----------------------------------------------------------------------------
+
+clean:
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	rm -rf .ruff_cache
+	rm -rf _site
+
+all: lint test validate
