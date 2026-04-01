@@ -187,6 +187,26 @@ git-snapshot:
 
 
 # ------------------------------------------------------------
+# Git Snapshot Diff
+# ------------------------------------------------------------
+
+.PHONY: git-snapshot-diff
+git-snapshot-diff:
+	@echo "[GIT-SNAPSHOT-DIFF] Diffing latest two snapshots..."
+	./tools/git_snapshot_diff.sh
+
+
+# ------------------------------------------------------------
+# Git Snapshot HTML Viewer
+# ------------------------------------------------------------
+
+.PHONY: git-snapshot-html
+git-snapshot-html:
+	@echo "[GIT-SNAPSHOT-HTML] Rendering latest snapshot to HTML..."
+	$(PYTHON) -m backend.app.reports.html.git_snapshot_viewer
+
+
+# ------------------------------------------------------------
 # Cleanup
 # ------------------------------------------------------------
 
