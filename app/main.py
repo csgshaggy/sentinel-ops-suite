@@ -10,6 +10,7 @@ from app.routers import (
     alerts,
     makefile_status,
     health_predict,
+    observability,
 )
 
 def create_app() -> FastAPI:
@@ -24,12 +25,21 @@ def create_app() -> FastAPI:
     # ---------------------------------------------------------
     app.include_router(pelm.router)
     app.include_router(pelm_stream.router)
+
+    # Health & Observability
     app.include_router(health_score.router)
     app.include_router(health_trend.router)
+    app.include_router(health_predict.router)
+
+    # Anomalies & Alerts
     app.include_router(anomaly_correlation.router)
     app.include_router(alerts.router)
+
+    # Governance
     app.include_router(makefile_status.router)
-    app.include_router(health_predict.router)
+
+    # Unified Observability Summary (Step 20)
+    app.include_router(observability.router)
 
     return app
 
