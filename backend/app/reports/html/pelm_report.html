@@ -1,0 +1,132 @@
+from pathlib import Path
+from datetime import datetime
+import json
+
+from backend.app.routers.pelm import (
+    get_pelm_summary,
+    get_pelm_risks,
+    get_pelm_graph,
+    get_pelm_events,
+)
+
+OUT_DIR = Path("backend/app/reports/html")
+OUT_FILE = OUT_DIR / "pelm_report.html"
+
+
+def escape(text: str) -> str:
+    return (
+        text.replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+    )
+
+
+def render_section(title: str, content: str) -> str:
+    return f"""
+    <section>
+        <h2>{title}</h2>
+        {content}
+    </section>
+    """
+
+
+def render_table(rows, headers):
+    header_html = "".join(f"<th>{h}</th>" for h in headers)
+    row_html = ""
+
+    for row in rows:
+        row_html += "<tr>" + "".join(f"<td>{escape(str(v))}</td>" for v in row) + "</tr>"
+
+    return f"""
+    <table>
+        <thead><tr>{header_html}</tr></thead>
+        <tbody>{row_html}</tbody>
+    </table>
+    """
+
+
+def main():
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    summary = get_pelm_summary()
+    risks = get_pelm_risks()
+    graph = get_pelm_graph()
+    events = get_pelm_events()
+
+    ts = datetime.utcnow().isoformat()
+
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>PELM Report</title>
+        <style>
+            body {{
+                font-family: system-ui, sans-serif;
+                background: #0b1020;
+                color: #e5e7eb;
+                padding: 2rem;
+            }}
+            h1, h2 {{
+                color: #93c5fd;
+            }}
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 2rem;
+            }}
+            th, td {{
+                border: 1px solid #1f2937;
+                padding: 0.5rem;
+                text-align: left;
+            }}
+            th {{
+                background: #1e3a8a;
+                color: #e5e7eb;
+            }}
+            section {{
+                margin-bottom: 2rem;
+            }}
+            pre {{
+                background: #020617;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                overflow-x: auto;
+                border: 1px solid #1f2937;
+            }}
+        </style>
+    </head>
+    <body>
+        <h1>PELM Report</h1>
+        <p>Generated at: {ts}</p>
+
+        {render_section("Summary", render_table([
+            ["Total Events", summary.total_events],
+            ["High-Risk Identities", summary.high_risk_identities],
+            ["Lateral Movement Attempts", summary.lateral_movement_attempts],
+            ["Privilege Escalations", summary.privilege_escalations],
+            ["Drift Score", summary.drift_score],
+        ], ["Metric", "Value"]))}
+
+        {render_section("Identity Risk Scores", render_table(
+            [[r.identity, r.risk_score, ", ".join(r.reasons)] for r in risks],
+            ["Identity", "Risk Score", "Reasons"]
+        ))}
+
+        {render_section("Lateral Movement Graph", f"<pre>{escape(json.dumps(graph.dict(), indent=2))}</pre>")}
+
+        {render_section("Recent Events", render_table(
+            [[e.timestamp, e.identity, e.action, e.severity] for e in events],
+            ["Timestamp", "Identity", "Action", "Severity"]
+        ))}
+    </body>
+    </html>
+    """
+
+    OUT_FILE.write_text(html, encoding="utf-8")
+    print(f"[OK] Wrote PELM report to {OUT_FILE}")
+
+
+if __name__ == "__main__":
+    main()

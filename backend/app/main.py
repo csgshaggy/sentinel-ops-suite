@@ -2,11 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.app.routers import (
-    health,
     admin,
     git_snapshots,
+    health,
     pelm,
-    pelm_stream,   # NEW
+    pelm_stream,  # NEW
 )
 
 try:

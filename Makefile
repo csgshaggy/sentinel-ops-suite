@@ -1,5 +1,5 @@
 # ============================================================
-#   SSRF Command Console — Makefile (Regenerated)
+#   SSRF Command Console — Makefile (Regenerated, PELM Report)
 #   Structure‑A Aligned • Operator‑Grade • Drift‑Proof
 # ============================================================
 
@@ -15,7 +15,6 @@ APP_DIR := backend/app
 install:
 	$(PYTHON) -m pip install -r requirements.txt
 
-
 # ------------------------------------------------------------
 # Application Entrypoints
 # ------------------------------------------------------------
@@ -24,7 +23,6 @@ install:
 run:
 	$(PYTHON) -m backend.app.main
 
-
 # ------------------------------------------------------------
 # SuperDoctor
 # ------------------------------------------------------------
@@ -32,7 +30,6 @@ run:
 .PHONY: superdoctor
 superdoctor:
 	$(PYTHON) tools/super_doctor.py
-
 
 # ------------------------------------------------------------
 # Sync Pipeline
@@ -44,7 +41,6 @@ sync:
 	./sync | tee -a sync.log
 	@echo "=== Sync Complete ==="
 
-
 # ------------------------------------------------------------
 # TUI
 # ------------------------------------------------------------
@@ -53,15 +49,13 @@ sync:
 tui:
 	$(PYTHON) -m backend.app.tui.main
 
-
 # ------------------------------------------------------------
-# HTML Report
+# HTML Report (General)
 # ------------------------------------------------------------
 
 .PHONY: html-report
 html-report:
 	$(PYTHON) -m backend.app.reports.html.generate_report
-
 
 # ------------------------------------------------------------
 # Linting & Formatting
@@ -75,7 +69,6 @@ lint:
 format:
 	ruff check --fix .
 
-
 # ------------------------------------------------------------
 # Tests
 # ------------------------------------------------------------
@@ -83,7 +76,6 @@ format:
 .PHONY: test
 test:
 	pytest -q
-
 
 # ------------------------------------------------------------
 # Git Integrity Module
@@ -110,41 +102,24 @@ git-health:
 	git status
 	@echo "[OK] Git health check complete."
 
-
 # ------------------------------------------------------------
-# Enhanced Git Repair Module (Forensic Grade)
+# Enhanced Git Repair Module
 # ------------------------------------------------------------
 
 .PHONY: git-repair
 git-repair:
 	@echo "[GIT-REPAIR] Starting forensic repair sequence..."
-
-	@echo "[1/7] Validating object database..."
 	git fsck --full || true
-
-	@echo "[2/7] Cleaning orphaned packfiles..."
 	find .git/objects/pack -type f -name "*.keep" -delete || true
 	find .git/objects/pack -type f -name "*.old" -delete || true
-
-	@echo "[3/7] Rebuilding missing references..."
 	git show-ref --head || true
 	git update-ref --no-deref HEAD HEAD || true
-
-	@echo "[4/7] Rebuilding reflog..."
 	git reflog expire --expire=now --all
 	git reflog expire --expire-unreachable=now --all
-
-	@echo "[5/7] Pruning unreachable objects..."
 	git prune --expire=now --progress || true
-
-	@echo "[6/7] Running aggressive garbage collection..."
 	git gc --aggressive --prune=now
-
-	@echo "[7/7] Final integrity check..."
 	git fsck --full
-
-	@echo "[OK] Git repair complete — repository is stable."
-
+	@echo "[OK] Git repair complete."
 
 # ------------------------------------------------------------
 # Pre‑Push Corruption Guard
@@ -153,28 +128,13 @@ git-repair:
 .PHONY: pre-push-guard
 pre-push-guard:
 	@echo "[PRE-PUSH GUARD] Running corruption and drift checks..."
-
-	@echo "[1/6] Checking Makefile structure..."
-	make self-check || { echo "[FAIL] Makefile structure invalid"; exit 1; }
-
-	@echo "[2/6] Running fast CI checks..."
-	make ci-fast || { echo "[FAIL] CI-fast checks failed"; exit 1; }
-
-	@echo "[3/6] Validating Git object graph..."
-	git fsck --full || { echo "[FAIL] Git fsck detected corruption"; exit 1; }
-
-	@echo "[4/6] Ensuring HEAD is valid..."
-	git show-ref --head > /dev/null || { echo "[FAIL] HEAD reference missing"; exit 1; }
-
-	@echo "[5/6] Ensuring no unstaged changes..."
-	git diff --quiet || { echo "[FAIL] Unstaged changes detected"; exit 1; }
-
-	@echo "[6/6] Ensuring no untracked critical files..."
-	git ls-files --others --exclude-standard | grep -E '\.py|Makefile|sync|\.sh' && { \
-		echo "[FAIL] Untracked critical files detected"; exit 1; } || true
-
-	@echo "[OK] Pre‑push guard passed — safe to push."
-
+	make self-check
+	make ci-fast
+	git fsck --full
+	git show-ref --head > /dev/null
+	git diff --quiet
+	git ls-files --others --exclude-standard | grep -E '\.py|Makefile|sync|\.sh' && { echo "[FAIL] Untracked critical files"; exit 1; } || true
+	@echo "[OK] Pre‑push guard passed."
 
 # ------------------------------------------------------------
 # Git Metadata Snapshot
@@ -185,9 +145,8 @@ git-snapshot:
 	@echo "[GIT-SNAPSHOT] Capturing Git metadata..."
 	./tools/git_snapshot.sh
 
-
 # ------------------------------------------------------------
-# Git Snapshot Diff
+# Snapshot Diff
 # ------------------------------------------------------------
 
 .PHONY: git-snapshot-diff
@@ -195,9 +154,8 @@ git-snapshot-diff:
 	@echo "[GIT-SNAPSHOT-DIFF] Diffing latest two snapshots..."
 	./tools/git_snapshot_diff.sh
 
-
 # ------------------------------------------------------------
-# Git Snapshot HTML Viewer
+# Snapshot HTML Viewer
 # ------------------------------------------------------------
 
 .PHONY: git-snapshot-html
@@ -205,6 +163,33 @@ git-snapshot-html:
 	@echo "[GIT-SNAPSHOT-HTML] Rendering latest snapshot to HTML..."
 	$(PYTHON) -m backend.app.reports.html.git_snapshot_viewer
 
+# ------------------------------------------------------------
+# Snapshot Dashboard Target
+# ------------------------------------------------------------
+
+.PHONY: git-snapshot-dashboard
+git-snapshot-dashboard:
+	@echo "[GIT-SNAPSHOT-DASHBOARD] Generating snapshot + HTML..."
+	make git-snapshot
+	make git-snapshot-html
+
+# ------------------------------------------------------------
+# Snapshot Retention Policy
+# ------------------------------------------------------------
+
+.PHONY: git-snapshot-clean
+git-snapshot-clean:
+	@echo "[GIT-SNAPSHOT-CLEAN] Applying retention policy..."
+	./tools/git_snapshot_cleanup.sh
+
+# ------------------------------------------------------------
+# PELM HTML Report
+# ------------------------------------------------------------
+
+.PHONY: pelm-report
+pelm-report:
+	@echo "[PELM-REPORT] Generating PELM HTML report..."
+	$(PYTHON) -m backend.app.reports.html.pelm_report
 
 # ------------------------------------------------------------
 # Cleanup
