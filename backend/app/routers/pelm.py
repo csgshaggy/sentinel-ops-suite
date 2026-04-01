@@ -1,6 +1,7 @@
+from typing import Any, Dict, List
+
 from fastapi import APIRouter
 from pydantic import BaseModel
-from typing import List, Dict, Any
 
 router = APIRouter(prefix="/pelm", tags=["PELM"])
 

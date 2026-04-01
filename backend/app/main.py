@@ -5,7 +5,8 @@ from backend.app.routers import (
     health,
     admin,
     git_snapshots,
-    pelm,   # NEW
+    pelm,
+    pelm_stream,   # NEW
 )
 
 try:
@@ -32,7 +33,8 @@ def create_app() -> FastAPI:
     app.include_router(health.router)
     app.include_router(admin.router)
     app.include_router(git_snapshots.router)
-    app.include_router(pelm.router)  # NEW
+    app.include_router(pelm.router)
+    app.include_router(pelm_stream.router)  # NEW
 
     return app
 
