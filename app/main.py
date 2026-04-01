@@ -1,7 +1,13 @@
 from fastapi import FastAPI
 
 # Router imports
-from app.routers import pelm, pelm_stream
+from app.routers import (
+    pelm,
+    pelm_stream,
+    health_score,
+    health_trend,
+    anomaly_correlation,
+)
 
 def create_app() -> FastAPI:
     app = FastAPI(
@@ -10,9 +16,14 @@ def create_app() -> FastAPI:
         version="1.0.0",
     )
 
-    # Register routers
+    # ---------------------------------------------------------
+    # Router Registration (deterministic order)
+    # ---------------------------------------------------------
     app.include_router(pelm.router)
     app.include_router(pelm_stream.router)
+    app.include_router(health_score.router)
+    app.include_router(health_trend.router)
+    app.include_router(anomaly_correlation.router)
 
     return app
 

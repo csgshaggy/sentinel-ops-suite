@@ -1,5 +1,6 @@
-class PELMPlugin:
+class Plugin:
     name = "pelm"
+    description = "PELM core plugin"
 
     def run(self):
-        return {"plugin": "pelm", "status": "executed"}
+        return {"status": "ok", "plugin": self.name}

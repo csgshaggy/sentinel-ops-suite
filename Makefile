@@ -1,6 +1,6 @@
 # =============================================================================
 # SSRF Command Console - Makefile
-# Regenerated with dependency install target and all updates to date
+# Fully Regenerated Through Steps 1–15
 # =============================================================================
 
 PYTHON := venv/bin/python
@@ -73,6 +73,20 @@ docs-serve:
 	jekyll serve --source docs --destination _site --livereload
 
 # -----------------------------------------------------------------------------
+# Structure Validation (Step 9)
+# -----------------------------------------------------------------------------
+
+structure:
+	./scripts/structure_check.sh
+
+# -----------------------------------------------------------------------------
+# Daily Health Scoring (Step 15)
+# -----------------------------------------------------------------------------
+
+daily-score:
+	$(PYTHON) backend/health/run_daily_score.py
+
+# -----------------------------------------------------------------------------
 # Utility
 # -----------------------------------------------------------------------------
 
@@ -81,4 +95,4 @@ clean:
 	rm -rf .ruff_cache
 	rm -rf _site
 
-all: lint test validate
+all: lint test validate structure
