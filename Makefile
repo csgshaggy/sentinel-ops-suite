@@ -1,84 +1,98 @@
-# ============================================================================
-# SSRF Command Console — Operator-Grade Makefile (VENV-AWARE + DRIFT-PROOF)
-# ============================================================================
+# ================================
+#   SSRF Command Console Makefile
+#   Regenerated: Structure‑A
+# ================================
 
-PYTHON   := .venv/bin/python
-PIP      := .venv/bin/pip
-RUFF     := .venv/bin/ruff
-BLACK    := .venv/bin/black
-PRETTIER := npx prettier
+SHELL := /bin/bash
 
-LINT_PATHS := app backend
+# ----------------
+# Python settings
+# ----------------
+PYTHON := python3
+APP_DIR := backend/app
 
-# ----------------------------------------------------------------------------
-# ENVIRONMENT
-# ----------------------------------------------------------------------------
-
-.PHONY: venv
-venv:
-	python3 -m venv .venv
-	$(PIP) install --upgrade pip
+# ----------------
+# Core commands
+# ----------------
 
 .PHONY: install
-install: venv
-	$(PIP) install -e .[dev]
+install:
+	$(PYTHON) -m pip install -r requirements.txt
 
-# ----------------------------------------------------------------------------
-# LINTING & FORMATTING (AUTO-FIX)
-# ----------------------------------------------------------------------------
+.PHONY: run
+run:
+	$(PYTHON) -m backend.app.main
+
+# ----------------
+# SuperDoctor
+# ----------------
+
+.PHONY: superdoctor
+superdoctor:
+	$(PYTHON) tools/super_doctor.py
+
+# ----------------
+# Sync Pipeline
+# ----------------
+
+.PHONY: sync
+sync:
+	@echo "=== One‑Command Sync ===" | tee -a sync.log
+	./sync | tee -a sync.log
+	@echo "Sync Complete" | tee -a sync.log
+
+# ----------------
+# TUI
+# ----------------
+
+.PHONY: tui
+tui:
+	$(PYTHON) -m backend.app.tui.main
+
+# ----------------
+# HTML Report
+# ----------------
+
+.PHONY: html-report
+html-report:
+	$(PYTHON) -m backend.app.reports.html.generate_report
+
+# ----------------
+# Linting
+# ----------------
 
 .PHONY: lint
 lint:
-	$(RUFF) check $(LINT_PATHS) --fix
-	$(RUFF) format $(LINT_PATHS)
-	$(BLACK) $(LINT_PATHS)
+	ruff check .
 
 .PHONY: format
 format:
-	$(RUFF) format $(LINT_PATHS)
-	$(BLACK) $(LINT_PATHS)
+	ruff check --fix .
 
-# ----------------------------------------------------------------------------
-# VALIDATION (NO AUTO-FIX — DRIFT-PROOF)
-# ----------------------------------------------------------------------------
-
-.PHONY: validate
-validate:
-	@echo "[VALIDATE] No plugin/structure validators found — skipping."
-	@echo "Validation complete."
-
-# ----------------------------------------------------------------------------
-# CI-FAST (VALIDATION ONLY — NEVER MODIFIES FILES)
-# ----------------------------------------------------------------------------
-
-.PHONY: ci-fast
-ci-fast:
-	@echo "[CI-FAST] Lint + Validate"
-	$(RUFF) check $(LINT_PATHS)
-	$(RUFF) format --check $(LINT_PATHS)
-	$(BLACK) --check $(LINT_PATHS)
-	@echo "Validation complete."
-
-# ----------------------------------------------------------------------------
-# TESTING
-# ----------------------------------------------------------------------------
+# ----------------
+# Tests
+# ----------------
 
 .PHONY: test
 test:
-	$(PYTHON) -m pytest
+	pytest -q
 
-# ----------------------------------------------------------------------------
-# REPO HYGIENE
-# ----------------------------------------------------------------------------
+# ----------------
+# Git Utilities (placeholder for upcoming Git integrity module)
+# ----------------
 
-.PHONY: heal
-heal: lint validate
-	@echo "[HEAL] Repo healed and validated."
+.PHONY: git-health
+git-health:
+	@echo "Git integrity module not yet installed."
 
-.PHONY: doctor
-doctor:
-	@echo "[DOCTOR] Checking environment..."
-	@command -v $(RUFF)   >/dev/null || echo "Missing: ruff"
-	@command -v $(BLACK)  >/dev/null || echo "Missing: black"
-	@command -v $(PYTHON) >/dev/null || echo "Missing: python"
-	@echo "[DOCTOR] Done."
+.PHONY: git-repair
+git-repair:
+	@echo "Git repair module not yet installed."
+
+# ----------------
+# Cleanup
+# ----------------
+
+.PHONY: clean
+clean:
+	find . -type d -name "__pycache__" -exec rm -rf {} +
