@@ -10,7 +10,6 @@ from typing import Any, Dict, List
 from .anomaly_detector import detect_anomalies
 from .sync_history import load_sync_history
 
-
 ANOMALY_LOG = Path("health_history.jsonl")
 
 

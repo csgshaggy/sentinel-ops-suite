@@ -5,6 +5,8 @@
 
 import secrets
 
+from backend.auth.audit import log_event
+from backend.database import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
@@ -15,12 +17,10 @@ from backend.admin.schemas import (
     AdminUserUpdate,
     AuditLogOut,
 )
-from backend.auth.audit import log_event
 from backend.auth.dependencies import get_current_user, require_role
 from backend.auth.models import AuditLog
 from backend.auth.models import User as UserModel
 from backend.auth.security import hash_password
-from backend.database import get_db
 
 router = APIRouter(
     prefix="/admin",

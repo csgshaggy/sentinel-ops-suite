@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from fastapi import APIRouter
-
 from backend.app.core.makefile_drift_detector import detect_drift
+from fastapi import APIRouter
 
 router = APIRouter(prefix="/makefile", tags=["makefile-admin"])
 

@@ -44,10 +44,12 @@ git add -A || true
 echo "[3/5] Committing (if needed)..."
 
 if ! git diff --cached --quiet; then
-    echo "[PRE-COMMIT] Running format + lint + ci-precommit..."
+    echo "[PRE-COMMIT] Running format + lint..."
     make format || true
     make lint || true
-    make ci-precommit || true
+
+    # Stage any formatter/linter changes
+    git add -A
 
     git commit -m "sync: local changes before rebase"
 else
@@ -59,6 +61,10 @@ fi
 # 4. REBASE ONTO ORIGIN/MAIN
 # ------------------------------------------------------------
 echo "[4/5] Rebasing onto origin/main..."
+
+# Stage any changes created by format/lint
+git add -A
+
 git pull --rebase origin main || {
     echo "[ERROR] Rebase failed — resolve conflicts and re-run sync."
     exit 1
@@ -72,6 +78,7 @@ echo "[5/5] Pushing..."
 
 # Pre-push CI gates
 echo "[PRE-PUSH] Running Makefile self-check + CI-fast gate..."
+
 make self-check || {
     echo "[ERROR] Makefile self-check failed."
     exit 1

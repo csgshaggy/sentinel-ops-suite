@@ -1,10 +1,10 @@
 import pyotp
+from app.dependencies import get_current_user, get_db  # adjust to your project
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
-from app.dependencies import get_current_user, get_db  # adjust to your project
 from app.models.user import User
 
 router = APIRouter(prefix="/mfa", tags=["mfa"])

@@ -2,10 +2,11 @@
 # SSRF Command Console — Authentication API (Session Cookie Edition)
 # =====================================================================
 
+from backend.auth.audit import log_event
+from backend.database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Response
 from sqlalchemy.orm import Session
 
-from backend.auth.audit import log_event
 from backend.auth.dependencies import get_current_user
 from backend.auth.models import User
 from backend.auth.schemas import UserCreate, UserLogin, UserOut
@@ -16,7 +17,6 @@ from backend.auth.security import (
     hash_password,
     verify_password,
 )
-from backend.database import get_db
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
