@@ -1,76 +1,77 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
-Operator‑Grade Structure Validator for SSRF Command Console
+Structure validator for SSRF Command Console.
+
+Checks:
+- Required directories and files exist.
+- Package layout is correct.
+- No obvious drift in critical metadata.
 """
 
-import importlib
+from __future__ import annotations
+
 import sys
 from pathlib import Path
-
-ROOT = Path(__file__).resolve().parent.parent
-SRC = ROOT / "src"
-PKG = SRC / "ssrf_command_console"
-
-REQUIRED_FILES = [
-    ROOT / "pyproject.toml",
-    ROOT / "README.md",
-    PKG / "__init__.py",
-    PKG / "cli.py",
-]
+from typing import Iterable
 
 
-def fail(msg: str):
-    print(f"[FAIL] {msg}")
-    sys.exit(1)
+ROOT = Path(__file__).resolve().parents[1]
 
 
-def ok(msg: str):
-    print(f"[OK] {msg}")
+def check_exists(paths: Iterable[Path], label: str) -> bool:
+    ok = True
+    for p in paths:
+        if not p.exists():
+            print(f"[STRUCTURE] MISSING {label}: {p}")
+            ok = False
+        else:
+            print(f"[STRUCTURE] OK {label}: {p}")
+    return ok
 
 
-def check_paths():
-    if not SRC.exists():
-        fail(f"Missing src/ directory at: {SRC}")
+def main() -> int:
+    ok = True
 
-    if not PKG.exists():
-        fail(f"Missing package directory: {PKG}")
+    required_dirs = [
+        ROOT / "src",
+        ROOT / "src" / "ssrf_command_console",
+        ROOT / "backend",
+        ROOT / "frontend",
+        ROOT / "config",
+        ROOT / "docs",
+    ]
+    ok &= check_exists(required_dirs, "DIR")
 
-    ok("Source tree exists and is correctly structured.")
+    required_files = [
+        ROOT / "pyproject.toml",
+        ROOT / "Makefile",
+        ROOT / "bootstrap.sh",
+        ROOT / "LICENSE",
+    ]
+    ok &= check_exists(required_files, "FILE")
 
+    # Package layout sanity
+    pkg_init = ROOT / "src" / "ssrf_command_console" / "__init__.py"
+    ok &= check_exists([pkg_init], "PKG_INIT")
 
-def check_required_files():
-    for file_path in REQUIRED_FILES:
-        if not file_path.exists():
-            fail(f"Missing required file: {file_path}")
-    ok("All required files are present.")
+    cli_file = ROOT / "src" / "ssrf_command_console" / "cli.py"
+    ok &= check_exists([cli_file], "CLI_MODULE")
 
+    plugins_dir = ROOT / "src" / "ssrf_command_console" / "plugins"
+    ok &= check_exists([plugins_dir], "PLUGINS_DIR")
 
-def check_cli_entrypoint():
-    cli_file = PKG / "cli.py"
-    if not cli_file.exists():
-        fail("cli.py missing — cannot validate entrypoint.")
+    # Duplicate pyproject.toml detection (drift)
+    extra_pyprojects = list(ROOT.rglob("pyproject.toml"))
+    extra_pyprojects = [p for p in extra_pyprojects if p != ROOT / "pyproject.toml"]
+    if extra_pyprojects:
+        ok = False
+        print("[STRUCTURE] DRIFT: extra pyproject.toml files detected:")
+        for p in extra_pyprojects:
+            print(f"  - {p}")
 
-    try:
-        mod = importlib.import_module("ssrf_command_console.cli")
-    except Exception as exc:
-        fail(f"Import error in CLI module: {exc}")
-
-    if not hasattr(mod, "cli"):
-        fail("CLI entrypoint missing: expected attribute `cli` in cli.py")
-
-    ok("CLI entrypoint resolved successfully.")
-
-
-def main():
-    print("=== SSRF Command Console — Structure Validation ===")
-
-    check_paths()
-    check_required_files()
-    check_cli_entrypoint()
-
-    print("\nAll structure checks passed.")
-    sys.exit(0)
+    print("[STRUCTURE] RESULT:", "OK" if ok else "FAILED")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

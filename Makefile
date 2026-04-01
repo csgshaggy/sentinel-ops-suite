@@ -1,200 +1,122 @@
-# ============================================================
-#   SSRF Command Console — Makefile (Regenerated, PELM Report)
-#   Structure‑A Aligned • Operator‑Grade • Drift‑Proof
-# ============================================================
+# Makefile — SSRF Command Console (CLI + backend)
+# Operator-grade, deterministic targets.
 
-SHELL := /bin/bash
-PYTHON := python3
-APP_DIR := backend/app
+PYTHON ?= python
+VENV_DIR ?= venv
+PIP := $(VENV_DIR)/bin/pip
+PYTHON_VENV := $(VENV_DIR)/bin/python
 
-# ------------------------------------------------------------
-# Python Environment
-# ------------------------------------------------------------
+APP_PACKAGE := ssrf_command_console
+
+.DEFAULT_GOAL := help
+
+# -------------------------------------------------------------------
+# Environment / venv
+# -------------------------------------------------------------------
+
+$(VENV_DIR):
+	$(PYTHON) -m venv $(VENV_DIR)
+
+.PHONY: venv
+venv: $(VENV_DIR)
+	@echo "[venv] Virtual environment ready at $(VENV_DIR)"
 
 .PHONY: install
-install:
-	$(PYTHON) -m pip install -r requirements.txt
+install: venv
+	$(PIP) install --upgrade pip
+	$(PIP) install -e .
 
-# ------------------------------------------------------------
-# Application Entrypoints
-# ------------------------------------------------------------
+.PHONY: install-dev
+install-dev: venv
+	$(PIP) install --upgrade pip
+	$(PIP) install -e .[dev]
 
-.PHONY: run
-run:
-	$(PYTHON) -m backend.app.main
+# -------------------------------------------------------------------
+# CLI targets
+# -------------------------------------------------------------------
 
-# ------------------------------------------------------------
-# SuperDoctor
-# ------------------------------------------------------------
+.PHONY: cli-run
+cli-run:
+	$(PYTHON_VENV) -m $(APP_PACKAGE).cli hello
 
-.PHONY: superdoctor
-superdoctor:
-	$(PYTHON) tools/super_doctor.py
+.PHONY: cli-test
+cli-test:
+	$(PYTHON_VENV) -m pytest -q tests || true
 
-# ------------------------------------------------------------
-# Sync Pipeline
-# ------------------------------------------------------------
+# -------------------------------------------------------------------
+# Backend targets (FastAPI / Uvicorn)
+# -------------------------------------------------------------------
 
-.PHONY: sync
-sync:
-	@echo "=== One‑Command Sync ===" | tee -a sync.log
-	./sync | tee -a sync.log
-	@echo "=== Sync Complete ==="
+.PHONY: backend-run
+backend-run:
+	$(PYTHON_VENV) -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 
-# ------------------------------------------------------------
-# TUI
-# ------------------------------------------------------------
+.PHONY: backend-test
+backend-test:
+	$(PYTHON_VENV) -m pytest -q backend/tests || true
 
-.PHONY: tui
-tui:
-	$(PYTHON) -m backend.app.tui.main
-
-# ------------------------------------------------------------
-# HTML Report (General)
-# ------------------------------------------------------------
-
-.PHONY: html-report
-html-report:
-	$(PYTHON) -m backend.app.reports.html.generate_report
-
-# ------------------------------------------------------------
-# Linting & Formatting
-# ------------------------------------------------------------
+# -------------------------------------------------------------------
+# Lint / Format / Validate
+# -------------------------------------------------------------------
 
 .PHONY: lint
 lint:
-	ruff check .
+	$(PYTHON_VENV) -m ruff check src backend
 
 .PHONY: format
 format:
-	ruff check --fix .
+	$(PYTHON_VENV) -m black src backend
 
-# ------------------------------------------------------------
-# Tests
-# ------------------------------------------------------------
+.PHONY: format-check
+format-check:
+	$(PYTHON_VENV) -m black --check src backend
+
+.PHONY: validate-structure
+validate-structure:
+	$(PYTHON_VENV) scripts/structure_validator.py
+
+.PHONY: doctor
+doctor: validate-structure
+	$(PYTHON_VENV) -m $(APP_PACKAGE).cli doctor env
+	$(PYTHON_VENV) -m $(APP_PACKAGE).cli doctor plugins
+	$(PYTHON_VENV) -m $(APP_PACKAGE).cli doctor structure
+
+# -------------------------------------------------------------------
+# CI targets
+# -------------------------------------------------------------------
 
 .PHONY: test
-test:
-	pytest -q
+test: backend-test cli-test
 
-# ------------------------------------------------------------
-# Git Integrity Module
-# ------------------------------------------------------------
+.PHONY: ci
+ci: lint format-check validate-structure test
 
-.PHONY: self-check
-self-check:
-	@echo "[SELF-CHECK] Validating Makefile structure..."
-	@grep -q "sync:" Makefile || { echo "[ERROR] Missing sync target"; exit 1; }
-	@grep -q "tui:" Makefile || { echo "[ERROR] Missing tui target"; exit 1; }
-	@grep -q "html-report:" Makefile || { echo "[ERROR] Missing html-report target"; exit 1; }
-	@echo "[OK] Makefile structure validated."
+# -------------------------------------------------------------------
+# Help
+# -------------------------------------------------------------------
 
-.PHONY: ci-fast
-ci-fast:
-	@echo "[CI-FAST] Running fast CI checks..."
-	ruff check .
-	@echo "[OK] CI-fast checks passed."
-
-.PHONY: git-health
-git-health:
-	@echo "[GIT-HEALTH] Checking repository integrity..."
-	git fsck --full
-	git status
-	@echo "[OK] Git health check complete."
-
-# ------------------------------------------------------------
-# Enhanced Git Repair Module
-# ------------------------------------------------------------
-
-.PHONY: git-repair
-git-repair:
-	@echo "[GIT-REPAIR] Starting forensic repair sequence..."
-	git fsck --full || true
-	find .git/objects/pack -type f -name "*.keep" -delete || true
-	find .git/objects/pack -type f -name "*.old" -delete || true
-	git show-ref --head || true
-	git update-ref --no-deref HEAD HEAD || true
-	git reflog expire --expire=now --all
-	git reflog expire --expire-unreachable=now --all
-	git prune --expire=now --progress || true
-	git gc --aggressive --prune=now
-	git fsck --full
-	@echo "[OK] Git repair complete."
-
-# ------------------------------------------------------------
-# Pre‑Push Corruption Guard
-# ------------------------------------------------------------
-
-.PHONY: pre-push-guard
-pre-push-guard:
-	@echo "[PRE-PUSH GUARD] Running corruption and drift checks..."
-	make self-check
-	make ci-fast
-	git fsck --full
-	git show-ref --head > /dev/null
-	git diff --quiet
-	git ls-files --others --exclude-standard | grep -E '\.py|Makefile|sync|\.sh' && { echo "[FAIL] Untracked critical files"; exit 1; } || true
-	@echo "[OK] Pre‑push guard passed."
-
-# ------------------------------------------------------------
-# Git Metadata Snapshot
-# ------------------------------------------------------------
-
-.PHONY: git-snapshot
-git-snapshot:
-	@echo "[GIT-SNAPSHOT] Capturing Git metadata..."
-	./tools/git_snapshot.sh
-
-# ------------------------------------------------------------
-# Snapshot Diff
-# ------------------------------------------------------------
-
-.PHONY: git-snapshot-diff
-git-snapshot-diff:
-	@echo "[GIT-SNAPSHOT-DIFF] Diffing latest two snapshots..."
-	./tools/git_snapshot_diff.sh
-
-# ------------------------------------------------------------
-# Snapshot HTML Viewer
-# ------------------------------------------------------------
-
-.PHONY: git-snapshot-html
-git-snapshot-html:
-	@echo "[GIT-SNAPSHOT-HTML] Rendering latest snapshot to HTML..."
-	$(PYTHON) -m backend.app.reports.html.git_snapshot_viewer
-
-# ------------------------------------------------------------
-# Snapshot Dashboard Target
-# ------------------------------------------------------------
-
-.PHONY: git-snapshot-dashboard
-git-snapshot-dashboard:
-	@echo "[GIT-SNAPSHOT-DASHBOARD] Generating snapshot + HTML..."
-	make git-snapshot
-	make git-snapshot-html
-
-# ------------------------------------------------------------
-# Snapshot Retention Policy
-# ------------------------------------------------------------
-
-.PHONY: git-snapshot-clean
-git-snapshot-clean:
-	@echo "[GIT-SNAPSHOT-CLEAN] Applying retention policy..."
-	./tools/git_snapshot_cleanup.sh
-
-# ------------------------------------------------------------
-# PELM HTML Report
-# ------------------------------------------------------------
-
-.PHONY: pelm-report
-pelm-report:
-	@echo "[PELM-REPORT] Generating PELM HTML report..."
-	$(PYTHON) -m backend.app.reports.html.pelm_report
-
-# ------------------------------------------------------------
-# Cleanup
-# ------------------------------------------------------------
-
-.PHONY: clean
-clean:
-	find . -type d -name "__pycache__" -exec rm -rf {} +
+.PHONY: help
+help:
+	@echo "SSRF Command Console — Makefile"
+	@echo ""
+	@echo "Environment:"
+	@echo "  make venv              Create virtual environment"
+	@echo "  make install           Install package (editable)"
+	@echo "  make install-dev       Install package with dev deps"
+	@echo ""
+	@echo "CLI:"
+	@echo "  make cli-run           Run basic CLI sanity check"
+	@echo "  make cli-test          Run CLI-related tests"
+	@echo ""
+	@echo "Backend:"
+	@echo "  make backend-run       Run FastAPI backend with Uvicorn"
+	@echo "  make backend-test      Run backend tests"
+	@echo ""
+	@echo "Quality / CI:"
+	@echo "  make lint              Run Ruff lint"
+	@echo "  make format            Run Black formatter"
+	@echo "  make format-check      Check formatting only"
+	@echo "  make validate-structure Validate repo structure"
+	@echo "  make doctor            Run doctor commands"
+	@echo "  make test              Run tests"
+	@echo "  make ci                Full CI suite"

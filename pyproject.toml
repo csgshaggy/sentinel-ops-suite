@@ -5,17 +5,17 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ssrf-command-console"
 version = "0.1.0"
-description = "Operator-grade SSRF Command Console with FastAPI backend and CLI tooling."
+description = "Operator-grade SSRF Command Console with FastAPI backend, CLI tooling, and plugin architecture."
 readme = "README.md"
 requires-python = ">=3.12"
-license = { text = "MIT" }
+license = "MIT"
 authors = [
   { name = "Charlie", email = "charlie@example.com" }
 ]
 
 dependencies = [
   "fastapi>=0.110.0",
-  "uvicorn>=0.29.0",
+  "uvicorn[standard]>=0.29.0",
   "httpx>=0.27.0",
   "pydantic>=2.6.0",
   "python-multipart>=0.0.9",
@@ -34,10 +34,10 @@ dev = [
 ]
 
 [project.scripts]
-ssrf-console = "backend.cli:app"
+ssrf-console = "ssrf_command_console.cli:cli"
 
 # -------------------------------------------------------------------
-# Ruff Configuration (modern schema, fix enabled)
+# Ruff Configuration
 # -------------------------------------------------------------------
 [tool.ruff]
 target-version = "py312"
@@ -52,7 +52,7 @@ exclude = [
 ]
 
 [tool.ruff.lint]
-extend-select = ["I"]  # import sorting
+extend-select = ["I"]
 
 [tool.ruff.format]
 quote-style = "double"

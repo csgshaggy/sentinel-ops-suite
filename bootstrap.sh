@@ -1,32 +1,36 @@
 #!/usr/bin/env bash
-set -e
+# bootstrap.sh — SSRF Command Console bootstrap
+set -euo pipefail
 
-echo "=== SSRF Command Console — Bootstrap ==="
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+VENV_DIR="${VENV_DIR:-venv}"
+PYTHON="${PYTHON:-python}"
 
-# Create venv if missing
-if [ ! -d ".venv" ]; then
-  echo "[*] Creating virtual environment..."
-  python3 -m venv .venv
+echo "[bootstrap] Root: ${ROOT_DIR}"
+cd "${ROOT_DIR}"
+
+if [ ! -d "${VENV_DIR}" ]; then
+  echo "[bootstrap] Creating virtualenv at ${VENV_DIR}"
+  "${PYTHON}" -m venv "${VENV_DIR}"
+else
+  echo "[bootstrap] Using existing virtualenv at ${VENV_DIR}"
 fi
 
-# Activate venv
-echo "[*] Activating virtual environment..."
-# shellcheck disable=SC1091
-source .venv/bin/activate
+# shellcheck disable=SC1090
+source "${VENV_DIR}/bin/activate"
 
-# Install project + dev deps
-echo "[*] Installing project and development dependencies..."
-pip install -e .
-if [ -f requirements-dev.txt ]; then
-  pip install -r requirements-dev.txt
-fi
+echo "[bootstrap] Upgrading pip"
+pip install --upgrade pip
 
-# Validate structure
-echo "[*] Validating project structure..."
-make structure
+echo "[bootstrap] Installing package (editable) with dev extras"
+pip install -e ".[dev]"
 
-# Smoke test CLI
-echo "[*] Running CLI smoke test..."
-make smoke
+echo "[bootstrap] Validating structure"
+python scripts/structure_validator.py
 
-echo "=== Bootstrap complete. Environment ready. ==="
+echo "[bootstrap] Running doctor commands"
+ssrf-console doctor env || true
+ssrf-console doctor plugins || true
+ssrf-console doctor structure || true
+
+echo "[bootstrap] Done."
