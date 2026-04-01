@@ -4,10 +4,17 @@ from backend.health.predictive import compute_prediction
 from backend.alerts.alert_engine import evaluate_alerts
 from backend.anomaly.correlation import correlate_anomaly
 from backend.ci.makefile_tools import get_status as makefile_status
+from backend.pelm.pelm_tools import detect_pelm_drift, detect_pelm_regression
+
 
 def build_observability_summary():
     trend = load_trend()
     latest_anomaly = trend[-1]["timestamp"] if trend else None
+
+    pelm = {
+        "drift": detect_pelm_drift(),
+        "regression": detect_pelm_regression(),
+    }
 
     return {
         "health": compute_health_score(),
@@ -18,4 +25,5 @@ def build_observability_summary():
         "latest_anomaly_correlation": (
             correlate_anomaly(latest_anomaly) if latest_anomaly else None
         ),
+        "pelm": pelm,
     }

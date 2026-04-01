@@ -1,65 +1,113 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import (
-    system,
-    admin,
-    git_snapshots,
-    pelm,
-    pelm_stream,
-    plugins,
-    workflow_runs,
-    makefile_diff,
-    makefile_health,
-    router_drift,
-    repo_health,
-    ci_summary,
+# ------------------------------------------------------------
+# PELM Imports (all modules created across Step 23)
+# ------------------------------------------------------------
+from app.pelm.pelm_status import get_pelm_status
+from app.pelm.pelm_run import run_pelm
+from app.pelm.pelm_trend import get_pelm_trend
+from app.pelm.pelm_snapshots import (
+    list_snapshots,
+    get_snapshot,
+    diff_snapshots,
+)
+from app.pelm.pelm_regression import get_regression
+from app.pelm.pelm_governance import repair_governance
+from app.pelm.pelm_report import (
+    generate_html_report,
+    generate_markdown_report,
 )
 
+# ------------------------------------------------------------
+# FastAPI App
+# ------------------------------------------------------------
+app = FastAPI(title="PELM Backend")
 
-def create_app() -> FastAPI:
-    app = FastAPI(
-        title="SSRF Command Console",
-        description=(
-            "Operator-grade backend for anomaly detection, correlation, "
-            "snapshots, router health, and system diagnostics."
-        ),
-        version="1.0.0",
-    )
+# ------------------------------------------------------------
+# CORS
+# ------------------------------------------------------------
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
-
-    app.include_router(system.router)
-    app.include_router(admin.router)
-    app.include_router(git_snapshots.router)
-    app.include_router(pelm.router)
-    app.include_router(pelm_stream.router)
-    app.include_router(plugins.router)
-
-    app.include_router(workflow_runs.router)
-    app.include_router(makefile_diff.router)
-    app.include_router(makefile_health.router)
-    app.include_router(router_drift.router)
-    app.include_router(repo_health.router)
-    app.include_router(ci_summary.router)
-
-    return app
+# ------------------------------------------------------------
+# Root
+# ------------------------------------------------------------
+@app.get("/")
+def root():
+    return {"message": "PELM backend running"}
 
 
-app = create_app()
+# ------------------------------------------------------------
+# PELM Status
+# ------------------------------------------------------------
+@app.get("/pelm/status")
+def pelm_status():
+    return get_pelm_status()
 
-if __name__ == "__main__":
-    import uvicorn
 
-    uvicorn.run(
-        "app.main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-    )
+# ------------------------------------------------------------
+# Run PELM
+# ------------------------------------------------------------
+@app.get("/pelm/run")
+def pelm_run():
+    return run_pelm()
+
+
+# ------------------------------------------------------------
+# Trend
+# ------------------------------------------------------------
+@app.get("/pelm/trend")
+def pelm_trend():
+    return get_pelm_trend()
+
+
+# ------------------------------------------------------------
+# Snapshots
+# ------------------------------------------------------------
+@app.get("/pelm/snapshots/list")
+def pelm_snapshot_list():
+    return list_snapshots()
+
+
+@app.get("/pelm/snapshots/get/{name}")
+def pelm_snapshot_get(name: str):
+    return get_snapshot(name)
+
+
+@app.get("/pelm/snapshots/diff")
+def pelm_snapshot_diff(left: str, right: str):
+    return diff_snapshots(left, right)
+
+
+# ------------------------------------------------------------
+# Regression
+# ------------------------------------------------------------
+@app.get("/pelm/regression")
+def pelm_regression():
+    return get_regression()
+
+
+# ------------------------------------------------------------
+# Governance Repair
+# ------------------------------------------------------------
+@app.post("/pelm/governance/repair")
+def pelm_governance_repair():
+    return repair_governance()
+
+
+# ------------------------------------------------------------
+# Reports
+# ------------------------------------------------------------
+@app.get("/pelm/report/html")
+def pelm_report_html():
+    return generate_html_report()
+
+
+@app.get("/pelm/report/markdown")
+def pelm_report_markdown():
+    return generate_markdown_report()

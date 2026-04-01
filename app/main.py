@@ -1,45 +1,46 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
-# Router imports
-from app.routers import (
-    pelm,
-    pelm_stream,
-    health_score,
-    health_trend,
-    anomaly_correlation,
-    alerts,
-    makefile_status,
-    health_predict,
-    observability,
-)
+from app.routers import auto_discover_routers
+
+# Explicit imports for PELM-related routers
+from app.routers import pelm_reports
+from app.routers import pelm_trend
+from app.routers import pelm_diff
+from app.routers import pelm_regression
+
 
 def create_app() -> FastAPI:
     app = FastAPI(
         title="SSRF Command Console",
-        description="Backend service for SSRF Command Console",
+        description="Backend API for Observability, Governance, and PELM",
         version="1.0.0",
     )
 
     # ---------------------------------------------------------
-    # Router Registration (deterministic order)
+    # CORS
     # ---------------------------------------------------------
-    app.include_router(pelm.router)
-    app.include_router(pelm_stream.router)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-    # Health & Observability
-    app.include_router(health_score.router)
-    app.include_router(health_trend.router)
-    app.include_router(health_predict.router)
+    # ---------------------------------------------------------
+    # Auto-discover all routers in app/routers/
+    # ---------------------------------------------------------
+    auto_discover_routers(app)
 
-    # Anomalies & Alerts
-    app.include_router(anomaly_correlation.router)
-    app.include_router(alerts.router)
-
-    # Governance
-    app.include_router(makefile_status.router)
-
-    # Unified Observability Summary (Step 20)
-    app.include_router(observability.router)
+    # ---------------------------------------------------------
+    # Explicit router registration (safe even with auto-discovery)
+    # Ensures PELM endpoints are always available.
+    # ---------------------------------------------------------
+    app.include_router(pelm_reports.router)
+    app.include_router(pelm_trend.router)
+    app.include_router(pelm_diff.router)
+    app.include_router(pelm_regression.router)
 
     return app
 

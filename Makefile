@@ -1,244 +1,232 @@
-# ======================================================================
-#  OPERATOR-GRADE MAKEFILE — SSRF COMMAND CONSOLE
-#  Backend + Frontend + SuperDoctor + Validators + CI Integration
-# ======================================================================
+# ============================================================
+# OPERATOR-GRADE MAKEFILE — WITH IDRIM + CI ENFORCEMENT
+# ============================================================
 
-SHELL := /usr/bin/env bash
-PYTHON := python3
-BACKEND_DIR := backend
-FRONTEND_DIR := frontend
-REPORTS_DIR := backend/app/reports/html
-SNAPSHOT_DIR := data
-ARTIFACTS := artifacts
+SHELL := /bin/bash
 
-COLOR_RESET := \033[0m
-COLOR_BLUE := \033[1;34m
-COLOR_GREEN := \033[1;32m
-COLOR_YELLOW := \033[1;33m
-COLOR_RED := \033[1;31m
+# Colors
+RED    := \033[31m
+GREEN  := \033[32m
+YELLOW := \033[33m
+BLUE   := \033[34m
+CYAN   := \033[36m
+RESET  := \033[0m
 
-# ======================================================================
-#  HELP
-# ======================================================================
-.PHONY: help
+# -----------------------------------------
+# HELP
+# -----------------------------------------
+
 help:
-	@echo -e "$(COLOR_BLUE)Available targets:$(COLOR_RESET)"
-	@grep -E '^[a-zA-Z_-]+:.*?##' Makefile | sed 's/:.*##/: /' | column -t -s ':'
+	@echo ""
+	@echo "$(CYAN)Core$(RESET)"
+	@echo "  $(GREEN)make venv$(RESET)                - Create Python virtualenv"
+	@echo "  $(GREEN)make install$(RESET)             - Install Python dependencies"
+	@echo "  $(GREEN)make freeze$(RESET)              - Freeze requirements"
+	@echo ""
+	@echo "$(CYAN)Lint & Format$(RESET)"
+	@echo "  $(GREEN)make lint$(RESET)                - Run Ruff lint"
+	@echo "  $(GREEN)make lint-fix$(RESET)            - Auto-fix lint issues"
+	@echo "  $(GREEN)make format$(RESET)              - Run Black + Prettier"
+	@echo ""
+	@echo "$(CYAN)Backend$(RESET)"
+	@echo "  $(GREEN)make backend-run$(RESET)         - Run FastAPI backend"
+	@echo "  $(GREEN)make backend-test$(RESET)        - Run backend tests"
+	@echo ""
+	@echo "$(CYAN)Frontend$(RESET)"
+	@echo "  $(GREEN)make frontend-install$(RESET)    - Install frontend deps"
+	@echo "  $(GREEN)make frontend-dev$(RESET)        - Run frontend dev server"
+	@echo "  $(GREEN)make frontend-build$(RESET)      - Build frontend"
+	@echo ""
+	@echo "$(CYAN)PELM$(RESET)"
+	@echo "  $(GREEN)make pelm-run$(RESET)            - Run PELM analysis"
+	@echo "  $(GREEN)make pelm-baseline$(RESET)       - Rebuild PELM baseline"
+	@echo "  $(GREEN)make pelm-diff$(RESET)           - Show PELM diff"
+	@echo ""
+	@echo "$(CYAN)Anomaly$(RESET)"
+	@echo "  $(GREEN)make anomaly-run$(RESET)         - Run anomaly engine"
+	@echo "  $(GREEN)make anomaly-score$(RESET)       - Fetch anomaly score"
+	@echo ""
+	@echo "$(CYAN)IDRIM$(RESET)"
+	@echo "  $(GREEN)make idrim-run$(RESET)           - Run IDRIM drift analysis"
+	@echo "  $(GREEN)make idrim-baseline$(RESET)      - Rebuild IDRIM baseline"
+	@echo "  $(GREEN)make idrim-diff$(RESET)          - Show IDRIM diff"
+	@echo "  $(GREEN)make ci-idrim-baseline$(RESET)   - CI check: IDRIM baseline freshness"
+	@echo ""
+	@echo "$(CYAN)Repo Hygiene$(RESET)"
+	@echo "  $(GREEN)make validate-structure$(RESET)  - Validate repo structure"
+	@echo "  $(GREEN)make validate-makefile$(RESET)   - Validate Makefile targets"
+	@echo "  $(GREEN)make validate-all$(RESET)        - Lint + structure + Makefile"
+	@echo ""
+	@echo "$(CYAN)Git Integrity$(RESET)"
+	@echo "  $(GREEN)make git-health$(RESET)          - Run git integrity checks"
+	@echo "  $(GREEN)make git-repair$(RESET)          - Attempt git repair"
+	@echo "  $(GREEN)make snapshot-metadata$(RESET)   - Snapshot git metadata"
+	@echo ""
+	@echo "$(CYAN)Cleanup$(RESET)"
+	@echo "  $(GREEN)make clean$(RESET)               - Clean caches"
+	@echo "  $(GREEN)make clean-all$(RESET)           - Clean all (incl venv, node_modules)"
+	@echo ""
 
-# ======================================================================
-#  BACKEND — FastAPI / Engines / Health
-# ======================================================================
-.PHONY: backend-run backend-dev backend-test backend-lint backend-format backend-migrate
+# -----------------------------------------
+# PYTHON ENVIRONMENT
+# -----------------------------------------
 
-backend-run: ## Run backend server
-	cd $(BACKEND_DIR) && $(PYTHON) main.py
+venv:
+	python3 -m venv .venv
 
-backend-dev: ## Run backend in dev mode
-	cd $(BACKEND_DIR) && uvicorn app.main:app --reload
+install:
+	. .venv/bin/activate && pip install -r requirements.txt
 
-backend-test: ## Run backend tests
-	cd $(BACKEND_DIR) && pytest -q
+freeze:
+	. .venv/bin/activate && pip freeze > requirements.txt
 
-backend-lint: ## Lint backend
-	cd $(BACKEND_DIR) && ruff check .
+# -----------------------------------------
+# LINTING & FORMATTING
+# -----------------------------------------
 
-backend-format: ## Format backend
-	cd $(BACKEND_DIR) && ruff format .
+lint:
+	@echo "$(YELLOW)[LINT] Running Ruff...$(RESET)"
+	@ruff check .
 
-backend-migrate: ## Placeholder for migrations
-	@echo "No migrations defined."
+lint-fix:
+	@echo "$(YELLOW)[LINT] Running Ruff with --fix...$(RESET)"
+	@ruff check . --fix
 
-# ======================================================================
-#  FRONTEND — Dashboard / UI
-# ======================================================================
-.PHONY: frontend-dev frontend-build frontend-lint frontend-test
+format:
+	@echo "$(YELLOW)[FORMAT] Running Black + Prettier...$(RESET)"
+	@black .
+	@prettier --write .
 
-frontend-dev: ## Run frontend dev server
-	cd $(FRONTEND_DIR) && npm run dev
+# -----------------------------------------
+# BACKEND — FASTAPI
+# -----------------------------------------
 
-frontend-build: ## Build frontend
-	cd $(FRONTEND_DIR) && npm run build
+backend-run:
+	@echo "$(BLUE)[BACKEND] Starting FastAPI on :8000...$(RESET)"
+	@uvicorn backend.app.main:app --reload --port 8000
 
-frontend-lint: ## Lint frontend
-	cd $(FRONTEND_DIR) && npm run lint
+backend-test:
+	@echo "$(BLUE)[BACKEND] Running tests...$(RESET)"
+	@pytest -q
 
-frontend-test: ## Test frontend
-	cd $(FRONTEND_DIR) && npm test
+# -----------------------------------------
+# FRONTEND — DASHBOARD
+# -----------------------------------------
 
-# ======================================================================
-#  WORKFLOW RUNS — GitHub Actions / CI History
-# ======================================================================
-.PHONY: workflow-runs workflow-runs-json workflow-runs-html
+frontend-install:
+	@echo "$(BLUE)[FRONTEND] Installing dependencies...$(RESET)"
+	@cd frontend && npm install
 
-workflow-runs: ## Print recent GitHub workflow runs
-	$(PYTHON) scripts/workflow_runs.py --limit 20
+frontend-dev:
+	@echo "$(BLUE)[FRONTEND] Starting dev server...$(RESET)"
+	@cd frontend && npm run dev
 
-workflow-runs-json: ## Export workflow runs as JSON
-	$(PYTHON) scripts/workflow_runs.py --json --limit 50
+frontend-build:
+	@echo "$(BLUE)[FRONTEND] Building frontend...$(RESET)"
+	@cd frontend && npm run build
 
-workflow-runs-html: ## Export workflow runs as HTML report
-	$(PYTHON) scripts/workflow_runs.py --html --limit 50
+# -----------------------------------------
+# PELM — Privilege Escalation & Lateral Movement
+# -----------------------------------------
 
-# ======================================================================
-#  MAKEFILE SNAPSHOTS + DIFF + SELF-HEAL + VALIDATION + FORMATTER
-# ======================================================================
-.PHONY: snapshot-makefile diff-makefile heal-makefile validate-makefile-consistency format-makefile
+pelm-run:
+	@echo "$(CYAN)[PELM] Running PELM analysis...$(RESET)"
+	@curl -s http://localhost:8000/pelm/run | jq .
 
-snapshot-makefile: ## Snapshot Makefile into data/Makefile.snapshot
-	mkdir -p $(SNAPSHOT_DIR)
-	cp Makefile $(SNAPSHOT_DIR)/Makefile.snapshot
-	@echo -e "$(COLOR_GREEN)[snapshot] Makefile snapshot updated.$(COLOR_RESET)"
+pelm-baseline:
+	@echo "$(CYAN)[PELM] Rebuilding PELM baseline...$(RESET)"
+	@curl -s -X POST http://localhost:8000/pelm/baseline/rebuild | jq .
 
-diff-makefile: ## Show diff between current Makefile and snapshot
-	@diff -u $(SNAPSHOT_DIR)/Makefile.snapshot Makefile || true
+pelm-diff:
+	@echo "$(CYAN)[PELM] Computing PELM diff...$(RESET)"
+	@curl -s http://localhost:8000/pelm/diff | jq .
 
-heal-makefile: ## Restore Makefile from snapshot via repair engine
-	$(PYTHON) backend/app/repair_engine.py --mode makefile-heal
+# -----------------------------------------
+# ANOMALY SUBSYSTEM
+# -----------------------------------------
 
-validate-makefile-consistency: ## Fail if Makefile differs from snapshot
-	@if [ ! -f $(SNAPSHOT_DIR)/Makefile.snapshot ]; then \
-		echo -e "$(COLOR_RED)[validate] Missing Makefile snapshot.$(COLOR_RESET)"; \
+anomaly-run:
+	@echo "$(CYAN)[ANOMALY] Running anomaly engine...$(RESET)"
+	@curl -s http://localhost:8000/anomaly/run | jq .
+
+anomaly-score:
+	@echo "$(CYAN)[ANOMALY] Fetching anomaly score...$(RESET)"
+	@curl -s http://localhost:8000/anomaly/score | jq .
+
+# -----------------------------------------
+# IDRIM — IAM Drift & Role Integrity Monitor
+# -----------------------------------------
+
+idrim-run:
+	@echo "$(CYAN)[IDRIM] Running IDRIM drift analysis...$(RESET)"
+	@curl -s http://localhost:8000/idrim/run | jq .
+
+idrim-baseline:
+	@echo "$(CYAN)[IDRIM] Rebuilding IDRIM IAM baseline...$(RESET)"
+	@curl -s -X POST http://localhost:8000/idrim/baseline/rebuild | jq .
+
+idrim-diff:
+	@echo "$(CYAN)[IDRIM] Computing IDRIM baseline diff...$(RESET)"
+	@curl -s http://localhost:8000/idrim/diff | jq .
+
+# -----------------------------------------
+# CI: IDRIM BASELINE FRESHNESS
+# -----------------------------------------
+
+ci-idrim-baseline:
+	@echo "$(YELLOW)[CI][IDRIM] Checking baseline freshness...$(RESET)"
+	@if [ ! -f idrim_baseline.json ]; then \
+		echo "$(RED)[CI][IDRIM] Baseline file missing: idrim_baseline.json$(RESET)"; \
 		exit 1; \
 	fi
-	@if diff -u $(SNAPSHOT_DIR)/Makefile.snapshot Makefile > /dev/null; then \
-		echo -e "$(COLOR_GREEN)[validate] Makefile is consistent with snapshot.$(COLOR_RESET)"; \
-	else \
-		echo -e "$(COLOR_RED)[validate] Makefile drift detected.$(COLOR_RESET)"; \
+	@TS=$$(jq -r '.timestamp // empty' idrim_baseline.json); \
+	if [ -z "$$TS" ] || [ "$$TS" = "null" ]; then \
+		echo "$(RED)[CI][IDRIM] Baseline missing or stale (timestamp not found).$(RESET)"; \
 		exit 1; \
-	fi
+	fi; \
+	echo "$(GREEN)[CI][IDRIM] Baseline timestamp OK: $$TS$(RESET)"
 
-format-makefile: ## Auto-format Makefile (whitespace hygiene)
-	@$(PYTHON) - << 'PY'
-from pathlib import Path
-p = Path("Makefile")
-text = p.read_text()
-lines = [line.rstrip() for line in text.splitlines()]
-normalized = "\n".join(lines) + "\n"
-p.write_text(normalized)
-print("[format] Makefile whitespace normalized.")
-PY
+# -----------------------------------------
+# REPO HYGIENE & STRUCTURE VALIDATION
+# -----------------------------------------
 
-# ======================================================================
-#  MAIN.PY SNAPSHOTS + DIFF
-# ======================================================================
-.PHONY: snapshot-main diff-main
+validate-structure:
+	@echo "$(YELLOW)[VALIDATE] Checking repo structure...$(RESET)"
+	@python tools/validators/structure_validator.py
 
-snapshot-main: ## Snapshot backend/app/main.py
-	mkdir -p $(SNAPSHOT_DIR)
-	cp backend/app/main.py $(SNAPSHOT_DIR)/main.snapshot
-	@echo -e "$(COLOR_GREEN)[snapshot] main.py snapshot updated.$(COLOR_RESET)"
+validate-makefile:
+	@echo "$(YELLOW)[VALIDATE] Checking Makefile targets...$(RESET)"
+	@python tools/validators/makefile_validator.py
 
-diff-main: ## Diff main.py against snapshot
-	@diff -u $(SNAPSHOT_DIR)/main.snapshot backend/app/main.py || true
+validate-all: lint validate-structure validate-makefile
 
-# ======================================================================
-#  DOCTOR SUITE — Structure, Drift, Engines, Router, Health
-# ======================================================================
-.PHONY: doctor doctor-structure doctor-drift doctor-anomaly doctor-correlation doctor-router doctor-frontend doctor-backend doctor-health doctor-json doctor-html-report doctor-snapshot doctor-plugins superdoctor
+# -----------------------------------------
+# GIT INTEGRITY & SNAPSHOTS
+# -----------------------------------------
 
-doctor: doctor-structure doctor-backend doctor-frontend doctor-anomaly doctor-correlation doctor-router doctor-health ## Run full doctor suite
-	@echo -e "$(COLOR_GREEN)[doctor] All validators passed.$(COLOR_RESET)"
+git-health:
+	@echo "$(YELLOW)[GIT] Running git integrity checks...$(RESET)"
+	@python tools/superdoctor/git_integrity_check.py
 
-doctor-structure:
-	$(PYTHON) scripts/structure_validator.py
+git-repair:
+	@echo "$(YELLOW)[GIT] Attempting git repair...$(RESET)"
+	@python tools/superdoctor/git_repair.py
 
-doctor-drift:
-	$(PYTHON) backend/app/repair_engine.py --mode drift
+snapshot-metadata:
+	@echo "$(YELLOW)[GIT] Snapshotting git metadata...$(RESET)"
+	@python tools/superdoctor/snapshot_metadata.py
 
-doctor-anomaly:
-	cd $(BACKEND_DIR) && $(PYTHON) app/anomaly_engine.py
+# -----------------------------------------
+# CLEANUP
+# -----------------------------------------
 
-doctor-correlation:
-	cd $(BACKEND_DIR) && $(PYTHON) anomaly/correlation.py
+clean:
+	@echo "$(YELLOW)[CLEAN] Removing caches...$(RESET)"
+	@rm -rf __pycache__ */__pycache__ */*/__pycache__
+	@rm -rf .pytest_cache
+	@rm -rf .ruff_cache
 
-doctor-router:
-	cd $(BACKEND_DIR) && $(PYTHON) routes/doctor.py
-
-doctor-frontend:
-	cd $(FRONTEND_DIR) && npm run build
-
-doctor-backend: backend-lint backend-test
-
-doctor-health:
-	cd $(BACKEND_DIR) && $(PYTHON) health/run_daily_score.py
-
-doctor-json:
-	cd $(BACKEND_DIR) && $(PYTHON) app/anomaly_detector.py --json
-
-doctor-html-report:
-	cd $(BACKEND_DIR) && $(PYTHON) app/reports/html/generate_report.py
-
-doctor-snapshot:
-	$(PYTHON) backend/app/repair_engine.py --mode snapshot
-
-doctor-plugins:
-	cd $(BACKEND_DIR) && $(PYTHON) app/core/plugin_loader.py --validate
-
-superdoctor: doctor doctor-json doctor-html-report doctor-snapshot doctor-plugins
-	@echo -e "$(COLOR_GREEN)[superdoctor] Full suite completed.$(COLOR_RESET)"
-
-# ======================================================================
-#  CI TARGETS (UPDATED)
-# ======================================================================
-.PHONY: ci ci-fast ci-doctor ci-artifacts ci-summary ci-summary-json
-
-ci: validate-makefile-consistency doctor backend-test frontend-build ci-summary-json ## Full CI pipeline
-	@echo -e "$(COLOR_GREEN)[ci] Full CI pipeline passed.$(COLOR_RESET)"
-
-ci-fast: backend-lint frontend-lint
-	@echo -e "$(COLOR_GREEN)[ci-fast] Fast checks passed.$(COLOR_RESET)"
-
-ci-doctor: doctor
-	@echo -e "$(COLOR_GREEN)[ci-doctor] Doctor suite passed.$(COLOR_RESET)"
-
-ci-artifacts: ## Collect CI artifacts (including Makefile badge + CI summary)
-	mkdir -p $(ARTIFACTS)
-	cp -r $(REPORTS_DIR) $(ARTIFACTS) || true
-	$(PYTHON) scripts/makefile_badge.py > $(ARTIFACTS)/makefile_badge.svg
-	$(PYTHON) scripts/write_ci_summary.py
-
-ci-summary-json: ## Generate CI summary JSON
-	$(PYTHON) scripts/write_ci_summary.py
-
-ci-summary:
-	@echo -e "$(COLOR_BLUE)CI Summary$(COLOR_RESET)"
-	@cat artifacts/ci_summary.json || echo "No summary available"
-
-# ======================================================================
-#  REPO HYGIENE
-# ======================================================================
-.PHONY: lint format test validate-imports validate-mk validate-ci
-
-lint: backend-lint frontend-lint
-
-format: backend-format format-makefile
-
-test: backend-test frontend-test
-
-validate-imports:
-	cd $(BACKEND_DIR) && $(PYTHON) -m compileall .
-
-validate-mk:
-	@grep -q "doctor" Makefile || (echo "Missing doctor target!" && exit 1)
-
-validate-ci:
-	$(PYTHON) backend/ci/health_gate.py
-
-# ======================================================================
-#  CLEANUP
-# ======================================================================
-.PHONY: clean clean-pyc clean-build clean-artifacts clean-doctor
-
-clean: clean-pyc clean-build clean-artifacts
-
-clean-pyc:
-	find . -name "*.pyc" -delete
-
-clean-build:
-	rm -rf $(FRONTEND_DIR)/dist
-
-clean-artifacts:
-	rm -rf $(ARTIFACTS)
-
-clean-doctor:
-	rm -rf $(REPORTS_DIR)
+clean-all: clean
+	@echo "$(YELLOW)[CLEAN] Removing venv and node_modules...$(RESET)"
+	@rm -rf .venv
+	@rm -rf frontend/node_modules

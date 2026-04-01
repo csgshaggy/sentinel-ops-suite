@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{title}</title>
+    <style>
+        body {{
+            font-family: "Georgia", serif;
+            margin: 40px;
+            color: #222;
+        }}
+        h1, h2 {{
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+        }}
+        table {{
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }}
+        td, th {{
+            border: 1px solid #ccc;
+            padding: 8px;
+        }}
+        .risk-low {{ color: green; }}
+        .risk-medium {{ color: goldenrod; }}
+        .risk-high {{ color: red; }}
+        pre {{
+            background: #f7f7f7;
+            padding: 12px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }}
+    </style>
+</head>
+<body>
+
+<h1>Sentinel Compliance Report — PELM Operator Report</h1>
+<p><strong>Generated:</strong> {timestamp}</p>
+
+<h2>Risk Summary</h2>
+<p class="risk-{risk}"><strong>Risk Level:</strong> {risk}</p>
+<p><strong>Status:</strong> {status}</p>
+
+<h2>Signals</h2>
+<pre>{signals}</pre>
+
+<h2>Metadata</h2>
+<pre>{metadata}</pre>
+
+<h2>Drift Status</h2>
+<pre>{drift}</pre>
+
+<h2>Regression Status</h2>
+<pre>{regression}</pre>
+
+<h2>Contract Validation</h2>
+<pre>{contract}</pre>
+
+<h2>Snapshot History</h2>
+<pre>{snapshots}</pre>
+
+<h2>Operator Notes</h2>
+<p>(This section intentionally left blank for operator annotations.)</p>
+
+</body>
+</html>
