@@ -1,6 +1,6 @@
 # ------------------------------------------------------------
-# Sentinel Ops Suite — Makefile (Unified with Meta-Targets & Drift Detection)
-# Deterministic, operator‑grade, CI‑safe
+# Sentinel Ops Suite — Makefile (Local‑First, Meta‑Targets, Drift Detection, Baseline History)
+# Deterministic, operator‑grade, local‑ops‑friendly
 # ------------------------------------------------------------
 
 SHELL := /bin/bash
@@ -10,9 +10,11 @@ SHELL := /bin/bash
 # ------------------------------------------------------------
 .PHONY: \
 	sync pre-sync post-sync \
+	quick-sync dev-sync \
 	repo-health repo-health-snapshot repo-health-all \
 	check-mfa check-structure check-docs check-deps governance-all \
 	validate-makefile lint-makefile makefile-audit makefile-drift-check \
+	update-makefile-baseline auto-update-baseline \
 	clean
 
 # ------------------------------------------------------------
@@ -67,34 +69,69 @@ lint-makefile:
 	fi
 
 # ------------------------------------------------------------
-# Makefile Self-Audit & Drift Detection
+# Makefile Self-Audit & Drift Detection (Local‑First)
 # ------------------------------------------------------------
 
 makefile-drift-check:
-	@echo "🧭 Checking Makefile drift against baseline..."
-	@mkdir -p .meta/makefile
-	@if [ -f .meta/makefile/Makefile.baseline ]; then \
-		if diff -u .meta/makefile/Makefile.baseline Makefile >/dev/null; then \
-			echo "✅ No Makefile drift detected."; \
-		else \
-			echo "⚠️ Makefile drift detected vs baseline:"; \
-			diff -u .meta/makefile/Makefile.baseline Makefile || true; \
-			exit 1; \
-		fi; \
-	else \
-		echo "ℹ️ No baseline found. Creating initial Makefile baseline..."; \
-		cp Makefile .meta/makefile/Makefile.baseline; \
-		echo "✅ Baseline created. Future runs will detect drift."; \
-	fi
+	@echo "🧭 Checking Makefile drift..."
+	@STRICT=$(STRICT) node scripts/make/makefile-drift-check.cjs
 
 makefile-audit:
-	@echo "🔍 Running Makefile self-audit (structure, lint, drift)..."
+	@echo "🔍 Running Makefile self-audit..."
 	$(MAKE) validate-makefile
 	$(MAKE) lint-makefile
 	$(MAKE) makefile-drift-check
 
+update-makefile-baseline:
+	@echo "📌 Updating Makefile baseline..."
+	@mkdir -p .meta/makefile/history
+	@if [ -f .meta/makefile/Makefile.baseline ]; then \
+		cp .meta/makefile/Makefile.baseline .meta/makefile/history/Makefile.$(shell date -u +'%Y%m%d-%H%M%S').bak; \
+		echo "🗄️ Archived previous baseline."; \
+	fi
+	@cp Makefile .meta/makefile/Makefile.baseline
+	@echo "✅ Baseline updated."
+
+auto-update-baseline:
+	@echo "📌 Updating Makefile baseline and committing..."
+	$(MAKE) update-makefile-baseline
+	git add .meta/makefile/Makefile.baseline
+	git add .meta/makefile/history
+	git commit -m "baseline: updated Makefile baseline on $(shell date -u +'%Y-%m-%d %H:%M:%S')" || true
+	git push origin HEAD:main
+	@echo "✅ Baseline updated and committed."
+
 # ------------------------------------------------------------
-# Sync Pipeline
+# Fast Sync Variants
+# ------------------------------------------------------------
+
+quick-sync:
+	@echo "⚡ Running quick sync (no governance, no snapshots)..."
+	git add -A
+	git add .
+	git commit -m "quick-sync: $(shell date -u +'%Y-%m-%d %H:%M:%S')" || true
+	git fetch origin main
+	git rebase origin/main || true
+	git push origin HEAD:main
+	@echo "⚡ Quick sync complete."
+
+dev-sync:
+	@echo "🛠️ Running dev sync (governance only, no snapshots)..."
+	$(MAKE) check-mfa
+	$(MAKE) check-structure
+	$(MAKE) check-docs
+	$(MAKE) check-deps
+	@echo "📦 Staging changes..."
+	git add -A
+	git add .
+	git commit -m "dev-sync: $(shell date -u +'%Y-%m-%d %H:%M:%S')" || true
+	git fetch origin main
+	git rebase origin/main || true
+	git push origin HEAD:main
+	@echo "🛠️ Dev sync complete."
+
+# ------------------------------------------------------------
+# Full Sync Pipeline
 # ------------------------------------------------------------
 
 pre-sync:
@@ -109,7 +146,7 @@ post-sync:
 	$(MAKE) makefile-audit
 
 sync:
-	@echo "🔄 Running repository sync..."
+	@echo "🔄 Running full repository sync..."
 	$(MAKE) pre-sync
 	@echo "📦 Staging tracked changes..."
 	git add -A
