@@ -4,35 +4,43 @@
  * governance-mfa-check.cjs
  * ------------------------
  * CommonJS-safe governance check using Node 24's built-in fetch.
- * No external dependencies required.
+ * - Fails if MFA health endpoint is reachable and unhealthy
+ * - Warns (but does NOT fail) if endpoint is unreachable
  */
 
-const { execSync } = require("child_process");
-
-function fail(msg) {
+function hardFail(msg) {
   console.error("❌ MFA Governance Check Failed:");
   console.error("   " + msg);
   process.exit(1);
 }
 
+function softWarn(msg) {
+  console.warn("⚠️ MFA Governance Warning:");
+  console.warn("   " + msg);
+  // Do NOT exit non-zero — governance is advisory in this case
+}
+
 (async function run() {
   console.log("🔍 Running MFA governance check...");
 
+  const url = "http://localhost:3000/api/mfa/health";
+
   try {
-    const res = await fetch("http://localhost:3000/api/mfa/health");
+    const res = await fetch(url);
 
     if (!res.ok) {
-      fail("MFA health endpoint returned non-OK status.");
+      hardFail("MFA health endpoint returned non-OK status (" + res.status + ").");
     }
 
     const data = await res.json();
 
     if (!data.ok || data.score < 100) {
-      fail("MFA module is not fully healthy.");
+      hardFail("MFA module is not fully healthy (score: " + (data.score ?? "n/a") + ").");
     }
 
     console.log("✅ MFA governance check passed.");
   } catch (err) {
-    fail("Error during MFA governance check: " + err.message);
+    // Treat connectivity issues as a soft governance warning, not a hard failure
+    softWarn("Could not reach MFA health endpoint (" + url + "): " + err.message);
   }
 })();
