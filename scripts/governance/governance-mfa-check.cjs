@@ -3,11 +3,10 @@
 /**
  * governance-mfa-check.cjs
  * ------------------------
- * CommonJS-safe version for Node 24.
- * Replaces ESM imports with require().
+ * CommonJS-safe governance check using Node 24's built-in fetch.
+ * No external dependencies required.
  */
 
-const fetch = require("node-fetch");
 const { execSync } = require("child_process");
 
 function fail(msg) {
