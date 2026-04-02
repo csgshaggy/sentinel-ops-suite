@@ -3,6 +3,7 @@ from backend.anomaly.correlation import correlate_anomaly
 
 router = APIRouter(prefix="/anomaly", tags=["Anomalies"])
 
+
 @router.get("/correlate")
 def correlate(ts: int):
     """

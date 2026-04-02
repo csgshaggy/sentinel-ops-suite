@@ -3,9 +3,11 @@ from fastapi.responses import StreamingResponse
 
 router = APIRouter(prefix="/pelm/stream", tags=["pelm"])
 
+
 async def stream():
     yield "pelm-stream-start\n"
     yield "pelm-stream-end\n"
+
 
 @router.get("/")
 async def pelm_stream():

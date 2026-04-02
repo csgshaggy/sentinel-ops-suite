@@ -136,8 +136,11 @@ def deadlock_panel():
     <body>
         {sidebar()}
         <div style="margin-left: 260px; padding: 20px;">
-            <h1>🧱 Deadlock & Contention Inspector</h1>
-            <p>Auto-refreshing every 10 seconds. Look for many threads in WAITING_ON_LOCK / WAITING_ON_CONDITION with locked locks.</p>
+(
+    "<p>Auto-refreshing every 10 seconds. "
+    "Look for many threads in WAITING_ON_LOCK / WAITING_ON_CONDITION "
+    "with locked locks.</p>"
+)
 
             <h2>Locks</h2>
             <table>

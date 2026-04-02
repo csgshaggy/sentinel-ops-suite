@@ -25,7 +25,9 @@ def pelm_snapshot_diff(
         raise HTTPException(status_code=404, detail=f"Left snapshot not found: {left}")
 
     if not right_path.exists():
-        raise HTTPException(status_code=404, detail=f"Right snapshot not found: {right}")
+        raise HTTPException(
+            status_code=404, detail=f"Right snapshot not found: {right}"
+        )
 
     try:
         left_data = json.loads(left_path.read_text())
