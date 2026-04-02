@@ -2,14 +2,15 @@
  * runRepoHealth.ts
  * -----------------
  * Aggregates all RepoHealth collectors into a single JSON output.
+ * Node 24 + ts-node requires explicit .ts extensions.
  */
 
-import { collectMfaHealth } from "./collectors/collectMfaHealth";
-import { collectDocsHealth } from "./collectors/collectDocsHealth";
-import { collectStructureHealth } from "./collectors/collectStructureHealth";
-import { collectDepsHealth } from "./collectors/collectDepsHealth";
-import { collectMakefileHealth } from "./collectors/collectMakefileHealth";
-import { collectSyncHistory } from "./collectors/collectSyncHistory";
+import { collectMfaHealth } from "./collectors/collectMfaHealth.ts";
+import { collectDocsHealth } from "./collectors/collectDocsHealth.ts";
+import { collectStructureHealth } from "./collectors/collectStructureHealth.ts";
+import { collectDepsHealth } from "./collectors/collectDepsHealth.ts";
+import { collectMakefileHealth } from "./collectors/collectMakefileHealth.ts";
+import { collectSyncHistory } from "./collectors/collectSyncHistory.ts";
 
 async function run() {
   const results = {
