@@ -1,23 +1,29 @@
 /**
  * collectSyncHistory.ts
  * ---------------------
- * Normalizes sync history into a dashboard-friendly structure.
+ * Collector for sync history health.
+ * Updated for Node 24 + ts-node ESM rules:
+ * - Explicit .ts extension
+ * - Normalized RepoHealth collector shape
+ * - Deterministic scoring and error handling
  */
 
-import { fetchSyncHistory } from "../services/syncHistory.service";
+import { fetchSyncHistory } from "../services/syncHistory.service.ts";
 
 export async function collectSyncHistory() {
   try {
-    const history = await fetchSyncHistory();
+    const result = await fetchSyncHistory();
 
     return {
-      ok: true,
-      entries: history.entries || [],
+      ok: result.ok,
+      score: result.score ?? 0,
+      detail: result.detail ?? {},
     };
-  } catch {
+  } catch (err) {
     return {
       ok: false,
-      entries: [],
+      score: 0,
+      detail: {},
     };
   }
 }
