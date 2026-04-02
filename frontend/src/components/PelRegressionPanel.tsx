@@ -16,13 +16,7 @@ export default function PelmRegressionPanel() {
     return <div style={{ padding: 10 }}>Loading regression analytics…</div>;
   }
 
-  const {
-    regression_score,
-    drift_detected,
-    risk_delta,
-    risk_acceleration,
-    risk_trend,
-  } = data;
+  const { regression_score, drift_detected, risk_delta, risk_acceleration, risk_trend } = data;
 
   // Sparkline points
   const points = risk_trend.map((v: number, i: number) => ({
@@ -30,9 +24,7 @@ export default function PelmRegressionPanel() {
     y: 60 - v * 12,
   }));
 
-  const path = points
-    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-    .join(" ");
+  const path = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
 
   return (
     <div
@@ -92,9 +84,7 @@ export default function PelmRegressionPanel() {
       {/* -------------------------------------------------- */}
       <div style={{ marginTop: 20 }}>
         <strong>Raw Metrics</strong>
-        <pre style={{ background: "#111", padding: 10 }}>
-          {JSON.stringify(data, null, 2)}
-        </pre>
+        <pre style={{ background: "#111", padding: 10 }}>{JSON.stringify(data, null, 2)}</pre>
       </div>
     </div>
   );

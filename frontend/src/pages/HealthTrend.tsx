@@ -10,14 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 
-ChartJS.register(
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  Tooltip,
-  Legend
-);
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
 export default function HealthTrend() {
   const [trend, setTrend] = useState<any[]>([]);
@@ -37,9 +30,7 @@ export default function HealthTrend() {
     );
   }
 
-  const labels = trend.map((t) =>
-    new Date(t.timestamp * 1000).toLocaleString()
-  );
+  const labels = trend.map((t) => new Date(t.timestamp * 1000).toLocaleString());
 
   const data = {
     labels,

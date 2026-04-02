@@ -50,8 +50,7 @@ export const RepoHealthTile: React.FC = () => {
       <strong>Repo Health</strong>
       <div>Score: {data.score}</div>
       <div style={{ fontSize: 12, marginTop: 4 }}>
-        Makefile: {data.makefile} | Router: {data.router} | Git: {data.git} | System:{" "}
-        {data.system}
+        Makefile: {data.makefile} | Router: {data.router} | Git: {data.git} | System: {data.system}
       </div>
     </div>
   );

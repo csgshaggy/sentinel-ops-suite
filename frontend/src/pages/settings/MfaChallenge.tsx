@@ -20,17 +20,11 @@ export default function MfaChallenge() {
     <div style={{ padding: "2rem" }}>
       <h1>MFA Verification</h1>
 
-      {verify.isError && (
-        <div style={{ color: "red" }}>{(verify.error as Error).message}</div>
-      )}
+      {verify.isError && <div style={{ color: "red" }}>{(verify.error as Error).message}</div>}
 
       <TotpInput value={code} onChange={setCode} />
 
-      <button
-        onClick={submit}
-        disabled={verify.isPending}
-        style={{ marginLeft: "1rem" }}
-      >
+      <button onClick={submit} disabled={verify.isPending} style={{ marginLeft: "1rem" }}>
         {verify.isPending ? "Verifying..." : "Verify"}
       </button>
     </div>

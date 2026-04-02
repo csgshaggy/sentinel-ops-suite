@@ -1,14 +1,6 @@
-import "./Button.css";
-
-export default function Button({
-  children,
-  onClick,
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-}) {
+export function Button({ children, ...props }) {
   return (
-    <button className="btn" onClick={onClick}>
+    <button {...props} className="btn">
       {children}
     </button>
   );

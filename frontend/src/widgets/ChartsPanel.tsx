@@ -1,5 +1,5 @@
 import React from "react";
-import { Bar, BarChart, ResponsiveContainer,Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 import { TimingBucket } from "../types";
 

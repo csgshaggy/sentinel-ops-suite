@@ -42,9 +42,7 @@ export default function MfaSettingsTailwind() {
           <TotpInput value={code} onChange={setCode} />
 
           <button
-            onClick={() =>
-              verify.mutate(code, { onSuccess: () => status.refetch() })
-            }
+            onClick={() => verify.mutate(code, { onSuccess: () => status.refetch() })}
             className="px-4 py-2 bg-green-600 text-white rounded shadow hover:bg-green-700"
           >
             Verify
@@ -58,9 +56,7 @@ export default function MfaSettingsTailwind() {
           <p className="text-green-400 font-semibold">MFA is enabled</p>
 
           <button
-            onClick={() =>
-              disable.mutate(undefined, { onSuccess: () => status.refetch() })
-            }
+            onClick={() => disable.mutate(undefined, { onSuccess: () => status.refetch() })}
             className="px-4 py-2 bg-red-600 text-white rounded shadow hover:bg-red-700"
           >
             Disable MFA

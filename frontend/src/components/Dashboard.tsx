@@ -1,6 +1,6 @@
 // dashboard/src/components/Dashboard.tsx
 
-import React, { useEffect, useMemo,useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import { fetchPlugins, fetchTimingBuckets } from "../api/client";
 import useAutoRefresh from "../hooks/useAutoRefresh";

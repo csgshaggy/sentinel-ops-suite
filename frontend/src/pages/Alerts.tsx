@@ -23,11 +23,7 @@ export default function Alerts() {
             marginBottom: "10px",
             borderRadius: "6px",
             background:
-              a.severity === "high"
-                ? "#7f1d1d"
-                : a.severity === "medium"
-                ? "#78350f"
-                : "#1e3a8a",
+              a.severity === "high" ? "#7f1d1d" : a.severity === "medium" ? "#78350f" : "#1e3a8a",
             color: "white",
           }}
         >

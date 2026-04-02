@@ -1,5 +1,5 @@
 import React from "react";
-import { Route,Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import MfaChallenge from "./MfaChallenge";
 import MfaEnrollment from "./MfaEnrollment";

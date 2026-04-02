@@ -200,8 +200,8 @@ export default function PelmDashboard() {
                   snap.severity === "low"
                     ? COLORS.low
                     : snap.severity === "medium"
-                    ? COLORS.medium
-                    : COLORS.high,
+                      ? COLORS.medium
+                      : COLORS.high,
               }}
             />
             {snap.timestamp}
@@ -236,9 +236,7 @@ export default function PelmDashboard() {
         <strong>Right:</strong> {rightSnap || "—"}
       </div>
 
-      {leftSnap && rightSnap && (
-        <PelmSnapshotDiff left={leftSnap} right={rightSnap} />
-      )}
+      {leftSnap && rightSnap && <PelmSnapshotDiff left={leftSnap} right={rightSnap} />}
 
       {/* -------------------------------------------------- */}
       {/* Export */}
@@ -248,11 +246,7 @@ export default function PelmDashboard() {
         Download HTML Report
       </a>
       <br />
-      <a
-        href="/pelm/report/markdown"
-        target="_blank"
-        style={{ color: COLORS.accent }}
-      >
+      <a href="/pelm/report/markdown" target="_blank" style={{ color: COLORS.accent }}>
         Download Markdown Report
       </a>
     </div>

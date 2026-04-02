@@ -3,7 +3,7 @@
 // Unified Admin Layout • Session Cookie Auth • TypeScript
 // =====================================================================
 
-import { Route,Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 // Admin Layout (new normalized path)
 import AdminLayout from "../layouts/Admin/AdminLayout";

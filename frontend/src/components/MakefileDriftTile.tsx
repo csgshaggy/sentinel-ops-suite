@@ -34,10 +34,8 @@ export const MakefileDriftTile: React.FC = () => {
   if (error) return <div style={{ color: "red" }}>Makefile error: {error}</div>;
   if (!data) return <div>Makefile: no data</div>;
 
-  const bg =
-    data.status === "ok" ? "#ddffdd" : data.status === "drift" ? "#ffefdd" : "#ffdddd";
-  const border =
-    data.status === "ok" ? "#2ecc71" : data.status === "drift" ? "#f39c12" : "#e74c3c";
+  const bg = data.status === "ok" ? "#ddffdd" : data.status === "drift" ? "#ffefdd" : "#ffdddd";
+  const border = data.status === "ok" ? "#2ecc71" : data.status === "drift" ? "#f39c12" : "#e74c3c";
 
   return (
     <div

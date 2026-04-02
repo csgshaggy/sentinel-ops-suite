@@ -48,11 +48,7 @@ export default function MfaSettingsChakra() {
         {/* MFA Disabled           */}
         {/* ---------------------- */}
         {!status.data?.enabled && !enroll.data && (
-          <Button
-            colorScheme="blue"
-            onClick={() => enroll.mutate()}
-            isLoading={enroll.isPending}
-          >
+          <Button colorScheme="blue" onClick={() => enroll.mutate()} isLoading={enroll.isPending}>
             Enable MFA
           </Button>
         )}
@@ -64,12 +60,7 @@ export default function MfaSettingsChakra() {
           <VStack align="start" spacing={4}>
             <Text>Scan this QR Code with your authenticator app:</Text>
 
-            <Image
-              src={enroll.data.qr_code}
-              alt="QR Code"
-              boxSize="200px"
-              borderRadius="md"
-            />
+            <Image src={enroll.data.qr_code} alt="QR Code" boxSize="200px" borderRadius="md" />
 
             <Text fontSize="sm" color="gray.400">
               Secret: {enroll.data.secret}
@@ -79,9 +70,7 @@ export default function MfaSettingsChakra() {
 
             <Button
               colorScheme="green"
-              onClick={() =>
-                verify.mutate(code, { onSuccess: () => status.refetch() })
-              }
+              onClick={() => verify.mutate(code, { onSuccess: () => status.refetch() })}
               isLoading={verify.isPending}
             >
               Verify
@@ -108,9 +97,7 @@ export default function MfaSettingsChakra() {
 
             <Button
               colorScheme="red"
-              onClick={() =>
-                disable.mutate(undefined, { onSuccess: () => status.refetch() })
-              }
+              onClick={() => disable.mutate(undefined, { onSuccess: () => status.refetch() })}
               isLoading={disable.isPending}
             >
               Disable MFA

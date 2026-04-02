@@ -6,9 +6,9 @@
 import js from "@eslint/js";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
+import jsxA11y from "eslint-plugin-jsx-a11y";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
-import jsxA11y from "eslint-plugin-jsx-a11y";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default [
@@ -21,6 +21,12 @@ export default [
       parser: tsparser,
       ecmaVersion: "latest",
       sourceType: "module",
+
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
 
       globals: {
         // Browser globals
@@ -68,6 +74,7 @@ export default [
 
       // React
       "react/react-in-jsx-scope": "off",
+      "react/jsx-runtime": "off",
       "react/prop-types": "off",
 
       // Hooks

@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function PelmSnapshotDiff() {
   const [left, setLeft] = useState("");
@@ -35,11 +35,7 @@ export default function PelmSnapshotDiff() {
       {/* Snapshot selectors */}
       <div style={{ marginBottom: 10 }}>
         <label style={{ marginRight: 10 }}>Left Snapshot:</label>
-        <select
-          value={left}
-          onChange={(e) => setLeft(e.target.value)}
-          style={{ width: 260 }}
-        >
+        <select value={left} onChange={(e) => setLeft(e.target.value)} style={{ width: 260 }}>
           <option value="">Select snapshot…</option>
           {snapshots.map((s) => (
             <option key={s} value={s}>
@@ -51,11 +47,7 @@ export default function PelmSnapshotDiff() {
 
       <div style={{ marginBottom: 10 }}>
         <label style={{ marginRight: 10 }}>Right Snapshot:</label>
-        <select
-          value={right}
-          onChange={(e) => setRight(e.target.value)}
-          style={{ width: 260 }}
-        >
+        <select value={right} onChange={(e) => setRight(e.target.value)} style={{ width: 260 }}>
           <option value="">Select snapshot…</option>
           {snapshots.map((s) => (
             <option key={s} value={s}>
@@ -67,16 +59,10 @@ export default function PelmSnapshotDiff() {
 
       <button onClick={runDiff}>Run Diff</button>
 
-      {error && (
-        <div style={{ color: "red", marginTop: 10 }}>
-          {error}
-        </div>
-      )}
+      {error && <div style={{ color: "red", marginTop: 10 }}>{error}</div>}
 
       {!diff && !error && (
-        <div style={{ marginTop: 20, color: "#aaa" }}>
-          Select two snapshots to compare.
-        </div>
+        <div style={{ marginTop: 20, color: "#aaa" }}>Select two snapshots to compare.</div>
       )}
 
       {diff && (
@@ -102,9 +88,7 @@ export default function PelmSnapshotDiff() {
           </pre>
 
           <h4>Raw Snapshots</h4>
-          <pre style={{ background: "#111", padding: 10 }}>
-            {JSON.stringify(diff.raw, null, 2)}
-          </pre>
+          <pre style={{ background: "#111", padding: 10 }}>{JSON.stringify(diff.raw, null, 2)}</pre>
         </div>
       )}
     </div>

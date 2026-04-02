@@ -28,9 +28,7 @@ export default function PelmRiskTrend() {
     timestamp: t.timestamp,
   }));
 
-  const path = points
-    .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-    .join(" ");
+  const path = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
 
   return (
     <div style={{ padding: 20 }}>

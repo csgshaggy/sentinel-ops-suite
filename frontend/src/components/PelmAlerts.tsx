@@ -16,12 +16,7 @@ export default function PelmAlerts() {
     return null; // Silent until data loads
   }
 
-  const {
-    regression_score,
-    drift_detected,
-    risk_delta,
-    risk_acceleration,
-  } = data;
+  const { regression_score, drift_detected, risk_delta, risk_acceleration } = data;
 
   // Determine alert severity
   const alerts: { level: "info" | "warn" | "crit"; msg: string }[] = [];
@@ -89,12 +84,7 @@ export default function PelmAlerts() {
       <strong style={{ fontSize: 16 }}>PELM Alerts</strong>
 
       {alerts.map((a, i) => {
-        const color =
-          a.level === "crit"
-            ? "#ff3b3b"
-            : a.level === "warn"
-            ? "#ffb300"
-            : "#00eaff";
+        const color = a.level === "crit" ? "#ff3b3b" : a.level === "warn" ? "#ffb300" : "#00eaff";
 
         return (
           <div

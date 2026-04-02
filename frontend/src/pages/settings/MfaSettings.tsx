@@ -50,18 +50,12 @@ export default function MfaSettings() {
 
           <TotpInput value={code} onChange={setCode} />
 
-          <button
-            onClick={submit}
-            disabled={verify.isPending}
-            style={{ marginLeft: "1rem" }}
-          >
+          <button onClick={submit} disabled={verify.isPending} style={{ marginLeft: "1rem" }}>
             {verify.isPending ? "Verifying..." : "Verify"}
           </button>
 
           {verify.isError && (
-            <div style={{ color: "red", marginTop: "1rem" }}>
-              {(verify.error as Error).message}
-            </div>
+            <div style={{ color: "red", marginTop: "1rem" }}>{(verify.error as Error).message}</div>
           )}
         </div>
       )}

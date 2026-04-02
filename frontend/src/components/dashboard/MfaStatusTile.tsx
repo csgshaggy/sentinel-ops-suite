@@ -1,14 +1,5 @@
 import { CheckCircleIcon, WarningIcon } from "@chakra-ui/icons";
-import {
-  Badge,
-  Box,
-  Heading,
-  HStack,
-  Icon,
-  Spinner,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Badge, Box, Heading, HStack, Icon, Spinner, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 
 import { useMfaStatus } from "../../features/mfa-query/useMfaStatus";

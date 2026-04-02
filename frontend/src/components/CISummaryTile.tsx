@@ -42,10 +42,7 @@ export const CISummaryTile: React.FC = () => {
       ? "#ddffdd"
       : "#ffefdd";
 
-  const border =
-    bg === "#ddffdd"
-      ? "#2ecc71"
-      : "#e67e22";
+  const border = bg === "#ddffdd" ? "#2ecc71" : "#e67e22";
 
   return (
     <div

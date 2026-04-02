@@ -21,15 +21,7 @@ export default function ObservabilityDashboard() {
 
   if (!data) return <div style={{ padding: 20 }}>Loading observability data...</div>;
 
-  const {
-    health,
-    trend,
-    prediction,
-    alerts,
-    makefile,
-    latest_anomaly_correlation,
-    pelm,
-  } = data;
+  const { health, trend, prediction, alerts, makefile, latest_anomaly_correlation, pelm } = data;
 
   return (
     <div style={{ padding: 20 }}>

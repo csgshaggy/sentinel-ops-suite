@@ -1,5 +1,3 @@
-import "./Card.css";
-
-export default function Card({ children }: { children: React.ReactNode }) {
+export function Card({ children }) {
   return <div className="card">{children}</div>;
 }

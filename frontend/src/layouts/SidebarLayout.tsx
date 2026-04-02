@@ -1,19 +1,8 @@
-import "./SidebarLayout.css";
-
-import { useTheme } from "../context/ThemeContext";
-
-export default function SidebarLayout({ children }: { children: React.ReactNode }) {
-  const { theme, toggleTheme } = useTheme();
-
+export default function SidebarLayout({ sidebar, children }) {
   return (
     <div className="layout">
-      <aside className="sidebar">
-        <button className="theme-toggle" onClick={toggleTheme}>
-          {theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
-        </button>
-      </aside>
-
-      <main className="content">{children}</main>
+      <aside>{sidebar}</aside>
+      <main>{children}</main>
     </div>
   );
 }

@@ -125,9 +125,13 @@ export default function PelmConsole() {
       {/* Export */}
       {/* -------------------------------------------------- */}
       <h2>Export</h2>
-      <a href="/pelm/report/html" target="_blank">Download HTML Report</a>
+      <a href="/pelm/report/html" target="_blank">
+        Download HTML Report
+      </a>
       <br />
-      <a href="/pelm/report/markdown" target="_blank">Download Markdown Report</a>
+      <a href="/pelm/report/markdown" target="_blank">
+        Download Markdown Report
+      </a>
     </div>
   );
 }
