@@ -16,7 +16,6 @@ NODE_BIN := npx
         repo-health governance \
         check-structure check-docs check-deps check-mfa \
         check-makefile-drift makefile-graph \
-        update-makefile-baseline sync \
         ci clean
 
 all: build
@@ -84,26 +83,6 @@ makefile-graph:
 	@echo "🔍 Generating Makefile dependency graph..."
 	@node $(MAKE_SCRIPTS_DIR)/makefile-graph.cjs
 	@echo "📈 Makefile dependency graph generated."
-
-# -----------------------------
-# Update Makefile Baseline Snapshot
-# -----------------------------
-
-update-makefile-baseline:
-	@echo "📦 Updating Makefile baseline snapshot..."
-	@cp Makefile $(MAKE_SCRIPTS_DIR)/Makefile.baseline
-	@echo "🔐 Baseline updated. Hash:"
-	@sha256sum Makefile
-	@echo "✅ Makefile baseline snapshot refreshed."
-
-# -----------------------------
-# Repository Sync (Corrected)
-# -----------------------------
-
-sync:
-	@echo "🔄 Running repository sync..."
-	@bash $(PROJECT_ROOT)/sync.sh
-	@echo "✅ Repository sync complete."
 
 # -----------------------------
 # MFA Module Validation

@@ -1,48 +1,38 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-echo "📁 Moving to repo root..."
-cd "$(dirname "$0")"
+echo "🔄 Starting repository sync..."
 
-echo "🧹 Staging all changes..."
+REPO_ROOT="$(cd "$(dirname "$0")" && pwd)"
+cd "$REPO_ROOT"
+
+echo "🔍 Running pre-sync validator..."
+node scripts/sync/pre-sync-validate.cjs
+
+echo "📦 Staging changes..."
 git add -A
 
-if ! git diff --cached --quiet; then
-    echo "📝 Committing staged changes..."
-    git commit -m "sync: local changes before pull"
+if git diff --cached --quiet; then
+    echo "ℹ️ No changes to commit."
 else
-    echo "ℹ️ No local changes to commit."
+    COMMIT_MSG="sync: automated repository sync on $(date '+%Y-%m-%d %H:%M:%S')"
+    echo "📝 Committing changes: $COMMIT_MSG"
+    git commit -m "$COMMIT_MSG"
 fi
 
-echo "🔍 Running MFA structure validator (pre‑commit)..."
-if ! make validate-mfa; then
-    echo ""
-    echo "❌ Commit blocked: MFA structure validation failed."
-    echo "   Fix the issues above and try committing again."
-    exit 1
-fi
+echo "📥 Fetching latest from origin..."
+git fetch origin main
 
-echo "🔄 Pulling latest changes with rebase..."
-git pull --rebase origin main || {
-    echo "❗ Rebase failed. Resolve conflicts and run sync again."
-    exit 1
-}
+echo "🔁 Rebasing onto origin/main..."
+git rebase origin/main
 
-echo "🧪 Running repo-health..."
-if ! make repo-health; then
-    echo ""
-    echo "❌ Repo-health failed. Fix issues and run sync again."
-    exit 1
-fi
+echo "📤 Pushing to origin..."
+git push origin HEAD
 
-echo "🚀 Pushing clean, validated state..."
-git push origin main
+echo "📊 Running post-sync health snapshot..."
+node scripts/sync/post-sync-health-snapshot.cjs
 
-echo "📄 Generating sync summary..."
-if [ -f sync_summary.sh ]; then
-    ./sync_summary.sh
-else
-    echo "ℹ️ No sync_summary.sh found. Skipping summary."
-fi
+echo "🔍 Running post-sync governance checks..."
+make governance
 
-echo "✅ Repository sync complete."
+echo "✅ Sync complete, health snapshot captured, and governance validated."

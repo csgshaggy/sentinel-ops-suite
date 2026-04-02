@@ -1,68 +1,56 @@
-"""
-Sentinel Ops Suite — FastAPI Entrypoint
-Clean, deterministic, operator‑grade backend initialization.
-"""
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-# Import routers
-from api.dashboard_health import router as dashboard_health_router
+# Core Routers
+from routes.health import router as health_router
+from routes.repo_health import router as repo_health_router
+from routes.sync_history import router as sync_history_router
 
-# If you have additional routers, import them here:
-# from api.auth import router as auth_router
-# from api.users import router as users_router
-# from api.makefile import router as makefile_router
-# from api.system import router as system_router
+# Admin / Module Routers
+from routes.mfa import router as mfa_router
+from routes.docs import router as docs_router
+from routes.structure import router as structure_router
+from routes.deps import router as deps_router
+from routes.makefile_health import router as makefile_health_router
 
-# -------------------------------------------------------------------
-# Application Factory
-# -------------------------------------------------------------------
+app = FastAPI(
+    title="Sentinel Ops Suite Backend",
+    description="Backend API for operator console, repo governance, and dashboard systems.",
+    version="1.0.0",
+)
 
-def create_app() -> FastAPI:
-    app = FastAPI(
-        title="Sentinel Ops Suite Backend",
-        description="Backend API for Sentinel Ops Suite dashboard, health, and tooling.",
-        version="1.0.0",
-    )
+# ---------------------------------------------------------
+# CORS
+# ---------------------------------------------------------
 
-    # ---------------------------------------------------------------
-    # CORS (dev‑friendly defaults)
-    # ---------------------------------------------------------------
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],  # tighten later if needed
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # You can tighten this later
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    # ---------------------------------------------------------------
-    # Router Registration
-    # ---------------------------------------------------------------
-    app.include_router(dashboard_health_router, prefix="/api/dashboard")
+# ---------------------------------------------------------
+# Routers
+# ---------------------------------------------------------
 
-    # Example additional routers:
-    # app.include_router(auth_router, prefix="/api/auth")
-    # app.include_router(users_router, prefix="/api/users")
-    # app.include_router(makefile_router, prefix="/api/makefile")
-    # app.include_router(system_router, prefix="/api/system")
+# Core
+app.include_router(health_router)
+app.include_router(repo_health_router)
+app.include_router(sync_history_router)
 
-    return app
+# Governance / Admin Modules
+app.include_router(mfa_router)
+app.include_router(docs_router)
+app.include_router(structure_router)
+app.include_router(deps_router)
+app.include_router(makefile_health_router)
 
+# ---------------------------------------------------------
+# Root
+# ---------------------------------------------------------
 
-# -------------------------------------------------------------------
-# Entrypoint
-# -------------------------------------------------------------------
-
-app = create_app()
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(
-        "backend.app.main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-    )
+@app.get("/")
+def root():
+    return {"status": "ok", "service": "Sentinel Ops Suite Backend"}
