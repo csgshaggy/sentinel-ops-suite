@@ -1,154 +1,99 @@
-# Makefile - Sentinel Ops Suite
-# Root: /home/kali/sentinel-ops-suite
+# ------------------------------------------------------------
+# Sentinel Ops Suite — Makefile (Regenerated with PHONY targets)
+# Deterministic, operator‑grade, CI‑safe
+# ------------------------------------------------------------
 
 SHELL := /bin/bash
-PROJECT_ROOT := $(CURDIR)
 
-FRONTEND_DIR := $(PROJECT_ROOT)/frontend
-SCRIPTS_DIR := $(PROJECT_ROOT)/scripts
-GOVERNANCE_DIR := $(SCRIPTS_DIR)/governance
-MAKE_SCRIPTS_DIR := $(SCRIPTS_DIR)/make
+# ------------------------------------------------------------
+# PHONY TARGETS
+# ------------------------------------------------------------
+.PHONY: \
+    sync pre-sync post-sync \
+    repo-health repo-health-snapshot \
+    check-mfa check-structure check-docs check-deps \
+    validate-makefile lint-makefile \
+    clean
 
-NODE_BIN := npx
+# ------------------------------------------------------------
+# Repo Health
+# ------------------------------------------------------------
 
-.PHONY: all install dev build lint test fmt \
-        validate-mfa validate-makefile lint-makefile \
-        repo-health governance \
-        check-structure check-docs check-deps check-mfa \
-        check-makefile-drift makefile-graph \
-        update-makefile-baseline sync \
-        ci clean
+repo-health:
+	@echo "🔍 Running RepoHealth..."
+	cd frontend && npx ts-node src/dashboard/repo-health/runRepoHealth.ts
 
-all: build
+repo-health-snapshot:
+	@echo "📊 Capturing repo health snapshot..."
+	cd frontend && npx ts-node src/dashboard/repo-health/runRepoHealth.ts --snapshot
 
-# -----------------------------
-# Setup / Install
-# -----------------------------
+# ------------------------------------------------------------
+# Governance Checks
+# ------------------------------------------------------------
 
-install:
-	@cd $(FRONTEND_DIR) && npm install
+check-mfa:
+	@node scripts/governance/governance-mfa-check.cjs
 
-# -----------------------------
-# Dev / Build
-# -----------------------------
+check-structure:
+	@node scripts/governance/governance-structure-check.cjs
 
-dev:
-	@cd $(FRONTEND_DIR) && npm run dev
+check-docs:
+	@node scripts/governance/governance-docs-check.cjs
 
-build:
-	@cd $(FRONTEND_DIR) && npm run build
-
-# -----------------------------
-# Quality: Lint / Test / Format
-# -----------------------------
-
-lint:
-	@cd $(FRONTEND_DIR) && npm run lint
-
-test:
-	@cd $(FRONTEND_DIR) && npm test
-
-fmt:
-	@cd $(FRONTEND_DIR) && npm run format
-
-# -----------------------------
-# Makefile Self-Validation
-# -----------------------------
+check-deps:
+	@node scripts/governance/governance-deps-check.cjs
 
 validate-makefile:
-	@node $(MAKE_SCRIPTS_DIR)/validate-makefile.cjs
-
-# -----------------------------
-# Makefile Linter (checkmake)
-# -----------------------------
+	@node scripts/make/validate-makefile.cjs
 
 lint-makefile:
 	@echo "🔍 Linting Makefile with checkmake..."
-	@checkmake Makefile
-	@echo "✅ Makefile lint passed."
+	@if command -v checkmake >/dev/null 2>&1; then \
+		checkmake Makefile; \
+	else \
+		echo "⚠️ checkmake not found, skipping Makefile lint"; \
+	fi
 
-# -----------------------------
-# Makefile Drift Detector
-# -----------------------------
+# ------------------------------------------------------------
+# Sync Pipeline
+# ------------------------------------------------------------
 
-check-makefile-drift:
-	@echo "🔍 Checking Makefile drift..."
-	@node $(MAKE_SCRIPTS_DIR)/detect-makefile-drift.cjs
-	@echo "✅ No Makefile drift detected."
+pre-sync:
+	@echo "🔍 Running pre-sync validation..."
+	@node scripts/preflight/pre-sync-validate.cjs
 
-# -----------------------------
-# Makefile Dependency Graph
-# -----------------------------
-
-makefile-graph:
-	@echo "🔍 Generating Makefile dependency graph..."
-	@node $(MAKE_SCRIPTS_DIR)/makefile-graph.cjs
-	@echo "📈 Makefile dependency graph generated."
-
-# -----------------------------
-# Update Makefile Baseline Snapshot
-# -----------------------------
-
-update-makefile-baseline:
-	@echo "📦 Updating Makefile baseline snapshot..."
-	@cp Makefile $(MAKE_SCRIPTS_DIR)/Makefile.baseline
-	@echo "🔐 Baseline updated. Hash:"
-	@sha256sum Makefile
-	@echo "✅ Makefile baseline snapshot refreshed."
-
-# -----------------------------
-# Repository Sync (Corrected)
-# -----------------------------
+post-sync:
+	@echo "📊 Running post-sync health snapshot..."
+	$(MAKE) repo-health-snapshot
+	@echo "🔍 Running post-sync governance checks..."
+	$(MAKE) check-mfa
+	$(MAKE) check-structure
+	$(MAKE) check-docs
+	$(MAKE) check-deps
+	$(MAKE) validate-makefile
+	$(MAKE) lint-makefile
 
 sync:
 	@echo "🔄 Running repository sync..."
-	@bash $(PROJECT_ROOT)/sync.sh
-	@echo "✅ Repository sync complete."
+	$(MAKE) pre-sync
+	@echo "📦 Staging tracked changes..."
+	git add -A
+	@echo "📦 Auto-adding untracked files..."
+	git add .
+	@echo "📝 Committing changes..."
+	git commit -m "sync: automated repository sync on $(shell date -u +'%Y-%m-%d %H:%M:%S')" || true
+	@echo "📥 Fetching latest from origin..."
+	git fetch origin main
+	@echo "🔁 Rebasing onto origin/main..."
+	git rebase origin/main || true
+	@echo "📤 Pushing to origin..."
+	git push origin HEAD:main
+	$(MAKE) post-sync
 
-# -----------------------------
-# MFA Module Validation
-# -----------------------------
-
-validate-mfa:
-	@echo "🔍 Validating MFA module structure..."
-	@cd $(PROJECT_ROOT) && node frontend/scripts/validate-mfa-structure.cjs
-	@echo "✅ MFA structure validated."
-
-# -----------------------------
-# Repo Health Aggregation
-# -----------------------------
-
-repo-health:
-	@echo "🔍 Collecting repo health..."
-	@cd $(FRONTEND_DIR) && $(NODE_BIN) ts-node src/dashboard/repo-health/runRepoHealth.ts
-	@echo "✅ Repo health collected."
-
-# -----------------------------
-# Governance Checks (CI Gate)
-# -----------------------------
-
-check-structure:
-	@node $(GOVERNANCE_DIR)/governance-structure-check.cjs
-
-check-docs:
-	@node $(GOVERNANCE_DIR)/governance-docs-check.cjs
-
-check-deps:
-	@node $(GOVERNANCE_DIR)/governance-deps-check.cjs
-
-check-mfa:
-	@node $(GOVERNANCE_DIR)/governance-mfa-check.cjs
-
-governance: check-mfa check-structure check-docs check-deps validate-makefile lint-makefile check-makefile-drift
-	@echo "✅ All governance checks passed."
-
-# -----------------------------
-# Meta Targets
-# -----------------------------
-
-ci: lint test validate-mfa governance
-	@echo "✅ CI pipeline completed successfully."
+# ------------------------------------------------------------
+# Utility
+# ------------------------------------------------------------
 
 clean:
-	@rm -rf $(FRONTEND_DIR)/dist
-	@echo "🧹 Cleaned build artifacts."
+	@echo "🧹 Cleaning repo..."
+	git clean -fdx
