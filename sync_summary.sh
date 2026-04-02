@@ -1,51 +1,25 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -e
 
-LOG_FILE="sync.log"
+# Sentinel Ops Suite — Sync Summary Generator
+# Produces a timestamped summary of the last sync event.
 
-echo "=== Sync Summary ==="
+ROOT_DIR="$(dirname "$0")"
+SUMMARY_FILE="$ROOT_DIR/sync_summary.log"
 
-# Timestamp
-echo "Timestamp: $(date '+%Y-%m-%d %H:%M:%S')"
+TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S')"
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+LAST_COMMIT="$(git log -1 --pretty=format:'%h - %s (%an)')"
 
-# Last commit
-LAST_COMMIT=$(git log -1 --pretty=format:"%h %s")
-echo "Last Commit: $LAST_COMMIT"
+echo "📝 Generating sync summary..."
 
-# Files changed
-CHANGES=$(git diff --stat HEAD~1 HEAD 2>/dev/null || echo "N/A")
-echo "Changes:"
-echo "$CHANGES"
+{
+    echo "------------------------------------------------------------"
+    echo "Sync completed: $TIMESTAMP"
+    echo "Branch: $BRANCH"
+    echo "Last commit: $LAST_COMMIT"
+    echo "------------------------------------------------------------"
+    echo ""
+} >> "$SUMMARY_FILE"
 
-# Rebase status
-if git rebase --show-current-patch >/dev/null 2>&1; then
-    echo "Rebase: IN PROGRESS"
-else
-    echo "Rebase: Clean"
-fi
-
-# Push status (best-effort)
-if git status -sb | grep -q "\[ahead"; then
-    echo "Push: Pending"
-else
-    echo "Push: Up to date"
-fi
-
-# Drift status
-if command -v npx >/dev/null 2>&1; then
-    DRIFT_JS=$(npx prettier --check "frontend/src/**/*.{js,jsx,ts,tsx}" >/dev/null 2>&1 && echo "No JS/TS drift" || echo "JS/TS drift detected")
-else
-    DRIFT_JS="Prettier not installed"
-fi
-
-if command -v black >/dev/null 2>&1; then
-    DRIFT_PY=$(black --check backend app >/dev/null 2>&1 && echo "No Python drift" || echo "Python drift detected")
-else
-    DRIFT_PY="Black not installed"
-fi
-
-echo "Drift:"
-echo "  - $DRIFT_JS"
-echo "  - $DRIFT_PY"
-
-echo "=== End Sync Summary ==="
+echo "✅ Sync summary written to: $SUMMARY_FILE"
