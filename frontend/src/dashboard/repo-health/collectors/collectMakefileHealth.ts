@@ -1,12 +1,14 @@
 /**
  * collectMakefileHealth.ts
  * ------------------------
- * Collector wrapper for Makefile health.
- * Normalizes the backend response into the standard
- * RepoHealth collector shape.
+ * Collector for Makefile health.
+ * Updated for Node 24 + ts-node ESM rules:
+ * - Explicit .ts extension
+ * - Normalized RepoHealth collector shape
+ * - Deterministic scoring and error handling
  */
 
-import { fetchMakefileHealth } from "../services/makefileHealth.service";
+import { fetchMakefileHealth } from "../services/makefileHealth.service.ts";
 
 export async function collectMakefileHealth() {
   try {
@@ -14,14 +16,14 @@ export async function collectMakefileHealth() {
 
     return {
       ok: result.ok,
-      score: result.score,
-      detail: result.detail,
+      score: result.score ?? 0,
+      detail: result.detail ?? {},
     };
   } catch (err) {
     return {
       ok: false,
       score: 0,
-      detail: "Unable to retrieve Makefile health",
+      detail: {},
     };
   }
 }
