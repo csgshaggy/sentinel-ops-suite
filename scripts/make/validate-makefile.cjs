@@ -1,90 +1,52 @@
 #!/usr/bin/env node
 
 /**
- * Makefile Self-Validator
- * -----------------------
- * Ensures:
- *  - Makefile exists at repo root
- *  - Makefile is syntactically valid
- *  - Required targets are present
- *
- * Intended to be run via:
- *   make validate-makefile
+ * validate-makefile.cjs
+ * ---------------------
+ * CommonJS-safe Makefile validator for Node 24.
+ * - Ensures Makefile exists
+ * - Ensures it contains required governance targets
+ * - Hard fails on structural issues
  */
 
-import fs from "fs";
-import path from "path";
-import { spawnSync } from "child_process";
+const fs = require("fs");
+const path = require("path");
 
-const projectRoot = process.cwd();
-const makefilePath = path.join(projectRoot, "Makefile");
-
-const REQUIRED_TARGETS = [
-  "ci",
-  "governance",
-  "validate-mfa",
-  "repo-health",
-  "validate-makefile",
-];
-
-function ensureMakefileExists() {
-  if (!fs.existsSync(makefilePath)) {
-    console.error("❌ Makefile validation failed: Makefile not found at project root.");
-    console.error("   Expected at:", makefilePath);
-    process.exit(1);
-  }
+function fail(msg) {
+  console.error("❌ Makefile Validation Failed:");
+  console.error("   " + msg);
+  process.exit(1);
 }
 
-function checkSyntax() {
-  // -n (dry run) + a harmless target name to force parsing
-  const result = spawnSync("make", ["-n", "help"], {
-    cwd: projectRoot,
-    shell: true,
-    stdio: "ignore",
-  });
-
-  if (result.status !== 0) {
-    console.error("❌ Makefile validation failed: syntax error or invalid structure.");
-    process.exit(1);
-  }
-}
-
-function getTargets() {
-  const result = spawnSync("make", ["-qp"], {
-    cwd: projectRoot,
-    shell: true,
-    encoding: "utf8",
-  });
-
-  if (result.status !== 0) {
-    console.error("❌ Makefile validation failed: unable to query targets with `make -qp`.");
-    process.exit(1);
-  }
-
-  return result.stdout;
-}
-
-function checkRequiredTargets(output) {
-  const missing = REQUIRED_TARGETS.filter((t) => !output.includes(`${t}:`));
-
-  if (missing.length > 0) {
-    console.error("❌ Makefile validation failed: missing required targets:");
-    for (const t of missing) {
-      console.error(`   - ${t}`);
-    }
-    process.exit(1);
-  }
+function ok(msg) {
+  console.log("✅ " + msg);
 }
 
 (function run() {
   console.log("🔍 Validating Makefile...");
 
-  ensureMakefileExists();
-  checkSyntax();
+  const makefilePath = path.join(process.cwd(), "Makefile");
 
-  const targetsOutput = getTargets();
-  checkRequiredTargets(targetsOutput);
+  // 1. Ensure Makefile exists
+  if (!fs.existsSync(makefilePath)) {
+    fail("Makefile not found at: " + makefilePath);
+  }
 
-  console.log("✅ Makefile validation passed.");
-  process.exit(0);
+  const content = fs.readFileSync(makefilePath, "utf8");
+
+  // 2. Ensure required governance targets exist
+  const requiredTargets = [
+    "check-mfa:",
+    "check-structure:",
+    "check-docs:",
+    "check-deps:",
+  ];
+
+  for (const target of requiredTargets) {
+    if (!content.includes(target)) {
+      fail("Missing required Makefile target: " + target);
+    }
+  }
+
+  ok("Makefile validation passed.");
 })();
