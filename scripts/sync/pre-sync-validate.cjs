@@ -4,6 +4,7 @@
  * pre-sync-validate.cjs
  * ---------------------
  * Ensures the repository is in a safe state before running sync.sh.
+ * Untracked files are ALLOWED (Option A).
  * Uses CommonJS require() because this file is .cjs.
  */
 
@@ -54,11 +55,17 @@ function fail(msg) {
     fail("Merge conflicts detected:\n" + conflicts);
   }
 
-  // 5. Ensure working tree is clean (except staged changes)
+  // 5. Working tree cleanliness check (UNTRACKED FILES ALLOWED)
   const dirty = run("git status --porcelain");
-  if (dirty.includes("??")) {
-    fail("Untracked files present. Add or remove them before syncing.");
+
+  // Only block on *actual conflicts or staged issues*, not untracked files
+  const hasConflicts = dirty.split("\n").some(line => line.startsWith("UU"));
+  if (hasConflicts) {
+    fail("Unresolved merge conflicts detected.");
   }
+
+  // Untracked files (??) are now allowed — Option A
+  // No failure here.
 
   // 6. Ensure branch is valid
   const branch = run("git rev-parse --abbrev-ref HEAD");

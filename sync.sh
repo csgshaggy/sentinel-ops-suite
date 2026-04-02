@@ -9,8 +9,12 @@ cd "$REPO_ROOT"
 echo "🔍 Running pre-sync validator..."
 node scripts/sync/pre-sync-validate.cjs
 
-echo "📦 Staging changes..."
+echo "📦 Staging tracked changes..."
 git add -A
+
+echo "📦 Auto-adding untracked files..."
+# This ensures all untracked files are included in the sync
+git add .
 
 if git diff --cached --quiet; then
     echo "ℹ️ No changes to commit."
@@ -35,4 +39,4 @@ node scripts/sync/post-sync-health-snapshot.cjs
 echo "🔍 Running post-sync governance checks..."
 make governance
 
-echo "✅ Sync complete, health snapshot captured, and governance validated."
+echo "✅ Sync complete, untracked files added, snapshot captured, governance validated."
