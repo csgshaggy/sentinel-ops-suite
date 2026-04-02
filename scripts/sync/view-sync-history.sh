@@ -1,17 +1,19 @@
 #!/bin/bash
 
-LOG_FILE="sync.log"
+CYAN="\e[36m"; GREEN="\e[32m"; RESET="\e[0m"
 
-if [ ! -f "$LOG_FILE" ]; then
+LOG="sync.log"
+
+echo -e "${CYAN}==========================================${RESET}"
+echo -e "${GREEN}        Sync History Viewer${RESET}"
+echo -e "${CYAN}==========================================${RESET}"
+
+if [ ! -f "$LOG" ]; then
     echo "ℹ️ No sync history found. Creating empty log..."
-    touch "$LOG_FILE"
+    touch "$LOG"
 fi
 
-echo "=========================================="
-echo "        Sync History Viewer"
-echo "=========================================="
-echo
+tail -n 200 "$LOG"
 
-tail -n 200 "$LOG_FILE"
 echo
-read -p "Press Enter to return to menu..."
+read -p "Press Enter to return..."
