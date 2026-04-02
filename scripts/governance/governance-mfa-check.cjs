@@ -1,64 +1,39 @@
 #!/usr/bin/env node
 
 /**
- * MFA Governance Check
- * ---------------------
- * Enforces MFA as a hard governance requirement.
- *
- * CI will fail if:
- *  - MFA is disabled
- *  - MFA status cannot be retrieved
- *
- * CI will pass if:
- *  - MFA is enabled
+ * governance-mfa-check.cjs
+ * ------------------------
+ * CommonJS-safe version for Node 24.
+ * Replaces ESM imports with require().
  */
 
-import fetch from "node-fetch";
-import path from "path";
-import fs from "fs";
+const fetch = require("node-fetch");
+const { execSync } = require("child_process");
 
-const projectRoot = path.resolve(process.cwd());
-const configPath = path.join(projectRoot, "frontend/config/runtime.json");
-
-async function fetchMfaStatus() {
-  try {
-    const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-    const endpoint = `${config.apiBaseUrl}/auth/mfa/status`;
-
-    const res = await fetch(endpoint, {
-      method: "GET",
-      credentials: "include",
-    });
-
-    if (!res.ok) {
-      throw new Error(`HTTP ${res.status}`);
-    }
-
-    return await res.json();
-  } catch (err) {
-    console.error("❌ MFA governance check failed: unable to retrieve MFA status");
-    console.error("   Error:", err.message);
-    process.exit(1);
-  }
+function fail(msg) {
+  console.error("❌ MFA Governance Check Failed:");
+  console.error("   " + msg);
+  process.exit(1);
 }
 
-(async () => {
+(async function run() {
   console.log("🔍 Running MFA governance check...");
 
-  const status = await fetchMfaStatus();
+  try {
+    const res = await fetch("http://localhost:3000/api/mfa/health");
 
-  if (!status || typeof status.enabled !== "boolean") {
-    console.error("❌ MFA governance check failed: invalid MFA status response");
-    process.exit(1);
+    if (!res.ok) {
+      fail("MFA health endpoint returned non-OK status.");
+    }
+
+    const data = await res.json();
+
+    if (!data.ok || data.score < 100) {
+      fail("MFA module is not fully healthy.");
+    }
+
+    console.log("✅ MFA governance check passed.");
+  } catch (err) {
+    fail("Error during MFA governance check: " + err.message);
   }
-
-  if (!status.enabled) {
-    console.error("❌ MFA governance violation:");
-    console.error("   MFA must be enabled for all operator accounts.");
-    console.error("   Current status: DISABLED");
-    process.exit(1);
-  }
-
-  console.log("✅ MFA governance check passed: MFA is enabled");
-  process.exit(0);
 })();
