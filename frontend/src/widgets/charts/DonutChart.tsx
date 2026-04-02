@@ -1,5 +1,5 @@
 import React from "react";
-import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import { Cell, Pie, PieChart, Tooltip } from "recharts";
 
 interface Props {
   data: { name: string; value: number }[];

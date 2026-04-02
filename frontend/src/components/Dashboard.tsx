@@ -1,21 +1,18 @@
 // dashboard/src/components/Dashboard.tsx
 
-import React, { useEffect, useState, useMemo } from "react";
-import { Plugin, TimingBucket } from "../types";
+import React, { useEffect, useMemo,useState } from "react";
 
 import { fetchPlugins, fetchTimingBuckets } from "../api/client";
-
+import useAutoRefresh from "../hooks/useAutoRefresh";
+import { Plugin, TimingBucket } from "../types";
+import ChartsPanel from "../widgets/ChartsPanel";
+import HealthSummaryWidget from "../widgets/HealthSummaryWidget";
+import MakefileDiffViewer from "../widgets/MakefileDiffViewer";
+import CategoryFilterBar from "./CategoryFilterBar";
 import DetailDrawer from "./DetailDrawer";
+import FilterBar from "./FilterBar";
 import PluginTable from "./PluginTable";
 import SearchBar from "./SearchBar";
-import FilterBar from "./FilterBar";
-import CategoryFilterBar from "./CategoryFilterBar";
-
-import ChartsPanel from "../widgets/ChartsPanel";
-import MakefileDiffViewer from "../widgets/MakefileDiffViewer";
-import HealthSummaryWidget from "../widgets/HealthSummaryWidget";
-
-import useAutoRefresh from "../hooks/useAutoRefresh";
 
 export default function Dashboard() {
   const [plugins, setPlugins] = useState<Plugin[]>([]);

@@ -1,4 +1,5 @@
 import React from "react";
+
 import MakefileDiffViewer from "../widgets/MakefileDiffViewer";
 
 export default function DiffsPage() {

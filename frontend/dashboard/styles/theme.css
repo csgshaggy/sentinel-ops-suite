@@ -1,0 +1,58 @@
+:root {
+  /* Backgrounds */
+  --bg-base: #0f1117;
+  --bg-panel: #161922;
+
+  /* Accents */
+  --accent-blue: #3b82f6;
+  --accent-cyan: #06b6d4;
+  --accent-green: #22c55e;
+  --accent-yellow: #eab308;
+  --accent-red: #ef4444;
+
+  /* Text */
+  --text-base: #e5e7eb;
+  --text-muted: #9ca3af;
+
+  /* Status */
+  --status-healthy: #22c55e;
+  --status-warning: #eab308;
+  --status-critical: #ef4444;
+}
+
+.dark {
+  --bg-base: #0b0d12;
+  --bg-panel: #0f121a;
+
+  --text-base: #f3f4f6;
+  --text-muted: #6b7280;
+}
+
+/* Utility classes */
+.bg-base {
+  background-color: var(--bg-base);
+}
+
+.bg-panel {
+  background-color: var(--bg-panel);
+}
+
+.text-base {
+  color: var(--text-base);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.bg-status-healthy {
+  background-color: var(--status-healthy);
+}
+
+.bg-status-warning {
+  background-color: var(--status-warning);
+}
+
+.bg-status-critical {
+  background-color: var(--status-critical);
+}

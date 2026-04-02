@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useContext,useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
 
@@ -12,12 +12,20 @@ export function AuthProvider({ children }) {
   }, [token]);
 
   const login = (token) => setToken(token);
+
   const logout = () => {
     setToken(null);
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ token, user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
   );
+}
+
+// ⭐ This is the missing export Vite was complaining about
+export function useAuth() {
+  return useContext(AuthContext);
 }

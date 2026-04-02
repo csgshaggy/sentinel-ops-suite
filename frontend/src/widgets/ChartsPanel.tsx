@@ -1,6 +1,7 @@
 import React from "react";
+import { Bar, BarChart, ResponsiveContainer,Tooltip, XAxis, YAxis } from "recharts";
+
 import { TimingBucket } from "../types";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
 export default function ChartsPanel({ timing }: { timing: TimingBucket[] }) {
   return (

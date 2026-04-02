@@ -1,4 +1,5 @@
-import { test, expect } from "vitest";
+import { expect,test } from "vitest";
+
 import { authPage } from "./fixtures/auth.fixture";
 
 test("authenticated dashboard view", async () => {

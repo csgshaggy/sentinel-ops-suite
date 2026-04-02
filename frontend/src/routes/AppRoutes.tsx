@@ -1,15 +1,16 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Navigate,Route, Routes } from "react-router-dom";
+
 import AdminLayout from "../layouts/Admin/AdminLayout";
+import AdminAuditLogs from "../pages/admin/AdminAuditLogs";
 import AdminDashboard from "../pages/admin/AdminDashboard";
-import AdminUsers from "../pages/admin/AdminUsers";
 import AdminUserCreate from "../pages/admin/AdminUserCreate";
 import AdminUserEdit from "../pages/admin/AdminUserEdit";
-import AdminAuditLogs from "../pages/admin/AdminAuditLogs";
-import LoginPage from "../pages/LoginPage";
+import AdminUsers from "../pages/admin/AdminUsers";
 import MfaChallenge from "../pages/auth/MfaChallenge";
-import MfaSettings from "../pages/settings/MfaSettings";
+import LoginPage from "../pages/LoginPage";
 import MfaEnrollment from "../pages/settings/MfaEnrollment";
+import MfaSettings from "../pages/settings/MfaSettings";
 
 const AppRoutes: React.FC = () => {
   return (

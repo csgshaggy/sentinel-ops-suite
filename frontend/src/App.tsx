@@ -1,7 +1,7 @@
 // frontend/src/App.tsx
 
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Link, Navigate,Route, Routes } from "react-router-dom";
 
 import PelmConsole from "./pages/PelmConsole";
 import PelmDashboard from "./pages/PelmDashboard";

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Line } from "react-chartjs-2";
 import {
-  Chart as ChartJS,
-  LineElement,
   CategoryScale,
+  Chart as ChartJS,
+  Legend,
   LinearScale,
+  LineElement,
   PointElement,
   Tooltip,
-  Legend,
 } from "chart.js";
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   LineElement,

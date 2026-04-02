@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { fetchMakefileHealth, fetchPlugins, fetchTimingBuckets } from "../api/client";
 
 export default function HealthSummaryWidget() {

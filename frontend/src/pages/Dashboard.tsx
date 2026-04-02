@@ -1,9 +1,9 @@
 import React from "react";
 
-import { SystemHealthTile } from "../components/SystemHealthTile";
-import { WorkflowRunsTile } from "../components/WorkflowRunsTile";
 import { GitSnapshotsTile } from "../components/GitSnapshotsTile";
 import { MakefileDriftTile } from "../components/MakefileDriftTile";
+import { SystemHealthTile } from "../components/SystemHealthTile";
+import { WorkflowRunsTile } from "../components/WorkflowRunsTile";
 
 export const Dashboard: React.FC = () => {
   return (

@@ -1,0 +1,42 @@
+{
+  "color": {
+    "bg": {
+      "base": { "value": "#0f1117", "type": "color" },
+      "panel": { "value": "#161922", "type": "color" }
+    },
+    "accent": {
+      "blue": { "value": "#3b82f6", "type": "color" },
+      "cyan": { "value": "#06b6d4", "type": "color" },
+      "green": { "value": "#22c55e", "type": "color" },
+      "yellow": { "value": "#eab308", "type": "color" },
+      "red": { "value": "#ef4444", "type": "color" }
+    },
+    "status": {
+      "healthy": { "value": "#22c55e", "type": "color" },
+      "warning": { "value": "#eab308", "type": "color" },
+      "critical": { "value": "#ef4444", "type": "color" }
+    },
+    "text": {
+      "base": { "value": "#e5e7eb", "type": "color" },
+      "muted": { "value": "#9ca3af", "type": "color" }
+    }
+  },
+  "font": {
+    "sans": {
+      "family": { "value": "Inter, system-ui, sans-serif", "type": "fontFamily" }
+    },
+    "mono": {
+      "family": { "value": "JetBrains Mono, monospace", "type": "fontFamily" }
+    }
+  },
+  "size": {
+    "spacing": {
+      "page": { "value": "24", "type": "spacing" },
+      "panel": { "value": "16", "type": "spacing" }
+    },
+    "radius": {
+      "card": { "value": "12", "type": "borderRadius" },
+      "panel": { "value": "16", "type": "borderRadius" }
+    }
+  }
+}

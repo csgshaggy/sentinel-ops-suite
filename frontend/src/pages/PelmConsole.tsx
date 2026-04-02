@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+
+import PelmAlerts from "../components/PelmAlerts";
+import PelmRegressionPanel from "../components/PelmRegressionPanel";
 import PelmRiskTrend from "../components/PelmRiskTrend";
 import PelmSnapshotDiff from "../components/PelmSnapshotDiff";
-import PelmRegressionPanel from "../components/PelmRegressionPanel";
-import PelmAlerts from "../components/PelmAlerts";
 
 export default function PelmConsole() {
   const [status, setStatus] = useState(null);

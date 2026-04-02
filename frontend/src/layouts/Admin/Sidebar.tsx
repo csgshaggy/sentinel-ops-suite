@@ -3,11 +3,12 @@
 // Collapsible • Role-Aware • Theme-Compatible
 // =====================================================================
 
+import "./AdminLayout.css";
+
 import { Link, useLocation } from "react-router-dom";
+
 import { useAuth } from "../../context/AuthContext";
 import { useLayout } from "../../context/LayoutContext";
-
-import "./AdminLayout.css";
 
 export default function Sidebar() {
   const location = useLocation();

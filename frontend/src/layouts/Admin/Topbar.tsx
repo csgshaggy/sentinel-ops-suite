@@ -3,13 +3,12 @@
 // Breadcrumbs • Theme Toggle • Sidebar Collapse • Logout
 // =====================================================================
 
+import "./AdminLayout.css";
+
+import Breadcrumbs from "../../components/Breadcrumbs";
 import { useAuth } from "../../context/AuthContext";
 import { useLayout } from "../../context/LayoutContext";
 import { useTheme } from "../../context/ThemeContext";
-
-import Breadcrumbs from "../../components/Breadcrumbs";
-
-import "./AdminLayout.css";
 
 export default function Topbar() {
   const { logout, user } = useAuth();

@@ -1,3 +1,8 @@
+// ---------------------------------------------------------
+// Sentinel Ops Suite — Frontend ESLint Flat Config
+// Vite + React + TypeScript + Browser + Node Globals
+// ---------------------------------------------------------
+
 import js from "@eslint/js";
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
@@ -7,74 +12,88 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 export default [
-  // Base JS rules
   js.configs.recommended,
 
-  // ---------------------------------------------------------
-  // JS / JSX FILES
-  // ---------------------------------------------------------
   {
-    files: ["**/*.js", "**/*.jsx"],
-    ignores: ["dist/**", "node_modules/**", "src/__mocks__/**"],
-
-    languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
-    },
-
-    plugins: {
-      react,
-      "react-hooks": reactHooks,
-      "jsx-a11y": jsxA11y,
-      "simple-import-sort": simpleImportSort,
-    },
-
-    rules: {
-      "simple-import-sort/imports": "warn",
-      "simple-import-sort/exports": "warn",
-
-      "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
-    },
-
-    settings: {
-      react: { version: "detect" },
-    },
-  },
-
-  // ---------------------------------------------------------
-  // TS / TSX FILES
-  // ---------------------------------------------------------
-  {
-    files: ["**/*.ts", "**/*.tsx"],
-    ignores: ["dist/**", "node_modules/**", "src/__mocks__/**"],
+    files: ["**/*.{js,jsx,ts,tsx}"],
 
     languageOptions: {
       parser: tsparser,
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
+      ecmaVersion: "latest",
+      sourceType: "module",
+
+      globals: {
+        // Browser globals
+        window: "readonly",
+        document: "readonly",
+        console: "readonly",
+        fetch: "readonly",
+        EventSource: "readonly",
+        KeyboardEvent: "readonly",
+        HTMLElement: "readonly",
+        HTMLDivElement: "readonly",
+        localStorage: "readonly",
+        setInterval: "readonly",
+        clearInterval: "readonly",
+        setTimeout: "readonly",
+        alert: "readonly",
+        crypto: "readonly",
+
+        // Node globals
+        __dirname: "readonly",
+        process: "readonly",
+        require: "readonly",
+        module: "readonly",
+      },
+    },
+
+    settings: {
+      react: {
+        version: "detect",
       },
     },
 
     plugins: {
-      "@typescript-eslint": tseslint,
       react,
       "react-hooks": reactHooks,
       "jsx-a11y": jsxA11y,
       "simple-import-sort": simpleImportSort,
+      "@typescript-eslint": tseslint,
     },
 
     rules: {
+      // Import sorting
       "simple-import-sort/imports": "warn",
       "simple-import-sort/exports": "warn",
 
+      // React
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
-    },
 
-    settings: {
-      react: { version: "detect" },
+      // Hooks
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+
+      // TS unused vars
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": ["warn"],
+
+      // Accessibility
+      "jsx-a11y/anchor-is-valid": "warn",
+    },
+  },
+
+  // Node-only overrides
+  {
+    files: ["scripts/**/*.cjs", "*.config.js", "*.config.cjs"],
+    languageOptions: {
+      globals: {
+        require: "readonly",
+        module: "readonly",
+        __dirname: "readonly",
+        process: "readonly",
+        console: "readonly",
+      },
     },
   },
 ];

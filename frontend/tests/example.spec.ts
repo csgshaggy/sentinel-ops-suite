@@ -1,4 +1,4 @@
-import { test, expect } from "vitest";
+import { expect,test } from "vitest";
 
 test("dashboard loads", () => {
   // Placeholder: Vitest cannot load a real browser page.
