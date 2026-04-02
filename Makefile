@@ -1,5 +1,5 @@
 # ------------------------------------------------------------
-# Sentinel Ops Suite — Makefile (Regenerated with PHONY targets)
+# Sentinel Ops Suite — Makefile (Regenerated with meta-targets & drift detection)
 # Deterministic, operator‑grade, CI‑safe
 # ------------------------------------------------------------
 
@@ -9,11 +9,11 @@ SHELL := /bin/bash
 # PHONY TARGETS
 # ------------------------------------------------------------
 .PHONY: \
-    sync pre-sync post-sync \
-    repo-health repo-health-snapshot \
-    check-mfa check-structure check-docs check-deps \
-    validate-makefile lint-makefile \
-    clean
+	sync pre-sync post-sync \
+	repo-health repo-health-snapshot repo-health-all \
+	check-mfa check-structure check-docs check-deps governance-all \
+	validate-makefile lint-makefile makefile-audit makefile-drift-check \
+	clean
 
 # ------------------------------------------------------------
 # Repo Health
@@ -26,6 +26,11 @@ repo-health:
 repo-health-snapshot:
 	@echo "📊 Capturing repo health snapshot..."
 	cd frontend && npx ts-node src/dashboard/repo-health/runRepoHealth.ts --snapshot
+
+repo-health-all:
+	@echo "📊 Running full repo health suite..."
+	$(MAKE) repo-health
+	$(MAKE) repo-health-snapshot
 
 # ------------------------------------------------------------
 # Governance Checks
@@ -43,6 +48,13 @@ check-docs:
 check-deps:
 	@node scripts/governance/governance-deps-check.cjs
 
+governance-all:
+	@echo "🛡️ Running full governance suite..."
+	$(MAKE) check-mfa
+	$(MAKE) check-structure
+	$(MAKE) check-docs
+	$(MAKE) check-deps
+
 validate-makefile:
 	@node scripts/make/validate-makefile.cjs
 
@@ -55,6 +67,33 @@ lint-makefile:
 	fi
 
 # ------------------------------------------------------------
+# Makefile Self-Audit & Drift Detection
+# ------------------------------------------------------------
+
+makefile-drift-check:
+	@echo "🧭 Checking Makefile drift against baseline..."
+	@mkdir -p .meta/makefile
+	@if [ -f .meta/makefile/Makefile.baseline ]; then \
+		if diff -u .meta/makefile/Makefile.baseline Makefile >/dev/null; then \
+			echo "✅ No Makefile drift detected."; \
+		else \
+			echo "⚠️ Makefile drift detected vs baseline:"; \
+			diff -u .meta/makefile/Makefile.baseline Makefile || true; \
+			exit 1; \
+		fi; \
+	else \
+		echo "ℹ️ No baseline found. Creating initial Makefile baseline..."; \
+		cp Makefile .meta/makefile/Makefile.baseline; \
+		echo "✅ Baseline created. Future runs will detect drift."; \
+	fi
+
+makefile-audit:
+	@echo "🔍 Running Makefile self-audit (structure, lint, drift)..."
+	$(MAKE) validate-makefile
+	$(MAKE) lint-makefile
+	$(MAKE) makefile-drift-check
+
+# ------------------------------------------------------------
 # Sync Pipeline
 # ------------------------------------------------------------
 
@@ -64,14 +103,10 @@ pre-sync:
 
 post-sync:
 	@echo "📊 Running post-sync health snapshot..."
-	$(MAKE) repo-health-snapshot
+	$(MAKE) repo-health-all
 	@echo "🔍 Running post-sync governance checks..."
-	$(MAKE) check-mfa
-	$(MAKE) check-structure
-	$(MAKE) check-docs
-	$(MAKE) check-deps
-	$(MAKE) validate-makefile
-	$(MAKE) lint-makefile
+	$(MAKE) governance-all
+	$(MAKE) makefile-audit
 
 sync:
 	@echo "🔄 Running repository sync..."
