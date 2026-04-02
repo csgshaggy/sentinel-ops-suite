@@ -4,6 +4,7 @@
 # =====================================================================
 
 SHELL := /bin/bash
+ROOT := $(CURDIR)
 
 # ---------------------------------------------------------------------
 # Repo Health: Full System Validation
@@ -25,11 +26,11 @@ validate-makefile:
 	@echo "✅ Makefile self-check passed: all expected targets exist."
 
 # ---------------------------------------------------------------------
-# MFA Structure Validator
+# MFA Structure Validator (Correct Project Root)
 # ---------------------------------------------------------------------
 validate-mfa:
 	@echo "🔍 Validating MFA module structure..."
-	node frontend/scripts/validate-mfa-structure.cjs
+	cd $(ROOT) && node frontend/scripts/validate-mfa-structure.cjs
 	@echo "✅ MFA structure validated."
 
 # ---------------------------------------------------------------------
