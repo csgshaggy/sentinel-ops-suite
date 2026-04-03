@@ -1,0 +1,142 @@
+/* ---------------------------------------------------------
+   LOGIN PAGE THEME — Modern Cyber‑Ops
+   Clean, colorful, tactical, and production‑ready
+--------------------------------------------------------- */
+
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+/* PAGE BACKGROUND — subtle animated gradient */
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #0a0f24, #001a33, #002b55);
+  background-size: 300% 300%;
+  animation: pulseGradient 22s ease infinite;
+  color: #e5e7eb;
+}
+
+@keyframes pulseGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* CYBER GRID OVERLAY */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(#ffffff05 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff05 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* LOGIN CARD */
+.login-card {
+  width: 360px;
+  padding: 2.2rem;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* TITLE */
+.login-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+  color: #f1f5f9;
+}
+
+/* LABELS */
+label {
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  margin-bottom: 4px;
+}
+
+/* INPUT FIELDS */
+input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+
+  color: #e2e8f0;
+  font-size: 0.95rem;
+
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+input::placeholder {
+  color: #64748b;
+}
+
+input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+  background: #0b1220;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 0.75rem;
+
+  background: #0ea5e9;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background: #38bdf8;
+  box-shadow: 0 0 14px #38bdf8;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+/* FORM SPACING */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 420px) {
+  .login-card {
+    width: 90%;
+    padding: 1.6rem;
+  }
+}

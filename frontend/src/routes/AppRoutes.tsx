@@ -1,37 +1,138 @@
-import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+// frontend/src/routes/AppRoutes.tsx
 
-import AdminLayout from "../layouts/Admin/AdminLayout";
-import AdminAuditLogs from "../pages/admin/AdminAuditLogs";
-import AdminDashboard from "../pages/admin/AdminDashboard";
-import AdminUserCreate from "../pages/admin/AdminUserCreate";
-import AdminUserEdit from "../pages/admin/AdminUserEdit";
-import AdminUsers from "../pages/admin/AdminUsers";
-import MfaChallenge from "../pages/auth/MfaChallenge";
+import { Routes, Route } from "react-router-dom";
+
+// Auth
+import Login from "../pages/Login";
 import LoginPage from "../pages/LoginPage";
+
+// Dashboard home
+import DashboardHome from "../pages/DashboardHome";
+
+// Dashboard pages (newly generated)
+import CISummary from "../pages/CISummary";
+import GitSnapshots from "../pages/GitSnapshots";
+import WorkflowRuns from "../pages/WorkflowRuns";
+import RepoHealth from "../pages/RepoHealth";
+import RouterDrift from "../pages/RouterDrift";
+import MakefileHealth from "../pages/MakefileHealth";
+
+// MFA pages
+import MfaChallenge from "../pages/settings/MfaChallenge";
 import MfaEnrollment from "../pages/settings/MfaEnrollment";
 import MfaSettings from "../pages/settings/MfaSettings";
 
-const AppRoutes: React.FC = () => {
+// Auth gate
+import ProtectedRoute from "../components/ProtectedRoute";
+
+export default function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/auth/mfa" element={<MfaChallenge />} />
+      {/* Public routes */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/login-page" element={<LoginPage />} />
 
-      <Route path="/settings/mfa" element={<MfaSettings />} />
-      <Route path="/settings/mfa/enroll" element={<MfaEnrollment />} />
+      {/* Protected dashboard routes */}
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <DashboardHome />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<AdminDashboard />} />
-        <Route path="users" element={<AdminUsers />} />
-        <Route path="users/create" element={<AdminUserCreate />} />
-        <Route path="users/:id/edit" element={<AdminUserEdit />} />
-        <Route path="audit-logs" element={<AdminAuditLogs />} />
-      </Route>
+      <Route
+        path="/ci-summary"
+        element={
+          <ProtectedRoute>
+            <CISummary />
+          </ProtectedRoute>
+        }
+      />
 
-      <Route path="*" element={<Navigate to="/admin" replace />} />
+      <Route
+        path="/git-snapshots"
+        element={
+          <ProtectedRoute>
+            <GitSnapshots />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/workflow-runs"
+        element={
+          <ProtectedRoute>
+            <WorkflowRuns />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/repo-health"
+        element={
+          <ProtectedRoute>
+            <RepoHealth />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/router-drift"
+        element={
+          <ProtectedRoute>
+            <RouterDrift />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/makefile-health"
+        element={
+          <ProtectedRoute>
+            <MakefileHealth />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* MFA routes */}
+      <Route
+        path="/mfa/challenge"
+        element={
+          <ProtectedRoute>
+            <MfaChallenge />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/mfa/enroll"
+        element={
+          <ProtectedRoute>
+            <MfaEnrollment />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/mfa/settings"
+        element={
+          <ProtectedRoute>
+            <MfaSettings />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* Fallback */}
+      <Route
+        path="*"
+        element={
+          <ProtectedRoute>
+            <DashboardHome />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
-};
-
-export default AppRoutes;
+}

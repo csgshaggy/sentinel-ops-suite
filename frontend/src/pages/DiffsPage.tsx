@@ -1,12 +1,12 @@
 import React from "react";
 
-import MakefileDiffViewer from "../widgets/MakefileDiffViewer";
-
-export default function DiffsPage() {
+const DiffsPage = () => {
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Diff Viewer</h1>
-      <MakefileDiffViewer />
+      <h1>Diffs</h1>
+      <p>File, configuration, and repository diffs for audit and analysis.</p>
     </div>
   );
-}
+};
+
+export default DiffsPage;

@@ -1,7 +1,9 @@
 # backend/app/routers/idrim_router.py
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from tools.security.idrim.idrim_engine import IDRIMEngine
+from tools.security.idrim.idrim_models import IDRIMRequest, IDRIMResult
+from tools.security.idrim.idrim_exceptions import IDRIMError
 
 router = APIRouter(prefix="/idrim", tags=["IDRIM"])
 
@@ -9,43 +11,29 @@ router = APIRouter(prefix="/idrim", tags=["IDRIM"])
 engine = IDRIMEngine()
 
 
-@router.get("/run")
-def run_idrim():
+@router.post("/analyze", response_model=IDRIMResult)
+def analyze_idrim(request: IDRIMRequest):
     """
-    Executes the full IDRIM engine:
-    - Collect IAM state
-    - Load baseline
-    - Analyze drift
-    - Emit events
-    Returns drift events.
+    Run the IDRIM engine against an incoming request payload.
     """
-    events = engine.run()
-    return {"events": events}
+    try:
+        result = engine.analyze(request)
+        return result
+    except IDRIMError as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
 
 
-@router.post("/baseline/rebuild")
-def rebuild_baseline():
+@router.get("/version")
+def idrim_version():
     """
-    Rebuilds the IAM baseline snapshot.
-    Returns the new baseline.
+    Return the current IDRIM engine version.
     """
-    baseline = engine.rebuild_baseline()
-    return {"baseline": baseline}
+    return {"version": engine.version}
 
 
-@router.get("/diff")
-def idrim_diff():
+@router.get("/health")
+def idrim_health():
     """
-    Returns a structured diff between baseline and current IAM state.
-    Does NOT emit events.
+    Basic health check for the IDRIM subsystem.
     """
-    diff = engine.diff()
-    return {"diff": diff}
-
-
-@router.get("/events")
-def idrim_events_placeholder():
-    """
-    Placeholder for SSE event streaming.
-    """
-    return {"status": "SSE endpoint not yet implemented"}
+    return {"status": "ok", "engine": "IDRIM", "version": engine.version}

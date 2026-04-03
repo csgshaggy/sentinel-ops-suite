@@ -1,133 +1,48 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
-const navItems = [
-  // ---------------------------------------------------------
-  // Core Dashboard
-  // ---------------------------------------------------------
-  {
-    id: "dashboard",
-    label: "Dashboard",
-    icon: "📊",
-    route: "/",
-  },
+const Sidebar = () => {
+  const { user } = useAuth();
+  const role = user?.role || "user";
 
-  // ---------------------------------------------------------
-  // Health & Observability
-  // ---------------------------------------------------------
-  {
-    id: "health-score",
-    label: "Health Score",
-    icon: "💠",
-    route: "/health-score",
-  },
-  {
-    id: "health-trend",
-    label: "Health Trend",
-    icon: "📈",
-    route: "/health-trend",
-  },
-  {
-    id: "health-predict",
-    label: "Predictive Health",
-    icon: "🔮",
-    route: "/health-predict",
-  },
-  {
-    id: "observability",
-    label: "Observability",
-    icon: "🛰️",
-    route: "/observability",
-  },
+  const baseLinks = [
+    { to: "/dashboard", label: "Dashboard" },
+    { to: "/alerts", label: "Alerts" },
+    { to: "/system-health", label: "System Health" },
+    { to: "/workflow-runs", label: "Workflow Runs" },
+    { to: "/health-trend", label: "Health Trend" },
+    { to: "/health-predict", label: "Health Predict" },
+    { to: "/makefile-health", label: "Makefile Health" },
+    { to: "/repo-health", label: "Repo Health" },
+    { to: "/router-drift", label: "Router Drift" },
+    { to: "/plugins", label: "Plugins" },
+    { to: "/observability", label: "Observability" },
+  ];
 
-  // ---------------------------------------------------------
-  // Anomalies & Alerts
-  // ---------------------------------------------------------
-  {
-    id: "anomaly-correlation",
-    label: "Anomaly Correlation",
-    icon: "🧩",
-    route: "/anomaly-correlation",
-  },
-  {
-    id: "alerts",
-    label: "Alerts",
-    icon: "🚨",
-    route: "/alerts",
-  },
+  const adminLinks = [
+    { to: "/pelm-dashboard", label: "PELM Dashboard" },
+    { to: "/pelm-console", label: "PELM Console" },
+    { to: "/pelm-status", label: "PELM Status" },
+    { to: "/pelm-tools", label: "PELM Tools" },
+  ];
 
-  // ---------------------------------------------------------
-  // Governance
-  // ---------------------------------------------------------
-  {
-    id: "makefile-dashboard",
-    label: "Makefile Dashboard",
-    icon: "🧱",
-    route: "/makefile-dashboard",
-  },
-
-  // ---------------------------------------------------------
-  // PELM
-  // ---------------------------------------------------------
-  {
-    id: "pelm-health",
-    label: "PELM Health",
-    icon: "🩺",
-    route: "/pelm-health",
-  },
-  {
-    id: "pelm-stream",
-    label: "PELM Stream",
-    icon: "📡",
-    route: "/pelm-stream",
-  },
-  {
-    id: "pelm-console",
-    label: "PELM Console",
-    icon: "🛡️",
-    route: "/pelm-console",
-  },
-];
-
-export default function Sidebar() {
-  const location = useLocation();
+  const links = role === "admin" ? [...baseLinks, ...adminLinks] : baseLinks;
 
   return (
-    <div
-      style={{
-        width: "240px",
-        background: "#1e1e1e",
-        color: "#fff",
-        padding: "20px 0",
-        display: "flex",
-        flexDirection: "column",
-        height: "100vh",
-      }}
-    >
-      <h2 style={{ paddingLeft: 20, marginBottom: 20 }}>SSRF Console</h2>
-
-      {navItems.map((item) => {
-        const active = location.pathname === item.route;
-
-        return (
-          <Link
-            key={item.id}
-            to={item.route}
-            style={{
-              padding: "12px 20px",
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              color: active ? "#00eaff" : "#fff",
-              background: active ? "#333" : "transparent",
-              fontWeight: active ? "bold" : "normal",
-            }}
-          >
-            <span style={{ marginRight: 10 }}>{item.icon}</span>
-            {item.label}
-          </Link>
-        );
-      })}
+    <div style={{ width: "240px", padding: "1rem", background: "#111", color: "#fff" }}>
+      <h2 style={{ marginBottom: "1rem" }}>Sentinel Ops</h2>
+      <nav>
+        {links.map((link) => (
+          <div key={link.to} style={{ marginBottom: "0.75rem" }}>
+            <Link style={{ color: "#0ff" }} to={link.to}>
+              {link.label}
+            </Link>
+          </div>
+        ))}
+      </nav>
     </div>
   );
-}
+};
+
+export default Sidebar;

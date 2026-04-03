@@ -1,10 +1,12 @@
 import React from "react";
 
-export default function HealthPage() {
+const HealthPage = () => {
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>System Health</h1>
-      <p>Health metrics will appear here.</p>
+      <h1>Health Overview</h1>
+      <p>System‑wide health indicators and subsystem status summaries.</p>
     </div>
   );
-}
+};
+
+export default HealthPage;

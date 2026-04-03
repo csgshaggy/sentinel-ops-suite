@@ -1,0 +1,16 @@
+:root {
+  --color-bg: #0a0f24;
+  --color-bg-alt: #11141c;
+  --color-text: #e5e7eb;
+  --color-muted: #94a3b8;
+
+  --color-accent: #0ea5e9;
+  --color-accent-hover: #38bdf8;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  --shadow-soft: 0 0 20px rgba(0,0,0,0.35);
+  --shadow-strong: 0 0 35px rgba(0,0,0,0.45);
+}

@@ -1,17 +1,17 @@
-import "./index.css";
-
 import React from "react";
 import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
 
-import NotificationCenter from "./components/NotificationCenter";
-import { AuthProvider } from "./context/AuthContext";
-import AppRouter from "./router/AppRouter";
+// Global theme provider (dark/light + tokens)
+import { ThemeProvider } from "./theme/ThemeProvider";
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+// Global CSS resets or base styles (optional but recommended)
+import "./styles/global.css";
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <AuthProvider>
-      <NotificationCenter />
-      <AppRouter />
-    </AuthProvider>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>
 );

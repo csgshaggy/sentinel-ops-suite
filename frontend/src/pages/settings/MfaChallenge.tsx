@@ -1,32 +1,41 @@
-import React, { useState } from "react";
+// frontend/src/pages/settings/MfaChallenge.tsx
 
-import TotpInput from "../../components/mfa/TotpInput";
-import { useVerifyMfa } from "../../features/mfa-query/useVerifyMfa";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MfaChallenge() {
   const [code, setCode] = useState("");
-  const verify = useVerifyMfa();
+  const navigate = useNavigate();
 
-  const submit = async () => {
-    verify.mutate(code, {
-      onSuccess: (data: any) => {
-        localStorage.setItem("access_token", data.access_token);
-        window.location.href = "/";
-      },
-    });
+  const handleVerify = (e) => {
+    e.preventDefault();
+
+    // Fake MFA verification
+    if (code.length === 6) {
+      localStorage.setItem("mfa_verified", "true");
+      navigate("/");
+    }
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h1>MFA Verification</h1>
+    <div className="p-8 max-w-md mx-auto">
+      <h1 className="text-3xl font-bold mb-6">MFA Challenge</h1>
 
-      {verify.isError && <div style={{ color: "red" }}>{(verify.error as Error).message}</div>}
+      <form onSubmit={handleVerify} className="space-y-4">
+        <input
+          className="w-full border p-2 rounded"
+          placeholder="Enter 6-digit code"
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+        />
 
-      <TotpInput value={code} onChange={setCode} />
-
-      <button onClick={submit} disabled={verify.isPending} style={{ marginLeft: "1rem" }}>
-        {verify.isPending ? "Verifying..." : "Verify"}
-      </button>
+        <button
+          type="submit"
+          className="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700"
+        >
+          Verify
+        </button>
+      </form>
     </div>
   );
 }
