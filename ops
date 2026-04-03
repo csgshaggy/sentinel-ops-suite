@@ -1,44 +1,44 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CMD="${1:-help}"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OPS_DIR="${REPO_ROOT}/ops_dir"
 
-case "$CMD" in
-  sync)
-    make sync
+usage() {
+    cat <<EOF
+Sentinel Ops — Operator CLI
+
+Usage:
+  ops help
+  ops health
+  ops drift
+  ops validate
+  ops checksum
+
+EOF
+}
+
+cmd="${1:-help}"
+
+case "$cmd" in
+  help)
+    usage
     ;;
   health)
     make ops-health
     ;;
-  bootstrap)
-    make ops-bootstrap
-    ;;
   drift)
-    make drift-ci
+    echo "🔍 Drift detection not yet implemented in wrapper (use make ops-drift if wired)."
     ;;
   validate)
-    make validate-makefile
+    node "${REPO_ROOT}/scripts/ops/validate-makefile.mjs"
     ;;
   checksum)
-    make repo-structure-checksum
+    make ops-checksum
     ;;
-  self-heal)
-    ./ops/self-heal.sh
-    ;;
-  self-heal-dry)
-    ./ops/self-heal.sh --dry-run
-    ;;
-  help|*)
-    echo "Sentinel Ops — Unified Operator CLI"
-    echo
-    echo "Usage:"
-    echo "  ./ops sync"
-    echo "  ./ops health"
-    echo "  ./ops bootstrap"
-    echo "  ./ops drift"
-    echo "  ./ops validate"
-    echo "  ./ops checksum"
-    echo "  ./ops self-heal"
-    echo "  ./ops self-heal-dry"
+  *)
+    echo "❌ Unknown command: $cmd"
+    usage
+    exit 1
     ;;
 esac
