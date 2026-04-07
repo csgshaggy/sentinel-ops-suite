@@ -1,28 +1,96 @@
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.9
-    hooks:
-      - id: ruff
-        args: [--fix]
-        stages: [commit]
-      - id: ruff-format
-        stages: [commit]
-
+  # ------------------------------------------------------------
+  # PYTHON FORMATTERS & LINTERS
+  # ------------------------------------------------------------
   - repo: https://github.com/psf/black
-    rev: 24.8.0
+    rev: 24.3.0
     hooks:
       - id: black
-        stages: [commit]
+        name: Black (Python formatter)
+        language_version: python3
 
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0
+    hooks:
+      - id: ruff
+        name: Ruff (Python linter)
+      - id: ruff-format
+        name: Ruff Format (Python formatter)
+
+  # ------------------------------------------------------------
+  # PRETTIER — JS/TS/CSS/JSON/YAML/MARKDOWN
+  # ------------------------------------------------------------
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
     hooks:
       - id: prettier
-        additional_dependencies: ["prettier@3.3.3"]
-        stages: [commit]
+        name: Prettier (JS/TS/CSS/JSON/YAML/MD)
+        additional_dependencies:
+          - prettier
+          - prettier-plugin-organize-imports
 
+  # ------------------------------------------------------------
+  # YAML / JSON VALIDATORS
+  # ------------------------------------------------------------
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+        name: YAML Validator
+      - id: check-json
+        name: JSON Validator
+      - id: end-of-file-fixer
+        name: EOF Fixer
+      - id: trailing-whitespace
+        name: Trailing Whitespace Cleaner
+
+  # ------------------------------------------------------------
+  # SECRET SCANNERS
+  # ------------------------------------------------------------
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        name: Detect Secrets
+        args: ["--baseline", ".secrets.baseline"]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0
+    hooks:
+      - id: gitleaks
+        name: Gitleaks Secret Scanner
+        entry: gitleaks detect --no-banner --redact
+        language: system
+        pass_filenames: false
+
+  # ------------------------------------------------------------
+  # COMMIT MESSAGE ENFORCEMENT (COMMITIZEN)
+  # ------------------------------------------------------------
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.30.0
+    rev: v3.24.0
     hooks:
       - id: commitizen
+        name: Commitizen (Conventional Commits)
         stages: [commit-msg]
+
+  # ------------------------------------------------------------
+  # DRIFT CHECK (CUSTOM)
+  # ------------------------------------------------------------
+  - repo: local
+    hooks:
+      - id: drift-check
+        name: Drift Check
+        entry: make drift-check
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [commit]
+
+# ------------------------------------------------------------
+# MULTI-STAGE PIPELINE ORDERING
+# ------------------------------------------------------------
+# 1. Formatters (Black, Ruff, Prettier)
+# 2. Validators (YAML/JSON, whitespace)
+# 3. Secret scanners (detect-secrets, gitleaks)
+# 4. Drift check (repo integrity)
+# 5. Commit message enforcement (Commitizen)

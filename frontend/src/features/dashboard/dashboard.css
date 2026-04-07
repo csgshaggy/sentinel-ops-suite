@@ -1,0 +1,75 @@
+/* File: /home/ubuntu/sentinel-ops-suite/frontend/src/features/dashboard/dashboard.css */
+
+:root {
+    --sidebar-bg: #11131a;
+    --sidebar-border: #1f222b;
+    --panel-bg: #1a1d26;
+    --panel-border: #2a2e36;
+    --text-light: #e5e7eb;
+    --accent: #4df3ff;
+}
+
+.dashboard-root {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    height: 100vh;
+    background: #0d0f12;
+    color: var(--text-light);
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--sidebar-border);
+    padding: 20px;
+}
+
+.sidebar-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: var(--accent);
+}
+
+.sidebar-nav a {
+    display: block;
+    padding: 10px 0;
+    color: var(--text-light);
+    text-decoration: none;
+    opacity: 0.85;
+}
+
+.sidebar-nav a:hover {
+    opacity: 1;
+    color: var(--accent);
+}
+
+/* Main */
+.dashboard-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--panel-border);
+    background: var(--panel-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-content {
+    padding: 20px;
+}
+
+.welcome-msg {
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+/* Tile Grid */
+.tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}

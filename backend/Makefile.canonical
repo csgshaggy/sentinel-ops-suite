@@ -1,23 +1,59 @@
-# ============================================
-# BACKEND MAKEFILE - HARDENED EDITION
-# ============================================
+### ======================================================================
+### SENTINEL OPS SUITE — CANONICAL MAKEFILE
+### Source of Truth for Drift Detection
+### ======================================================================
 
-.PHONY: run test build safe-clean validate
+# Groups (order is canonical)
+# 1. Help
+# 2. Backend
+# 3. Frontend
+# 4. IDRIM Suite
+# 5. CI / Repo Hygiene
+# 6. Utilities
 
-run:
-	@uvicorn backend.app.main:app --reload
+### ----------------------------------------------------------------------
+### HELP
+### ----------------------------------------------------------------------
 
-test:
-	@pytest -q
+help
 
-build:
-	@echo "Building backend..."
-	@python3 -m compileall backend/
+### ----------------------------------------------------------------------
+### BACKEND
+### ----------------------------------------------------------------------
 
-safe-clean:
-	@echo "Delegating safe-clean to root Makefile..."
-	@make -C .. safe-clean
+backend
+backend-install
+backend-test
 
-validate:
-	@echo "Validating backend structure..."
-	@python3 ../scripts/structure_validator.py
+### ----------------------------------------------------------------------
+### FRONTEND
+### ----------------------------------------------------------------------
+
+frontend
+frontend-install
+frontend-build
+
+### ----------------------------------------------------------------------
+### IDRIM SUITE
+### ----------------------------------------------------------------------
+
+idrim-health
+idrim-run
+idrim-baseline
+idrim-verify
+idrim-daily
+
+### ----------------------------------------------------------------------
+### CI / REPO HYGIENE
+### ----------------------------------------------------------------------
+
+ci-validate
+ci-health
+ci-drift
+
+### ----------------------------------------------------------------------
+### UTILITIES
+### ----------------------------------------------------------------------
+
+clean
+reset

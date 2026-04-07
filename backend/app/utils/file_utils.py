@@ -1,4 +1,4 @@
-# backend/app/utils/file_utils.py
+# app/utils/file_utils.py
 
 import difflib
 import os

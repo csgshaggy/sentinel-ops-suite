@@ -1,0 +1,99 @@
+diff --git a/backend/app/routers/idrim_analysis.py b/backend/app/routers/idrim_analysis.py
+index 1111111..2222222 100644
+--- a/backend/app/routers/idrim_analysis.py
++++ b/backend/app/routers/idrim_analysis.py
+@@ -1,7 +1,7 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMService,
+     IDRIMRequest,
+     IDRIMEngine,
+ )
+
+diff --git a/backend/app/routers/idrim_router.py b/backend/app/routers/idrim_router.py
+index 1111111..2222222 100644
+--- a/backend/app/routers/idrim_router.py
++++ b/backend/app/routers/idrim_router.py
+@@ -1,6 +1,6 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMService,
+     IDRIMRequest,
+ )
+
+diff --git a/backend/app/routers/idrim_diff.py b/backend/app/routers/idrim_diff.py
+index 1111111..2222222 100644
+--- a/backend/app/routers/idrim_diff.py
++++ b/backend/app/routers/idrim_diff.py
+@@ -1,6 +1,6 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMEngine,
+     IDRIMRequest,
+ )
+
+diff --git a/backend/app/routers/idrim_history.py b/backend/app/routers/idrim_history.py
+index 1111111..2222222 100644
+--- a/backend/app/routers/idrim_history.py
++++ b/backend/app/routers/idrim_history.py
+@@ -1,6 +1,6 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMService,
+     IDRIMRequest,
+ )
+
+diff --git a/backend/app/routers/idrim_sse.py b/backend/app/routers/idrim_sse.py
+index 1111111..2222222 100644
+--- a/backend/app/routers/idrim_sse.py
++++ b/backend/app/routers/idrim_sse.py
+@@ -1,6 +1,6 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMStream,
+     IDRIMRequest,
+ )
+
+diff --git a/backend/app/ops/idrim_daily_scan.py b/backend/app/ops/idrim_daily_scan.py
+index 1111111..2222222 100644
+--- a/backend/app/ops/idrim_daily_scan.py
++++ b/backend/app/ops/idrim_daily_scan.py
+@@ -1,6 +1,6 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMEngine,
+     IDRIMRequest,
+ )
+
+diff --git a/backend/app/ops/idrim_cli.py b/backend/app/ops/idrim_cli.py
+index 1111111..2222222 100644
+--- a/backend/app/ops/idrim_cli.py
++++ b/backend/app/ops/idrim_cli.py
+@@ -1,6 +1,6 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMEngine,
+     IDRIMRequest,
+ )
+
+diff --git a/backend/api/routes/idrim_router.py b/backend/api/routes/idrim_router.py
+index 1111111..2222222 100644
+--- a/backend/api/routes/idrim_router.py
++++ b/backend/api/routes/idrim_router.py
+@@ -1,6 +1,6 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMService,
+     IDRIMRequest,
+ )
+
+diff --git a/backend/api/sse/idrim_sse.py b/backend/api/sse/idrim_sse.py
+index 1111111..2222222 100644
+--- a/backend/api/sse/idrim_sse.py
++++ b/backend/api/sse/idrim_sse.py
+@@ -1,6 +1,6 @@
+-from tools.security.idrim import (
++from backend.tools.security.idrim import (
+     IDRIMStream,
+     IDRIMRequest,
+ )

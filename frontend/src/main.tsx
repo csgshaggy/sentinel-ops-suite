@@ -1,17 +1,24 @@
+// File: /home/ubuntu/sentinel-ops-suite/frontend/src/main.tsx
+
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import { BrowserRouter } from "react-router-dom";
 
-// Global theme provider (dark/light + tokens)
-import { ThemeProvider } from "./theme/ThemeProvider";
+import App from "./App";
+import "./index.css";
 
-// Global CSS resets or base styles (optional but recommended)
-import "./styles/global.css";
+// ✅ Correct AuthProvider import
+import { AuthProvider } from "./context/AuthContext";
+
+console.log("SENTINEL_TEST_MARKER");
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <BrowserRouter>
+      {/* ⭐ This was missing — now your login page can mount */}
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );

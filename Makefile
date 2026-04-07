@@ -1,115 +1,45 @@
-# ============================================
-# Sentinel Ops — Unified Operator Makefile
-# Regenerated for ops_dir + ops wrapper layout
-# ============================================
+# ================================
+# SentinelOps RDS Configuration
+# ================================
+RDS_HOST="sentinelcybercop.ce9u88wwevvx.us-east-1.rds.amazonaws.com"
+RDS_USER="admin"
+DB_NAME="sentinelops"
+DB_USER="admin"
+DB_PASS="WlIZj7oECiyW20Uf9Y4P"
+BOOTSTRAP_PATH="sentinel-ops-suite/bootstrap.sql"
 
-SHELL := /bin/bash
+# ================================
+# Script Targets
+# ================================
+CHECK_DB=./check-db.sh
+CREATE_DB=./create-db-if-missing.sh
+CREATE_USER=./create-user.sh
+DB_BOOTSTRAP=./db-bootstrap.sh
 
-# -------------------------
-# Core Paths
-# -------------------------
-OPS_WRAPPER := ./ops
-OPS_DIR     := ./ops_dir
-SELF_HEAL   := $(OPS_DIR)/self-heal.sh
+# ================================
+# Make Targets
+# ================================
 
-# -------------------------
-# Python / Backend
-# -------------------------
-VENV := .venv
-PYTHON := $(VENV)/bin/python
+.PHONY: check-db
+check-db:
+	@echo "Checking if database $(DB_NAME) exists on RDS host $(RDS_HOST)..."
+	@bash $(CHECK_DB)
 
-.PHONY: venv install run backend
+.PHONY: create-db
+create-db:
+	@echo "Creating database $(DB_NAME) on RDS host $(RDS_HOST) if missing..."
+	@bash $(CREATE_DB)
 
-venv:
-	python3 -m venv $(VENV)
+.PHONY: create-user
+create-user:
+	@echo "Ensuring MySQL user $(DB_USER) exists and has privileges..."
+	@bash $(CREATE_USER)
 
-install:
-	$(PYTHON) -m pip install -r requirements.txt
+.PHONY: db-bootstrap
+db-bootstrap:
+	@echo "Running full SentinelOps DB bootstrap on RDS host $(RDS_HOST)..."
+	@bash $(DB_BOOTSTRAP)
 
-run:
-	$(PYTHON) run.py
-
-backend:
-	cd backend && $(PYTHON) main.py
-
-# -------------------------
-# Frontend
-# -------------------------
-.PHONY: frontend frontend-install frontend-build frontend-dev
-
-frontend-install:
-	cd frontend && npm install
-
-frontend-build:
-	cd frontend && npm run build
-
-frontend-dev:
-	cd frontend && npm run dev
-
-# -------------------------
-# Sync Pipeline
-# -------------------------
-.PHONY: sync pre-sync validate-sync
-
-sync:
-	@echo "🔄 Starting repository sync..."
-	@$(MAKE) pre-sync
-	@bash scripts/sync/sync.sh
-
-pre-sync:
-	@echo "🔍 Running pre-sync validator..."
-	@node scripts/sync/pre-sync-validate.mjs
-
-validate-sync:
-	@echo "🔍 Validating sync..."
-	@bash scripts/sync/validate.sh
-
-# -------------------------
-# Ops CLI Targets
-# -------------------------
-.PHONY: ops-help ops-health ops-bootstrap ops-drift ops-validate ops-checksum ops-self-heal ops-self-heal-dry
-
-ops-help:
-	@$(OPS_WRAPPER) help
-
-ops-health:
-	@echo "== Sentinel Ops — Ops Health =="
-	@$(MAKE) sync
-	@$(MAKE) ops-bootstrap
-	@bash "$(SELF_HEAL)"
-
-ops-bootstrap:
-	@echo "== Sentinel Ops — Bootstrap =="
-	@mkdir -p "$(OPS_DIR)"
-	@echo "[ops-bootstrap] Using ops directory: $(OPS_DIR)"
-
-ops-drift:
-	@$(OPS_WRAPPER) drift
-
-ops-validate:
-	@$(OPS_WRAPPER) validate
-
-ops-checksum:
-	@$(OPS_WRAPPER) checksum
-
-ops-self-heal:
-	@bash "$(SELF_HEAL)"
-
-ops-self-heal-dry:
-	@DRY_RUN=1 bash "$(SELF_HEAL)"
-
-# -------------------------
-# Repo Health / Utilities
-# -------------------------
-.PHONY: health checksum clean
-
-health:
-	@bash scripts/health/health.sh
-
-checksum:
-	@bash scripts/checksum.sh
-
-clean:
-	rm -rf $(VENV)
-	rm -rf frontend/node_modules
-	rm -rf __pycache__
+.PHONY: all
+all: check-db create-db create-user db-bootstrap
+	@echo "Full SentinelOps RDS provisioning pipeline completed."

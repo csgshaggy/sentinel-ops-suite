@@ -1,0 +1,75 @@
+# =====================================================================
+# MAKEFILE.DOCS
+# Documentation build pipeline for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+
+DOCS_DIR := docs
+BUILD_DIR := $(DOCS_DIR)/_build
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: docs
+docs: docs-validate docs-build
+	@echo "[docs] Documentation build complete."
+
+# ---------------------------------------------------------------------
+# VALIDATION (Markdown, YAML, JSON)
+# ---------------------------------------------------------------------
+.PHONY: docs-validate
+docs-validate:
+	@echo "[docs] Validating Markdown..."
+	@if command -v markdownlint >/dev/null 2>&1; then \
+		markdownlint $(DOCS_DIR)/**/*.md || exit 1; \
+	else \
+		echo "[docs] WARNING: markdownlint not installed. Skipping."; \
+	fi
+
+	@echo "[docs] Validating YAML..."
+	@find $(DOCS_DIR) -type f \( -name "*.yaml" -o -name "*.yml" \) | while read f; do \
+		$(PYTHON) -c "import yaml,sys; \
+			f=open('$$f'); \
+			try: yaml.safe_load(f); \
+			except Exception as e: \
+				print('[docs] YAML ERROR in $$f:', e); sys.exit(1)" || exit 1; \
+	done
+
+	@echo "[docs] Validating JSON..."
+	@find $(DOCS_DIR) -type f -name "*.json" | while read f; do \
+		$(PYTHON) -c "import json,sys; \
+			f=open('$$f'); \
+			try: json.load(f); \
+			except Exception as e: \
+				print('[docs] JSON ERROR in $$f:', e); sys.exit(1)" || exit 1; \
+	done
+
+	@echo "[docs] Validation complete."
+
+# ---------------------------------------------------------------------
+# BUILD (Markdown → HTML)
+# ---------------------------------------------------------------------
+.PHONY: docs-build
+docs-build:
+	@echo "[docs] Building HTML documentation..."
+	@mkdir -p $(BUILD_DIR)
+
+	@find $(DOCS_DIR) -type f -name "*.md" | while read f; do \
+		out="$(BUILD_DIR)/$${f#$(DOCS_DIR)/}.html"; \
+		mkdir -p "$$(dirname "$$out")"; \
+		pandoc "$$f" -o "$$out" --standalone --toc --metadata title='Sentinel Ops Docs'; \
+		echo "[docs] Built $$out"; \
+	done
+
+	@echo "[docs] HTML build complete."
+
+# ---------------------------------------------------------------------
+# CLEAN
+# ---------------------------------------------------------------------
+.PHONY: docs-clean
+docs-clean:
+	@echo "[docs] Cleaning build artifacts..."
+	rm -rf $(BUILD_DIR)
+	@echo "[docs] Docs cleaned."

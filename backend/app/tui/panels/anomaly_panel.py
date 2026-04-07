@@ -1,11 +1,11 @@
-# backend/app/tui/panels/anomaly_panel.py
+# app/tui/panels/anomaly_panel.py
 
 from __future__ import annotations
 
 from rich.console import Console
 from rich.table import Table
 
-from backend.app.anomaly_engine import load_anomaly_history
+from app.anomaly_engine import load_anomaly_history
 
 
 def render_anomaly_panel() -> None:

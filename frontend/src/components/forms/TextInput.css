@@ -1,0 +1,134 @@
+/* ================================
+   TextInput Wrapper + Label
+   ================================ */
+
+.textinput-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.textinput-label {
+  color: #c9d6ff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  user-select: none;
+}
+
+/* ================================
+   Input Field — Glassy Neon Shell
+   ================================ */
+
+.textinput-field {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  color: #e8eeff;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(120, 150, 255, 0.35);
+  border-radius: 8px;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.textinput-field:hover {
+  border-color: rgba(150, 180, 255, 0.55);
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.textinput-field:focus {
+  outline: none;
+  border-color: #7aa2ff;
+  box-shadow: 0 0 6px rgba(120, 160, 255, 0.55);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ================================
+   Error State
+   ================================ */
+
+.textinput-field.error {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 6px rgba(255, 80, 80, 0.45);
+  background: rgba(255, 0, 0, 0.08);
+}
+
+.textinput-error-text {
+  color: #ff8f8f;
+  font-size: 0.85rem;
+  margin-top: -2px;
+  user-select: none;
+}
+
+/* ================================
+   Disabled State
+   ================================ */
+
+.textinput-field:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(120, 120, 120, 0.35);
+}
+
+/* ================================
+   High-Specificity Overrides
+   ================================ */
+
+.textinput-wrapper .textinput-field {
+  font-family: inherit;
+  line-height: 1.35;
+}
+
+/* Fix for browsers that try to auto-style inputs */
+.textinput-wrapper input[type="text"],
+.textinput-wrapper input[type="password"],
+.textinput-wrapper input[type="email"],
+.textinput-wrapper input[type="search"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+/* ================================
+   Nuclear Override (Last-Resort)
+   Prevents external CSS libraries
+   from overriding your input styles
+   ================================ */
+
+.textinput-field {
+  all: unset;
+  display: block;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  color: #e8eeff;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(120, 150, 255, 0.35);
+  border-radius: 8px;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.textinput-field:focus {
+  outline: none;
+  border-color: #7aa2ff;
+  box-shadow: 0 0 6px rgba(120, 160, 255, 0.55);
+  background: rgba(255, 255, 255, 0.12);
+}
+

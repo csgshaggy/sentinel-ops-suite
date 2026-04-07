@@ -1,106 +1,159 @@
-import { useContext, useState } from "react";
-
-import { loginRequest } from "../api/auth";
-import { AuthContext } from "../context/AuthContext";
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
+import TextInput from "../components/forms/TextInput";
+import "./Login.css";
 
 export default function Login() {
-  const { login } = useContext(AuthContext);
+  const { login, loading } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+  });
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+  });
 
-  async function handleSubmit(e) {
+  const [touched, setTouched] = useState({
+    username: false,
+    password: false,
+  });
+
+  const [submitError, setSubmitError] = useState("");
+
+  // ---------------------------
+  // Advanced Validation Rules
+  // ---------------------------
+  const validateField = (name, value) => {
+    switch (name) {
+      case "username":
+        if (!value.trim()) return "Username is required";
+        if (value.length < 3) return "Must be at least 3 characters";
+        if (!/^[a-zA-Z0-9._-]+$/.test(value))
+          return "Only letters, numbers, ., _, - allowed";
+        return "";
+
+      case "password":
+        if (!value.trim()) return "Password is required";
+        if (value.length < 8) return "Must be at least 8 characters";
+        if (!/[A-Z]/.test(value)) return "Must include an uppercase letter";
+        if (!/[a-z]/.test(value)) return "Must include a lowercase letter";
+        if (!/[0-9]/.test(value)) return "Must include a number";
+        if (!/[^A-Za-z0-9]/.test(value)) return "Must include a symbol";
+        return "";
+
+      default:
+        return "";
+    }
+  };
+
+  // ---------------------------
+  // Debounced Real-Time Validation (Phase 2)
+  // ---------------------------
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const newErrors = {};
+
+      Object.keys(form).forEach((field) => {
+        if (touched[field]) {
+          newErrors[field] = validateField(field, form[field]);
+        }
+      });
+
+      setErrors((prev) => ({ ...prev, ...newErrors }));
+    }, 250); // 250ms debounce
+
+    return () => clearTimeout(timer);
+  }, [form, touched]);
+
+  // ---------------------------
+  // Input Change Handler
+  // ---------------------------
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
+    }));
+  };
+
+  // ---------------------------
+  // Final Form Validation
+  // ---------------------------
+  const validateForm = () => {
+    const newErrors = {
+      username: validateField("username", form.username),
+      password: validateField("password", form.password),
+    };
+
+    setErrors(newErrors);
+
+    return !newErrors.username && !newErrors.password;
+  };
+
+  // ---------------------------
+  // Submit Handler
+  // ---------------------------
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
+    setSubmitError("");
+
+    if (!validateForm()) return;
 
     try {
-      const data = await loginRequest(email, password);
-      login(data.access_token);
-      window.location.href = "/"; // redirect to dashboard
+      await login(form.username, form.password);
     } catch (err) {
-      setError("Invalid email or password");
-    } finally {
-      setLoading(false);
+      setSubmitError("Invalid username or password");
     }
-  }
+  };
 
   return (
-    <div className="login-container">
-      <form className="login-box" onSubmit={handleSubmit}>
-        <h2>Sign In</h2>
+    <div className="login-page">
+      <div className="login-card">
+        <h1 className="login-title">Operator Login</h1>
 
-        {error && <div className="error">{error}</div>}
+        {submitError && <div className="login-error">{submitError}</div>}
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+        <form className="login-form" onSubmit={handleSubmit}>
+          <TextInput
+            id="username"
+            label="Username"
+            type="text"
+            value={form.username}
+            onChange={handleChange}
+            autoComplete="username"
+            required
+            error={errors.username}
+          />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+          <TextInput
+            id="password"
+            label="Password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            autoComplete="current-password"
+            required
+            error={errors.password}
+          />
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Signing in..." : "Login"}
-        </button>
-      </form>
-
-      <style>{`
-        .login-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          height: 100vh;
-          background: var(--bg);
-        }
-
-        .login-box {
-          background: var(--panel);
-          padding: 2rem;
-          border-radius: 8px;
-          width: 320px;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
-
-        input {
-          padding: 0.75rem;
-          border-radius: 6px;
-          border: 1px solid var(--border);
-          background: var(--input-bg);
-          color: var(--text);
-        }
-
-        button {
-          padding: 0.75rem;
-          background: var(--accent);
-          color: white;
-          border: none;
-          border-radius: 6px;
-          cursor: pointer;
-        }
-
-        .error {
-          background: #ff4d4d;
-          color: white;
-          padding: 0.5rem;
-          border-radius: 4px;
-          text-align: center;
-        }
-      `}</style>
+          <button
+            type="submit"
+            className="login-button"
+            disabled={loading}
+          >
+            {loading ? "Authenticating..." : "Login"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

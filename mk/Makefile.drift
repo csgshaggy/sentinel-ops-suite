@@ -1,0 +1,68 @@
+# =====================================================================
+# MAKEFILE.DRIFT
+# Drift detection pipeline for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+
+DRIFT_DIR := .drift
+DRIFT_TOOL := tools.drift_detector
+
+BASELINE := $(DRIFT_DIR)/baseline.json
+SNAPSHOT := $(DRIFT_DIR)/snapshot.json
+DIFF := $(DRIFT_DIR)/diff.json
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: drift
+drift: drift-check
+	@echo "[drift] Drift check complete."
+
+# ---------------------------------------------------------------------
+# BASELINE
+# ---------------------------------------------------------------------
+.PHONY: drift-baseline
+drift-baseline:
+	@echo "[drift] Generating baseline..."
+	$(PYTHON) -m $(DRIFT_TOOL) baseline --output $(BASELINE)
+	@echo "[drift] Baseline written to $(BASELINE)"
+
+# ---------------------------------------------------------------------
+# SNAPSHOT
+# ---------------------------------------------------------------------
+.PHONY: drift-snapshot
+drift-snapshot:
+	@echo "[drift] Generating snapshot..."
+	$(PYTHON) -m $(DRIFT_TOOL) snapshot --output $(SNAPSHOT)
+	@echo "[drift] Snapshot written to $(SNAPSHOT)"
+
+# ---------------------------------------------------------------------
+# DIFF
+# ---------------------------------------------------------------------
+.PHONY: drift-diff
+drift-diff:
+	@echo "[drift] Generating diff..."
+	$(PYTHON) -m $(DRIFT_TOOL) diff \
+		--baseline $(BASELINE) \
+		--snapshot $(SNAPSHOT) \
+		--output $(DIFF)
+	@echo "[drift] Diff written to $(DIFF)"
+
+# ---------------------------------------------------------------------
+# CHECK (CI MODE)
+# ---------------------------------------------------------------------
+.PHONY: drift-check
+drift-check:
+	@echo "[drift] Checking for drift..."
+	$(PYTHON) -m $(DRIFT_TOOL) check --baseline $(BASELINE)
+
+# ---------------------------------------------------------------------
+# CLEAN
+# ---------------------------------------------------------------------
+.PHONY: drift-clean
+drift-clean:
+	@echo "[drift] Cleaning drift artifacts..."
+	rm -rf $(DRIFT_DIR)
+	@echo "[drift] Drift artifacts cleaned."

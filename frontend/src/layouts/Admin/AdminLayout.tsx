@@ -1,22 +1,31 @@
+// File: /home/ubuntu/sentinel-ops-suite/frontend/src/layouts/Admin/AdminLayout.tsx
+
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
+// ✅ Corrected import — now using the real AuthContext
 import { useAuth } from "../../context/AuthContext";
-import SidebarLayout from "../../router/SidebarLayout";
 
-const AdminLayout: React.FC = () => {
-  const { authenticated, user, loading } = useAuth();
+import AdminSidebar from "./Sidebar";
+import Topbar from "./Topbar";
 
-  if (loading) return <div>Loading...</div>;
-  if (!authenticated || !user || user.role !== "admin") {
-    return <Navigate to="/login" replace />;
+export default function AdminLayout() {
+  const { user } = useAuth();
+
+  // Only allow admin users into this layout
+  if (!user || user.role !== "admin") {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return (
-    <SidebarLayout>
-      <Outlet />
-    </SidebarLayout>
+    <div className="admin-layout">
+      <Topbar />
+      <div className="admin-body">
+        <AdminSidebar />
+        <main className="admin-content">
+          <Outlet />
+        </main>
+      </div>
+    </div>
   );
-};
-
-export default AdminLayout;
+}

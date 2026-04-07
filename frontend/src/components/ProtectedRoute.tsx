@@ -1,30 +1,19 @@
-import { Navigate, useLocation } from "react-router-dom";
+// File: src/components/ProtectedRoute.tsx
 
-export default function ProtectedRoute({ children, roles }) {
-  const location = useLocation();
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
-  const token = localStorage.getItem("auth_token");
-  const mfa = localStorage.getItem("mfa_verified");
-  const role = localStorage.getItem("role");
-  const expiry = localStorage.getItem("session_expiry");
+type Props = {
+  children: React.ReactNode;
+};
 
-  // Session expiration check
-  if (expiry && Date.now() > Number(expiry)) {
-    localStorage.clear();
+export default function ProtectedRoute({ children }: Props) {
+  const { user } = useAuth();
+
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!token) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
-  }
-
-  if (mfa !== "true") {
-    return <Navigate to="/mfa/challenge" replace />;
-  }
-
-  if (roles && !roles.includes(role)) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
+  return <>{children}</>;
 }

@@ -1,81 +1,69 @@
 [build-system]
-requires = ["setuptools>=69.0", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
-[project]
-name = "ssrf-command-console"
-version = "0.1.0"
-description = "Operator-grade SSRF Command Console with FastAPI backend, CLI tooling, and plugin architecture."
-readme = "README.md"
-requires-python = ">=3.12"
-license = "MIT"
-authors = [
-  { name = "Charlie", email = "charlie@example.com" }
-]
-
-dependencies = [
-  "fastapi>=0.110.0",
-  "uvicorn[standard]>=0.29.0",
-  "httpx>=0.27.0",
-  "pydantic>=2.6.0",
-  "python-multipart>=0.0.9",
-  "jinja2>=3.1.0",
-  "rich>=13.7.0",
-  "typer>=0.12.0",
-]
-
-[project.optional-dependencies]
-dev = [
-  "ruff>=0.3.0",
-  "black>=24.3.0",
-  "pytest>=8.1.0",
-  "pytest-asyncio>=0.23.0",
-  "pre-commit>=3.6.0",
-]
-
-[project.scripts]
-ssrf-console = "ssrf_command_console.cli:cli"
-
-# -------------------------------------------------------------------
-# Ruff Configuration
-# -------------------------------------------------------------------
-[tool.ruff]
-target-version = "py312"
+# =====================================================================
+# BLACK — Python Formatter
+# =====================================================================
+[tool.black]
 line-length = 88
-fix = true
+target-version = ["py311"]
+skip-string-normalization = false
+exclude = '''
+(
+    /(\.git|\.venv|\.drift|__pycache__)/
+)
+'''
 
-exclude = [
-  "venv",
-  "docs",
-  "static",
-  "frontend/node_modules",
+# =====================================================================
+# RUFF — Linter + Formatter
+# =====================================================================
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+extend-select = [
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "W",  # pycodestyle warnings
+    "I",  # import sorting
+    "N",  # pep8-naming
+    "UP", # pyupgrade
+    "B",  # bugbear
 ]
-
-[tool.ruff.lint]
-extend-select = ["I"]
+ignore = [
+    "E501", # line length handled by Black
+]
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
 
-# -------------------------------------------------------------------
-# Black Configuration
-# -------------------------------------------------------------------
-[tool.black]
-line-length = 88
-target-version = ["py312"]
-skip-string-normalization = false
+[tool.ruff.isort]
+combine-as-imports = true
+force-sort-within-sections = true
 
-# -------------------------------------------------------------------
-# Pytest Configuration
-# -------------------------------------------------------------------
-[tool.pytest.ini_options]
-pythonpath = ["."]
-addopts = "-q"
+# =====================================================================
+# PROJECT METADATA (Optional, Safe Defaults)
+# =====================================================================
+[project]
+name = "sentinel-ops-suite"
+version = "0.1.0"
+description = "Operator-grade tooling for drift detection, observability, and CI enforcement."
+requires-python = ">=3.11"
+authors = [
+    { name = "Charlie", email = "dev@example.com" }
+]
 
-# -------------------------------------------------------------------
-# Setuptools Package Discovery
-# -------------------------------------------------------------------
-[tool.setuptools.packages.find]
-where = ["src"]
+# =====================================================================
+# OPTIONAL: TOOLING CONFIG (Detect-Secrets, Commitizen)
+# =====================================================================
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+tag_format = "v$version"
+update_changelog_on_bump = true
+
+[tool.detect-secrets]
+baseline = ".secrets.baseline"

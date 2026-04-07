@@ -1,39 +1,105 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+backend/app/main.py
+FastAPI entrypoint with deterministic router loading, session middleware,
+CORS, DB initialization, and operator‑grade structure.
+"""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
-from app.utils.startup_validator import validate_backend_startup
-from app.utils.router_loader import auto_discover_routers
+from app.database import init_db
+from app.routers import (
+    auth,
+    dashboard,
+    users,
+)
 
-from app.routers.dashboard_health import router as dashboard_health_router
+# ---------------------------------------------------------------------------
+# APPLICATION INITIALIZATION
+# ---------------------------------------------------------------------------
 
 app = FastAPI(
-    title="Sentinel Ops Backend",
-    description="Backend API for Sentinel Ops Suite",
+    title="SentinelOps Backend",
+    description="Backend API for SentinelOps Analyst Dashboard",
     version="1.0.0",
 )
 
+# ---------------------------------------------------------------------------
+# SESSION MIDDLEWARE (Corrected for HTTPS + Chrome)
+# ---------------------------------------------------------------------------
+
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="CHANGE_ME_TO_A_SECURE_RANDOM_KEY",
+    session_cookie="sentinel_session",
+    same_site="none",        # Required for HTTPS + cross-site cookies
+    https_only=True,         # Marks cookie as Secure
+)
+
+# ---------------------------------------------------------------------------
+# CORS CONFIGURATION
+# ---------------------------------------------------------------------------
+
+ALLOWED_ORIGINS = [
+    "https://crcybercop.dpdns.org",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Auto-discovered routers
-for name, router in auto_discover_routers():
-    app.include_router(router)
+# ---------------------------------------------------------------------------
+# ROUTER REGISTRATION
+# ---------------------------------------------------------------------------
 
-# Dashboard health
-app.include_router(dashboard_health_router)
+app.include_router(auth.router)
+app.include_router(dashboard.router)
+app.include_router(users.router)
 
+# ---------------------------------------------------------------------------
+# STARTUP EVENTS
+# ---------------------------------------------------------------------------
 
 @app.on_event("startup")
 async def startup_event():
-    validate_backend_startup()
-    print("🚀 Backend startup complete.")
+    """Initialize database and any required services."""
+    init_db()
 
+# ---------------------------------------------------------------------------
+# ROOT ENDPOINT
+# ---------------------------------------------------------------------------
 
-@app.get("/", tags=["Root"])
-def root():
-    return {"status": "ok", "message": "Sentinel Ops Backend Running"}
+@app.get("/")
+async def root():
+    return {
+        "status": "ok",
+        "message": "SentinelOps backend online",
+        "routes": [
+            "/auth/*",
+            "/dashboard/*",
+            "/users/*",
+        ],
+    }
+
+# ---------------------------------------------------------------------------
+# ENTRYPOINT
+# ---------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(
+        "app.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+    )

@@ -4,7 +4,7 @@ from typing import Any, Dict
 
 from fastapi import APIRouter
 
-from tools.super_doctor import run_super_doctor
+from backend.tools.super_doctor import run_super_doctor
 
 router = APIRouter(
     prefix="/admin/doctor",

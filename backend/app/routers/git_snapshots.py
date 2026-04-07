@@ -4,7 +4,7 @@ from fastapi import APIRouter, Response
 
 router = APIRouter(prefix="/snapshots", tags=["Git Snapshots"])
 
-HTML_PATH = Path("backend/app/reports/html/git_snapshot_latest.html")
+HTML_PATH = Path("app/reports/html/git_snapshot_latest.html")
 
 @router.get("/latest", response_class=Response)
 def get_latest_snapshot():

@@ -1,0 +1,48 @@
+/* ============================================
+ * TextInput.theme.css
+ * Path: frontend/src/ui-kit/components/TextInput/TextInput.theme.css
+ * Theme tokens for neon glassy operator console
+ * ============================================
+ */
+
+:root {
+  --textinput-label-color: #9ca3af;
+  --textinput-border-color: rgba(148, 163, 184, 0.6);
+  --textinput-bg: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.9),
+    rgba(15, 23, 42, 0.7)
+  );
+  --textinput-fg: #e5e7eb;
+  --textinput-placeholder: #6b7280;
+  --textinput-focus-border: #22d3ee;
+  --textinput-error-color: #f97373;
+  --textinput-error-border: #f97373;
+}
+
+/* Dark operator panel context */
+.operator-panel .textinput-wrapper {
+  --textinput-label-color: #a5b4fc;
+  --textinput-border-color: rgba(129, 140, 248, 0.7);
+  --textinput-focus-border: #38bdf8;
+}
+
+/* Secure / critical context */
+.secure-context .textinput-wrapper {
+  --textinput-focus-border: #22c55e;
+  --textinput-border-color: rgba(34, 197, 94, 0.7);
+}
+
+/* Warning context */
+.warning-context .textinput-wrapper {
+  --textinput-focus-border: #facc15;
+  --textinput-border-color: rgba(250, 204, 21, 0.7);
+}
+
+/* Error context override */
+.error-context .textinput-wrapper {
+  --textinput-focus-border: #f97373;
+  --textinput-border-color: rgba(248, 113, 113, 0.8);
+}
+
+

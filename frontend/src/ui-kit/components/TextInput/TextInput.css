@@ -1,0 +1,82 @@
+/* ============================================
+ * TextInput.css
+ * Path: frontend/src/ui-kit/components/TextInput/TextInput.css
+ * Base layout + glassy operator shell
+ * ============================================
+ */
+
+.textinput-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  position: relative;
+}
+
+.textinput-label {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--textinput-label-color, #9ca3af);
+  font-weight: 500;
+}
+
+.textinput-field {
+  position: relative;
+  width: 100%;
+}
+
+.textinput-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--textinput-border-color, rgba(148, 163, 184, 0.6));
+  background: var(
+    --textinput-bg,
+    linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.9),
+      rgba(15, 23, 42, 0.7)
+    )
+  );
+  color: var(--textinput-fg, #e5e7eb);
+  font-size: 0.9rem;
+  outline: none;
+  transition:
+    border-color 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    background 0.18s ease-out,
+    transform 0.12s ease-out;
+}
+
+.textinput-input::placeholder {
+  color: var(--textinput-placeholder, #6b7280);
+}
+
+.textinput-input:focus {
+  border-color: var(--textinput-focus-border, #22d3ee);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.4),
+    0 0 18px rgba(34, 211, 238, 0.25);
+  transform: translateY(-0.5px);
+}
+
+.textinput-wrapper.disabled .textinput-input {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+}
+
+.textinput-error {
+  font-size: 0.78rem;
+  color: var(--textinput-error-color, #f97373);
+  margin-top: 2px;
+}
+
+/* Error state */
+.textinput-field.has-error .textinput-input {
+  border-color: var(--textinput-error-border, #f97373);
+  box-shadow:
+    0 0 0 1px rgba(248, 113, 113, 0.35),
+    0 0 14px rgba(248, 113, 113, 0.25);
+}

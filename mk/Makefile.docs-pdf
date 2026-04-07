@@ -1,0 +1,48 @@
+# =====================================================================
+# MAKEFILE.DOCS-PDF
+# PDF documentation build pipeline for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+
+DOCS_DIR := docs
+PDF_DIR := docs/_pdf
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: docs-pdf
+docs-pdf: docs-pdf-build
+	@echo "[docs-pdf] PDF documentation build complete."
+
+# ---------------------------------------------------------------------
+# BUILD PDFS
+# ---------------------------------------------------------------------
+.PHONY: docs-pdf-build
+docs-pdf-build:
+	@echo "[docs-pdf] Building PDF documentation..."
+	@mkdir -p $(PDF_DIR)
+
+	@find $(DOCS_DIR) -type f -name "*.md" | while read f; do \
+		out="$(PDF_DIR)/$${f#$(DOCS_DIR)/}.pdf"; \
+		mkdir -p "$$(dirname "$$out")"; \
+		pandoc "$$f" \
+			--from markdown \
+			--pdf-engine=xelatex \
+			--toc \
+			--metadata title="Sentinel Ops Suite Documentation" \
+			-o "$$out"; \
+		echo "[docs-pdf] Built $$out"; \
+	done
+
+	@echo "[docs-pdf] PDF build complete."
+
+# ---------------------------------------------------------------------
+# CLEAN
+# ---------------------------------------------------------------------
+.PHONY: docs-pdf-clean
+docs-pdf-clean:
+	@echo "[docs-pdf] Cleaning PDF artifacts..."
+	rm -rf $(PDF_DIR)
+	@echo "[docs-pdf] PDF artifacts cleaned."

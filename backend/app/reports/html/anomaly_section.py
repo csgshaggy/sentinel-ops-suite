@@ -1,10 +1,10 @@
-# backend/app/reports/html/anomaly_section.py
+# app/reports/html/anomaly_section.py
 
 from __future__ import annotations
 
 from typing import Dict, List
 
-from backend.app.anomaly_engine import load_anomaly_history
+from app.anomaly_engine import load_anomaly_history
 
 
 def render_anomaly_section() -> str:

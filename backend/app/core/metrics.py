@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import List
 
-from backend.app.models.plugin_models import TimingBucketResponse
+from app.models.plugin_models import TimingBucketResponse
 
 
 def get_timing_histogram() -> List[TimingBucketResponse]:

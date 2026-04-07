@@ -1,41 +1,25 @@
-// =====================================================================
-// SSRF Command Console — Admin Topbar
-// Breadcrumbs • Theme Toggle • Sidebar Collapse • Logout
-// =====================================================================
+// File: src/layouts/Admin/Topbar.tsx
 
-import "./AdminLayout.css";
-
-import Breadcrumbs from "../../components/Breadcrumbs";
+import React from "react";
 import { useAuth } from "../../context/AuthContext";
-import { useLayout } from "../../context/LayoutContext";
-import { useTheme } from "../../context/ThemeContext";
 
 export default function Topbar() {
-  const { logout, user } = useAuth();
-  const { sidebarCollapsed, setSidebarCollapsed } = useLayout();
-  const { theme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
 
   return (
     <header className="admin-topbar">
-      <div className="admin-topbar-left">
-        {/* Sidebar collapse toggle */}
-        <button className="sidebar-toggle" onClick={() => setSidebarCollapsed(!sidebarCollapsed)}>
-          {sidebarCollapsed ? "☰" : "⮜"}
-        </button>
-
-        {/* Breadcrumbs */}
-        <Breadcrumbs />
+      <div className="topbar-left">
+        <h1>Sentinel Ops — Admin</h1>
       </div>
 
-      <div className="admin-topbar-right">
-        {/* Theme toggle */}
-        <button onClick={toggleTheme}>{theme === "dark" ? "🌙" : "☀️"}</button>
+      <div className="topbar-right">
+        <span className="topbar-user">
+          {user ? `Logged in as: ${user.username}` : "Not authenticated"}
+        </span>
 
-        {/* User role indicator */}
-        {user && <span className="topbar-role">{user.role.toUpperCase()}</span>}
-
-        {/* Logout */}
-        <button onClick={logout}>Logout</button>
+        <button className="logout-button" onClick={logout}>
+          Logout
+        </button>
       </div>
     </header>
   );

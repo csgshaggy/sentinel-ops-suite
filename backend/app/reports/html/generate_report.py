@@ -1,10 +1,10 @@
-# backend/app/reports/html/generate_report.py
+# app/reports/html/generate_report.py
 
 from __future__ import annotations
 
 from pathlib import Path
 
-from backend.app.reports.html.anomaly_section import render_anomaly_section
+from app.reports.html.anomaly_section import render_anomaly_section
 
 OUTPUT_PATH = Path("report.html")
 

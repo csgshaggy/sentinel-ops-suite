@@ -2,14 +2,14 @@ from pathlib import Path
 from datetime import datetime
 import json
 
-from backend.app.routers.pelm import (
+from app.routers.pelm import (
     get_pelm_summary,
     get_pelm_risks,
     get_pelm_graph,
     get_pelm_events,
 )
 
-OUT_DIR = Path("backend/app/reports/html")
+OUT_DIR = Path("app/reports/html")
 OUT_FILE = OUT_DIR / "pelm_report.html"
 
 

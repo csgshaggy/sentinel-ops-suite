@@ -1,39 +1,105 @@
-# backend/app/routers/idrim_router.py
+# app/routers/idrim_router.py
 
-from fastapi import APIRouter, HTTPException
-from tools.security.idrim.idrim_engine import IDRIMEngine
-from tools.security.idrim.idrim_models import IDRIMRequest, IDRIMResult
-from tools.security.idrim.idrim_exceptions import IDRIMError
+from __future__ import annotations
+from fastapi import APIRouter, Depends, BackgroundTasks
+from typing import Dict, Any
 
-router = APIRouter(prefix="/idrim", tags=["IDRIM"])
+    IDRIMService,
+    IDRIMTasks,
+    IDRIMSnapshot,
+    IDRIMAnalysisResult,
+    IDRIMDriftEvent,
+    IDRIMBaseline,
+)
 
-# Instantiate engine once per router
-engine = IDRIMEngine()
+# ---------------------------------------------------------
+# Router Setup
+# ---------------------------------------------------------
+router = APIRouter(
+    prefix="/idrim",
+    tags=["IDRIM"],
+)
+
+# ---------------------------------------------------------
+# Dependency: Construct Service + Tasks
+# ---------------------------------------------------------
+def get_idrim_service() -> IDRIMService:
+    # Storage directory for baseline.json
+    return IDRIMService(storage_path="data/idrim")
+
+def get_idrim_tasks(
+    service: IDRIMService = Depends(get_idrim_service)
+) -> IDRIMTasks:
+    return IDRIMTasks(service)
 
 
-@router.post("/analyze", response_model=IDRIMResult)
-def analyze_idrim(request: IDRIMRequest):
-    """
-    Run the IDRIM engine against an incoming request payload.
-    """
-    try:
-        result = engine.analyze(request)
-        return result
-    except IDRIMError as exc:
-        raise HTTPException(status_code=500, detail=str(exc))
-
-
-@router.get("/version")
-def idrim_version():
-    """
-    Return the current IDRIM engine version.
-    """
-    return {"version": engine.version}
-
-
+# ---------------------------------------------------------
+# Health Check
+# ---------------------------------------------------------
 @router.get("/health")
-def idrim_health():
+async def idrim_health():
+    return {"status": "ok", "module": "IDRIM"}
+
+
+# ---------------------------------------------------------
+# Baseline Rebuild
+# ---------------------------------------------------------
+@router.post("/baseline/rebuild", response_model=IDRIMBaseline)
+async def rebuild_baseline(
+    snapshot: Dict[str, Any],
+    service: IDRIMService = Depends(get_idrim_service),
+):
     """
-    Basic health check for the IDRIM subsystem.
+    Rebuild the IAM baseline from a snapshot.
     """
-    return {"status": "ok", "engine": "IDRIM", "version": engine.version}
+    baseline = service.rebuild_baseline(snapshot)
+    return baseline
+
+
+# ---------------------------------------------------------
+# Drift Detection Only
+# ---------------------------------------------------------
+@router.post("/drift", response_model=list[IDRIMDriftEvent])
+async def detect_drift(
+    snapshot: Dict[str, Any],
+    service: IDRIMService = Depends(get_idrim_service),
+):
+    """
+    Return drift events without computing score.
+    """
+    events = service.detect_drift(snapshot)
+    return events
+
+
+# ---------------------------------------------------------
+# Full Analysis
+# ---------------------------------------------------------
+@router.post("/analysis", response_model=IDRIMAnalysisResult)
+async def run_analysis(
+    snapshot: Dict[str, Any],
+    service: IDRIMService = Depends(get_idrim_service),
+):
+    """
+    Run full IDRIM analysis:
+      • drift detection
+      • scoring
+      • structured result
+    """
+    result = service.run_analysis(snapshot)
+    return result
+
+
+# ---------------------------------------------------------
+# Background Task: Full Analysis
+# ---------------------------------------------------------
+@router.post("/analysis/background")
+async def run_analysis_background(
+    snapshot: Dict[str, Any],
+    background: BackgroundTasks,
+    tasks: IDRIMTasks = Depends(get_idrim_tasks),
+):
+    """
+    Run full analysis asynchronously.
+    """
+    background.add_task(tasks.analysis_task, snapshot)
+    return {"status": "queued", "task": "analysis"}

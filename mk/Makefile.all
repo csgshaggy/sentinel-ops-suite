@@ -1,0 +1,19 @@
+# =====================================================================
+# MAKEFILE.ALL
+# Unified orchestrator for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+
+include mk/Makefile.dev
+include mk/Makefile.docs
+include mk/Makefile.drift
+include mk/Makefile.health
+include mk/Makefile.bootstrap
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: all
+all: dev docs drift health bootstrap
+	@echo "[all] All subsystems executed successfully."

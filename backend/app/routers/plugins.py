@@ -5,13 +5,13 @@ from typing import List
 
 from fastapi import APIRouter, HTTPException
 
-from backend.app.core.metrics import get_timing_histogram
-from backend.app.core.plugin_loader import (
+from app.core.metrics import get_timing_histogram
+from app.core.plugin_loader import (
     get_all_plugins,
     get_plugin_by_id,
     run_plugin,
 )
-from backend.app.models.plugin_models import PluginResponse, TimingBucketResponse
+from app.models.plugin_models import PluginResponse, TimingBucketResponse
 
 router = APIRouter()
 

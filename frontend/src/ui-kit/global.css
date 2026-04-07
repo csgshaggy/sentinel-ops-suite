@@ -1,0 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --ui-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                    Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  font-family: var(--ui-font-family);
+  margin: 0;
+  padding: 0;
+}
+
+[data-theme="light"],
+[data-theme="dark"] {
+  color-scheme: light dark;
+}
+
+@import "./components/TextInput/TextInput.css";
+@import "./components/TextInput/TextInput.theme.css";
+@import "./components/TextInput/TextInput.min.css";

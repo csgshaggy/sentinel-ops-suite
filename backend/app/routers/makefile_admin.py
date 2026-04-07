@@ -1,8 +1,8 @@
-# backend/app/routers/makefile_admin.py
+# app/routers/makefile_admin.py
 
 from fastapi import APIRouter, HTTPException
 
-from backend.app.utils.file_utils import (
+from app.utils.file_utils import (
     compute_health_score,
     ensure_reference_makefile,
     file_exists,

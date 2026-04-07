@@ -7,7 +7,7 @@ import "./AdminLayout.css";
 
 import { Link, useLocation } from "react-router-dom";
 
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../auth/AuthContext";
 import { useLayout } from "../../context/LayoutContext";
 
 export default function Sidebar() {

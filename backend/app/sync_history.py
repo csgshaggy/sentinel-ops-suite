@@ -1,4 +1,4 @@
-# backend/app/sync_history.py
+# app/sync_history.py
 
 from __future__ import annotations
 

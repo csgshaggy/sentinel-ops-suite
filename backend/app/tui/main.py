@@ -1,4 +1,4 @@
-# backend/app/tui/main.py
+# app/tui/main.py
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.prompt import Prompt
 
-from backend.app.tui.panels.anomaly_panel import render_anomaly_panel
+from app.tui.panels.anomaly_panel import render_anomaly_panel
 
 
 def main() -> None:

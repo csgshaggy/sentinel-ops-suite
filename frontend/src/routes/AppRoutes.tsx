@@ -1,138 +1,63 @@
-// frontend/src/routes/AppRoutes.tsx
+// File: /home/ubuntu/sentinel-ops-suite/frontend/src/routes/AppRoutes.tsx
 
-import { Routes, Route } from "react-router-dom";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-// Auth
 import Login from "../pages/Login";
-import LoginPage from "../pages/LoginPage";
+import Dashboard from "../pages/Dashboard";
+import AdminDashboard from "../pages/AdminDashboard";
+import MfaChallenge from "../pages/MfaChallenge";
 
-// Dashboard home
-import DashboardHome from "../pages/DashboardHome";
-
-// Dashboard pages (newly generated)
-import CISummary from "../pages/CISummary";
-import GitSnapshots from "../pages/GitSnapshots";
-import WorkflowRuns from "../pages/WorkflowRuns";
-import RepoHealth from "../pages/RepoHealth";
-import RouterDrift from "../pages/RouterDrift";
-import MakefileHealth from "../pages/MakefileHealth";
-
-// MFA pages
-import MfaChallenge from "../pages/settings/MfaChallenge";
-import MfaEnrollment from "../pages/settings/MfaEnrollment";
-import MfaSettings from "../pages/settings/MfaSettings";
-
-// Auth gate
+// ✅ Corrected imports — these were the root cause
 import ProtectedRoute from "../components/ProtectedRoute";
+
+import DashboardLayout from "../layouts/DashboardLayout";
+
+console.log("APP_ROUTES_LOADED");
 
 export default function AppRoutes() {
   return (
     <Routes>
-      {/* Public routes */}
+      {/* ----------------------------- */}
+      {/* PUBLIC ROUTES                 */}
+      {/* ----------------------------- */}
       <Route path="/login" element={<Login />} />
-      <Route path="/login-page" element={<LoginPage />} />
+      <Route path="/mfa" element={<MfaChallenge />} />
 
-      {/* Protected dashboard routes */}
+      {/* ----------------------------- */}
+      {/* PROTECTED ROUTES              */}
+      {/* ----------------------------- */}
       <Route
-        path="/"
+        path="/dashboard"
         element={
           <ProtectedRoute>
-            <DashboardHome />
+            <DashboardLayout>
+              <Dashboard />
+            </DashboardLayout>
           </ProtectedRoute>
         }
       />
 
       <Route
-        path="/ci-summary"
+        path="/admin"
         element={
-          <ProtectedRoute>
-            <CISummary />
+          <ProtectedRoute role="admin">
+            <DashboardLayout>
+              <AdminDashboard />
+            </DashboardLayout>
           </ProtectedRoute>
         }
       />
 
-      <Route
-        path="/git-snapshots"
-        element={
-          <ProtectedRoute>
-            <GitSnapshots />
-          </ProtectedRoute>
-        }
-      />
+      {/* ----------------------------- */}
+      {/* DEFAULT ROUTE (FIXED)         */}
+      {/* ----------------------------- */}
+      <Route index element={<Navigate to="/dashboard" replace />} />
 
-      <Route
-        path="/workflow-runs"
-        element={
-          <ProtectedRoute>
-            <WorkflowRuns />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/repo-health"
-        element={
-          <ProtectedRoute>
-            <RepoHealth />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/router-drift"
-        element={
-          <ProtectedRoute>
-            <RouterDrift />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/makefile-health"
-        element={
-          <ProtectedRoute>
-            <MakefileHealth />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* MFA routes */}
-      <Route
-        path="/mfa/challenge"
-        element={
-          <ProtectedRoute>
-            <MfaChallenge />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/mfa/enroll"
-        element={
-          <ProtectedRoute>
-            <MfaEnrollment />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/mfa/settings"
-        element={
-          <ProtectedRoute>
-            <MfaSettings />
-          </ProtectedRoute>
-        }
-      />
-
-      {/* Fallback */}
-      <Route
-        path="*"
-        element={
-          <ProtectedRoute>
-            <DashboardHome />
-          </ProtectedRoute>
-        }
-      />
+      {/* ----------------------------- */}
+      {/* CATCH-ALL → LOGIN             */}
+      {/* ----------------------------- */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }

@@ -1,0 +1,16 @@
+/* Base */
+.textinput-field {
+  color: #000 !important; /* ALWAYS BLACK */
+}
+
+/* Light Theme */
+[data-theme="light"] .textinput-field {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* Dark Theme */
+[data-theme="dark"] .textinput-field {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(120, 150, 255, 0.35);
+}
