@@ -1,0 +1,35 @@
+# =====================================================================
+# MAKEFILE.META
+# Metadata & versioning for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+
+META_DIR := meta
+VERSION_FILE := $(META_DIR)/version.json
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: meta
+meta: meta-version
+	@echo "[meta] Metadata generation complete."
+
+# ---------------------------------------------------------------------
+# VERSION STAMP
+# ---------------------------------------------------------------------
+.PHONY: meta-version
+meta-version:
+	@echo "[meta] Generating version metadata..."
+	@mkdir -p $(META_DIR)
+	@$(PYTHON) - <<EOF
+import json, subprocess, time
+version = {
+    "timestamp": int(time.time()),
+    "git_commit": subprocess.getoutput("git rev-parse HEAD"),
+    "git_branch": subprocess.getoutput("git rev-parse --abbrev-ref HEAD"),
+}
+json.dump(version, open("$(VERSION_FILE)", "w"), indent=2)
+EOF
+	@echo "[meta] Version written to $(VERSION_FILE)"

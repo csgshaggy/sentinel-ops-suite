@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CMD="${1:-help}"
+
+case "$CMD" in
+  sync)
+    make sync
+    ;;
+  health)
+    make ops-health
+    ;;
+  bootstrap)
+    make ops-bootstrap
+    ;;
+  drift)
+    make drift-ci
+    ;;
+  validate)
+    make validate-makefile
+    ;;
+  checksum)
+    make repo-structure-checksum
+    ;;
+  self-heal)
+    ./ops/self-heal.sh
+    ;;
+  self-heal-dry)
+    ./ops/self-heal.sh --dry-run
+    ;;
+  help|*)
+    echo "Sentinel Ops — Unified Operator CLI"
+    echo
+    echo "Usage:"
+    echo "  ./ops sync"
+    echo "  ./ops health"
+    echo "  ./ops bootstrap"
+    echo "  ./ops drift"
+    echo "  ./ops validate"
+    echo "  ./ops checksum"
+    echo "  ./ops self-heal"
+    echo "  ./ops self-heal-dry"
+    ;;
+esac

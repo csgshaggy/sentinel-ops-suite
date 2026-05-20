@@ -1,0 +1,46 @@
+./.venv/lib64/python3.12/site-packages/scipy/signal/_filter_design.py:5864:        Default is 4 to model the human auditory system. Must be between
+./.venv/lib64/python3.12/site-packages/pip/_vendor/urllib3/connection.py:223:        sys.audit("http.client.connect", self, self.host, self.port)
+./.venv/lib64/python3.12/site-packages/pip/_internal/commands/install.py:76:# after installation has started. Importing them eagerly keeps the audit
+./.venv/lib64/python3.12/site-packages/pip/_internal/commands/install.py:110:    """Import modules pip uses lazily so the audit hook ignores them later."""
+./.venv/lib64/python3.12/site-packages/pip/_internal/commands/install.py:121:    """Install an audit hook that warns on unexpected imports after pip install starts.
+./.venv/lib64/python3.12/site-packages/pip/_internal/commands/install.py:131:    sys.addaudithook(_prevent_import_hook)
+./.venv/lib64/python3.12/site-packages/sqlalchemy/orm/events.py:973:            event to create new mappers to record change-audit histories on
+./.venv/lib64/python3.12/site-packages/sqlalchemy/dialects/mssql/base.py:1196:    "securityaudit",
+./.venv/lib64/python3.12/site-packages/passlib/_data/wordsets/eff_long.txt:373:audition
+./.venv/lib64/python3.12/site-packages/passlib/_data/wordsets/eff_long.txt:6980:unaudited
+./.venv/lib64/python3.12/site-packages/passlib/_data/wordsets/eff_prefixed.txt:111:auditorium
+./.venv/lib64/python3.12/site-packages/passlib/_data/wordsets/bip39.txt:121:audit
+./.venv/lib64/python3.12/site-packages/passlib/utils/handlers.py:57:    #       (e.g. HEX_CHARS etc); need to audit uses and update this list.
+./.venv/lib/python3.12/site-packages/scipy/signal/_filter_design.py:5864:        Default is 4 to model the human auditory system. Must be between
+./.venv/lib/python3.12/site-packages/pip/_vendor/urllib3/connection.py:223:        sys.audit("http.client.connect", self, self.host, self.port)
+./.venv/lib/python3.12/site-packages/pip/_internal/commands/install.py:76:# after installation has started. Importing them eagerly keeps the audit
+./.venv/lib/python3.12/site-packages/pip/_internal/commands/install.py:110:    """Import modules pip uses lazily so the audit hook ignores them later."""
+./.venv/lib/python3.12/site-packages/pip/_internal/commands/install.py:121:    """Install an audit hook that warns on unexpected imports after pip install starts.
+./.venv/lib/python3.12/site-packages/pip/_internal/commands/install.py:131:    sys.addaudithook(_prevent_import_hook)
+./.venv/lib/python3.12/site-packages/sqlalchemy/orm/events.py:973:            event to create new mappers to record change-audit histories on
+./.venv/lib/python3.12/site-packages/sqlalchemy/dialects/mssql/base.py:1196:    "securityaudit",
+./.venv/lib/python3.12/site-packages/passlib/_data/wordsets/eff_long.txt:373:audition
+./.venv/lib/python3.12/site-packages/passlib/_data/wordsets/eff_long.txt:6980:unaudited
+./.venv/lib/python3.12/site-packages/passlib/_data/wordsets/eff_prefixed.txt:111:auditorium
+./.venv/lib/python3.12/site-packages/passlib/_data/wordsets/bip39.txt:121:audit
+./.venv/lib/python3.12/site-packages/passlib/utils/handlers.py:57:    #       (e.g. HEX_CHARS etc); need to audit uses and update this list.
+./admin/routes.py:8:from backend.auth.audit import log_event
+./admin/routes.py:147:@router.get("/audit-logs", response_model=list[AuditLogOut])
+./admin/routes.py:148:def list_audit_logs(db: Session = Depends(get_db)):
+./app/models/audit_event.py:1:# app/models/audit_event.py
+./app/models/audit_event.py:9:    __tablename__ = "audit_events"
+./app/models/audit_event.py:19:    user = relationship("User", back_populates="audit_events")
+./code_health_report.json:1300:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/audit_event.py",
+./code_health_report.json:1303:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/audit_event.py",
+./code_health_report.json:1313:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/audit_event.py",
+./code_health_report.json:1323:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/audit_event.py",
+./alembic/versions/3b10c3f1d108_fix_plugin_model.py:32:    op.drop_table('audit_events')
+./alembic/versions/3b10c3f1d108_fix_plugin_model.py:207:    op.create_table('audit_events',
+./alembic/versions/3b10c3f1d108_fix_plugin_model.py:213:    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('audit_events_ibfk_1')),
+./alembic/versions/24d85e9dde70_fix_plugin_model.py:23:    op.drop_table('audit_events')
+./alembic/versions/24d85e9dde70_fix_plugin_model.py:186:    op.create_table('audit_events',
+./alembic/versions/24d85e9dde70_fix_plugin_model.py:192:    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('audit_events_ibfk_1')),
+./alembic/versions/547d76fa4ac1_sync_models_with_db.py:23:    op.alter_column('audit_events', 'created_at',
+./alembic/versions/547d76fa4ac1_sync_models_with_db.py:136:    op.alter_column('audit_events', 'created_at',
+./auth/models.py:20:    __tablename__ = "audit_logs"
+./auth/models.py.bak:20:    __tablename__ = "audit_logs"

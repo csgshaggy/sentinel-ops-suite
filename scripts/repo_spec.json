@@ -1,0 +1,29 @@
+{
+  "required_dirs": [
+    "scripts",
+    "app",
+    "app/core",
+    "app/routes",
+    "app/services",
+    "app/utils",
+    "tests"
+  ],
+  "required_files": [
+    "Makefile",
+    "README.md",
+    "pyproject.toml",
+    "scripts/recover_repo.sh",
+    "scripts/validate_repo.py",
+    "scripts/scaffold_missing.py",
+    "scripts/snapshot_repo.py",
+    "scripts/drift_detector.py"
+  ],
+  "templates": {
+    "app/__init__.py": "",
+    "app/core/__init__.py": "",
+    "app/routes/__init__.py": "",
+    "app/services/__init__.py": "",
+    "app/utils/__init__.py": "",
+    "tests/__init__.py": ""
+  }
+}

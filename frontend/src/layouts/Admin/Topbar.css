@@ -1,0 +1,99 @@
+/* ====================================================================
+   SentinelOps — Admin Topbar (Responsive, Clean, No Dashboard Home)
+   ==================================================================== */
+
+/* Top bar container */
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+
+  /* Center and constrain width */
+  max-width: 1400px;
+  margin: 0 auto;
+
+  padding: 0 1rem;
+  min-height: 60px;
+
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+
+  /* Allow wrapping on smaller screens */
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+/* Left + right sections */
+.admin-topbar-left,
+.admin-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  min-width: 0; /* allows shrinking */
+}
+
+/* Remove any leftover title or home link spacing */
+.admin-topbar-left .topbar-title,
+.admin-topbar-left .topbar-home-link {
+  display: none !important;
+}
+
+/* Buttons (theme toggle, logout, etc.) */
+.admin-topbar-right button {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text);
+  transition: background 0.15s ease;
+}
+
+.admin-topbar-right button:hover {
+  background: var(--panel-accent);
+}
+
+/* Role badge, environment badge, etc. */
+.topbar-role,
+.env-badge {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: var(--panel-accent);
+  border: 1px solid var(--border);
+}
+
+/* Responsive breakpoint — medium screens */
+@media (max-width: 900px) {
+  .admin-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.75rem 1rem;
+    gap: 0.5rem;
+    max-width: 100%;
+  }
+
+  .admin-topbar-right {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}
+
+/* Extra-small screens */
+@media (max-width: 600px) {
+  .admin-topbar {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .admin-topbar-right button,
+  .env-badge,
+  .topbar-role {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+  }
+}

@@ -1,0 +1,89 @@
+diff --git a/src/components/UserMenu.jsx b/src/components/UserMenu.jsx
+index 1234567..abcdef0 100644
+--- a/src/components/UserMenu.jsx
++++ b/src/components/UserMenu.jsx
+@@ -95,12 +95,6 @@ export default function UserMenu() {
+         <li>
+           <Link to="/settings">Settings</Link>
+         </li>
+-
+-        {/* Preferences */}
+-        <li>
+-          <Link to="/preferences">Preferences</Link>
+-        </li>
+-
+       </ul>
+     </div>
+   );
+diff --git a/src/routes/AppRoutes.jsx b/src/routes/AppRoutes.jsx
+index 1234567..abcdef0 100644
+--- a/src/routes/AppRoutes.jsx
++++ b/src/routes/AppRoutes.jsx
+@@ -15,12 +15,6 @@ export default function AppRoutes() {
+       <Route path="/settings" element={<SettingsPage />} />
+ 
+-      {/* Preferences (NEW) */}
+-      <Route
+-        path="/preferences"
+-        element={<PreferencesPage />}
+-      />
+-
+     </Routes>
+   );
+ }
+diff --git a/src/router.jsx b/src/router.jsx
+index 1234567..abcdef0 100644
+--- a/src/router.jsx
++++ b/src/router.jsx
+@@ -90,12 +90,6 @@ const router = createBrowserRouter([
+     element: <SettingsPage />,
+   },
+ 
+-  // Preferences
+-  {
+-    path: "/preferences",
+-    element: <PreferencesPage />,
+-  },
+-
+ ]);
+ 
+ export default router;
+diff --git a/src/pages/admin/PreferencesPage.jsx b/src/pages/admin/PreferencesPage.jsx
+deleted file mode 100644
+index 1234567..0000000
+--- a/src/pages/admin/PreferencesPage.jsx
++++ /dev/null
+@@ -1,50 +0,0 @@
+-// Legacy Preferences Page (removed)
+-// ThemeManager-based system (deprecated)
+-
+-import React from "react";
+-import { useThemeManager } from "../../context/ThemeManager.jsx";
+-
+-export default function PreferencesPage() {
+-  const { mode, accent, setMode, setAccent } = useThemeManager();
+-
+-  return (
+-    <div className="preferences-page">
+-      <h1>Preferences</h1>
+-
+-      <section className="pref-section">
+-        <h2>Theme Mode</h2>
+-        <select value={mode} onChange={(e) => setMode(e.target.value)}>
+-          <option value="light">Light</option>
+-          <option value="dark">Dark</option>
+-          <option value="system">System</option>
+-        </select>
+-      </section>
+-
+-      <section className="pref-section">
+-        <h2>Accent Color</h2>
+-        <input
+-          type="color"
+-          value={accent}
+-          onChange={(e) => setAccent(e.target.value)}
+-        />
+-      </section>
+-    </div>
+-  );
+-}

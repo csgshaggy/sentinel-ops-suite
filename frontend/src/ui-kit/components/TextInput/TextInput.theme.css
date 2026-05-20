@@ -1,0 +1,31 @@
+/* File: /home/ubuntu/sentinel-ops-suite/frontend/src/ui-kit/components/TextInput/TextInput.theme.css */
+/* -------------------------------------------------------
+   TextInput — Theme Layer (Colors, Focus, Error States)
+-------------------------------------------------------- */
+
+.ui-textinput {
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  color: var(--ui-text);
+}
+
+.ui-textinput::placeholder {
+  color: var(--ui-text-muted);
+}
+
+/* Focus State */
+.ui-textinput:focus {
+  border-color: var(--ui-primary);
+  background: var(--ui-surface-alt);
+  box-shadow: 0 0 0 2px rgba(77, 163, 255, 0.25);
+}
+
+/* Error State */
+.ui-textinput-error {
+  border-color: var(--ui-danger) !important;
+  background: rgba(255, 77, 77, 0.05);
+}
+
+.ui-textinput-error:focus {
+  box-shadow: 0 0 0 2px rgba(255, 77, 77, 0.25);
+}

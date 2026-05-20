@@ -1,0 +1,33 @@
+.mfa-disable-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.mfa-disable-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.mfa-disable-button {
+  background: #dc2626;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 16px;
+}
+
+.mfa-disable-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mfa-disable-error {
+  color: #dc2626;
+  margin-top: 12px;
+}

@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+OPS_DIR="${REPO_ROOT}/ops_dir"
+
+usage() {
+    cat <<EOF
+Sentinel Ops — Operator CLI
+
+Usage:
+  ops help
+  ops health
+  ops drift
+  ops validate
+  ops checksum
+
+EOF
+}
+
+cmd="${1:-help}"
+
+case "$cmd" in
+  help)
+    usage
+    ;;
+  health)
+    make ops-health
+    ;;
+  drift)
+    echo "🔍 Drift detection not yet implemented in wrapper (use make ops-drift if wired)."
+    ;;
+  validate)
+    node "${REPO_ROOT}/scripts/ops/validate-makefile.mjs"
+    ;;
+  checksum)
+    make ops-checksum
+    ;;
+  *)
+    echo "❌ Unknown command: $cmd"
+    usage
+    exit 1
+    ;;
+esac

@@ -1,0 +1,9 @@
+:root {
+  --bg-root: #0d0f12;
+  --bg-surface: #14171c;
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --neon-accent: #00eaff;
+  --neon-accent-soft: rgba(0, 234, 255, 0.25);
+  --glass-blur: blur(12px);
+}

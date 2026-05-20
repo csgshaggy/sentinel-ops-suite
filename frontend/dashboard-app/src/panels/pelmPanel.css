@@ -1,0 +1,120 @@
+/* pelmPanel.css */
+
+/* Base styles (your original content) */
+.panel-container {
+  padding: 2rem;
+}
+
+.panel-title {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.panel-content {
+  background: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  color: #fff;
+}
+
+/* ============================================
+   Added styles for Step 3 + Step 4 widgets
+   ============================================ */
+
+.panel-section {
+  margin-top: 2rem;
+}
+
+.panel-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+/* Loading / Error / Empty states */
+.panel-loading,
+.panel-error,
+.panel-empty {
+  margin: 0.5rem 0 1rem 0;
+  font-size: 0.95rem;
+}
+
+.panel-error {
+  color: #ff6b6b;
+}
+
+.panel-empty {
+  color: #bbbbbb;
+}
+
+/* Engine Status Tile */
+.engine-tile {
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* Events Table */
+.panel-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+.panel-table th,
+.panel-table td {
+  padding: 8px;
+  border-bottom: 1px solid #333;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.panel-table th {
+  font-weight: 600;
+  background: #222;
+}
+
+.paths-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+
+.paths-item {
+  padding: 6px 0;
+  border-bottom: 1px solid #333;
+  font-size: 0.95rem;
+}
+
+.paths-count {
+  color: #bbbbbb;
+  margin-left: 4px;
+}
+
+.audit-json {
+  max-height: 300px;
+  overflow-y: auto;
+  background: #111;
+  border: 1px solid #333;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+.refresh-button {
+  background: #333;
+  color: #fff;
+  border: 1px solid #555;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.refresh-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

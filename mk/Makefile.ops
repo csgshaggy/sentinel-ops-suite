@@ -1,0 +1,37 @@
+# =====================================================================
+# MAKEFILE.OPS
+# Operator console automation for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: ops
+ops: ops-menu
+	@echo "[ops] Operator console ready."
+
+# ---------------------------------------------------------------------
+# OPERATOR MENU
+# ---------------------------------------------------------------------
+.PHONY: ops-menu
+ops-menu:
+	@echo "==============================================="
+	@echo " Sentinel Ops Suite — Operator Console"
+	@echo "==============================================="
+	@echo "1) Drift Check"
+	@echo "2) Health Check"
+	@echo "3) Bootstrap Environment"
+	@echo "4) Build Docs"
+	@echo "5) Build Release Package"
+	@echo "-----------------------------------------------"
+	@read -p 'Select option: ' opt; \
+	case $$opt in \
+		1) make drift-check ;; \
+		2) make health ;; \
+		3) make bootstrap ;; \
+		4) make docs ;; \
+		5) make release ;; \
+		*) echo "Invalid option." ;; \
+	esac

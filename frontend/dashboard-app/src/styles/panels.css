@@ -1,0 +1,99 @@
+/* ==========================================================================
+   Sentinel Ops Console — Panel System
+   Absolute path: /src/styles/panels.css
+   ========================================================================== */
+
+/* PANEL CONTAINER */
+.panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text);
+  transition: background var(--transition), border var(--transition);
+}
+
+/* PANEL HEADER */
+.panel-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--color-text-strong);
+}
+
+/* PANEL BODY */
+.panel-body {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+/* PANEL GRID (for dashboards) */
+.panel-grid {
+  display: grid;
+  gap: 20px;
+}
+
+@media (min-width: 900px) {
+  .panel-grid.two-col {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .panel-grid.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+/* PANEL STATUS TAGS */
+.panel-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  margin-right: 8px;
+}
+
+/* PANEL ACTION BAR */
+.panel-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.panel-btn {
+  padding: 6px 12px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition), border var(--transition);
+  color: var(--color-text);
+}
+
+.panel-btn:hover {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+}
+
+/* PANEL ALERT STATES */
+.panel.alert {
+  border-color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+.panel.warning {
+  border-color: var(--color-warning);
+  background: var(--color-warning-bg);
+}
+
+.panel.success {
+  border-color: var(--color-success);
+  background: var(--color-success-bg);
+}

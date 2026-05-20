@@ -1,0 +1,62 @@
+/* Sentinel Ops — Auth Theme Variables */
+
+:root {
+  --brand-primary: #00afff;
+  --brand-secondary: #0077cc;
+  --brand-text: #e8f7ff;
+  --brand-dim: #9ca3af;
+  --brand-bg: #0a0d12;
+  --brand-grid: #1a1f27;
+
+  --brand-radius: 12px;
+  --brand-transition: 0.18s ease;
+}
+
+/* Neon Ripple Button Effect */
+
+.login-btn,
+.auth-btn,
+.btn-primary,
+.btn-danger,
+.btn-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.login-btn::after,
+.auth-btn::after,
+.btn-primary::after,
+.btn-danger::after,
+.btn-ripple::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--brand-primary);
+  opacity: 0.6;
+  border-radius: 50%;
+  transform: scale(0);
+  pointer-events: none;
+  animation: none;
+}
+
+.login-btn:active::after,
+.auth-btn:active::after,
+.btn-primary:active::after,
+.btn-danger:active::after,
+.btn-ripple:active::after {
+  animation: ripple 0.5s ease-out;
+}
+
+/* LIGHT MODE OVERRIDES */
+body.light {
+  --bg-root: #f4f7fb;
+  --bg-surface: rgba(255, 255, 255, 0.75);
+  --text-primary: #1a1d23;
+  --text-secondary: #4a4f58;
+
+  --neon-accent: #007bff;
+  --neon-accent-soft: rgba(0, 123, 255, 0.25);
+
+  --glass-blur: blur(14px);
+}

@@ -1,0 +1,111 @@
+# ============================================================
+#  SSRF Command Console — Operator Makefile Template
+# ============================================================
+
+SHELL := /bin/bash
+
+GREEN  := \033[1;32m
+YELLOW := \033[1;33m
+BLUE   := \033[1;34m
+RESET  := \033[0m
+
+# Core
+tui:
+	@echo -e "$(BLUE)[TUI] Launching TUI console$(RESET)"
+	python3 tui.py
+
+backend:
+	@echo -e "$(BLUE)[Backend] Starting FastAPI backend$(RESET)"
+	uvicorn backend.main:app --reload
+
+all:
+	@echo -e "$(BLUE)[ALL] Starting TUI + Backend$(RESET)"
+	make -j2 tui backend
+
+# Hygiene
+clean:
+	@echo -e "$(YELLOW)[CLEAN] Removing Python cache$(RESET)"
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+
+list-dirs:
+	@echo -e "$(BLUE)[DIRS] Listing top-level directories$(RESET)"
+	@find . -maxdepth 1 -type d | sort
+
+# Doctor
+doctor-structure:
+	@echo -e "$(BLUE)[Doctor] Running structure checks$(RESET)"
+	python3 scripts/project_tree_validator.py
+
+doctor-imports:
+	@echo -e "$(BLUE)[Doctor] Running import validator$(RESET)"
+	python3 scripts/import_validator.py
+
+doctor:
+	@echo -e "$(BLUE)[Doctor] Running full project doctor$(RESET)"
+	make doctor-structure
+	make doctor-imports
+
+# CI
+ci:
+	@echo -e "$(BLUE)[CI] Running CI suite$(RESET)"
+	make clean
+	make doctor
+
+# SuperDoctor
+install-superdoctor:
+	@echo -e "$(BLUE)[Install] Installing SuperDoctor CLI$(RESET)"
+	bash scripts/install_superdoctor_cli.sh
+
+superdoctor:
+	@superdoctor doctor
+
+report:
+	@superdoctor report
+
+dashboard:
+	@superdoctor dashboard
+
+mode-strict:
+	@superdoctor mode strict
+
+mode-balanced:
+	@superdoctor mode balanced
+
+# Validators & Bootstrap
+validate-tree:
+	python3 scripts/project_tree_validator.py
+
+validate-makefile:
+	python3 scripts/makefile_doctor.py
+
+bootstrap:
+	bash bootstrap.sh
+
+# Help
+help:
+	@echo -e ""
+	@echo -e "SSRF Command Console — Make Targets"
+	@echo -e "-----------------------------------"
+	@echo -e "  $(GREEN)make tui$(RESET)              Run TUI console"
+	@echo -e "  $(GREEN)make backend$(RESET)          Start backend FastAPI app"
+	@echo -e "  $(GREEN)make all$(RESET)              Run TUI and backend"
+	@echo -e "  $(GREEN)make clean$(RESET)            Remove Python cache files"
+	@echo -e "  $(GREEN)make list-dirs$(RESET)        List top-level directories"
+	@echo -e ""
+	@echo -e "  $(GREEN)make doctor-structure$(RESET) Run structure checks"
+	@echo -e "  $(GREEN)make doctor-imports$(RESET)   Run import validator"
+	@echo -e "  $(GREEN)make doctor$(RESET)           Run full project doctor"
+	@echo -e "  $(GREEN)make ci$(RESET)               Run CI suite"
+	@echo -e ""
+	@echo -e "  $(GREEN)make install-superdoctor$(RESET) Install SuperDoctor CLI"
+	@echo -e "  $(GREEN)make superdoctor$(RESET)      Launch SuperDoctor TUI"
+	@echo -e "  $(GREEN)make report$(RESET)           SuperDoctor report"
+	@echo -e "  $(GREEN)make dashboard$(RESET)        SuperDoctor dashboard"
+	@echo -e "  $(GREEN)make mode-strict$(RESET)      Set SuperDoctor mode: strict"
+	@echo -e "  $(GREEN)make mode-balanced$(RESET)    Set SuperDoctor mode: balanced"
+	@echo -e ""
+	@echo -e "  $(GREEN)make validate-tree$(RESET)    Validate project tree"
+	@echo -e "  $(GREEN)make validate-makefile$(RESET)Check Makefile for duplicates"
+	@echo -e "  $(GREEN)make bootstrap$(RESET)        Bootstrap repo structure"
+	@echo -e "  $(GREEN)make help$(RESET)             Show this help menu"
+	@echo -e ""

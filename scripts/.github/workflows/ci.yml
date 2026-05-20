@@ -1,0 +1,66 @@
+name: Sentinel Ops CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  sentinel-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install login-app dependencies
+        working-directory: frontend/login-app
+        run: npm install
+
+      - name: Install dashboard-app dependencies
+        working-directory: frontend/dashboard-app
+        run: npm install
+
+      - name: Build login-app
+        working-directory: frontend/login-app
+        run: npm run build
+
+      - name: Build dashboard-app
+        working-directory: frontend/dashboard-app
+        run: npm run build
+
+      - name: Run build validator
+        run: bash scripts/validators/validate_build.sh
+
+      - name: Run manifest guardrail
+        run: bash scripts/guardrails/guard_manifest.sh
+
+      - name: Run unified CI pipeline
+        run: bash scripts/ci/ci_pipeline.sh
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sentinel-frontend-builds
+          path: |
+            frontend/login-app/dist
+            frontend/dashboard-app/dist

@@ -1,0 +1,37 @@
+stages:
+  - validate
+  - test
+  - build
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+
+before_script:
+  - python3 --version
+  - python3 -m venv .venv
+  - source .venv/bin/activate
+  - pip install -e .
+  - pip install -r requirements-dev.txt
+
+validate:
+  stage: validate
+  script:
+    - make structure
+    - make lint
+
+test:
+  stage: test
+  script:
+    - make test
+
+build:
+  stage: build
+  script:
+    - make build
+  artifacts:
+    paths:
+      - dist/

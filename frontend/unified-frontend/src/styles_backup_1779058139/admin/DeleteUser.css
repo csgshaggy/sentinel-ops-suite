@@ -1,0 +1,107 @@
+/* ============================================================
+   DeleteUser.css — Admin Delete User Confirmation
+   Dark‑Ops theme aligned with ResetUserPassword + ToggleUser
+   ============================================================ */
+
+:root {
+  --admin-bg: #0d0f12;
+  --admin-card-bg: #15181d;
+  --admin-border: #1f2329;
+  --admin-text: #e5e7eb;
+  --admin-text-dim: #9ca3af;
+  --admin-accent: #3b82f6;
+  --admin-secondary: #2a2e35;
+  --admin-secondary-hover: #3a3f47;
+  --admin-danger: #ef4444;
+  --admin-danger-hover: #f87171;
+  --admin-radius: 10px;
+  --admin-transition: 0.18s ease;
+}
+
+.deleteuser-container {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.deleteuser-card {
+  width: 480px;
+  background: var(--admin-card-bg);
+  padding: 32px;
+  border-radius: var(--admin-radius);
+  border: 1px solid var(--admin-border);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.deleteuser-title {
+  color: var(--admin-text);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.deleteuser-warning {
+  color: #fbbf24;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.deleteuser-message {
+  color: var(--admin-text-dim);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.deleteuser-username {
+  color: var(--admin-text);
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.deleteuser-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.btn-danger {
+  padding: 10px 16px;
+  background: var(--admin-danger);
+  color: white;
+  border: none;
+  border-radius: var(--admin-radius);
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.btn-danger:hover {
+  background: var(--admin-danger-hover);
+}
+
+.btn-secondary {
+  padding: 10px 16px;
+  background: var(--admin-secondary);
+  color: var(--admin-text);
+  border: none;
+  border-radius: var(--admin-radius);
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.btn-secondary:hover {
+  background: var(--admin-secondary-hover);
+}
+
+.deleteuser-loading,
+.deleteuser-error {
+  padding: 40px;
+  text-align: center;
+  color: var(--admin-text);
+}

@@ -1,0 +1,20 @@
+# Frontend build pipeline for Sentinel Ops Suite
+
+FRONTEND_DIR := /home/ubuntu/sentinel-ops-suite/frontend
+NODE_ENV    ?= production
+
+.PHONY: all install build clean dist-clean
+
+all: build
+
+install:
+	cd $(FRONTEND_DIR) && npm ci
+
+build:
+	cd $(FRONTEND_DIR) && NODE_ENV=$(NODE_ENV) npm run build
+
+clean:
+	cd $(FRONTEND_DIR) && rm -rf node_modules
+
+dist-clean:
+	cd $(FRONTEND_DIR) && rm -rf dist

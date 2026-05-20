@@ -1,0 +1,104 @@
+/* Darkened global overlay */
+.session-expire-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  /* Darker, more authoritative overlay */
+  background: radial-gradient(
+      circle at center,
+      rgba(0, 0, 0, 0.90) 0%,
+      rgba(0, 0, 0, 0.92) 40%,
+      rgba(0, 0, 0, 0.96) 100%
+  );
+
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+
+  opacity: 0;
+  animation: overlayFadeIn 0.25s ease-out forwards;
+}
+
+
+/* Modal container */
+.session-expire-modal {
+  background: #111418;
+  padding: 32px;
+  border-radius: 12px;
+  width: 380px;
+  border: 1px solid #2a2f36;
+  box-shadow: 0 0 28px rgba(0, 0, 0, 0.55);
+  text-align: center;
+
+  /* Entrance animation */
+  opacity: 0;
+  transform: translateY(20px) scale(0.97);
+  animation: modalEnter 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Title */
+.session-expire-modal h2 {
+  margin: 0 0 12px 0;
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+/* Message */
+.session-expire-modal p {
+  color: #c7c7c7;
+  font-size: 1rem;
+  margin-bottom: 24px;
+}
+
+/* Button row */
+.session-expire-actions {
+  display: flex;
+  justify-content: center;
+}
+
+/* Logout button */
+.logout-btn {
+  background: #d9534f;
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+
+  /* Micro-interactions */
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
+}
+
+.logout-btn:hover {
+  background: #c64541;
+  transform: translateY(-2px);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
+}
+
+/* Animations */
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

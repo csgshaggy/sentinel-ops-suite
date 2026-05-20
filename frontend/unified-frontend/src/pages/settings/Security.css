@@ -1,0 +1,56 @@
+.security-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.security-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.security-button {
+  background: #2563eb;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.security-button.danger {
+  background: #dc2626;
+}
+
+.security-error {
+  color: #dc2626;
+  margin-bottom: 16px;
+}
+
+.session-list,
+.log-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+
+.session-item,
+.log-item {
+  padding: 12px;
+  background: #f3f4f6;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.session-current {
+  background: #16a34a;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-left: 10px;
+}

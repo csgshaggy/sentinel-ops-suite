@@ -1,0 +1,20 @@
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+pydantic==2.6.4
+pydantic-settings==2.2.1
+
+python-dotenv==1.0.1
+passlib[bcrypt]==1.7.4
+
+httpx==0.27.0
+jinja2==3.1.3
+pyyaml==6.0.1
+
+networkx==3.2.1
+numpy==1.26.4
+scikit-learn==1.4.1.post1
+
+watchdog==4.0.0
+
+# Optional: if your backend uses your internal package
+# sentinel-ops-suite @ file:.

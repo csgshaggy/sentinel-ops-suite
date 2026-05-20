@@ -1,0 +1,17 @@
+/* repoHealthPanel.css */
+
+.panel-container {
+  padding: 2rem;
+}
+
+.panel-title {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.panel-content {
+  background: #1e1e1e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  color: #fff;
+}

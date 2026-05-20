@@ -1,0 +1,136 @@
+/* ============================================================
+   UserDetail.css — Admin User Detail View
+   Dark‑Ops theme aligned with UserList + CreateUser + EditUser
+   ============================================================ */
+
+:root {
+  --admin-bg: #0d0f12;
+  --admin-card-bg: #15181d;
+  --admin-border: #1f2329;
+  --admin-text: #e5e7eb;
+  --admin-text-dim: #9ca3af;
+  --admin-accent: #3b82f6;
+  --admin-accent-hover: #60a5fa;
+  --admin-danger: #ef4444;
+  --admin-danger-hover: #f87171;
+  --admin-radius: 10px;
+  --admin-transition: 0.18s ease;
+}
+
+.userdetail-container {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.userdetail-card {
+  width: 600px;
+  background: var(--admin-card-bg);
+  padding: 32px;
+  border-radius: var(--admin-radius);
+  border: 1px solid var(--admin-border);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.userdetail-title {
+  color: var(--admin-text);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.userdetail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.userdetail-grid label {
+  color: var(--admin-text-dim);
+  font-size: 0.85rem;
+}
+
+.userdetail-grid p {
+  color: var(--admin-text);
+  margin-top: 4px;
+}
+
+.active-yes {
+  color: #4ade80;
+}
+
+.active-no {
+  color: #f87171;
+}
+
+.userdetail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.btn-accent,
+.btn-secondary,
+.btn-danger {
+  padding: 10px 14px;
+  border-radius: var(--admin-radius);
+  cursor: pointer;
+  border: none;
+  transition: var(--admin-transition);
+}
+
+.btn-accent {
+  background: var(--admin-accent);
+  color: white;
+}
+
+.btn-accent:hover {
+  background: var(--admin-accent-hover);
+}
+
+.btn-secondary {
+  background: #2a2e35;
+  color: var(--admin-text);
+}
+
+.btn-secondary:hover {
+  background: #3a3f47;
+}
+
+.btn-danger {
+  background: var(--admin-danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: var(--admin-danger-hover);
+}
+
+.userdetail-footer {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.userdetail-footer a {
+  color: var(--admin-accent);
+  cursor: pointer;
+}
+
+.userdetail-footer a:hover {
+  color: var(--admin-accent-hover);
+}
+
+.userdetail-loading,
+.userdetail-error {
+  padding: 40px;
+  text-align: center;
+  color: var(--admin-text);
+}

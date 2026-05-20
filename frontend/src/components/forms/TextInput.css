@@ -1,0 +1,58 @@
+/* ============================================
+   Sentinel Ops – TextInput Component Styling
+   Matches Login.css + UI‑Kit Glass Theme
+   ============================================ */
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+/* Label */
+.input-label {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  color: #9ec7d8;
+}
+
+/* Base input styling */
+.input-field {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.35);
+  color: #e6e6e6;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Focus state */
+.input-field:focus {
+  border-color: #00eaff;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+/* Valid state */
+.input-valid {
+  border-color: #00ff9d;
+  box-shadow: 0 0 8px rgba(0, 255, 157, 0.4);
+}
+
+/* Error state */
+.input-error {
+  border-color: #ff4d4d;
+  box-shadow: 0 0 8px rgba(255, 77, 77, 0.4);
+}
+
+/* Error message */
+.input-error-message {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: #ff6b6b;
+  background: rgba(255, 0, 0, 0.15);
+  border: 1px solid rgba(255, 0, 0, 0.35);
+  padding: 8px;
+  border-radius: 6px;
+}

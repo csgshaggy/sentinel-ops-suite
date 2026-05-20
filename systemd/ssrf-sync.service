@@ -1,0 +1,41 @@
+[Unit]
+Description=SSRF Command Console Sync Engine
+Documentation=https://github.com/csgshaggy/ssrf-command-console
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+
+# Run sync inside the repo root
+WorkingDirectory=/home/kali/ssrf-command-console
+
+# Full path to sync.sh (validated earlier)
+ExecStart=/home/kali/ssrf-command-console/sync.sh
+
+# Run as your user
+User=kali
+Group=kali
+
+# Lower priority so sync never interferes with active work
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+
+# Environment safety
+Environment="PYTHONUNBUFFERED=1"
+Environment="NODE_ENV=production"
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+# Prevent overlapping syncs
+# (If a sync is still running when the timer fires, skip)
+ExecStartPre=/bin/systemctl --quiet is-active ssrf-sync.service || true
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=full
+ProtectHome=false
+PrivateTmp=true

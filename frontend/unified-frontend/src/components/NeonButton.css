@@ -1,0 +1,22 @@
+.neon-button {
+  background: var(--brand-primary);
+  color: #000A12;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--neon-glow);
+  transition: 0.2s ease;
+}
+
+.neon-button:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 18px rgba(0, 200, 255, 0.9);
+}
+
+.neon-button:focus {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 3px;
+}

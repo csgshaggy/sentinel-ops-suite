@@ -1,0 +1,58 @@
+/* GLOBAL THEME */
+@import "./styles/theme.css";
+
+/* CORE LAYOUT FIRST */
+@import "./styles/layout.css";
+
+/* PRIMARY COMPONENTS (depend on layout) */
+@import "./styles/sidebar.css";
+@import "./styles/topbar.css";
+
+/* SECONDARY COMPONENTS */
+@import "./styles/breadcrumbs.css";
+@import "./styles/panel-shell.css";
+@import "./styles/panels.css";
+@import "./styles/settings-modal.css";
+
+/* PAGE-LEVEL STYLES */
+@import "./styles/dashboard.css";
+
+/* GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* SMOOTH SCROLLING */
+html {
+  scroll-behavior: smooth;
+}
+
+/* BODY BASELINE */
+body {
+  background: var(--bg-base);
+  color: var(--text-base);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* SCROLLBAR (NEON CYBER-OPS STYLE) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 10px;
+  box-shadow: var(--accent-glow);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00bcd4;
+}

@@ -1,0 +1,78 @@
+/* ============================================================
+   SystemLockdown.css — Sentinel Ops High-Security Lockdown Screen
+   ============================================================ */
+
+@import "../styles/auth/brand.css";
+
+.lockdown-container {
+  position: fixed;
+  inset: 0;
+  background: var(--brand-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 9999;
+  animation: lockdownFadeIn 0.4s ease-out;
+}
+
+@keyframes lockdownFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Pulsing glow behind logo */
+.lockdown-pulse {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 0, 0, 0.35),
+    rgba(255, 0, 0, 0.05),
+    transparent 70%
+  );
+  filter: blur(32px);
+  animation: lockdownPulse 2.8s ease-in-out infinite;
+}
+
+@keyframes lockdownPulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+/* Logo */
+.lockdown-logo {
+  width: 200px;
+  border-radius: 10px;
+  filter: drop-shadow(0 0 18px red);
+  z-index: 2;
+}
+
+/* Title */
+.lockdown-title {
+  margin-top: 24px;
+  color: #ff4d4d;
+  font-size: 2rem;
+  letter-spacing: 3px;
+  text-shadow: 0 0 12px red;
+}
+
+/* Subtitle */
+.lockdown-subtitle {
+  margin-top: 12px;
+  color: var(--brand-text);
+  font-size: 1.2rem;
+  opacity: 0.85;
+}
+
+/* Footer */
+.lockdown-footer {
+  margin-top: 40px;
+  color: var(--brand-dim);
+  font-size: 0.95rem;
+  letter-spacing: 1px;
+}

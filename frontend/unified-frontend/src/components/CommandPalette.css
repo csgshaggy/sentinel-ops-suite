@@ -1,0 +1,84 @@
+/* /src/components/CommandPalette.css */
+
+.cmdp-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 80px;
+}
+
+.cmdp-container {
+  width: 520px;
+  background: #1b1b1b;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.cmdp-input {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  background: #111;
+  border: none;
+  color: #e0f7fa;
+  outline: none;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.25);
+}
+
+.cmdp-results {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.cmdp-empty {
+  padding: 20px;
+  text-align: center;
+  color: #80deea;
+}
+
+.cmdp-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.cmdp-item:hover,
+.cmdp-item.selected {
+  background: rgba(0, 255, 255, 0.12);
+}
+
+.cmdp-icon {
+  font-size: 1.2rem;
+  margin-right: 12px;
+}
+
+.cmdp-text {
+  flex: 1;
+}
+
+.cmdp-title {
+  color: #e0f7fa;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.cmdp-sub {
+  color: #80deea;
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+.cmdp-kb {
+  color: #4dd0e1;
+  font-size: 0.8rem;
+  margin-left: 10px;
+}

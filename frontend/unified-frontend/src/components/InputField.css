@@ -1,0 +1,25 @@
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-field label {
+  color: var(--brand-text-light);
+  font-size: 0.9rem;
+}
+
+.input-field input {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--brand-text-light);
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: 0.2s ease;
+}
+
+.input-field input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: var(--neon-glow);
+  outline: none;
+}

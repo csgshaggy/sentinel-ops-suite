@@ -1,0 +1,3886 @@
+{
+  "files": [
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/__init__.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/__init__.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.schemas.user",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/__init__.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.schemas.session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/auth.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/auth.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/pelm_dashboard.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/pelm_dashboard.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/pelm_dashboard.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/session.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/session.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/session.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/user.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/user.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/settings.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/settings.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/schemas/settings.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_canonical.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_canonical.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_canonical.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_regression.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_regression.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_regression.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_diff.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_diff.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_diff.py",
+          "line": 13,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_snapshot.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_snapshot.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_snapshot.py",
+          "line": 10,
+          "col": 0,
+          "import_type": "import",
+          "module": "os",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_snapshot.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_snapshot.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/report_generator.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/report_generator.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "import",
+          "module": "os",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/report_generator.py",
+          "line": 13,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/report_generator.py",
+          "line": 15,
+          "col": 0,
+          "import_type": "from",
+          "module": "pelm_tools",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_status.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_status.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_status.py",
+          "line": 13,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_status.py",
+          "line": 15,
+          "col": 0,
+          "import_type": "from",
+          "module": "pelm_snapshot",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_status.py",
+          "line": 16,
+          "col": 0,
+          "import_type": "from",
+          "module": "pelm_diff",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_status.py",
+          "line": 17,
+          "col": 0,
+          "import_type": "from",
+          "module": "pelm_regression",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_status.py",
+          "line": 18,
+          "col": 0,
+          "import_type": "from",
+          "module": "pelm_canonical",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_plugin.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_plugin.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_tools.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_tools.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_tools.py",
+          "line": 13,
+          "col": 0,
+          "import_type": "import",
+          "module": "hashlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_tools.py",
+          "line": 14,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/pelm/pelm_tools.py",
+          "line": 15,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/main.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/main.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "__future__",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/main.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "rich.console",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/main.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "rich.panel",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/main.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "rich.prompt",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/main.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.tui.panels.anomaly_panel",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/ops/idrim_cli.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/ops/idrim_cli.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/ops/idrim_cli.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "import",
+          "module": "click",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/ops/idrim_cli.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "import",
+          "module": "requests",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/ops/idrim_cli.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/core/config.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/config.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic_settings",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/config.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/core/metrics.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/metrics.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "__future__",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/metrics.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/metrics.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.plugin_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/core/jwt_manager.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/jwt_manager.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "import",
+          "module": "jwt",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/jwt_manager.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/jwt_manager.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/jwt_manager.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "os",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/core/__init__.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/__init__.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.core.settings",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/core/security.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/security.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "pyotp",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/security.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "passlib.context",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/security.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/security.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.user",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/security.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "src.session_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/security.py",
+          "line": 106,
+          "col": 4,
+          "import_type": "from",
+          "module": "src.session_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/core/manifest_resolver.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/manifest_resolver.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/manifest_resolver.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "import",
+          "module": "os",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/manifest_resolver.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "functools",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/manifest_resolver.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/manifest_resolver.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/core/plugin_loader.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/plugin_loader.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "import",
+          "module": "importlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/plugin_loader.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "import",
+          "module": "os",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/plugin_loader.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/core/settings.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/settings.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "functools",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/settings.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/settings.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic_settings",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/core/settings.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/db/base.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/db/base.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/db/base_class.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/db/base_class.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/services/idrim_history.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/idrim_history.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/idrim_history.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/idrim_history.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/services/settings_service.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/settings_service.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/settings_service.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.user_settings",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/settings_service.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.schemas.settings",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/services/auth_service.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/auth_service.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.ext.asyncio",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/auth_service.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/auth_service.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "passlib.context",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/services/auth_service.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.users",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/auth.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/auth.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/auth.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/auth.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/auth.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/auth.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/auth.py",
+          "line": 10,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.users",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/session.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/session.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/dependencies/session.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/middleware/session_timeout.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/middleware/session_timeout.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/middleware/session_timeout.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/middleware/session_timeout.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.responses",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/middleware/session_timeout.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "starlette.middleware.base",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/middleware/session_timeout.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.db.session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/middleware/session_timeout.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_category.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_category.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_category.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_category.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/__init__.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/__init__.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "user",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/__init__.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_settings.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_settings.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_settings.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_settings.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/audit_event.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/audit_event.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/audit_event.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/audit_event.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/session.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/session.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/session.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/session.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/session.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_models.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/plugin_models.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user_settings.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user_settings.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user_settings.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user_settings.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.db.base",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user.py",
+          "line": 13,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.db.base",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user_role.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user_role.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user_role.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/models/user_role.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.ext.asyncio",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.users",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+          "line": 10,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.schemas.user",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.utils.security",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diif.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diif.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diif.py",
+          "line": 32,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_service",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "import",
+          "module": "subprocess",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "import",
+          "module": "sys",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/router_drift.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/router_drift.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/router_drift.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/router_drift.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.plugins.pelm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.ext.asyncio",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.users",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+          "line": 10,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.schemas.user",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.utils.security",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "difflib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "import",
+          "module": "subprocess",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "import",
+          "module": "sys",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_sse.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_sse.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_sse.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.responses",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_sse.py",
+          "line": 35,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_tasks",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_service",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_engine",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "users",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "admin",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "health",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "auth",
+          "name": "router",
+          "action": "unused",
+          "detail": "Imported but never used"
+        }
+      ]
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/iam_fetch.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/iam_fetch.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/iam_fetch.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.providers.iam.registry",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.responses",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "starlette",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.core.security",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "from",
+          "module": "src.session_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+          "line": 13,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.repositories.user_repository",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "__future__",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "import",
+          "module": "os",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.core.metrics",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.core.plugin_loader",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+          "line": 17,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.plugin_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard_health.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard_health.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard_health.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.tools.security.idrim",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.dependencies",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.schemas.settings",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.services.settings_service",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_service",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_engine",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.dependencies.session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_diff.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_diff.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_diff.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_diff.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "difflib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.responses",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_service",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_tasks",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.security.idrim.idrim_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/health.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/health.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.ext.asyncio",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "import",
+          "module": "secrets",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+          "line": 10,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.schemas.session",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.responses",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "time",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "random",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/system.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/system.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "import",
+          "module": "platform",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/system.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "import",
+          "module": "time",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/system.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/git_snapshots.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/git_snapshots.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/git_snapshots.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.responses",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "import",
+          "module": "time",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_admin.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_admin.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_admin.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.utils.file_utils",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "difflib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "import",
+          "module": "subprocess",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "import",
+          "module": "sys",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "import",
+          "module": "asyncio",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.responses",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "tools.plugins.pelm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/file_utils.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/file_utils.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "difflib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/file_utils.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "import",
+          "module": "os",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/file_utils.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "import",
+          "module": "shutil",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/file_utils.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/startup_validator.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/startup_validator.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "import",
+          "module": "importlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/startup_validator.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "import",
+          "module": "pkgutil",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/startup_validator.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "sys",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/startup_validator.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/__init__.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/__init__.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.utils.security",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/router_loader.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/router_loader.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "import",
+          "module": "importlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/router_loader.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "import",
+          "module": "pkgutil",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/router_loader.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/security.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/security.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/security.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/security.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "passlib.context",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/security.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "import",
+          "module": "jwt",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/security.py",
+          "line": 10,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.core.settings",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/reports/html/generate_report.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/reports/html/generate_report.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "__future__",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/reports/html/generate_report.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/reports/html/generate_report.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.reports.html.anomaly_section",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/reports/html/anomaly_section.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/reports/html/anomaly_section.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "__future__",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/reports/html/anomaly_section.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/reports/html/anomaly_section.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.anomaly_engine",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/tools/security/idrim.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tools/security/idrim.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tools/security/idrim.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tools/security/idrim.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/panels/anomaly_panel.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/panels/anomaly_panel.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "__future__",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/panels/anomaly_panel.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "rich.console",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/panels/anomaly_panel.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "rich.table",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/tui/panels/anomaly_panel.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.anomaly_engine",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/providers/iam/aws.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/providers/iam/aws.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "boto3",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/providers/iam/registry.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/providers/iam/registry.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "aws",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/providers/iam/base.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/providers/iam/base.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "abc",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/alembic/versions/create_user_settings.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/alembic/versions/create_user_settings.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "alembic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/alembic/versions/create_user_settings.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "import",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins/router_prefix_drift.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins/router_prefix_drift.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins/router_prefix_drift.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "import",
+          "module": "ast",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins/router_prefix_drift.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/src/session_models.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/src/session_models.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/src/session_models.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "import",
+          "module": "secrets",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/src/session_models.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/src/session_models.py",
+          "line": 12,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/src/session_models.py",
+          "line": 14,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.db.base",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.responses",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 6,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "import",
+          "module": "pyotp",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 9,
+          "col": 0,
+          "import_type": "import",
+          "module": "qrcode",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 10,
+          "col": 0,
+          "import_type": "import",
+          "module": "io",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 11,
+          "col": 0,
+          "import_type": "import",
+          "module": "base64",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 13,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 14,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.models.user",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 15,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.core.security",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/auth.py",
+          "line": 16,
+          "col": 0,
+          "import_type": "from",
+          "module": "src.session_models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/routes/doctor.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/doctor.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "__future__",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/doctor.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "typing",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/doctor.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/doctor.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "backend.tools.super_doctor",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/routes/makefile_admin.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/makefile_admin.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "__future__",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/makefile_admin.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "app.core.makefile_drift_detector",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/makefile_admin.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/routes/sync_history.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/sync_history.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/sync_history.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "import",
+          "module": "os",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/sync_history.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "import",
+          "module": "json",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/routes/sync_history.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "pathlib",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/auth/schemas.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/schemas.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "pydantic",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/auth/models.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/models.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/models.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/models.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/auth/dependencies.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/dependencies.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "backend.database",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/dependencies.py",
+          "line": 2,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/dependencies.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi.security",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/dependencies.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "jose",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/dependencies.py",
+          "line": 5,
+          "col": 0,
+          "import_type": "from",
+          "module": "sqlalchemy.orm",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/dependencies.py",
+          "line": 7,
+          "col": 0,
+          "import_type": "from",
+          "module": "backend.auth.models",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/dependencies.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "backend.auth.security",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/auth/security.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/security.py",
+          "line": 1,
+          "col": 0,
+          "import_type": "from",
+          "module": "datetime",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/security.py",
+          "line": 3,
+          "col": 0,
+          "import_type": "from",
+          "module": "jose",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        },
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/security.py",
+          "line": 4,
+          "col": 0,
+          "import_type": "from",
+          "module": "passlib.context",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    },
+    {
+      "path": "/home/ubuntu/sentinel-ops-suite/backend/auth/routes.py",
+      "invalid_imports": [
+        {
+          "file": "/home/ubuntu/sentinel-ops-suite/backend/auth/routes.py",
+          "line": 8,
+          "col": 0,
+          "import_type": "from",
+          "module": "fastapi",
+          "name": null,
+          "action": "invalid",
+          "detail": "Module does not exist"
+        }
+      ],
+      "unused_imports": []
+    }
+  ],
+  "circular_imports": []
+}

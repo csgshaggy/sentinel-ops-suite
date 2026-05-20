@@ -1,0 +1,68 @@
+/* ================================
+   SETTINGS SECTION — CONTAINER
+   ================================ */
+.settings-section {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ================================
+   HEADER (TITLE + ARROW)
+   ================================ */
+.settings-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.25rem 0;
+}
+
+.settings-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary, #e6e6e6);
+}
+
+/* Arrow */
+.collapse-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.collapse-arrow.open {
+  transform: rotate(90deg);
+}
+
+/* ================================
+   COLLAPSIBLE BODY WRAPPER
+   (handles height animation)
+   ================================ */
+.settings-section-body-wrapper {
+  overflow: hidden;
+  transition: height 0.25s ease;
+}
+
+/* ================================
+   BODY CONTENT
+   ================================ */
+.settings-section-body {
+  padding-top: 0.75rem;
+  padding-bottom: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  color: var(--text-secondary, #cfcfcf);
+}
+
+/* Optional: subtle divider between items */
+.settings-section-body > * {
+  padding: 0.25rem 0;
+}

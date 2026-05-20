@@ -1,0 +1,101 @@
+/* ============================================================
+   ErrorPages.css — Sentinel Ops Branded 404 + 500 Screens
+   ============================================================ */
+
+.error-container {
+  position: fixed;
+  inset: 0;
+  background: var(--brand-bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  animation: errorFadeIn 0.4s ease-out;
+  z-index: 9999;
+}
+
+@keyframes errorFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Pulsing glow */
+.error-pulse {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 175, 255, 0.35),
+    rgba(0, 119, 204, 0.05),
+    transparent 70%
+  );
+  filter: blur(28px);
+  animation: errorPulse 3s ease-in-out infinite;
+}
+
+.error-pulse-red {
+  background: radial-gradient(
+    circle,
+    rgba(255, 0, 0, 0.35),
+    rgba(255, 0, 0, 0.05),
+    transparent 70%
+  );
+}
+
+@keyframes errorPulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+/* Logo */
+.error-logo {
+  width: 160px;
+  border-radius: 10px;
+  filter: drop-shadow(0 0 14px var(--brand-primary));
+  z-index: 2;
+}
+
+/* Error Code */
+.error-code {
+  margin-top: 20px;
+  font-size: 4rem;
+  color: var(--brand-primary);
+  text-shadow: 0 0 14px var(--brand-primary);
+}
+
+.error-code-red {
+  color: #ff4d4d;
+  text-shadow: 0 0 14px red;
+}
+
+/* Message */
+.error-message {
+  margin-top: 12px;
+  color: var(--brand-text);
+  font-size: 1.2rem;
+  opacity: 0.9;
+  max-width: 480px;
+}
+
+/* Button */
+.error-btn {
+  margin-top: 28px;
+  padding: 12px 26px;
+  background: var(--brand-primary);
+  color: #000;
+  border: none;
+  border-radius: var(--brand-radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--brand-transition);
+  box-shadow: 0 0 12px var(--brand-primary);
+}
+
+.error-btn:hover {
+  background: var(--brand-secondary);
+  box-shadow: 0 0 18px var(--brand-secondary);
+}

@@ -1,0 +1,108 @@
+/* ================================
+   FADE IN
+================================ */
+.fade-in {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   SLIDE DOWN (TopBar)
+================================ */
+.slide-down {
+  animation: slideDown 0.35s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   SLIDE UP (Modals / Panels)
+================================ */
+.slide-up {
+  animation: slideUp 0.35s ease forwards;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================================
+   SCALE IN (Cards / Alerts)
+================================ */
+.scale-in {
+  animation: scaleIn 0.3s ease forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ================================
+   GLOW PULSE (Optional for icons)
+================================ */
+.glow-pulse {
+  animation: glowPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 2px rgba(0, 200, 255, 0.4));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(0, 200, 255, 0.7));
+  }
+  100% {
+    opacity: 0.7;
+    filter: drop-shadow(0 0 2px rgba(0, 200, 255, 0.4));
+  }
+}
+
+/* ================================
+   TRANSITION HELPERS
+================================ */
+.smooth {
+  transition: all 0.25s ease;
+}
+
+.fast {
+  transition: all 0.15s ease;
+}
+
+.slow {
+  transition: all 0.45s ease;
+}

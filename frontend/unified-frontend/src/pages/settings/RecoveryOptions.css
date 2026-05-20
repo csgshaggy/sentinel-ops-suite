@@ -1,0 +1,47 @@
+.recovery-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.recovery-field {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.recovery-field label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.recovery-field input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.recovery-button {
+  background: #2563eb;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.recovery-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.recovery-error {
+  color: #dc2626;
+  margin-top: 12px;
+}
+
+.recovery-success {
+  color: #16a34a;
+  margin-top: 12px;
+}

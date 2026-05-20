@@ -1,0 +1,152 @@
+/* File: /home/ubuntu/sentinel-ops-suite/frontend/src/ui-kit/global.css */
+
+/* -------------------------------------------------------
+   UI-Kit Global Styles
+   All @import statements MUST be at the top of the file.
+-------------------------------------------------------- */
+
+@import "./components/TextInput/TextInput.css";
+@import "./components/TextInput/TextInput.theme.css";
+/* Removed: TextInput.min.css (file does not exist) */
+
+/* -------------------------------------------------------
+   Global Theme Variables
+-------------------------------------------------------- */
+
+:root {
+  --ui-font: "Inter", sans-serif;
+
+  --ui-background: #0d0d0d;
+  --ui-surface: #141414;
+  --ui-surface-alt: #1a1a1a;
+
+  --ui-text: #ffffff;
+  --ui-text-muted: rgba(255, 255, 255, 0.6);
+
+  --ui-primary: #4da3ff;
+  --ui-primary-hover: #6bb6ff;
+
+  --ui-danger: #ff4d4d;
+
+  --ui-border: rgba(255, 255, 255, 0.1);
+
+  --ui-radius-sm: 4px;
+  --ui-radius-md: 6px;
+  --ui-radius-lg: 10px;
+
+  --ui-spacing-xs: 4px;
+  --ui-spacing-sm: 8px;
+  --ui-spacing-md: 12px;
+  --ui-spacing-lg: 20px;
+}
+
+/* -------------------------------------------------------
+   Global Reset
+-------------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--ui-font);
+  background: var(--ui-background);
+  color: var(--ui-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* -------------------------------------------------------
+   Utility Classes
+-------------------------------------------------------- */
+
+.ui-flex {
+  display: flex;
+}
+
+.ui-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.ui-gap-sm {
+  gap: var(--ui-spacing-sm);
+}
+
+.ui-gap-md {
+  gap: var(--ui-spacing-md);
+}
+
+.ui-gap-lg {
+  gap: var(--ui-spacing-lg);
+}
+
+/* -------------------------------------------------------
+   Surface Panels
+-------------------------------------------------------- */
+
+.ui-surface {
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-md);
+  padding: var(--ui-spacing-md);
+}
+
+.ui-surface-alt {
+  background: var(--ui-surface-alt);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-md);
+  padding: var(--ui-spacing-md);
+}
+
+/* -------------------------------------------------------
+   Typography
+-------------------------------------------------------- */
+
+.ui-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: var(--ui-spacing-md);
+}
+
+.ui-text-muted {
+  color: var(--ui-text-muted);
+}
+
+/* -------------------------------------------------------
+   Buttons
+-------------------------------------------------------- */
+
+.ui-button {
+  padding: var(--ui-spacing-sm) var(--ui-spacing-md);
+  border-radius: var(--ui-radius-md);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface-alt);
+  color: var(--ui-text);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ui-button:hover {
+  background: var(--ui-primary-hover);
+}
+
+.ui-button-primary {
+  background: var(--ui-primary);
+  border-color: var(--ui-primary);
+}
+
+.ui-button-primary:hover {
+  background: var(--ui-primary-hover);
+}
+
+/* -------------------------------------------------------
+   End of UI-Kit Global Styles
+-------------------------------------------------------- */

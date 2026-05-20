@@ -1,0 +1,16 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.breadcrumbs a {
+  color: var(--accent-color, #4fc3f7);
+  text-decoration: none;
+}
+
+.breadcrumbs-separator {
+  opacity: 0.5;
+}

@@ -1,0 +1,91 @@
+/* ============================================================
+   SENTINEL‑OPS DASHBOARD HOME — NEON / GLASSY THEME
+============================================================ */
+
+/* THEME VARIABLES (DARK DEFAULT) */
+:root {
+  --so-bg: #05080c;
+  --so-bg-panel: rgba(10, 20, 30, 0.55);
+  --so-bg-card: rgba(15, 25, 35, 0.55);
+
+  --so-text: #eaffff;
+  --so-text-dim: rgba(200, 255, 255, 0.55);
+
+  --so-neon: rgba(0, 255, 255, 0.65);
+  --so-neon-soft: rgba(0, 255, 255, 0.25);
+
+  --so-shadow: rgba(0, 255, 255, 0.12);
+  --so-shadow-strong: rgba(0, 255, 255, 0.25);
+}
+
+/* LIGHT THEME */
+body.light {
+  --so-bg: #f5faff;
+  --so-bg-panel: rgba(255, 255, 255, 0.65);
+  --so-bg-card: rgba(255, 255, 255, 0.75);
+
+  --so-text: #0a0a0a;
+  --so-text-dim: rgba(0, 0, 0, 0.55);
+
+  --so-neon: rgba(0, 150, 200, 0.65);
+  --so-neon-soft: rgba(0, 150, 200, 0.25);
+
+  --so-shadow: rgba(0, 150, 200, 0.12);
+  --so-shadow-strong: rgba(0, 150, 200, 0.25);
+}
+
+/* ============================================================
+   PAGE HEADER (inside .panel)
+============================================================ */
+
+.panel-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--so-text);
+  text-shadow: 0 0 10px var(--so-neon-soft);
+}
+
+.panel-body {
+  font-size: 0.95rem;
+  color: var(--so-neon);
+  text-shadow: 0 0 6px var(--so-neon-soft);
+}
+
+/* ============================================================
+   DASHBOARD GRID (inside a .panel)
+============================================================ */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+/* ============================================================
+   DASHBOARD CARDS
+============================================================ */
+
+.dashboard-card {
+  background: var(--so-bg-card);
+  border: 1px solid var(--so-neon-soft);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--so-text);
+  box-shadow: 0 0 12px var(--so-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 18px var(--so-shadow-strong);
+}
+
+.dashboard-card-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-shadow: 0 0 8px var(--so-neon-soft);
+}

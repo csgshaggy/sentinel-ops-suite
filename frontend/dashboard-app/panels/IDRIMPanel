@@ -1,0 +1,43 @@
+import React from "react";
+import PanelShell from "../components/PanelShell.jsx";
+
+export default function IDRIMPanel() {
+  return (
+    <PanelShell
+      title="IDRIM Panel"
+      description="Identity Risk & Incident Mapping"
+    >
+      <div className="panel-section">
+        <h3 className="section-title">Overview</h3>
+        <p className="section-desc">
+          This module will map identity risks, correlate incidents, and surface
+          exposure patterns across accounts, roles, and authentication flows.
+        </p>
+      </div>
+
+      <div className="panel-grid">
+
+        <div className="panel-widget glassy-panel">
+          <h4 className="widget-title">Identity Exposure Map</h4>
+          <p className="widget-placeholder">[Graph placeholder]</p>
+        </div>
+
+        <div className="panel-widget glassy-panel">
+          <h4 className="widget-title">Incident Correlation</h4>
+          <p className="widget-placeholder">[Correlation engine placeholder]</p>
+        </div>
+
+        <div className="panel-widget glassy-panel">
+          <h4 className="widget-title">Role Risk Breakdown</h4>
+          <p className="widget-placeholder">[Role analysis placeholder]</p>
+        </div>
+
+        <div className="panel-widget glassy-panel">
+          <h4 className="widget-title">Authentication Patterns</h4>
+          <p className="widget-placeholder">[Auth pattern placeholder]</p>
+        </div>
+
+      </div>
+    </PanelShell>
+  );
+}

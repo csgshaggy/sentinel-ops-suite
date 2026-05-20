@@ -1,0 +1,55 @@
+/* ============================================
+   SENTINEL‑OPS TACTICAL PANEL FRAMEWORK
+   ============================================ */
+
+:root {
+  --so-neon: rgba(0, 255, 255, 0.65);
+  --so-neon-soft: rgba(0, 255, 255, 0.25);
+  --so-bg-dark: #05080c;
+  --so-bg-panel: rgba(10, 20, 30, 0.55);
+  --so-bg-card: rgba(15, 25, 35, 0.55);
+  --so-text: #eaffff;
+  --so-text-dim: rgba(200, 255, 255, 0.55);
+  --so-critical: #ff4d4d;
+}
+
+/* PANEL WRAPPER */
+.so-panel {
+  width: 100%;
+  padding: 22px;
+  background: var(--so-bg-panel);
+  border: 1px solid var(--so-neon-soft);
+  border-radius: 12px;
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* PANEL HEADER */
+.so-panel-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--so-neon-soft);
+}
+
+.so-panel-header h2 {
+  margin: 0;
+  color: var(--so-text);
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.35);
+}
+
+/* PANEL BODY */
+.so-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* LOADING STATE */
+.so-panel-loading {
+  color: var(--so-text-dim);
+  font-size: 14px;
+}

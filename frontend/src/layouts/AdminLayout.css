@@ -1,0 +1,337 @@
+/* ============================
+   ADMIN LAYOUT — SEGMENT 1
+   Root tokens + layout shell
+   ============================ */
+
+:root {
+  --bg-main: #0d0f12;
+  --bg-panel: #14171c;
+  --bg-hover: #1b1f25;
+  --border-soft: #2a2f38;
+
+  --text-primary: #e6e9ef;
+  --text-secondary: #9aa0ac;
+
+  --accent: #4dd2ff;
+  --accent-glow: 0 0 8px rgba(77, 210, 255, 0.6);
+}
+
+.admin-layout {
+  display: flex;
+  height: 100vh;
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+/* ============================
+   ADMIN LAYOUT — SEGMENT 2
+   Sidebar container + structure
+   ============================ */
+
+.admin-sidebar {
+  width: 240px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border-soft);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+
+.admin-sidebar .logo {
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 0 20px 20px;
+  color: var(--accent);
+}
+/* ============================
+   ADMIN LAYOUT — SEGMENT 3
+   Sidebar nav links + active
+   ============================ */
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+}
+
+.admin-nav a {
+  padding: 12px 20px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.admin-nav a:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.admin-nav a.active {
+  color: var(--accent);
+  background: rgba(77, 210, 255, 0.08);
+  box-shadow: var(--accent-glow);
+}
+/* ============================
+   ADMIN LAYOUT — SEGMENT 4
+   Logout button + bottom anchor
+   ============================ */
+
+.admin-sidebar .logout-container {
+  margin-top: auto;
+  padding: 20px;
+}
+
+.admin-sidebar .logout-btn {
+  width: 100%;
+  padding: 12px;
+  background: var(--bg-hover);
+  border: 1px solid var(--border-soft);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.admin-sidebar .logout-btn:hover {
+  background: var(--bg-hover);
+  color: var(--accent);
+}
+/* ============================
+   ADMIN LAYOUT — SEGMENT 5
+   Main content area + scrolling
+   ============================ */
+
+.admin-content {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg-main);
+  padding: 25px 30px;
+}
+
+.admin-content h1,
+.admin-content h2,
+.admin-content h3 {
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+/* ============================
+   ADMIN LAYOUT — SEGMENT 6
+   Panels / cards / containers
+   ============================ */
+
+.admin-panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-soft);
+  padding: 20px 24px;
+  border-radius: 6px;
+  margin-bottom: 25px;
+}
+
+.admin-panel h2 {
+  margin-bottom: 15px;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+/* ============================
+   ADMIN LAYOUT — SEGMENT 7
+   Tables: header, rows, borders
+   ============================ */
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+}
+
+.admin-table th {
+  text-align: left;
+  padding: 12px 14px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-primary);
+}
+
+.admin-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--text-secondary);
+}
+/* ============================
+   SEGMENT 8 — SLICE 1
+   Table row hover behavior
+   ============================ */
+
+.admin-table tbody tr:hover {
+  background: var(--bg-hover);
+  cursor: pointer;
+}
+/* ============================
+   SEGMENT 8 — SLICE 2
+   Action button base styles
+   ============================ */
+
+.action-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  transition: 0.2s ease;
+}
+/* ============================
+   SEGMENT 8 — SLICE 3
+   Primary + danger variants
+   ============================ */
+
+.action-btn.primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.action-btn.danger {
+  background: #d9534f;
+  color: #fff;
+}
+/* ============================
+   SEGMENT 8 — SLICE 4
+   Hover states for variants
+   ============================ */
+
+.action-btn.primary:hover {
+  background: var(--accent-hover);
+}
+
+.action-btn.danger:hover {
+  background: #c64541;
+}
+/* ============================
+   SEGMENT 8 — SLICE 5
+   Disabled state + polish
+   ============================ */
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* ============================
+   SEGMENT 9 — SLICE 1
+   Table cell typography
+   ============================ */
+
+.admin-table td {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+/* ============================
+   SEGMENT 9 — SLICE 2
+   Alignment + vertical centering
+   ============================ */
+
+.admin-table td {
+  vertical-align: middle;
+  text-align: left;
+}
+/* ============================
+   SEGMENT 9 — SLICE 3
+   Column-specific alignment
+   ============================ */
+
+.td-center {
+  text-align: center;
+}
+
+.td-right {
+  text-align: right;
+}
+/* ============================
+   SEGMENT 10 — SLICE 1
+   Pagination container
+   ============================ */
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+/* ============================
+   SEGMENT 10 — SLICE 2
+   Page button base styles
+   ============================ */
+
+.page-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  transition: 0.2s ease;
+}
+/* ============================
+   SEGMENT 10 — SLICE 3
+   Hover + active states
+   ============================ */
+
+.page-btn:hover {
+  background: var(--bg-hover);
+}
+
+.page-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+/* ============================
+   SEGMENT 10 — SLICE 4
+   Disabled state + polish
+   ============================ */
+
+.page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* ============================
+   SEGMENT 11 — SLICE 1
+   Responsive table wrapper
+   ============================ */
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+}
+/* ============================
+   SEGMENT 11 — SLICE 2
+   Mobile sidebar collapse
+   ============================ */
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 60px;
+  }
+}
+/* ============================
+   SEGMENT 11 — SLICE 3
+   Collapsed sidebar behavior
+   ============================ */
+
+@media (max-width: 768px) {
+  .sidebar .label {
+    display: none;
+  }
+}
+/* ============================
+   SEGMENT 11 — SLICE 4
+   Mobile header adjustments
+   ============================ */
+
+@media (max-width: 768px) {
+  .header {
+    padding: 10px 16px;
+  }
+}
+/* ============================
+   SEGMENT 11 — SLICE 5
+   Final mobile spacing + polish
+   ============================ */
+
+@media (max-width: 768px) {
+  .content {
+    padding: 12px;
+  }
+}

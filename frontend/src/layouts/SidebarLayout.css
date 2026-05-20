@@ -1,0 +1,28 @@
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  padding: 1rem;
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  border-right: 1px solid var(--border);
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.theme-toggle {
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: var(--accent-text);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

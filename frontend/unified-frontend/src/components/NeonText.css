@@ -1,0 +1,4 @@
+.neon-text {
+  color: var(--brand-primary);
+  text-shadow: var(--neon-glow);
+}

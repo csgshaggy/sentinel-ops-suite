@@ -1,0 +1,40 @@
+/* File: /home/ubuntu/sentinel-ops-suite/frontend/src/ui-kit/components/TextInput/TextInput.css */
+/* -------------------------------------------------------
+   TextInput — Base Structural Styles (No Theme Colors)
+-------------------------------------------------------- */
+
+.ui-textinput-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.ui-textinput-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  user-select: none;
+}
+
+.ui-textinput {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border-radius: var(--ui-radius-md);
+  border: 1px solid var(--ui-border);
+  background: var(--ui-surface);
+  color: var(--ui-text);
+  outline: none;
+  transition: border 0.15s ease, background 0.15s ease;
+}
+
+.ui-textinput:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ui-textinput-error-message {
+  font-size: 0.8rem;
+  color: var(--ui-danger);
+  margin-top: -2px;
+}

@@ -1,0 +1,60 @@
+/* === DARK MODE OVERRIDES === */
+
+:root[data-theme="dark"] {
+  --bg-main: #00060f;
+  --bg-panel: rgba(10, 15, 30, 0.55);
+  --border-soft: rgba(0, 255, 255, 0.18);
+  --border-strong: rgba(0, 255, 255, 0.35);
+  --text-primary: #e8f7ff;
+  --text-secondary: #9bb3c9;
+  --accent-cyan: #00eaff;
+  --accent-blue: #007bff;
+}
+
+/* Page background */
+:root[data-theme="dark"] .login-container {
+  background: radial-gradient(circle at 30% 20%, #020611, #000);
+}
+
+/* Glass panel */
+:root[data-theme="dark"] .glass-panel {
+  background: rgba(0, 10, 20, 0.55);
+  border-color: var(--border-soft);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.12);
+}
+
+/* Title */
+:root[data-theme="dark"] .login-title {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+}
+
+/* Inputs */
+:root[data-theme="dark"] .form-input {
+  background: rgba(0, 0, 0, 0.45);
+  border-color: var(--border-soft);
+  color: var(--text-primary);
+}
+
+:root[data-theme="dark"] .form-input:focus {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+}
+
+/* Button */
+:root[data-theme="dark"] .login-button {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  color: #00121f;
+  box-shadow: 0 0 16px rgba(0, 255, 255, 0.45);
+}
+
+:root[data-theme="dark"] .login-button:hover {
+  box-shadow: 0 0 22px rgba(0, 255, 255, 0.6);
+}
+
+/* Error banner */
+:root[data-theme="dark"] .error-banner {
+  background: rgba(255, 0, 0, 0.18);
+  border-color: rgba(255, 0, 0, 0.45);
+  color: #ff7b7b;
+}

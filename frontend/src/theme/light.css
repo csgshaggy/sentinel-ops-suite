@@ -1,0 +1,9 @@
+[data-theme="light"] {
+  --color-bg: #f3f4f6;
+  --color-bg-alt: #ffffff;
+  --color-text: #1e293b;
+  --color-muted: #475569;
+
+  --color-accent: #2563eb;
+  --color-accent-hover: #3b82f6;
+}

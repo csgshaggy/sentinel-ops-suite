@@ -1,0 +1,7 @@
+.textinput-wrapper .textinput-field{font-family:inherit;line-height:1.35}
+.textinput-wrapper input[type=text],.textinput-wrapper input[type=password],.textinput-wrapper input[type=email],.textinput-wrapper input[type=search]{appearance:none;-webkit-appearance:none;-moz-appearance:none}
+.textinput-field{all:unset;display:block;width:100%;padding:10px 14px;font-size:1rem;color:#000;background:rgba(255,255,255,.06);border:1px solid rgba(120,150,255,.35);border-radius:8px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:border-color .18s ease,box-shadow .18s ease,background .18s ease}
+.textinput-field:focus{outline:none;border-color:#7aa2ff;box-shadow:0 0 6px rgba(120,160,255,.55);background:rgba(255,255,255,.12)}
+[data-theme=light] .textinput-field{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.25)}
+[data-theme=dark] .textinput-field{background:rgba(255,255,255,.06);border-color:rgba(120,150,255,.35)}
+

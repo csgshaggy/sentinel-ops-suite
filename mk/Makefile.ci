@@ -1,0 +1,70 @@
+# =====================================================================
+# MAKEFILE.CI
+# GitHub Actions CI orchestrator for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: ci
+ci: ci-bootstrap ci-lint ci-drift ci-health ci-build
+	@echo "[ci] CI pipeline completed successfully."
+
+# ---------------------------------------------------------------------
+# BOOTSTRAP
+# ---------------------------------------------------------------------
+.PHONY: ci-bootstrap
+ci-bootstrap:
+	@echo "[ci] Bootstrapping environment..."
+	make -f mk/Makefile.bootstrap bootstrap
+
+# ---------------------------------------------------------------------
+# LINT (Makefiles + Python + UI)
+# ---------------------------------------------------------------------
+.PHONY: ci-lint
+ci-lint:
+	@echo "[ci] Running lint checks..."
+	make -f mk/Makefile.lint makefile-lint
+	@if command -v flake8 >/dev/null 2>&1; then \
+		echo "[ci] Python linting..."; \
+		flake8 tools || exit 1; \
+	else \
+		echo "[ci] WARNING: flake8 not installed."; \
+	fi
+	@if [ -d dashboard ]; then \
+		echo "[ci] UI linting..."; \
+		cd dashboard && npm run lint || exit 1; \
+	fi
+	@echo "[ci] Lint checks complete."
+
+# ---------------------------------------------------------------------
+# DRIFT CHECK
+# ---------------------------------------------------------------------
+.PHONY: ci-drift
+ci-drift:
+	@echo "[ci] Running drift check..."
+	make -f mk/Makefile.drift drift-check
+
+# ---------------------------------------------------------------------
+# HEALTH CHECK
+# ---------------------------------------------------------------------
+.PHONY: ci-health
+ci-health:
+	@echo "[ci] Running system health checks..."
+	make -f mk/Makefile.health health
+
+# ---------------------------------------------------------------------
+# BUILD (Docs + UI)
+# ---------------------------------------------------------------------
+.PHONY: ci-build
+ci-build:
+	@echo "[ci] Building documentation..."
+	make -f mk/Makefile.docs docs
+	@if [ -d dashboard ]; then \
+		echo "[ci] Building dashboard..."; \
+		make -f mk/Makefile.ui ui-build; \
+	fi
+	@echo "[ci] Build stage complete."

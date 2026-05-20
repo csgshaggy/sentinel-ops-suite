@@ -1,0 +1,44 @@
+import React from "react";
+import PanelShell from "../components/PanelShell.jsx";
+
+export default function AnomalyPanel() {
+  return (
+    <PanelShell
+      title="Anomaly Detection"
+      description="Behavioral deviations & signal analysis"
+    >
+      <div className="panel-section">
+        <h3 className="section-title">Overview</h3>
+        <p className="section-desc">
+          This module will surface behavioral anomalies, unusual access patterns,
+          and signal deviations across your identity and system landscape.
+        </p>
+      </div>
+
+      <div className="panel-grid">
+
+        <div className="panel-widget glassy-panel">
+          <h4 className="widget-title">Recent Anomalies</h4>
+          <p className="widget-placeholder">[Event stream placeholder]</p>
+        </div>
+
+        <div className="panel-widget glassy-panel">
+          <h4 className="widget-title">Behavioral Deviations</h4>
+          <p className="widget-placeholder">[Behavior model placeholder]</p>
+        </div>
+
+        <div className="panel-widget glassy-panel">
+          <h4 className="widget-title">Signal Correlation</h4>
+          <p className="widget-placeholder">[Correlation graph placeholder]</p>
+        </div>
+
+        <div className="panel-widget glassy-panel">
+          <h4 className="widget-title">Risk Score</h4>
+          <p className="widget-placeholder">[Risk scoring placeholder]</p>
+        </div>
+
+      </div>
+    </PanelShell>
+  );
+}
+

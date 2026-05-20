@@ -1,0 +1,32 @@
+/* /src/components/Breadcrumbs.css */
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #cfd8dc;
+  margin-left: 10px;
+}
+
+.crumb {
+  display: flex;
+  align-items: center;
+}
+
+.crumb-link {
+  color: #e0f7fa;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.crumb-link:hover {
+  color: #80deea;
+}
+
+.crumb-separator {
+  margin: 0 8px;
+  color: #4dd0e1;
+  font-weight: 700;
+  user-select: none;
+}

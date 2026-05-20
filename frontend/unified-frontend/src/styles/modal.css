@@ -1,0 +1,6 @@
+/* Placeholder modal styles */
+.modal {
+  background: var(--bg-surface);
+  padding: 20px;
+  border-radius: 8px;
+}

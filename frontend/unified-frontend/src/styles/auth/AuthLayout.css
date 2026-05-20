@@ -1,0 +1,7 @@
+/* Placeholder auth layout styles */
+.auth-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+}

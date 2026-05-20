@@ -1,0 +1,100 @@
+/* ============================================================
+   AuditLogs.css — Admin Audit Log Viewer
+   Dark‑Ops theme aligned with UserList + UserDetail
+   ============================================================ */
+
+:root {
+  --admin-bg: #0d0f12;
+  --admin-card-bg: #15181d;
+  --admin-border: #1f2329;
+  --admin-text: #e5e7eb;
+  --admin-text-dim: #9ca3af;
+  --admin-accent: #3b82f6;
+  --admin-accent-hover: #60a5fa;
+  --admin-radius: 10px;
+  --admin-transition: 0.18s ease;
+}
+
+.audit-container {
+  padding: 40px;
+}
+
+.audit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.audit-header h1 {
+  color: var(--admin-text);
+  font-size: 1.8rem;
+}
+
+.audit-header input {
+  padding: 10px;
+  background: #0f1115;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  color: var(--admin-text);
+}
+
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  overflow: hidden;
+}
+
+.audit-table th,
+.audit-table td {
+  padding: 14px;
+  color: var(--admin-text);
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.audit-table th {
+  background: #1a1d23;
+  text-align: left;
+}
+
+.audit-empty {
+  text-align: center;
+  padding: 20px;
+  color: var(--admin-text-dim);
+}
+
+.audit-pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  color: var(--admin-text);
+}
+
+.audit-pagination button {
+  padding: 8px 14px;
+  background: #2a2e35;
+  color: var(--admin-text);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.audit-pagination button:hover {
+  background: #3a3f47;
+}
+
+.audit-pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.audit-loading {
+  padding: 40px;
+  text-align: center;
+  color: var(--admin-text);
+}

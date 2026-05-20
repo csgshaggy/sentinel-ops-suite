@@ -1,0 +1,59 @@
+/* Overlay */
+.cmd-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 120px;
+  z-index: 9999;
+}
+
+/* Container */
+.cmd-container {
+  width: 420px;
+  background: rgba(20, 20, 28, 0.85);
+  border: 1px solid rgba(120, 120, 160, 0.25);
+  border-radius: 8px;
+  box-shadow: 0 0 22px rgba(0, 255, 255, 0.12);
+  padding: 12px;
+}
+
+/* Input */
+.cmd-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(120, 120, 160, 0.25);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+/* Results */
+.cmd-results {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.cmd-item {
+  padding: 10px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.cmd-item:hover,
+.cmd-item.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--accent);
+}
+
+.cmd-empty {
+  padding: 12px;
+  text-align: center;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}

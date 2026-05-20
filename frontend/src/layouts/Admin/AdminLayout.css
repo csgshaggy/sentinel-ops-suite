@@ -1,0 +1,759 @@
+/* ===========================
+   Admin Layout — Root Tokens
+   =========================== */
+
+:root {
+  --bg-main: #0f0f0f;
+  --bg-panel: #1a1a1a;
+  --bg-hover: #222;
+  --bg-accent: #2d2d2d;
+
+  --text-primary: #e6e6e6;
+  --text-secondary: #b3b3b3;
+
+  --accent: #4da3ff;
+  --accent-soft: #3a7ac7;
+
+  --border-soft: #2a2a2a;
+  --border-strong: #3a3a3a;
+
+  --radius: 8px;
+  --transition: 0.18s ease-in-out;
+}
+/* ===========================
+   Admin Layout — Structure
+   =========================== */
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 240px;
+  background: var(--bg-panel);
+  border-right: 1px solid var(--border-soft);
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  transition: width var(--transition);
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar .logo {
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 0 20px 20px 20px;
+  color: var(--accent);
+}
+/* ===========================
+   Sidebar Navigation
+   =========================== */
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 10px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.nav-item:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.nav-item.active {
+  background: var(--accent-soft);
+  color: #fff;
+}
+
+.nav-item .icon {
+  font-size: 1.2rem;
+  width: 22px;
+  text-align: center;
+}
+/* ─────────────────────────────────────────────
+   HEADER BAR — STRUCTURE & BASE STYLING
+   ───────────────────────────────────────────── */
+.admin-header {
+    height: 60px;
+    background: var(--surface-1);
+    border-bottom: 1px solid var(--border-1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+/* ─────────────────────────────────────────────
+   HEADER — LEFT SECTION (TITLE / BREADCRUMB)
+   ───────────────────────────────────────────── */
+.admin-header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-1);
+    user-select: none;
+}
+/* ─────────────────────────────────────────────
+   USER MENU — WRAPPER & ALIGNMENT
+   ───────────────────────────────────────────── */
+.admin-header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    user-select: none;
+}
+/* USER MENU — AVATAR BUTTON */
+.user-avatar-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--border-2);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+/* USER MENU — AVATAR IMAGE */
+.user-avatar-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+}
+/* USER MENU — DROPDOWN CONTAINER */
+.admin-user-menu-panel {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    width: 220px;
+    background: var(--surface-1);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    padding: 8px 0;
+    z-index: 2000;
+}
+/* USER MENU — ITEM BASE */
+.admin-user-menu-item {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    color: var(--text-2);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+/* USER MENU — ITEM HOVER & ACTIVE */
+.admin-user-menu-item:hover {
+    background: var(--surface-2);
+    color: var(--text-1);
+}
+
+.admin-user-menu-item:active {
+    background: var(--surface-3);
+    transform: scale(0.98);
+}
+/* USER MENU — SEPARATOR */
+.admin-user-menu-separator {
+    height: 1px;
+    background: var(--border-2);
+    margin: 6px 0;
+    width: 100%;
+}
+/* USER MENU — FINAL SPACING & ALIGNMENT */
+.admin-user-menu-item span {
+    flex: 1;
+    white-space: nowrap;
+}
+
+.admin-user-menu-panel .spacer {
+    height: 4px;
+}
+/* CONTENT WRAPPER — BASE LAYOUT */
+.admin-content-wrapper {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    background: var(--surface-0);
+    color: var(--text-1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+/* PAGE CONTAINER — BASE */
+.admin-page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+/* PAGE SECTIONS — SPACING */
+.admin-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 0;
+}
+/* RESPONSIVE — CONTENT WRAPPER PADDING */
+@media (max-width: 900px) {
+    .admin-content-wrapper {
+        padding: 1rem;
+    }
+
+    .admin-page-container {
+        gap: 1rem;
+    }
+}
+/* PANEL / CARD — BASE */
+.admin-panel {
+    background: var(--surface-1);
+    border: 1px solid var(--border-1);
+    border-radius: 10px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+/* GRID LAYOUT — BASE TOKENS */
+.admin-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.admin-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+}
+/* RESPONSIVE — GRID COLLAPSE */
+@media (max-width: 900px) {
+    .admin-grid-2,
+    .admin-grid-3 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+/* PANEL — HEADER & FOOTER */
+.admin-panel-header {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-1);
+}
+
+.admin-panel-footer {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-3);
+}
+/* FINAL LAYOUT POLISH — MICRO SPACING */
+.admin-panel > *:last-child {
+    margin-bottom: 0;
+}
+
+.admin-section > *:last-child {
+    margin-bottom: 0;
+}
+/* FORM ELEMENT — BASE */
+.admin-input,
+.admin-select,
+.admin-textarea {
+    width: 100%;
+    padding: 0.65rem 0.75rem;
+    background: var(--surface-0);
+    border: 1px solid var(--border-1);
+    border-radius: 6px;
+    color: var(--text-1);
+    font-size: 0.95rem;
+}
+/* FORM ELEMENT — FOCUS STATE */
+.admin-input:focus,
+.admin-select:focus,
+.admin-textarea:focus {
+    border-color: var(--accent-1);
+    box-shadow: 0 0 0 2px var(--accent-1-fade);
+    outline: none;
+    background: var(--surface-0);
+    color: var(--text-1);
+}
+/* FORM LABEL */
+.admin-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-2);
+    margin-bottom: 0.35rem;
+    display: block;
+}
+/* FORM ROW */
+.admin-form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    width: 100%;
+}
+/* FORM VALIDATION — ERROR */
+.admin-input.error,
+.admin-select.error,
+.admin-textarea.error {
+    border-color: var(--danger-1);
+    background: var(--danger-1-fade);
+}
+
+/* FORM VALIDATION — SUCCESS */
+.admin-input.success,
+.admin-select.success,
+.admin-textarea.success {
+    border-color: var(--success-1);
+    background: var(--success-1-fade);
+}
+/* TEXTAREA — SIZING & BEHAVIOR */
+.admin-textarea {
+    min-height: 90px;
+    resize: vertical;
+    line-height: 1.4;
+}
+/* SELECT — CUSTOM ARROW */
+.admin-select {
+    appearance: none;
+    background-image: var(--icon-select-chevron);
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 14px;
+    padding-right: 2rem;
+}
+/* FORM HELP TEXT */
+.admin-help-text {
+    font-size: 0.85rem;
+    color: var(--text-3);
+}
+
+/* FORM ERROR TEXT */
+.admin-error-text {
+    font-size: 0.85rem;
+    color: var(--danger-1);
+}
+/* RESPONSIVE — FORM ELEMENTS */
+@media (max-width: 900px) {
+    .admin-input,
+    .admin-select,
+    .admin-textarea {
+        font-size: 0.9rem;
+        padding: 0.6rem 0.7rem;
+    }
+}
+/* FINAL FORM POLISH — MICRO SPACING */
+.admin-form-row > *:last-child {
+    margin-bottom: 0;
+}
+
+.admin-form-row + .admin-form-row {
+    margin-top: 0.75rem;
+}
+/* BUTTON — BASE */
+.admin-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+/* BUTTON — PRIMARY */
+.admin-btn-primary {
+    background: var(--accent-1);
+    color: var(--text-on-accent);
+    border: 1px solid var(--accent-1);
+}
+
+.admin-btn-primary:hover {
+    background: var(--accent-1-hover);
+    border-color: var(--accent-1-hover);
+}
+/* BUTTON — SECONDARY */
+.admin-btn-secondary {
+    background: var(--surface-1);
+    color: var(--text-1);
+    border: 1px solid var(--border-2);
+}
+
+.admin-btn-secondary:hover {
+    background: var(--surface-2);
+    border-color: var(--border-3);
+}
+/* BUTTON — SUBTLE */
+.admin-btn-subtle {
+    background: var(--surface-0);
+    color: var(--text-2);
+    border: 1px solid var(--border-1);
+}
+
+.admin-btn-subtle:hover {
+    background: var(--surface-1);
+    border-color: var(--border-2);
+}
+/* BUTTON — DANGER */
+.admin-btn-danger {
+    background: var(--danger-1);
+    color: var(--text-on-danger);
+    border: 1px solid var(--danger-1);
+}
+
+.admin-btn-danger:hover {
+    background: var(--danger-1-hover);
+    border-color: var(--danger-1-hover);
+}
+/* BUTTON — ICON ALIGNMENT */
+.admin-btn .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0.45rem;
+    font-size: 1.1rem;
+}
+/* BUTTON — DISABLED */
+.admin-btn:disabled,
+.admin-btn.disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+/* RESPONSIVE — BUTTONS */
+@media (max-width: 900px) {
+    .admin-btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.85rem;
+    }
+}
+/* FINAL BUTTON POLISH — MICRO SPACING */
+.admin-btn + .admin-btn {
+    margin-left: 0.5rem;
+}
+
+.admin-btn-block {
+    width: 100%;
+}
+/* TABLE — BASE */
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    background: var(--surface-1);
+}
+/* TABLE — HEADER */
+.admin-table thead th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background: var(--surface-2);
+    color: var(--text-2);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-2);
+}
+/* TABLE — ROWS */
+.admin-table tbody tr {
+    border-bottom: 1px solid var(--border-1);
+}
+
+.admin-table tbody td {
+    padding: 0.75rem 1rem;
+    color: var(--text-1);
+}
+/* TABLE — HOVER STATE */
+.admin-table tbody tr:hover {
+    background: var(--surface-2);
+}
+/* TABLE — STRIPED MODE */
+.admin-table-striped tbody tr:nth-child(odd) {
+    background: var(--surface-0);
+}
+
+.admin-table-striped tbody tr:nth-child(even) {
+    background: var(--surface-1);
+}
+/* TABLE — COMPACT MODE */
+.admin-table-compact tbody td {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.9rem;
+}
+/* TABLE — CELL ALIGNMENT */
+.admin-table td,
+.admin-table th {
+    vertical-align: middle;
+}
+
+.admin-table .text-right {
+    text-align: right;
+}
+/* TABLE — RESPONSIVE SCROLL */
+.admin-table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+/* TABLE — FINAL POLISH */
+.admin-table td,
+.admin-table th {
+    line-height: 1.35;
+}
+
+.admin-table .no-wrap {
+    white-space: nowrap;
+}
+/* SIDEBAR — BASE */
+.admin-sidebar {
+    width: 250px;
+    background: var(--surface-2);
+    border-right: 1px solid var(--border-2);
+    min-height: 100vh;
+    padding: 1rem 0;
+}
+/* SIDEBAR — NAV LIST */
+.admin-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+/* SIDEBAR — NAV ITEM */
+.admin-nav-item {
+    padding: 0.75rem 1.25rem;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+/* SIDEBAR — NAV ITEM ACTIVE */
+.admin-nav-item.active {
+    background: var(--surface-3);
+    color: var(--text-1);
+    font-weight: 600;
+    border-left: 3px solid var(--accent-1);
+}
+/* SIDEBAR — NAV ITEM HOVER */
+.admin-nav-item:hover {
+    background: var(--surface-1);
+    color: var(--text-1);
+}
+/* SIDEBAR — NAV ICONS */
+.admin-nav-item .nav-icon {
+    font-size: 1.1rem;
+    color: var(--text-3);
+    display: flex;
+    align-items: center;
+}
+/* SIDEBAR — COLLAPSIBLE GROUPS */
+.admin-nav-group {
+    margin-top: 0.5rem;
+}
+
+.admin-nav-group .admin-nav-sub {
+    display: none;
+    padding-left: 2rem;
+}
+/* SIDEBAR — RESPONSIVE COLLAPSE */
+@media (max-width: 900px) {
+    .admin-sidebar {
+        width: 70px;
+        padding: 1rem 0;
+    }
+
+    .admin-nav-item span {
+        display: none;
+    }
+}
+/* SIDEBAR — FINAL POLISH */
+.admin-nav-item,
+.admin-nav-item.active {
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.admin-sidebar {
+    transition: width 0.2s ease;
+}
+/* TOPBAR — BASE */
+.admin-topbar {
+    height: 60px;
+    background: var(--surface-1);
+    border-bottom: 1px solid var(--border-2);
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+    gap: 1rem;
+}
+/* TOPBAR — TITLE */
+.admin-topbar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-1);
+}
+/* TOPBAR — BREADCRUMB CONTAINER */
+.admin-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-3);
+}
+/* TOPBAR — BREADCRUMB ITEM */
+.admin-breadcrumb {
+    font-size: 0.9rem;
+    color: var(--text-2);
+    cursor: pointer;
+}
+
+.admin-breadcrumb:hover {
+    color: var(--text-1);
+}
+/* TOPBAR — BREADCRUMB SEPARATOR */
+.admin-breadcrumb-separator {
+    color: var(--text-4);
+    font-size: 0.85rem;
+    user-select: none;
+}
+/* TOPBAR — RESPONSIVE BREADCRUMBS */
+@media (max-width: 700px) {
+    .admin-breadcrumbs {
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+    }
+
+    .admin-breadcrumbs::-webkit-scrollbar {
+        display: none;
+    }
+}
+/* TOPBAR — FINAL POLISH */
+.admin-topbar,
+.admin-breadcrumb,
+.admin-breadcrumb-separator {
+    transition: color 0.15s ease;
+}
+/* UTILITIES — BADGE BASE */
+.admin-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 0.35rem;
+    font-weight: 500;
+    line-height: 1;
+}
+/* UTILITIES — BADGE VARIANTS */
+.admin-badge.success { background: var(--green-2); color: var(--green-8); }
+.admin-badge.warning { background: var(--yellow-2); color: var(--yellow-8); }
+.admin-badge.danger  { background: var(--red-2);   color: var(--red-8); }
+.admin-badge.info    { background: var(--blue-2);  color: var(--blue-8); }
+.admin-badge.neutral { background: var(--surface-3); color: var(--text-2); }
+/* UTILITIES — TAG */
+.admin-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.45rem;
+    background: var(--surface-2);
+    color: var(--text-2);
+    font-size: 0.75rem;
+    border-radius: 0.3rem;
+}
+/* UTILITIES — CHIP */
+.admin-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    background: var(--surface-3);
+    color: var(--text-2);
+    font-size: 0.8rem;
+    border-radius: 1rem;
+    gap: 0.35rem;
+}
+/* UTILITIES — STATUS PILL */
+.admin-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.75rem;
+    border-radius: 999px;
+    font-weight: 600;
+    line-height: 1;
+}
+/* UTILITIES — STATUS PILL VARIANTS */
+.admin-status.success { background: var(--green-3); color: var(--green-9); }
+.admin-status.warning { background: var(--yellow-3); color: var(--yellow-9); }
+.admin-status.danger  { background: var(--red-3);   color: var(--red-9); }
+.admin-status.info    { background: var(--blue-3);  color: var(--blue-9); }
+.admin-status.idle    { background: var(--surface-3); color: var(--text-2); }
+/* UTILITIES — FINAL POLISH */
+.admin-badge,
+.admin-tag,
+.admin-chip,
+.admin-status {
+    transition: background 0.15s ease, color 0.15s ease;
+}
+/* GLOBAL — RESPONSIVE MASTER RULES */
+@media (max-width: 900px) {
+    .admin-layout {
+        grid-template-columns: 60px 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .admin-topbar {
+        padding: 0 0.75rem;
+    }
+}
+/* GLOBAL — MOBILE SPACING */
+@media (max-width: 600px) {
+    .admin-card,
+    .admin-section {
+        padding: 0.75rem;
+    }
+
+    .admin-table-wrapper {
+        margin: 0.5rem 0;
+    }
+}
+/* GLOBAL — TYPOGRAPHY SCALING */
+@media (max-width: 600px) {
+    html {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+    html {
+        font-size: 14px;
+    }
+}
+/* GLOBAL — FINAL POLISH */
+* {
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+

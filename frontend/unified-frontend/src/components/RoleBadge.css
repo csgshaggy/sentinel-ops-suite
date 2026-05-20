@@ -1,0 +1,43 @@
+/* /src/components/RoleBadge.css */
+
+.role-badge {
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-left: 8px;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+/* ADMIN — Neon Red */
+.role-admin {
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 0, 0, 0.4);
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
+}
+
+/* ANALYST — Neon Blue */
+.role-analyst {
+  background: rgba(0, 128, 255, 0.15);
+  color: #4da6ff;
+  border: 1px solid rgba(0, 128, 255, 0.4);
+  box-shadow: 0 0 8px rgba(0, 128, 255, 0.4);
+}
+
+/* OPERATOR — Neon Green */
+.role-operator {
+  background: rgba(0, 255, 128, 0.15);
+  color: #00ff99;
+  border: 1px solid rgba(0, 255, 128, 0.4);
+  box-shadow: 0 0 8px rgba(0, 255, 128, 0.4);
+}
+
+/* Fallback */
+.role-default {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ddd;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

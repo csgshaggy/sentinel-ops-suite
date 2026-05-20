@@ -1,0 +1,28 @@
+/* Sentinel Ops — Dashboard Panel (Card) */
+
+.panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: 12px;
+  padding: 20px;
+  box-sizing: border-box;
+
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.panel-content {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}

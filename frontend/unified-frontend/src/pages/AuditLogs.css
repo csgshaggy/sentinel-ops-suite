@@ -1,0 +1,54 @@
+/* Sentinel Ops — Audit Logs */
+
+.audit-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Log list wrapper */
+.audit-log-box {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: 12px;
+
+  padding: 16px 20px;
+  box-sizing: border-box;
+
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  max-height: 500px;
+  overflow-y: auto;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.audit-log-box::-webkit-scrollbar {
+  display: none;
+}
+
+.audit-entry {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-primary);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.audit-entry:last-child {
+  border-bottom: none;
+}
+
+.audit-muted {
+  color: var(--text-secondary);
+  opacity: 0.8;
+}

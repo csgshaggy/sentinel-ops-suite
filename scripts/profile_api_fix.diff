@@ -1,0 +1,70 @@
+diff --git a/src/pages/Profile/Profile.jsx b/src/pages/Profile/Profile.jsx
+index 1111111..2222222 100644
+--- a/src/pages/Profile/Profile.jsx
++++ b/src/pages/Profile/Profile.jsx
+@@ -17,7 +17,7 @@ export default function Profile() {
+   const fetchProfile = useCallback(async (signal) => {
+     try {
+-      const res = await apiClient.get("/auth/profile", { signal });
++      const res = await apiClient.get("/api/auth/profile", { signal });
+       setProfile(res.data);
+     } catch (err) {
+       if (err.name === "CanceledError") return;
+@@ -40,7 +40,7 @@ const handleSave = async () => {
+   const handleSave = async () => {
+     try {
+-      await apiClient.post("/auth/profile/update", {
++      await apiClient.post("/api/auth/profile/update", {
+         email: profile.email,
+         username: profile.username,
+         mfa_enabled: profile.mfa_enabled,
+@@ -63,7 +63,7 @@ const handleMfaStart = async () => {
+   const handleMfaStart = async () => {
+     try {
+-      const res = await apiClient.post("/auth/mfa/enable");
++      const res = await apiClient.post("/api/auth/mfa/enable");
+       setMfaQr(res.data.qr);
+       setMfaSecret(res.data.secret);
+       toast.success("MFA setup started. Scan the QR code.");
+@@ -78,7 +78,7 @@ const handleMfaVerify = async (code) => {
+   const handleMfaVerify = async (code) => {
+     try {
+-      await apiClient.post("/auth/mfa/verify", { code });
++      await apiClient.post("/api/auth/mfa/verify", { code });
+
+       setProfile((prev) => ({ ...prev, mfa_enabled: true }));
+       setMfaQr(null);
+@@ -96,7 +96,7 @@ const handleMfaDisable = async () => {
+   const handleMfaDisable = async () => {
+     try {
+-      await apiClient.post("/auth/mfa/disable");
++      await apiClient.post("/api/auth/mfa/disable");
+
+       setProfile((prev) => ({ ...prev, mfa_enabled: false }));
+       toast.success("MFA disabled.");
+diff --git a/src/components/profile/AvatarUploader.jsx b/src/components/profile/AvatarUploader.jsx
+index 3333333..4444444 100644
+--- a/src/components/profile/AvatarUploader.jsx
++++ b/src/components/profile/AvatarUploader.jsx
+@@ -25,7 +25,7 @@ const handleFile = async (e) => {
+     try {
+       setUploading(true);
+
+-      const res = await apiClient.post("/auth/profile/avatar", formData, {
++      const res = await apiClient.post("/api/auth/profile/avatar", formData, {
+         headers: { "Content-Type": "multipart/form-data" },
+       });
+
+diff --git a/src/components/profile/ChangePasswordForm.jsx b/src/components/profile/ChangePasswordForm.jsx
+index 5555555..6666666 100644
+--- a/src/components/profile/ChangePasswordForm.jsx
++++ b/src/components/profile/ChangePasswordForm.jsx
+@@ -24,7 +24,7 @@ const handleSubmit = async (e) => {
+     try {
+       setLoading(true);
+
+-      await apiClient.post("/auth/change-password", {
++      await apiClient.post("/api/auth/change-password", {
+         current_password: currentPassword,
+         new_password: newPassword,
+       });

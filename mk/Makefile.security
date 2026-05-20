@@ -1,0 +1,59 @@
+# =====================================================================
+# MAKEFILE.SECURITY
+# Dependency & security scanning for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+VENV := .venv
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: security
+security: security-python security-node security-make
+	@echo "[security] All security scans completed."
+
+# ---------------------------------------------------------------------
+# PYTHON DEPENDENCY SCAN
+# ---------------------------------------------------------------------
+.PHONY: security-python
+security-python:
+	@echo "[security] Scanning Python dependencies..."
+	@if ! command -v pip-audit >/dev/null 2>&1; then \
+		echo "[security] pip-audit not installed. Installing..."; \
+		$(PYTHON) -m pip install pip-audit >/dev/null; \
+	fi
+	@if [ -f requirements.txt ]; then \
+		pip-audit -r requirements.txt || exit 1; \
+	else \
+		echo "[security] No requirements.txt found. Skipping."; \
+	fi
+	@echo "[security] Python dependency scan complete."
+
+# ---------------------------------------------------------------------
+# NODE DEPENDENCY SCAN
+# ---------------------------------------------------------------------
+.PHONY: security-node
+security-node:
+	@echo "[security] Scanning Node dependencies..."
+	@if [ -d dashboard ]; then \
+		cd dashboard && npm audit --audit-level=high || exit 1; \
+	else \
+		echo "[security] No dashboard/ directory found. Skipping."; \
+	fi
+	@echo "[security] Node dependency scan complete."
+
+# ---------------------------------------------------------------------
+# MAKEFILE SECURITY CHECKS
+# ---------------------------------------------------------------------
+.PHONY: security-make
+security-make:
+	@echo "[security] Checking Makefile integrity..."
+	@grep -RIn "<<EOF" mk && \
+		(echo "[security] ERROR: Heredoc detected in Makefile." && exit 1) || \
+		echo "[security] No heredocs found."
+	@grep -RIn "^\s\{4,\}@" mk && \
+		(echo "[security] ERROR: Space-indented recipe detected." && exit 1) || \
+		echo "[security] TAB indentation OK."
+	@echo "[security] Makefile integrity checks complete."

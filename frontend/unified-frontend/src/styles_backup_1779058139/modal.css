@@ -1,0 +1,128 @@
+/* ------------------------------------------------------------
+   Sentinel Ops — Unified Modal Styling
+   (Supports existing modals + new ModalManager modals)
+------------------------------------------------------------- */
+
+/* Backdrop (existing class kept) */
+.modal-backdrop,
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+  animation: fadeIn 0.25s ease;
+}
+
+/* Container wrapper for ModalManager */
+.modal-container {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* Core modal card (maps to your existing .modal) */
+.modal,
+.modal-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 1.75rem 2rem;
+  border-radius: var(--panel-radius);
+
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+
+  box-shadow: 0 0 22px rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  animation: slideUp 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Title */
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--neon-accent);
+  text-shadow: 0 0 8px var(--neon-accent-soft);
+}
+
+/* Body text */
+.modal-body {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* Actions row */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Buttons */
+.modal-button {
+  padding: 0.6rem 1rem;
+  border-radius: 8px; /* FIXED */
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+  border: none;
+}
+
+/* Primary action */
+.modal-button.primary {
+  background: var(--neon-accent);
+  color: #000;
+}
+
+.modal-button.primary:hover {
+  background: var(--cyan-300);
+  box-shadow: 0 0 10px var(--neon-accent-soft);
+}
+
+/* Secondary action */
+.modal-button.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.modal-button.secondary:hover {
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 8px var(--neon-accent-soft);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

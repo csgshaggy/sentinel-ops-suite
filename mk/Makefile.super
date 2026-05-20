@@ -1,0 +1,49 @@
+# =====================================================================
+# MAKEFILE.SUPER
+# Dynamic operator menu for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: super
+super: super-menu
+	@echo "[super] Operator menu closed."
+
+# ---------------------------------------------------------------------
+# DYNAMIC MENU
+# ---------------------------------------------------------------------
+.PHONY: super-menu
+super-menu:
+	@echo "====================================================="
+	@echo "        Sentinel Ops Suite — SUPER MENU"
+	@echo "====================================================="
+	@echo " 1) Bootstrap Environment"
+	@echo " 2) Run Drift Check"
+	@echo " 3) Generate Drift Baseline"
+	@echo " 4) Build Documentation (HTML)"
+	@echo " 5) Build Documentation (PDF)"
+	@echo " 6) Run Health Checks"
+	@echo " 7) Run Security Scans"
+	@echo " 8) Build Dashboard UI"
+	@echo " 9) Build Release Package"
+	@echo "10) Generate Metadata Version Stamp"
+	@echo "11) Run Full CI Pipeline"
+	@echo "-----------------------------------------------------"
+	@read -p 'Select option: ' opt; \
+	case $$opt in \
+		1) make -f mk/Makefile.bootstrap bootstrap ;; \
+		2) make -f mk/Makefile.drift drift-check ;; \
+		3) make -f mk/Makefile.drift drift-baseline ;; \
+		4) make -f mk/Makefile.docs docs ;; \
+		5) make -f mk/Makefile.docs-pdf docs-pdf ;; \
+		6) make -f mk/Makefile.health health ;; \
+		7) make -f mk/Makefile.security security ;; \
+		8) make -f mk/Makefile.ui ui-build ;; \
+		9) make -f mk/Makefile.release release ;; \
+		10) make -f mk/Makefile.meta meta ;; \
+		11) make -f mk/Makefile.ci ci ;; \
+		*) echo "Invalid option." ;; \
+	esac

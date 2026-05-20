@@ -1,0 +1,48 @@
+/* Sentinel Ops — User Management */
+
+.user-mgmt-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Table wrapper */
+.user-table-wrapper {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: 12px;
+
+  padding: 16px 20px;
+  box-sizing: border-box;
+
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+
+  overflow-x: auto;
+}
+
+/* Table */
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table th,
+.user-table td {
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.user-table th {
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--neon-accent-soft);
+}
+
+.user-table tr:hover {
+  background: rgba(255, 255, 255, 0.06);
+}

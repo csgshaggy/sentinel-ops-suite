@@ -1,0 +1,252 @@
+/* ============================================================
+   MFACode.css — Sentinel Ops Neon MFA Verification Screen
+   Matches Login.css + AuthLayout.css (neon blue, glow, grid)
+   ============================================================ */
+
+:root {
+  --logo-primary: #00afff;      /* neon glow */
+  --logo-secondary: #0077cc;    /* deep blue */
+  --logo-text: #e8f7ff;         /* ice white */
+  --grid-line: #1a1f27;
+  --bg-dark: #0a0d12;
+
+  --radius: 12px;
+  --transition: 0.18s ease;
+
+  --vh: 1vh; /* iOS viewport fix */
+}
+
+/* ============================================================
+   GLOBAL RESET + iOS FIXES
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--bg-dark);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+}
+
+/* Prevent iOS zoom on input focus */
+input {
+  font-size: 16px;
+}
+
+/* Remove iOS default input/button styling */
+input,
+button {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0;
+}
+
+/* ============================================================
+   MFA PAGE CONTAINER (Cyber Grid)
+   ============================================================ */
+
+.mfa-container {
+  min-height: calc(var(--vh) * 100);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+
+  background: repeating-linear-gradient(
+      0deg,
+      var(--bg-dark),
+      var(--bg-dark) 48px,
+      var(--grid-line) 49px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--bg-dark),
+      var(--bg-dark) 48px,
+      var(--grid-line) 49px
+    );
+}
+
+/* ============================================================
+   MFA CARD
+   ============================================================ */
+
+.mfa-card {
+  width: 380px;
+  background: rgba(21, 24, 29, 0.85);
+  padding: 32px;
+  border-radius: var(--radius);
+  border: 1px solid var(--grid-line);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 20px rgba(0, 175, 255, 0.15);
+  animation: fadeIn 0.25s ease;
+  margin-top: 10px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   TITLES
+   ============================================================ */
+
+.mfa-title {
+  color: var(--logo-text);
+  font-size: 1.7rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.mfa-subtitle {
+  color: var(--logo-secondary);
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   MFA CODE INPUTS (6-digit)
+   ============================================================ */
+
+.mfa-code-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.mfa-code-input {
+  width: 48px;
+  height: 56px;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--logo-text);
+  background: #0f1115;
+  border: 1px solid var(--grid-line);
+  border-radius: var(--radius);
+  transition: var(--transition);
+}
+
+/* Animated neon pulse on focus */
+@keyframes inputPulse {
+  0% {
+    box-shadow: 0 0 6px var(--logo-primary), 0 0 0px rgba(0, 175, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 10px var(--logo-primary), 0 0 12px rgba(0, 175, 255, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 6px var(--logo-primary), 0 0 0px rgba(0, 175, 255, 0.25);
+  }
+}
+
+.mfa-code-input:focus {
+  border-color: var(--logo-primary);
+  outline: none;
+  animation: inputPulse 1.6s ease-in-out infinite;
+}
+
+/* ============================================================
+   SUBMIT BUTTON
+   ============================================================ */
+
+.mfa-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--logo-primary);
+  color: #000;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: var(--transition);
+  touch-action: manipulation;
+}
+
+.mfa-submit-btn:hover {
+  background: var(--logo-secondary);
+  box-shadow: 0 0 10px var(--logo-primary);
+}
+
+.mfa-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ============================================================
+   RESEND CODE
+   ============================================================ */
+
+.mfa-resend {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--logo-primary);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.9rem;
+}
+
+.mfa-resend:hover {
+  color: var(--logo-secondary);
+  text-shadow: 0 0 6px var(--logo-primary);
+}
+
+/* ============================================================
+   MOBILE BREAKPOINTS
+   ============================================================ */
+
+@media (max-width: 480px) {
+  .mfa-card {
+    width: 92%;
+    padding: 26px;
+  }
+
+  .mfa-code-input {
+    width: 42px;
+    height: 52px;
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .mfa-card {
+    width: 94%;
+    padding: 22px;
+  }
+
+  .mfa-code-input {
+    width: 38px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+}
+
+/* ============================================================
+   TABLET BREAKPOINTS
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .mfa-card {
+    width: 420px;
+    padding: 36px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mfa-card {
+    width: 380px;
+    padding: 32px;
+  }
+}

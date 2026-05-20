@@ -1,0 +1,128 @@
+/* ============================================================================
+   SentinelOps — Unified Auth Shell (Glassy Neon)
+   Production-safe • Minifier-safe • No stray braces • No syntax drift
+   ============================================================================ */
+
+:root {
+  --auth-bg: #0d0f12;
+  --auth-card-bg: rgba(255, 255, 255, 0.06);
+  --auth-border: rgba(255, 255, 255, 0.12);
+  --auth-text: #e6e9ef;
+  --auth-muted: rgba(255, 255, 255, 0.55);
+  --auth-accent: #00eaff;
+}
+
+/* PAGE WRAPPER */
+.auth-shell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--auth-bg);
+  padding: 24px;
+}
+
+/* CARD */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--auth-card-bg);
+  border: 1px solid var(--auth-border);
+  border-radius: 14px;
+  padding: 32px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.45);
+}
+
+/* TITLE */
+.auth-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--auth-text);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* CONTENT AREA */
+.auth-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* FOOTER */
+.auth-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--auth-muted);
+}
+
+/* BUTTONS */
+.auth-button {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--auth-accent);
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.auth-button:hover {
+  opacity: 0.85;
+}
+
+/* INPUTS */
+.auth-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--auth-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--auth-text);
+  font-size: 1rem;
+}
+
+.auth-input::placeholder {
+  color: var(--auth-muted);
+}
+
+/* LINKS */
+.auth-link {
+  color: var(--auth-accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* ERROR */
+.auth-error {
+  color: #ff4d4d;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* SUCCESS */
+.auth-success {
+  color: #4dff88;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px;
+  }
+
+  .auth-title {
+    font-size: 1.4rem;
+  }
+}
+

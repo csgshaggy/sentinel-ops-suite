@@ -1,0 +1,41 @@
+/* AuthLayout.css — Sentinel Ops Cyber Grid Background + Animated Grid */
+
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Use real theme variables from theme.css */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      var(--bg-root),
+      var(--bg-root) 48px,
+      rgba(77, 210, 255, 0.08) 49px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--bg-root),
+      var(--bg-root) 48px,
+      rgba(77, 210, 255, 0.08) 49px
+    );
+
+  background-size: 100% 100%;
+  animation: gridMove 18s linear infinite;
+}
+
+@keyframes gridMove {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 0 200px, 200px 0;
+  }
+}
+
+.auth-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

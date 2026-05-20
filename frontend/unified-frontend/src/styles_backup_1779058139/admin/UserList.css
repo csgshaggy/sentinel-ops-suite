@@ -1,0 +1,132 @@
+/* ============================================================
+   UserList.css — Admin User Table
+   Dark‑Ops theme aligned with CreateUser + EditUser
+   ============================================================ */
+
+:root {
+  --admin-bg: #0d0f12;
+  --admin-card-bg: #15181d;
+  --admin-border: #1f2329;
+  --admin-text: #e5e7eb;
+  --admin-text-dim: #9ca3af;
+  --admin-accent: #3b82f6;
+  --admin-accent-hover: #60a5fa;
+  --admin-danger: #ef4444;
+  --admin-danger-hover: #f87171;
+  --admin-radius: 10px;
+  --admin-transition: 0.18s ease;
+}
+
+.userlist-container {
+  padding: 40px;
+}
+
+.userlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.userlist-header h1 {
+  color: var(--admin-text);
+  font-size: 1.8rem;
+}
+
+.userlist-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.userlist-actions input {
+  padding: 10px;
+  background: #0f1115;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  color: var(--admin-text);
+}
+
+.btn-accent {
+  padding: 10px 16px;
+  background: var(--admin-accent);
+  color: white;
+  border: none;
+  border-radius: var(--admin-radius);
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.btn-accent:hover {
+  background: var(--admin-accent-hover);
+}
+
+.userlist-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  overflow: hidden;
+}
+
+.userlist-table th,
+.userlist-table td {
+  padding: 14px;
+  color: var(--admin-text);
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.userlist-table th {
+  background: #1a1d23;
+  text-align: left;
+}
+
+.userlist-actions-cell {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.btn-small {
+  padding: 6px 10px;
+  margin-left: 6px;
+  background: #2a2e35;
+  color: var(--admin-text);
+  border: 1px solid var(--admin-border);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.btn-small:hover {
+  background: #3a3f47;
+}
+
+.btn-danger {
+  background: var(--admin-danger);
+  border-color: var(--admin-danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: var(--admin-danger-hover);
+}
+
+.active-yes {
+  color: #4ade80;
+}
+
+.active-no {
+  color: #f87171;
+}
+
+.userlist-empty {
+  text-align: center;
+  padding: 20px;
+  color: var(--admin-text-dim);
+}
+
+.userlist-loading {
+  padding: 40px;
+  text-align: center;
+  color: var(--admin-text);
+}

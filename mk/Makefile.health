@@ -1,0 +1,59 @@
+# =====================================================================
+# MAKEFILE.HEALTH
+# System health checks for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: health
+health: health-python health-node health-make health-structure
+	@echo "[health] All health checks passed."
+
+# ---------------------------------------------------------------------
+# PYTHON HEALTH
+# ---------------------------------------------------------------------
+.PHONY: health-python
+health-python:
+	@echo "[health] Checking Python environment..."
+	@if ! command -v $(PYTHON) >/dev/null 2>&1; then \
+		echo "[health] ERROR: python3 not found."; exit 1; \
+	fi
+	@echo "[health] Python OK."
+
+# ---------------------------------------------------------------------
+# NODE HEALTH
+# ---------------------------------------------------------------------
+.PHONY: health-node
+health-node:
+	@echo "[health] Checking Node environment..."
+	@if ! command -v node >/dev/null 2>&1; then \
+		echo "[health] WARNING: Node not installed."; \
+	else \
+		echo "[health] Node OK."; \
+	fi
+
+# ---------------------------------------------------------------------
+# MAKEFILE HEALTH
+# ---------------------------------------------------------------------
+.PHONY: health-make
+health-make:
+	@echo "[health] Validating Makefile syntax..."
+	@find mk -type f -name "Makefile.*" | while read f; do \
+		echo "[health] Checking $$f"; \
+		make -n -f $$f >/dev/null || exit 1; \
+	done
+	@echo "[health] Makefile syntax OK."
+
+# ---------------------------------------------------------------------
+# STRUCTURE HEALTH
+# ---------------------------------------------------------------------
+.PHONY: health-structure
+health-structure:
+	@echo "[health] Checking project structure..."
+	@[ -d tools ] || (echo "[health] ERROR: tools/ missing." && exit 1)
+	@[ -d mk ] || (echo "[health] ERROR: mk/ missing." && exit 1)
+	@echo "[health] Structure OK."

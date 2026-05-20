@@ -1,0 +1,170 @@
+/* Sidebar.module.css — Segment 1 */
+
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+}
+/* Sidebar.module.css — Segment 2 */
+
+.logo {
+  height: var(--sidebar-logo-height);
+  display: flex;
+  align-items: center;
+  padding: var(--space-4);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+/* Sidebar.module.css — Segment 3 */
+
+.nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+/* Sidebar.module.css — Segment 4 */
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-secondary);
+  font-size: var(--font-size-md);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+/* Sidebar.module.css — Segment 5 */
+
+.navItem:hover {
+  background: var(--sidebar-item-hover-bg);
+  color: var(--text-primary);
+}
+
+.navItemActive {
+  background: var(--sidebar-item-active-bg);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+/* Sidebar.module.css — Segment 6 */
+
+.icon {
+  width: var(--sidebar-icon-size);
+  height: var(--sidebar-icon-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+}
+/* Sidebar.module.css — Segment 7 */
+
+.navItem:hover .icon {
+  color: var(--text-primary);
+}
+
+.navItemActive .icon {
+  color: var(--text-primary);
+}
+/* Sidebar.module.css — Segment 8 */
+
+.sectionHeader {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.divider {
+  height: 1px;
+  background: var(--sidebar-border);
+  margin: var(--space-3) 0;
+}
+/* Sidebar.module.css — Segment 9 */
+
+.footer {
+  padding: var(--space-4);
+  border-top: 1px solid var(--sidebar-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.compact .footer {
+  padding: var(--space-3);
+}
+/* Sidebar.module.css — Segment 10 */
+
+.footerButton {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--button-ghost-bg);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}
+
+.footerButton:hover {
+  background: var(--button-ghost-hover-bg);
+  color: var(--text-primary);
+}
+/* Sidebar.module.css — Segment 11 */
+
+.footerButtonActive {
+  background: var(--button-ghost-active-bg);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.footerButton .icon {
+  margin-right: var(--space-2);
+}
+/* Sidebar.module.css — Segment 12 */
+
+.collapsed .sidebar {
+  width: var(--sidebar-width-collapsed);
+}
+
+.collapsed .navItem {
+  justify-content: center;
+  padding: var(--space-3);
+}
+/* Sidebar.module.css — Segment 13 */
+
+.collapsed .navItem span {
+  display: none;
+}
+
+.collapsed .sectionHeader {
+  display: none;
+}
+/* Sidebar.module.css — Segment 14 */
+
+.collapsed .footer {
+  padding: var(--space-2);
+  align-items: center;
+}
+
+.collapsed .footerButton {
+  justify-content: center;
+  padding: var(--space-2);
+}
+/* Sidebar.module.css — Segment 15 */
+
+.sidebar,
+.navItem,
+.footer,
+.footerButton {
+  transition: all 0.25s var(--ease-out);
+}
+
+.collapsed .navItem,
+.collapsed .footerButton {
+  transition: all 0.2s var(--ease-in-out);
+}

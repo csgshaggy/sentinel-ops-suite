@@ -1,0 +1,41 @@
+# =====================================================================
+# MAKEFILE.UI
+# Dashboard build pipeline for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+
+UI_DIR := dashboard
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: ui
+ui: ui-dev
+	@echo "[ui] Dashboard ready."
+
+# ---------------------------------------------------------------------
+# DEV SERVER
+# ---------------------------------------------------------------------
+.PHONY: ui-dev
+ui-dev:
+	@echo "[ui] Starting dashboard dev server..."
+	cd $(UI_DIR) && npm run dev
+
+# ---------------------------------------------------------------------
+# BUILD
+# ---------------------------------------------------------------------
+.PHONY: ui-build
+ui-build:
+	@echo "[ui] Building dashboard..."
+	cd $(UI_DIR) && npm run build
+	@echo "[ui] Dashboard build complete."
+
+# ---------------------------------------------------------------------
+# LINT
+# ---------------------------------------------------------------------
+.PHONY: ui-lint
+ui-lint:
+	@echo "[ui] Linting dashboard..."
+	cd $(UI_DIR) && npm run lint
+	@echo "[ui] Lint complete."

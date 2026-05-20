@@ -1,0 +1,86 @@
+/* frontend/src/pages/Dashboard.css */
+/* SentinelOps — Token‑Driven Dashboard */
+
+.dashboard-page {
+  min-height: 100vh;
+  background: var(--so-color-bg);
+  padding: 2rem;
+  color: var(--so-color-text-primary, #fff);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.dashboard-user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-email {
+  font-size: 0.95rem;
+  color: var(--so-color-text-secondary, #ccc);
+}
+
+.logout-button {
+  padding: 0.5rem 1rem;
+  border-radius: var(--so-radius-md);
+  background: var(--so-color-accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.logout-button:hover {
+  background: var(--so-color-accent-soft);
+}
+
+.dashboard-content {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.dashboard-card {
+  background: var(--so-color-surface);
+  border: 1px solid var(--so-color-border-subtle);
+  border-radius: var(--so-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--so-shadow-soft);
+}
+
+.dashboard-loading {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--so-color-text-primary, #fff);
+  gap: 1rem;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--so-color-border-subtle);
+  border-top-color: var(--so-color-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

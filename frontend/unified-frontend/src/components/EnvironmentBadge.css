@@ -1,0 +1,52 @@
+/* /src/components/EnvironmentBadge.css */
+
+.env-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  user-select: none;
+}
+
+/* DEV — Neon Cyan */
+.env-dev {
+  background: rgba(0, 255, 255, 0.15);
+  color: #00faff;
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+/* STAGING — Neon Yellow */
+.env-staging {
+  background: rgba(255, 255, 0, 0.15);
+  color: #ffee55;
+  border: 1px solid rgba(255, 255, 0, 0.4);
+  box-shadow: 0 0 8px rgba(255, 255, 0, 0.4);
+}
+
+/* PROD — Neon Red (Pulsing) */
+.env-prod {
+  background: rgba(255, 0, 0, 0.15);
+  color: #ff4d4d;
+  border: 1px solid rgba(255, 0, 0, 0.5);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
+  animation: envPulse 1.4s infinite ease-in-out;
+}
+
+@keyframes envPulse {
+  0% {
+    box-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 14px rgba(255, 0, 0, 0.9);
+  }
+  100% {
+    box-shadow: 0 0 6px rgba(255, 0, 0, 0.4);
+  }
+}

@@ -1,0 +1,140 @@
+/* ============================================================
+   Sentinel Ops Suite — Unified Neon‑Glassy Theme System
+   Mode: Dark-first, Light optional
+   Accent Family: Cyan / Aqua
+   Deterministic • Minimal • Production‑Grade
+============================================================ */
+
+/* ------------------------------------------------------------
+   BASE THEME (Dark Mode Default)
+------------------------------------------------------------ */
+:root {
+  /* Core Background Layers */
+  --bg-root: #0b0f17;          /* deep neutral base */
+  --bg-surface: #111622;       /* elevated panels */
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --bg-active: rgba(255, 255, 255, 0.12);
+
+  /* Text */
+  --text-primary: #e6e9ef;
+  --text-primary-strong: #ffffff;
+  --text-secondary: #9aa0b2;
+
+  /* Neon Accent (Cyan/Aqua) */
+  --accent: #4dd2ff;
+  --accent-bright: #7fe8ff;
+  --accent-soft: rgba(77, 210, 255, 0.35);
+
+  /* Borders */
+  --border-soft: rgba(255, 255, 255, 0.08);
+
+  /* Glass Effects */
+  --glass-blur: blur(12px);
+
+  /* Shadows */
+  --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-glow: 0 0 12px rgba(77, 210, 255, 0.25);
+
+  /* Radius */
+  --radius: 8px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-medium: 0.25s ease;
+
+  /* Scrollbars */
+  --scroll-thumb: rgba(77, 210, 255, 0.35);
+  --scroll-thumb-hover: rgba(77, 210, 255, 0.55);
+  --scroll-track: rgba(255, 255, 255, 0.05);
+}
+
+/* ------------------------------------------------------------
+   LIGHT THEME (Optional)
+------------------------------------------------------------ */
+[data-theme="light"] {
+  --bg-root: #f5f7ff;
+  --bg-surface: #ffffff;
+  --bg-hover: rgba(0, 0, 0, 0.06);
+  --bg-active: rgba(0, 0, 0, 0.12);
+
+  --text-primary: #000000;
+  --text-primary-strong: #000000;
+  --text-secondary: #333333;
+
+  --accent: #009fe6;
+  --accent-bright: #33baff;
+  --accent-soft: rgba(0, 159, 230, 0.35);
+
+  --border-soft: rgba(0, 0, 0, 0.12);
+
+  --scroll-thumb: rgba(0, 159, 230, 0.35);
+  --scroll-thumb-hover: rgba(0, 159, 230, 0.55);
+  --scroll-track: rgba(0, 0, 0, 0.05);
+}
+
+/* ------------------------------------------------------------
+   GLOBAL ELEMENTS
+------------------------------------------------------------ */
+body {
+  background: var(--bg-root);
+  color: var(--text-primary);
+  transition: background var(--transition-medium), color var(--transition-medium);
+}
+
+/* Glow helper */
+.cyber-glow {
+  box-shadow: var(--shadow-glow);
+}
+
+/* Buttons */
+.cyber-button {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.cyber-button:hover {
+  opacity: 0.85;
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  background: var(--bg-hover);
+  border: 1px solid var(--border-soft);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 6px var(--accent-soft);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scroll-thumb-hover);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scroll-track);
+}

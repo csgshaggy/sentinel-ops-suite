@@ -1,0 +1,47 @@
+# =====================================================================
+# MAKEFILE.DEV
+# Development environment tasks for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+VENV := .venv
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: dev
+dev: dev-venv dev-install
+	@echo "[dev] Development environment ready."
+
+# ---------------------------------------------------------------------
+# PYTHON VENV
+# ---------------------------------------------------------------------
+.PHONY: dev-venv
+dev-venv:
+	@echo "[dev] Creating virtual environment..."
+	@if [ ! -d "$(VENV)" ]; then \
+		$(PYTHON) -m venv $(VENV); \
+	fi
+	@echo "[dev] Virtual environment ready."
+
+# ---------------------------------------------------------------------
+# INSTALL DEPENDENCIES
+# ---------------------------------------------------------------------
+.PHONY: dev-install
+dev-install:
+	@echo "[dev] Installing Python dependencies..."
+	@$(VENV)/bin/pip install --upgrade pip setuptools wheel
+	@if [ -f requirements.txt ]; then \
+		$(VENV)/bin/pip install -r requirements.txt; \
+	fi
+	@echo "[dev] Python dependencies installed."
+
+# ---------------------------------------------------------------------
+# CLEAN DEV ENVIRONMENT
+# ---------------------------------------------------------------------
+.PHONY: dev-clean
+dev-clean:
+	@echo "[dev] Removing virtual environment..."
+	rm -rf $(VENV)
+	@echo "[dev] Dev environment cleaned."

@@ -1,0 +1,86 @@
+# ============================
+# REQUIRED CANONICAL DIRECTORIES (DO NOT IGNORE)
+# ============================
+!scripts/
+!scripts/canonical/
+!src/
+!src/ssrf_console/
+!mk/
+!Makefile
+
+# ============================
+# PYTHON / FASTAPI BACKEND
+# ============================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Packaging / metadata
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Pytest
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Mypy / type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff / linting
+.ruff_cache/
+
+# Local runtime artifacts
+*.log
+logs/
+runtime/
+tmp/
+temp/
+
+# ============================
+# FRONTEND (VITE / REACT)
+# ============================
+dashboard/node_modules/
+dashboard/dist/
+dashboard/.vite/
+dashboard/.eslintcache
+dashboard/.parcel-cache/
+dashboard/.turbo/
+
+# ============================
+# PROJECT-SPECIFIC IGNORES
+# ============================
+*.bak
+*.generated.*
+*.cache
+.cache/
+
+# ============================
+# EDITOR / OS JUNK
+# ============================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*~
+
+# ============================
+# ENV / SECRETS
+# ============================
+.env
+.env.*
+*.env.local
+secrets/
+credentials/

@@ -1,0 +1,73 @@
+# =====================================================================
+# MAKEFILE.DRIFT
+# Drift Detection, Baseline Snapshots, and Repo Integrity Enforcement
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# CONFIG
+# ---------------------------------------------------------------------
+DRIFT_DIR := .drift
+DRIFT_BASELINE := $(DRIFT_DIR)/baseline.json
+DRIFT_SNAPSHOT := $(DRIFT_DIR)/snapshot.json
+DRIFT_DIFF := $(DRIFT_DIR)/diff.json
+
+PYTHON := python3
+DRIFT_SCRIPT := tools/drift_detector.py
+
+# Ensure directory exists
+$(DRIFT_DIR):
+	mkdir -p $(DRIFT_DIR)
+
+# ---------------------------------------------------------------------
+# DRIFT: BASELINE GENERATION
+# ---------------------------------------------------------------------
+.PHONY: drift-baseline
+drift-baseline: $(DRIFT_DIR)
+	@echo "[drift] Generating baseline snapshot..."
+	$(PYTHON) $(DRIFT_SCRIPT) baseline --output $(DRIFT_BASELINE)
+	@echo "[drift] Baseline written to $(DRIFT_BASELINE)"
+
+# ---------------------------------------------------------------------
+# DRIFT: SNAPSHOT (CURRENT STATE)
+# ---------------------------------------------------------------------
+.PHONY: drift-snapshot
+drift-snapshot: $(DRIFT_DIR)
+	@echo "[drift] Capturing current snapshot..."
+	$(PYTHON) $(DRIFT_SCRIPT) snapshot --output $(DRIFT_SNAPSHOT)
+	@echo "[drift] Snapshot written to $(DRIFT_SNAPSHOT)"
+
+# ---------------------------------------------------------------------
+# DRIFT: DIFF (COMPARE BASELINE → SNAPSHOT)
+# ---------------------------------------------------------------------
+.PHONY: drift-diff
+drift-diff: drift-snapshot
+	@echo "[drift] Comparing baseline to snapshot..."
+	$(PYTHON) $(DRIFT_SCRIPT) diff \
+		--baseline $(DRIFT_BASELINE) \
+		--snapshot $(DRIFT_SNAPSHOT) \
+		--output $(DRIFT_DIFF)
+	@echo "[drift] Diff written to $(DRIFT_DIFF)"
+
+# ---------------------------------------------------------------------
+# DRIFT: CHECK (CI ENFORCEMENT)
+# ---------------------------------------------------------------------
+.PHONY: drift-check
+drift-check: drift-diff
+	@echo "[drift] Evaluating drift status..."
+	$(PYTHON) $(DRIFT_SCRIPT) check --diff $(DRIFT_DIFF)
+
+# ---------------------------------------------------------------------
+# DRIFT: FULL PIPELINE
+# ---------------------------------------------------------------------
+.PHONY: drift
+drift: drift-baseline drift-snapshot drift-diff drift-check
+	@echo "[drift] Full drift pipeline complete."
+
+# ---------------------------------------------------------------------
+# DRIFT: CLEAN
+# ---------------------------------------------------------------------
+.PHONY: drift-clean
+drift-clean:
+	@echo "[drift] Removing drift artifacts..."
+	rm -rf $(DRIFT_DIR)
+	@echo "[drift] Drift directory removed."

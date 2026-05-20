@@ -1,0 +1,40 @@
+# =====================================================================
+# MAKEFILE.RELEASE
+# Packaging pipeline for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+
+RELEASE_DIR := release
+RELEASE_NAME := sentinel-ops-suite
+RELEASE_TARBALL := $(RELEASE_DIR)/$(RELEASE_NAME).tar.gz
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: release
+release: release-clean release-build
+	@echo "[release] Release package created at $(RELEASE_TARBALL)"
+
+# ---------------------------------------------------------------------
+# CLEAN
+# ---------------------------------------------------------------------
+.PHONY: release-clean
+release-clean:
+	@echo "[release] Cleaning release directory..."
+	rm -rf $(RELEASE_DIR)
+	mkdir -p $(RELEASE_DIR)
+
+# ---------------------------------------------------------------------
+# BUILD PACKAGE
+# ---------------------------------------------------------------------
+.PHONY: release-build
+release-build:
+	@echo "[release] Building release tarball..."
+	tar --exclude='.venv' \
+	    --exclude='node_modules' \
+	    --exclude='__pycache__' \
+	    --exclude='.drift' \
+	    --exclude='release' \
+	    -czf $(RELEASE_TARBALL) .
+	@echo "[release] Tarball ready."

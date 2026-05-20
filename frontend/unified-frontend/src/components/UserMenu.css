@@ -1,0 +1,150 @@
+/* ------------------------------------------------------------
+   Sentinel Ops — User Menu (Neon/Glassy Theme)
+------------------------------------------------------------- */
+
+.user-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Avatar */
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  color: #e8faff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.user-avatar:hover {
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Dropdown */
+.user-dropdown {
+  width: 180px;
+  background: rgba(0, 0, 0, 0.45);          /* slightly flatter */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 255, 255, 0.12); /* flatter border */
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: none;                          /* <-- FLAT */
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   FLAT MENU ITEMS
+------------------------------------------------------------- */
+
+.dropdown-item,
+.submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px 10px;
+  border-radius: 6px;
+
+  background: transparent !important;   /* <-- FLAT */
+  border: none !important;              /* <-- FLAT */
+  box-shadow: none !important;          /* <-- FLAT */
+
+  color: #e8faff;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* Hover glow without raised effect */
+.dropdown-item:hover,
+.submenu-item:hover {
+  background: rgba(0, 255, 255, 0.12);  /* neon wash */
+  color: #ffffff;
+}
+
+/* Divider */
+.user-menu-divider {
+  height: 1px;
+  background: rgba(0, 255, 255, 0.15);
+  margin: 6px 0;
+}
+
+/* Submenu */
+.submenu-wrapper {
+  position: relative;
+}
+
+.submenu {
+  position: absolute;
+  top: 0;
+  left: 160px;
+  width: 150px;
+
+  background: rgba(0, 0, 0, 0.45);          /* flatter */
+  border: 1px solid rgba(0, 255, 255, 0.12);
+  border-radius: 10px;
+
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  box-shadow: none;                          /* <-- FLAT */
+  animation: fadeIn 0.15s ease;
+}
+
+/* ------------------------------------------------------------
+   ICONS — NEON/GLASSY
+------------------------------------------------------------- */
+
+.menu-icon {
+  width: 18px;
+  height: 18px;
+  color: #b8eaff;
+  opacity: 0.85;
+  transition: color 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+}
+
+.dropdown-item:hover .menu-icon,
+.submenu-item:hover .menu-icon {
+  color: #00eaff;
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* Logout icon special color */
+.logout .menu-icon {
+  color: #ff6b6b;
+}
+
+.logout:hover .menu-icon {
+  color: #ff3b3b;
+  opacity: 1;
+}

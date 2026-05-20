@@ -1,0 +1,58 @@
+/* AppShell.module.css — Segment 1 */
+
+.appShell {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-rows: var(--topbar-height) 1fr;
+  height: 100vh;
+  background: var(--app-bg);
+}
+/* AppShell.module.css — Segment 2 */
+
+.workspace {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  overflow: hidden;
+  background: var(--workspace-bg);
+}
+/* AppShell.module.css — Segment 3 */
+
+.scrollRegion {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  padding: var(--space-4);
+  scroll-behavior: smooth;
+}
+/* AppShell.module.css — Segment 4 */
+
+.appShellCollapsed {
+  grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+  transition: grid-template-columns var(--ease-out) 180ms;
+}
+/* AppShell.module.css — Segment 5 */
+
+@media (max-width: 900px) {
+  .appShell {
+    grid-template-columns: var(--sidebar-width-collapsed) 1fr;
+  }
+}
+/* AppShell.module.css — Segment 6 */
+
+.safeArea {
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+/* AppShell.module.css — Segment 7 */
+
+@media (forced-colors: active) {
+  .appShell,
+  .workspace,
+  .scrollRegion {
+    border: 1px solid CanvasText;
+    background: Canvas;
+  }
+}
+

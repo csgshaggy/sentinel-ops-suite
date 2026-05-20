@@ -1,0 +1,97 @@
+/* ============================================================
+   SENTINEL OPS — TOP BAR (NEON GLASSY, MATCHED TO THEME)
+============================================================ */
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 56px;
+
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--panel-shadow);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: var(--text-base);
+  z-index: 9998;
+}
+
+.topbar-inner {
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.local-clock {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-base);
+}
+
+.settings-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-base);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: 0.15s ease;
+  font-size: 18px;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--neon-accent);
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.topbar-logout-btn {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: var(--text-base);
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.topbar-logout-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--neon-accent);
+  color: var(--neon-accent);
+}

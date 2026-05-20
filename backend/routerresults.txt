@@ -1,0 +1,1159 @@
+./invalid_import_cleaner.py:35:    "backend.routes": "app.routers",
+./code_health.py:43:    "backend.routes": "app.routers",
+./routes/makefile_admin.py.bak:6:router = APIRouter(prefix="/makefile", tags=["makefile-admin"])
+./routes/makefile_admin.py.bak:9:@router.get("/diff")
+./routes/repo/makefile.ts:4:const router = Router();
+./routes/repo/makefile.ts:6:router.get("/health", async (req, res) => {
+./routes/repo/makefile.ts:31:export default router;
+./routes/users.py:4:router = APIRouter(prefix="/api/users", tags=["users"])
+./routes/users.py:6:@router.get("/me")
+./routes/sync_history.py.bak:6:router = APIRouter()
+./routes/sync_history.py.bak:11:@router.get("/api/repo/sync-history")
+./routes/auth.py:9:router = APIRouter(prefix="/api/auth", tags=["auth"])
+./routes/auth.py:12:@router.get("/session/restore")
+./routes/auth.py:20:@router.post("/heartbeat")
+./routes/auth.py:28:@router.post("/logout")
+./routes/doctor.py:9:router = APIRouter(
+./routes/doctor.py:15:@router.get("/", response_model=dict)
+./routes/makefile_admin.py:6:router = APIRouter(prefix="/makefile", tags=["makefile-admin"])
+./routes/makefile_admin.py:9:@router.get("/diff")
+./routes/auth.py.bak:18:router = APIRouter(prefix="/api/auth", tags=["Authentication"])
+./routes/auth.py.bak:61:@router.post("/signup")
+./routes/auth.py.bak:95:@router.post("/login")
+./routes/auth.py.bak:135:@router.get("/session")
+./routes/auth.py.bak:161:@router.get("/heartbeat")
+./routes/auth.py.bak:177:@router.post("/logout")
+./routes/auth.py.bak:193:@router.post("/mfa/initiate")
+./routes/auth.py.bak:223:@router.post("/mfa/verify-setup")
+./routes/auth.py.bak:248:@router.post("/mfa/verify")
+./routes/auth.py.bak:285:@router.post("/mfa/disable")
+./routes/doctor.py.bak:9:router = APIRouter(
+./routes/doctor.py.bak:15:@router.get("/", response_model=dict)
+./routes/sync_history.py:6:router = APIRouter()
+./routes/sync_history.py:11:@router.get("/api/repo/sync-history")
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:26:        create_router: type[Router] | None = None,
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:45:        create_router: type[Router] | None = None,
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:69:            from websockets.asyncio.router import route
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:109:            create_router: Factory for the :class:`Router` dispatching requests to
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:117:        if create_router is None:
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:118:            create_router = Router
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:120:        router = create_router(url_map, server_name, url_scheme)
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:133:            ] = router.route_request
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:144:                return router.route_request(connection, request)
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:146:        return serve(router.handler, *args, process_request=process_request, **kwargs)
+./.venv/lib64/python3.12/site-packages/websockets/asyncio/router.py:168:    """WebSocket router supporting :func:`route`."""
+./.venv/lib64/python3.12/site-packages/websockets/__init__.py:15:    # .asyncio.router
+./.venv/lib64/python3.12/site-packages/websockets/__init__.py:86:    from .asyncio.router import Router, route, unix_route
+./.venv/lib64/python3.12/site-packages/websockets/__init__.py:146:            # .asyncio.router
+./.venv/lib64/python3.12/site-packages/websockets/__init__.py:147:            "route": ".asyncio.router",
+./.venv/lib64/python3.12/site-packages/websockets/__init__.py:148:            "unix_route": ".asyncio.router",
+./.venv/lib64/python3.12/site-packages/websockets/__init__.py:149:            "Router": ".asyncio.router",
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:26:        create_router: type[Router] | None = None,
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:45:        create_router: type[Router] | None = None,
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:69:            from websockets.sync.router import route
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:105:            create_router: Factory for the :class:`Router` dispatching requests to
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:113:        if create_router is None:
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:114:            create_router = Router
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:116:        router = create_router(url_map, server_name, url_scheme)
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:129:            ] = router.route_request
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:138:                return router.route_request(connection, request)
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:140:        return serve(router.handler, *args, process_request=process_request, **kwargs)
+./.venv/lib64/python3.12/site-packages/websockets/sync/router.py:162:    """WebSocket router supporting :func:`route`."""
+./.venv/lib64/python3.12/site-packages/sklearn/compose/_column_transformer.py:1196:        router = MetadataRouter(owner=self.__class__.__name__)
+./.venv/lib64/python3.12/site-packages/sklearn/compose/_column_transformer.py:1218:            router.add(method_mapping=method_mapping, **{name: step})
+./.venv/lib64/python3.12/site-packages/sklearn/compose/_column_transformer.py:1220:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/compose/tests/test_column_transformer.py:2558:    router = ct.get_metadata_routing()
+./.venv/lib64/python3.12/site-packages/sklearn/compose/tests/test_column_transformer.py:2559:    assert router.consumes("fit", ["metadata"]) == set(["metadata"])
+./.venv/lib64/python3.12/site-packages/sklearn/compose/tests/test_column_transformer.py:2577:    router = ct.get_metadata_routing()
+./.venv/lib64/python3.12/site-packages/sklearn/compose/tests/test_column_transformer.py:2578:    assert router.consumes("fit", ["metadata"]) == set(["metadata"])
+./.venv/lib64/python3.12/site-packages/sklearn/multioutput.py:327:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib64/python3.12/site-packages/sklearn/multioutput.py:333:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/multioutput.py:1023:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib64/python3.12/site-packages/sklearn/multioutput.py:1027:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/multioutput.py:1172:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib64/python3.12/site-packages/sklearn/multioutput.py:1176:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/multiclass.py:616:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/multiclass.py:626:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/multiclass.py:1015:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/multiclass.py:1025:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/multiclass.py:1265:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib64/python3.12/site-packages/sklearn/multiclass.py:1269:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/calibration.py:523:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/calibration.py:535:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/linear_model/_logistic.py:2160:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/linear_model/_logistic.py:2174:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/linear_model/_least_angle.py:1786:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib64/python3.12/site-packages/sklearn/linear_model/_least_angle.py:1790:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/linear_model/_coordinate_descent.py:1831:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/linear_model/_coordinate_descent.py:1839:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/linear_model/_omp.py:1093:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib64/python3.12/site-packages/sklearn/linear_model/_omp.py:1097:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_validation.py:374:        # methods. For these router methods, we create the router to use
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_validation.py:376:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_validation.py:394:            routed_params = process_routing(router, "fit", **params)
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_validation.py:1225:        # methods. For these router methods, we create the router to use
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_validation.py:1227:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_validation.py:1240:            routed_params = process_routing(router, "fit", **params)
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_search.py:1144:        router = MetadataRouter(owner=self.__class__.__name__)
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_search.py:1145:        router.add(
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_search.py:1151:        router.add(
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_search.py:1157:        router.add(
+./.venv/lib64/python3.12/site-packages/sklearn/model_selection/_search.py:1161:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/feature_selection/_from_model.py:513:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib64/python3.12/site-packages/sklearn/feature_selection/_from_model.py:519:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/_scorer.py:433:        # rather than a router. Ideally it only exposes the score requests to
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1246:    # make sure putting the scorer in a router doesn't request anything by
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1248:    router = MetadataRouter(owner="test").add(
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1253:        router.validate_metadata(params={"sample_weight": 1}, method="score")
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1255:    routed_params = router.route_params(params={"sample_weight": 1}, caller="score")
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1258:    # make sure putting weighted_scorer in a router requests sample_weight
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1259:    router = MetadataRouter(owner="test").add(
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1262:    router.validate_metadata(params={"sample_weight": 1}, method="score")
+./.venv/lib64/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1263:    routed_params = router.route_params(params={"sample_weight": 1}, caller="score")
+./.venv/lib64/python3.12/site-packages/sklearn/pipeline.py:1125:        router = MetadataRouter(owner=self.__class__.__name__)
+./.venv/lib64/python3.12/site-packages/sklearn/pipeline.py:1159:            router.add(method_mapping=method_mapping, **{name: trans})
+./.venv/lib64/python3.12/site-packages/sklearn/pipeline.py:1163:            return router
+./.venv/lib64/python3.12/site-packages/sklearn/pipeline.py:1185:        router.add(method_mapping=method_mapping, **{final_name: final_est})
+./.venv/lib64/python3.12/site-packages/sklearn/pipeline.py:1186:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:104:        router = MetadataRouter(owner=self.__class__.__name__)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:106:            router.add(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:113:        router.add(predictor=self.steps[-1], method_mapping="one-to-one")
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:114:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:141:    # test if a router is empty
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:585:def test_metadata_router_consumes_method():
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:656:                " 'predict'}], 'router': {'fit': {'sample_weight': None, 'metadata':"
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:733:def test_metadatarouter_add_self_request():
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:737:    router = MetadataRouter(owner="test").add_self_request(request)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:738:    assert str(router._self_request) == str(request)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:740:    assert router._self_request is not request
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:744:    router = MetadataRouter(owner="test").add_self_request(obj=est)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:745:    assert str(router._self_request) == str(est.get_metadata_routing())
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:746:    assert router._self_request is not est.get_metadata_routing()
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:748:    # adding a consumer+router as self should only add the consumer part
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:752:    router = MetadataRouter(owner="test").add_self_request(obj=est)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:754:    assert str(router._self_request) == str(est._get_metadata_request())
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:756:    # router included.
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:757:    assert str(router._self_request) != str(est.get_metadata_routing())
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:759:    assert router._self_request is not est._get_metadata_request()
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:764:    router = MetadataRouter(owner="test").add(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:769:        str(router)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:770:        == "{'est': {'mapping': [{'callee': 'fit', 'caller': 'fit'}], 'router': {'fit':"
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:777:    router = MetadataRouter(owner="test").add(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:782:        str(router)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:783:        == "{'est': {'mapping': [{'callee': 'score', 'caller': 'fit'}], 'router':"
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:791:    router = (
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:807:        str(router)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:810:        " 'fit'}], 'router': {'fit': {'sample_weight': 'transform_weights',"
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:815:    assert router._get_param_names(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:819:    assert router._get_param_names(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:823:    assert router._get_param_names(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:827:    assert router._get_param_names(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:829:    ) == router._get_param_names(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:86:            assert_request_is_empty(route_mapping.router, exclude=_exclude)
+./.venv/lib64/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:368:    """A meta-regressor which is only a router."""
+./.venv/lib64/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:378:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib64/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:381:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:405:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:410:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:430:        router = (
+./.venv/lib64/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:435:        return router
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:20:In routers, e.g. meta-estimators and a multi metric scorer,
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:23:An object which is both a router and a consumer, e.g. a meta-estimator which
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:54:        router=MetadataRequest(...),  # or another MetadataRouter
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:67:- ``(mapping=..., router=...)`` is a namedtuple called ``RouterMappingPair``
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:226:# is when a meta-estimator is only a router, but then becomes also a
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:657:# in routers, returned by their ``get_metadata_routing``.
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:662:RouterMappingPair = namedtuple("RouterMappingPair", ["mapping", "router"])
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:670:    """Stores the mapping between callee and caller methods for a router.
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:672:    This class is primarily used in a ``get_metadata_routing()`` of a router
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:674:    scorer) to the router's methods. It stores a collection of ``Route``
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:768:    """Stores and handles metadata routing for a router object.
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:770:    This class is used by router objects to store and handle metadata routing.
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:789:    _type = "metadata_router"
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:793:        # `_self_request` is used if the router is also a consumer.
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:803:        This method is used if the router is also a consumer, and hence the
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:804:        router itself needs to be included in the routing. The passed object
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:808:        A router should add itself using this method instead of `add` since it
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:810:        is routed by the router.
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:815:            This is typically the router instance, i.e. `self` in a
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:862:                mapping=method_mapping, router=get_routing_for_object(obj)
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:891:                    res = res | route_mapping.router.consumes(
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:935:                        route_mapping.router._get_param_names(
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:944:        This is used when a router is used as a child object of another router.
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:945:        The parent router then passes all parameters understood by the child
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:994:        methods of each child object that are used in the router's `caller`
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:997:        If the router is also a consumer, it also checks for warnings of
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1004:            routed. If called inside the :term:`fit` method of a router, it
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1023:            router, mapping = route_mapping.router, route_mapping.mapping
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1028:                    res[name][_callee] = router._route_params(
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1043:            routed. If called inside the :term:`fit` method of a router, it
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1079:            res[name]["router"] = route_mapping.router._serialize()
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1089:                    router=self._self_request,
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1138:    elif getattr(obj, "_type", None) in ["metadata_request", "metadata_router"]:
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1369:    def _build_request_for_signature(cls, router, method):
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1378:        router : MetadataRequest
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1420:                cls._build_request_for_signature(router=requests, method=method),
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1487:# This is almost always the only method used in routers to process and route
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1488:# given metadata. This is to minimize the boilerplate required in routers.
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1498:    This function is used inside a router's method, e.g. :term:`fit`,
+./.venv/lib64/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1518:        The name of the router's method in which this function is called.
+./.venv/lib64/python3.12/site-packages/starlette/routing.py:606:    def __init__(self, router: Router):
+./.venv/lib64/python3.12/site-packages/starlette/routing.py:607:        self._router = router
+./.venv/lib64/python3.12/site-packages/starlette/routing.py:610:        await self._router.startup()
+./.venv/lib64/python3.12/site-packages/starlette/routing.py:613:        await self._router.shutdown()
+./.venv/lib64/python3.12/site-packages/starlette/routing.py:628:        # which the router cannot know statically, so we use typing.Any
+./.venv/lib64/python3.12/site-packages/starlette/routing.py:763:        if "router" not in scope:
+./.venv/lib64/python3.12/site-packages/starlette/routing.py:764:            scope["router"] = self
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:75:        self.router = Router(
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:107:        app = self.router
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:114:        return self.router.routes
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:117:        return self.router.url_path_for(name, **path_params)
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:126:        return self.router.on_event(event_type)  # pragma: nocover
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:129:        self.router.mount(path, app=app, name=name)  # pragma: no cover
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:132:        self.router.host(host, app=app, name=name)  # pragma: no cover
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:156:        self.router.add_event_handler(event_type, func)
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:166:        self.router.add_route(
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:176:        self.router.add_websocket_route(path, route, name=name)
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:214:            self.router.add_route(
+./.venv/lib64/python3.12/site-packages/starlette/applications.py:240:            self.router.add_websocket_route(path, func, name=name)
+./.venv/lib64/python3.12/site-packages/starlette/requests.py:186:        router: Router = self.scope["router"]
+./.venv/lib64/python3.12/site-packages/starlette/requests.py:187:        url_path = router.url_path_for(name, **path_params)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:560:    router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:563:    @router.get("/users/", tags=["users"])
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:568:    app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:575:        prefix: Annotated[str, Doc("An optional path prefix for the router.")] = "",
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:581:                router.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:595:                *path operations* in this router.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:598:                [FastAPI docs for Bigger Applications - Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:625:                [FastAPI docs for Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:634:                router.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:661:                like `router.get()`, `router.post()`, etc.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:678:                Default function handler for this router. Used to handle
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:698:                Custom route (*path operation*) class to be used by this router.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:701:                [FastAPI docs for Custom Request and APIRoute class](https://fastapi.tiangolo.com/how-to/custom-request-and-route/#custom-apiroute-class-in-a-router).
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:731:        # which the router cannot know statically, so we use typing.Any
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:748:                Mark all *path operations* in this router as deprecated.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:761:                To include (or not) all the *path operations* in this router in the
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1042:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1044:        @router.websocket("/ws")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1051:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1072:    def include_router(
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1074:        router: Annotated["APIRouter", Doc("The `APIRouter` to include.")],
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1076:        prefix: Annotated[str, Doc("An optional path prefix for the router.")] = "",
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1082:                router.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1096:                *path operations* in this router.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1099:                [FastAPI docs for Bigger Applications - Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1126:                [FastAPI docs for Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1135:                router.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1148:                Mark all *path operations* in this router as deprecated.
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1161:                Include (or not) all the *path operations* in this router in the
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1196:        internal_router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1197:        users_router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1199:        @users_router.get("/users/")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1203:        internal_router.include_router(users_router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1204:        app.include_router(internal_router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1213:            for r in router.routes:
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1222:        for route in router.routes:
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1227:                    router.default_response_class,
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1248:                    router.generate_unique_id_function,
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1307:        for handler in router.on_startup:
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1309:        for handler in router.on_shutdown:
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1653:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1655:        @router.get("/items/")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:1659:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2035:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2037:        @router.put("/items/{item_id}")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2041:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2417:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2419:        @router.post("/items/")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2423:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2794:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2796:        @router.delete("/items/{item_id}")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:2800:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3171:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3173:        @router.options("/items/")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3177:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3553:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3555:        @router.head("/items/", status_code=204)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3559:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3935:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3937:        @router.patch("/items/")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:3941:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:4317:        router = APIRouter()
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:4319:        @router.trace("/items/{item_id}")
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:4323:        app.include_router(router)
+./.venv/lib64/python3.12/site-packages/fastapi/routing.py:4373:        Add an event handler for the router.
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:337:                *path operation*, including in sub-routers.
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:694:                [FastAPI docs for Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:932:        self.router: routing.APIRouter = routing.APIRouter(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1088:        self.router.add_api_route(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1145:            self.router.add_api_route(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1183:        self.router.add_api_websocket_route(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1255:    def include_router(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1257:        router: Annotated[routing.APIRouter, Doc("The `APIRouter` to include.")],
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1259:        prefix: Annotated[str, Doc("An optional path prefix for the router.")] = "",
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1265:                router.
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1279:                *path operations* in this router.
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1282:                [FastAPI docs for Bigger Applications - Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1294:                app.include_router(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1295:                    admin.router,
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1314:                [FastAPI docs for Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1322:                Mark all the *path operations* in this router as deprecated.
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1335:                app.include_router(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1336:                    old_api.router,
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1347:                Include (or not) all the *path operations* in this router in the
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1361:                app.include_router(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1362:                    old_api.router,
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1374:                router.
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1389:                app.include_router(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1390:                    old_api.router,
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1440:        from .users import users_router
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1444:        app.include_router(users_router)
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1447:        self.router.include_router(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1448:            router,
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:1807:        return self.router.get(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:2185:        return self.router.put(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:2563:        return self.router.post(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:2936:        return self.router.delete(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:3309:        return self.router.options(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:3682:        return self.router.head(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:4060:        return self.router.patch(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:4433:        return self.router.trace(
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:4463:            self.router.add_websocket_route(path, func, name=name)
+./.venv/lib64/python3.12/site-packages/fastapi/applications.py:4495:        return self.router.on_event(event_type)
+./.venv/lib64/python3.12/site-packages/websockets-16.0.dist-info/RECORD:39:websockets/asyncio/__pycache__/router.cpython-312.pyc,,
+./.venv/lib64/python3.12/site-packages/websockets-16.0.dist-info/RECORD:46:websockets/asyncio/router.py,sha256=S-69vszK-SqUCcZbXXPOnux-eH2fTHYC2JNh7tOtmmA,7520
+./.venv/lib64/python3.12/site-packages/websockets-16.0.dist-info/RECORD:96:websockets/sync/__pycache__/router.cpython-312.pyc,,
+./.venv/lib64/python3.12/site-packages/websockets-16.0.dist-info/RECORD:102:websockets/sync/router.py,sha256=BqKSAKNZYtRWiOxol9qYeyfgyXRrMNJ6FrTTZLNcXMg,7172
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:26:        create_router: type[Router] | None = None,
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:45:        create_router: type[Router] | None = None,
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:69:            from websockets.asyncio.router import route
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:109:            create_router: Factory for the :class:`Router` dispatching requests to
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:117:        if create_router is None:
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:118:            create_router = Router
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:120:        router = create_router(url_map, server_name, url_scheme)
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:133:            ] = router.route_request
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:144:                return router.route_request(connection, request)
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:146:        return serve(router.handler, *args, process_request=process_request, **kwargs)
+./.venv/lib/python3.12/site-packages/websockets/asyncio/router.py:168:    """WebSocket router supporting :func:`route`."""
+./.venv/lib/python3.12/site-packages/websockets/__init__.py:15:    # .asyncio.router
+./.venv/lib/python3.12/site-packages/websockets/__init__.py:86:    from .asyncio.router import Router, route, unix_route
+./.venv/lib/python3.12/site-packages/websockets/__init__.py:146:            # .asyncio.router
+./.venv/lib/python3.12/site-packages/websockets/__init__.py:147:            "route": ".asyncio.router",
+./.venv/lib/python3.12/site-packages/websockets/__init__.py:148:            "unix_route": ".asyncio.router",
+./.venv/lib/python3.12/site-packages/websockets/__init__.py:149:            "Router": ".asyncio.router",
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:26:        create_router: type[Router] | None = None,
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:45:        create_router: type[Router] | None = None,
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:69:            from websockets.sync.router import route
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:105:            create_router: Factory for the :class:`Router` dispatching requests to
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:113:        if create_router is None:
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:114:            create_router = Router
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:116:        router = create_router(url_map, server_name, url_scheme)
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:129:            ] = router.route_request
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:138:                return router.route_request(connection, request)
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:140:        return serve(router.handler, *args, process_request=process_request, **kwargs)
+./.venv/lib/python3.12/site-packages/websockets/sync/router.py:162:    """WebSocket router supporting :func:`route`."""
+./.venv/lib/python3.12/site-packages/sklearn/compose/_column_transformer.py:1196:        router = MetadataRouter(owner=self.__class__.__name__)
+./.venv/lib/python3.12/site-packages/sklearn/compose/_column_transformer.py:1218:            router.add(method_mapping=method_mapping, **{name: step})
+./.venv/lib/python3.12/site-packages/sklearn/compose/_column_transformer.py:1220:        return router
+./.venv/lib/python3.12/site-packages/sklearn/compose/tests/test_column_transformer.py:2558:    router = ct.get_metadata_routing()
+./.venv/lib/python3.12/site-packages/sklearn/compose/tests/test_column_transformer.py:2559:    assert router.consumes("fit", ["metadata"]) == set(["metadata"])
+./.venv/lib/python3.12/site-packages/sklearn/compose/tests/test_column_transformer.py:2577:    router = ct.get_metadata_routing()
+./.venv/lib/python3.12/site-packages/sklearn/compose/tests/test_column_transformer.py:2578:    assert router.consumes("fit", ["metadata"]) == set(["metadata"])
+./.venv/lib/python3.12/site-packages/sklearn/multioutput.py:327:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib/python3.12/site-packages/sklearn/multioutput.py:333:        return router
+./.venv/lib/python3.12/site-packages/sklearn/multioutput.py:1023:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib/python3.12/site-packages/sklearn/multioutput.py:1027:        return router
+./.venv/lib/python3.12/site-packages/sklearn/multioutput.py:1172:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib/python3.12/site-packages/sklearn/multioutput.py:1176:        return router
+./.venv/lib/python3.12/site-packages/sklearn/multiclass.py:616:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/multiclass.py:626:        return router
+./.venv/lib/python3.12/site-packages/sklearn/multiclass.py:1015:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/multiclass.py:1025:        return router
+./.venv/lib/python3.12/site-packages/sklearn/multiclass.py:1265:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib/python3.12/site-packages/sklearn/multiclass.py:1269:        return router
+./.venv/lib/python3.12/site-packages/sklearn/calibration.py:523:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/calibration.py:535:        return router
+./.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:2160:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/linear_model/_logistic.py:2174:        return router
+./.venv/lib/python3.12/site-packages/sklearn/linear_model/_least_angle.py:1786:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib/python3.12/site-packages/sklearn/linear_model/_least_angle.py:1790:        return router
+./.venv/lib/python3.12/site-packages/sklearn/linear_model/_coordinate_descent.py:1831:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/linear_model/_coordinate_descent.py:1839:        return router
+./.venv/lib/python3.12/site-packages/sklearn/linear_model/_omp.py:1093:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib/python3.12/site-packages/sklearn/linear_model/_omp.py:1097:        return router
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_validation.py:374:        # methods. For these router methods, we create the router to use
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_validation.py:376:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_validation.py:394:            routed_params = process_routing(router, "fit", **params)
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_validation.py:1225:        # methods. For these router methods, we create the router to use
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_validation.py:1227:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_validation.py:1240:            routed_params = process_routing(router, "fit", **params)
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_search.py:1144:        router = MetadataRouter(owner=self.__class__.__name__)
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_search.py:1145:        router.add(
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_search.py:1151:        router.add(
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_search.py:1157:        router.add(
+./.venv/lib/python3.12/site-packages/sklearn/model_selection/_search.py:1161:        return router
+./.venv/lib/python3.12/site-packages/sklearn/feature_selection/_from_model.py:513:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib/python3.12/site-packages/sklearn/feature_selection/_from_model.py:519:        return router
+./.venv/lib/python3.12/site-packages/sklearn/metrics/_scorer.py:433:        # rather than a router. Ideally it only exposes the score requests to
+./.venv/lib/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1246:    # make sure putting the scorer in a router doesn't request anything by
+./.venv/lib/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1248:    router = MetadataRouter(owner="test").add(
+./.venv/lib/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1253:        router.validate_metadata(params={"sample_weight": 1}, method="score")
+./.venv/lib/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1255:    routed_params = router.route_params(params={"sample_weight": 1}, caller="score")
+./.venv/lib/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1258:    # make sure putting weighted_scorer in a router requests sample_weight
+./.venv/lib/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1259:    router = MetadataRouter(owner="test").add(
+./.venv/lib/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1262:    router.validate_metadata(params={"sample_weight": 1}, method="score")
+./.venv/lib/python3.12/site-packages/sklearn/metrics/tests/test_score_objects.py:1263:    routed_params = router.route_params(params={"sample_weight": 1}, caller="score")
+./.venv/lib/python3.12/site-packages/sklearn/pipeline.py:1125:        router = MetadataRouter(owner=self.__class__.__name__)
+./.venv/lib/python3.12/site-packages/sklearn/pipeline.py:1159:            router.add(method_mapping=method_mapping, **{name: trans})
+./.venv/lib/python3.12/site-packages/sklearn/pipeline.py:1163:            return router
+./.venv/lib/python3.12/site-packages/sklearn/pipeline.py:1185:        router.add(method_mapping=method_mapping, **{final_name: final_est})
+./.venv/lib/python3.12/site-packages/sklearn/pipeline.py:1186:        return router
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:104:        router = MetadataRouter(owner=self.__class__.__name__)
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:106:            router.add(
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:113:        router.add(predictor=self.steps[-1], method_mapping="one-to-one")
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:114:        return router
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:141:    # test if a router is empty
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:585:def test_metadata_router_consumes_method():
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:656:                " 'predict'}], 'router': {'fit': {'sample_weight': None, 'metadata':"
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:733:def test_metadatarouter_add_self_request():
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:737:    router = MetadataRouter(owner="test").add_self_request(request)
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:738:    assert str(router._self_request) == str(request)
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:740:    assert router._self_request is not request
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:744:    router = MetadataRouter(owner="test").add_self_request(obj=est)
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:745:    assert str(router._self_request) == str(est.get_metadata_routing())
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:746:    assert router._self_request is not est.get_metadata_routing()
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:748:    # adding a consumer+router as self should only add the consumer part
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:752:    router = MetadataRouter(owner="test").add_self_request(obj=est)
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:754:    assert str(router._self_request) == str(est._get_metadata_request())
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:756:    # router included.
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:757:    assert str(router._self_request) != str(est.get_metadata_routing())
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:759:    assert router._self_request is not est._get_metadata_request()
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:764:    router = MetadataRouter(owner="test").add(
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:769:        str(router)
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:770:        == "{'est': {'mapping': [{'callee': 'fit', 'caller': 'fit'}], 'router': {'fit':"
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:777:    router = MetadataRouter(owner="test").add(
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:782:        str(router)
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:783:        == "{'est': {'mapping': [{'callee': 'score', 'caller': 'fit'}], 'router':"
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:791:    router = (
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:807:        str(router)
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:810:        " 'fit'}], 'router': {'fit': {'sample_weight': 'transform_weights',"
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:815:    assert router._get_param_names(
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:819:    assert router._get_param_names(
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:823:    assert router._get_param_names(
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:827:    assert router._get_param_names(
+./.venv/lib/python3.12/site-packages/sklearn/tests/test_metadata_routing.py:829:    ) == router._get_param_names(
+./.venv/lib/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:86:            assert_request_is_empty(route_mapping.router, exclude=_exclude)
+./.venv/lib/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:368:    """A meta-regressor which is only a router."""
+./.venv/lib/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:378:        router = MetadataRouter(owner=self.__class__.__name__).add(
+./.venv/lib/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:381:        return router
+./.venv/lib/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:405:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:410:        return router
+./.venv/lib/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:430:        router = (
+./.venv/lib/python3.12/site-packages/sklearn/tests/metadata_routing_common.py:435:        return router
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:20:In routers, e.g. meta-estimators and a multi metric scorer,
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:23:An object which is both a router and a consumer, e.g. a meta-estimator which
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:54:        router=MetadataRequest(...),  # or another MetadataRouter
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:67:- ``(mapping=..., router=...)`` is a namedtuple called ``RouterMappingPair``
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:226:# is when a meta-estimator is only a router, but then becomes also a
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:657:# in routers, returned by their ``get_metadata_routing``.
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:662:RouterMappingPair = namedtuple("RouterMappingPair", ["mapping", "router"])
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:670:    """Stores the mapping between callee and caller methods for a router.
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:672:    This class is primarily used in a ``get_metadata_routing()`` of a router
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:674:    scorer) to the router's methods. It stores a collection of ``Route``
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:768:    """Stores and handles metadata routing for a router object.
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:770:    This class is used by router objects to store and handle metadata routing.
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:789:    _type = "metadata_router"
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:793:        # `_self_request` is used if the router is also a consumer.
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:803:        This method is used if the router is also a consumer, and hence the
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:804:        router itself needs to be included in the routing. The passed object
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:808:        A router should add itself using this method instead of `add` since it
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:810:        is routed by the router.
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:815:            This is typically the router instance, i.e. `self` in a
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:862:                mapping=method_mapping, router=get_routing_for_object(obj)
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:891:                    res = res | route_mapping.router.consumes(
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:935:                        route_mapping.router._get_param_names(
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:944:        This is used when a router is used as a child object of another router.
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:945:        The parent router then passes all parameters understood by the child
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:994:        methods of each child object that are used in the router's `caller`
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:997:        If the router is also a consumer, it also checks for warnings of
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1004:            routed. If called inside the :term:`fit` method of a router, it
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1023:            router, mapping = route_mapping.router, route_mapping.mapping
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1028:                    res[name][_callee] = router._route_params(
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1043:            routed. If called inside the :term:`fit` method of a router, it
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1079:            res[name]["router"] = route_mapping.router._serialize()
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1089:                    router=self._self_request,
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1138:    elif getattr(obj, "_type", None) in ["metadata_request", "metadata_router"]:
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1369:    def _build_request_for_signature(cls, router, method):
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1378:        router : MetadataRequest
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1420:                cls._build_request_for_signature(router=requests, method=method),
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1487:# This is almost always the only method used in routers to process and route
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1488:# given metadata. This is to minimize the boilerplate required in routers.
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1498:    This function is used inside a router's method, e.g. :term:`fit`,
+./.venv/lib/python3.12/site-packages/sklearn/utils/_metadata_requests.py:1518:        The name of the router's method in which this function is called.
+./.venv/lib/python3.12/site-packages/starlette/routing.py:606:    def __init__(self, router: Router):
+./.venv/lib/python3.12/site-packages/starlette/routing.py:607:        self._router = router
+./.venv/lib/python3.12/site-packages/starlette/routing.py:610:        await self._router.startup()
+./.venv/lib/python3.12/site-packages/starlette/routing.py:613:        await self._router.shutdown()
+./.venv/lib/python3.12/site-packages/starlette/routing.py:628:        # which the router cannot know statically, so we use typing.Any
+./.venv/lib/python3.12/site-packages/starlette/routing.py:763:        if "router" not in scope:
+./.venv/lib/python3.12/site-packages/starlette/routing.py:764:            scope["router"] = self
+./.venv/lib/python3.12/site-packages/starlette/applications.py:75:        self.router = Router(
+./.venv/lib/python3.12/site-packages/starlette/applications.py:107:        app = self.router
+./.venv/lib/python3.12/site-packages/starlette/applications.py:114:        return self.router.routes
+./.venv/lib/python3.12/site-packages/starlette/applications.py:117:        return self.router.url_path_for(name, **path_params)
+./.venv/lib/python3.12/site-packages/starlette/applications.py:126:        return self.router.on_event(event_type)  # pragma: nocover
+./.venv/lib/python3.12/site-packages/starlette/applications.py:129:        self.router.mount(path, app=app, name=name)  # pragma: no cover
+./.venv/lib/python3.12/site-packages/starlette/applications.py:132:        self.router.host(host, app=app, name=name)  # pragma: no cover
+./.venv/lib/python3.12/site-packages/starlette/applications.py:156:        self.router.add_event_handler(event_type, func)
+./.venv/lib/python3.12/site-packages/starlette/applications.py:166:        self.router.add_route(
+./.venv/lib/python3.12/site-packages/starlette/applications.py:176:        self.router.add_websocket_route(path, route, name=name)
+./.venv/lib/python3.12/site-packages/starlette/applications.py:214:            self.router.add_route(
+./.venv/lib/python3.12/site-packages/starlette/applications.py:240:            self.router.add_websocket_route(path, func, name=name)
+./.venv/lib/python3.12/site-packages/starlette/requests.py:186:        router: Router = self.scope["router"]
+./.venv/lib/python3.12/site-packages/starlette/requests.py:187:        url_path = router.url_path_for(name, **path_params)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:560:    router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:563:    @router.get("/users/", tags=["users"])
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:568:    app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:575:        prefix: Annotated[str, Doc("An optional path prefix for the router.")] = "",
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:581:                router.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:595:                *path operations* in this router.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:598:                [FastAPI docs for Bigger Applications - Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:625:                [FastAPI docs for Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:634:                router.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:661:                like `router.get()`, `router.post()`, etc.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:678:                Default function handler for this router. Used to handle
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:698:                Custom route (*path operation*) class to be used by this router.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:701:                [FastAPI docs for Custom Request and APIRoute class](https://fastapi.tiangolo.com/how-to/custom-request-and-route/#custom-apiroute-class-in-a-router).
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:731:        # which the router cannot know statically, so we use typing.Any
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:748:                Mark all *path operations* in this router as deprecated.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:761:                To include (or not) all the *path operations* in this router in the
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1042:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1044:        @router.websocket("/ws")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1051:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1072:    def include_router(
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1074:        router: Annotated["APIRouter", Doc("The `APIRouter` to include.")],
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1076:        prefix: Annotated[str, Doc("An optional path prefix for the router.")] = "",
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1082:                router.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1096:                *path operations* in this router.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1099:                [FastAPI docs for Bigger Applications - Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1126:                [FastAPI docs for Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1135:                router.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1148:                Mark all *path operations* in this router as deprecated.
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1161:                Include (or not) all the *path operations* in this router in the
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1196:        internal_router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1197:        users_router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1199:        @users_router.get("/users/")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1203:        internal_router.include_router(users_router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1204:        app.include_router(internal_router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1213:            for r in router.routes:
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1222:        for route in router.routes:
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1227:                    router.default_response_class,
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1248:                    router.generate_unique_id_function,
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1307:        for handler in router.on_startup:
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1309:        for handler in router.on_shutdown:
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1653:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1655:        @router.get("/items/")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:1659:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2035:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2037:        @router.put("/items/{item_id}")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2041:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2417:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2419:        @router.post("/items/")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2423:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2794:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2796:        @router.delete("/items/{item_id}")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:2800:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3171:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3173:        @router.options("/items/")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3177:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3553:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3555:        @router.head("/items/", status_code=204)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3559:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3935:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3937:        @router.patch("/items/")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:3941:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:4317:        router = APIRouter()
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:4319:        @router.trace("/items/{item_id}")
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:4323:        app.include_router(router)
+./.venv/lib/python3.12/site-packages/fastapi/routing.py:4373:        Add an event handler for the router.
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:337:                *path operation*, including in sub-routers.
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:694:                [FastAPI docs for Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:932:        self.router: routing.APIRouter = routing.APIRouter(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1088:        self.router.add_api_route(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1145:            self.router.add_api_route(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1183:        self.router.add_api_websocket_route(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1255:    def include_router(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1257:        router: Annotated[routing.APIRouter, Doc("The `APIRouter` to include.")],
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1259:        prefix: Annotated[str, Doc("An optional path prefix for the router.")] = "",
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1265:                router.
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1279:                *path operations* in this router.
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1282:                [FastAPI docs for Bigger Applications - Multiple Files](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1294:                app.include_router(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1295:                    admin.router,
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1314:                [FastAPI docs for Bigger Applications](https://fastapi.tiangolo.com/tutorial/bigger-applications/#include-an-apirouter-with-a-custom-prefix-tags-responses-and-dependencies).
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1322:                Mark all the *path operations* in this router as deprecated.
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1335:                app.include_router(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1336:                    old_api.router,
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1347:                Include (or not) all the *path operations* in this router in the
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1361:                app.include_router(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1362:                    old_api.router,
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1374:                router.
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1389:                app.include_router(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1390:                    old_api.router,
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1440:        from .users import users_router
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1444:        app.include_router(users_router)
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1447:        self.router.include_router(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1448:            router,
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:1807:        return self.router.get(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:2185:        return self.router.put(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:2563:        return self.router.post(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:2936:        return self.router.delete(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:3309:        return self.router.options(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:3682:        return self.router.head(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:4060:        return self.router.patch(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:4433:        return self.router.trace(
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:4463:            self.router.add_websocket_route(path, func, name=name)
+./.venv/lib/python3.12/site-packages/fastapi/applications.py:4495:        return self.router.on_event(event_type)
+./.venv/lib/python3.12/site-packages/websockets-16.0.dist-info/RECORD:39:websockets/asyncio/__pycache__/router.cpython-312.pyc,,
+./.venv/lib/python3.12/site-packages/websockets-16.0.dist-info/RECORD:46:websockets/asyncio/router.py,sha256=S-69vszK-SqUCcZbXXPOnux-eH2fTHYC2JNh7tOtmmA,7520
+./.venv/lib/python3.12/site-packages/websockets-16.0.dist-info/RECORD:96:websockets/sync/__pycache__/router.cpython-312.pyc,,
+./.venv/lib/python3.12/site-packages/websockets-16.0.dist-info/RECORD:102:websockets/sync/router.py,sha256=BqKSAKNZYtRWiOxol9qYeyfgyXRrMNJ6FrTTZLNcXMg,7172
+./api/routes/idrim_router.py:1:# backend/api/routes/idrim_router.py
+./api/routes/idrim_router.py:13:router = APIRouter(prefix="/idrim", tags=["IDRIM"])
+./api/routes/idrim_router.py:17:@router.get("/health")
+./api/routes/idrim_router.py:28:@router.post("/run")
+./api/routes/drim_router.py:1:# backend/api/routes/idrim_router.py
+./api/routes/drim_router.py:13:router = APIRouter(prefix="/idrim", tags=["IDRIM"])
+./api/routes/drim_router.py:17:@router.get("/health")
+./api/routes/drim_router.py:25:@router.post("/run")
+./api/dashboard_health.py:6:router = APIRouter()
+./api/dashboard_health.py:45:@router.get("/health")
+./api/sse/idrim_sse.py:9:router = APIRouter(prefix="/idrim/sse", tags=["IDRIM-SSE"])
+./api/sse/idrim_sse.py:25:@router.get("/events")
+./scripts/cleanup_stale_routes.sh:6:GOOD_DIR="$ROOT/routers"
+./scripts/cleanup_stale_routes.sh:23:# 2. Verify correct router directory exists
+./scripts/cleanup_stale_routes.sh:25:    echo "✔ Valid router directory exists: $GOOD_DIR"
+./scripts/cleanup_stale_routes.sh:27:    echo "❌ ERROR: Expected router directory missing: $GOOD_DIR"
+./scripts/cleanup_stale_routes.sh:34:# 3. Verify correct auth router file exists
+./scripts/cleanup_stale_routes.sh:36:    echo "✔ Valid auth router found: $GOOD_DIR/auth.py"
+./scripts/cleanup_stale_routes.sh:38:    echo "❌ ERROR: Missing auth router: $GOOD_DIR/auth.py"
+./admin/routes.py:25:router = APIRouter(
+./admin/routes.py:36:@router.get("/users", response_model=list[AdminUserOut])
+./admin/routes.py:46:@router.post("/users", response_model=AdminUserOut)
+./admin/routes.py:83:@router.put("/users/{user_id}", response_model=AdminUserOut)
+./admin/routes.py:116:@router.post("/users/{user_id}/reset-password")
+./admin/routes.py:147:@router.get("/audit-logs", response_model=list[AuditLogOut])
+./admin/routes.py:157:@router.get("/metrics")
+./app/reports/html/pelm_report.html:5:from app.routers.pelm import (
+./app/main.py.bak:7:from app.routers import auth as auth_router
+./app/main.py.bak:9:# Add additional routers here as needed:
+./app/main.py.bak:10:# from app.routers import users as users_router
+./app/main.py.bak:11:# from app.routers.admin import security as admin_security_router
+./app/main.py.bak:37:app.include_router(auth_router.router, prefix="/api/auth", tags=["auth"])
+./app/main.py.bak:39:# Example additional routers:
+./app/main.py.bak:40:# app.include_router(users_router.router, prefix="/api/users", tags=["users"])
+./app/main.py.bak:41:# app.include_router(admin_security_router.router, prefix="/api/admin/security", tags=["admin-security"])
+./app/api/api_v1.py:5:from app.routers import auth              # ✅ auth lives here
+./app/api/api_v1.py:6:from app.api.routes import settings       # ✅ settings router we created
+./app/api/api_v1.py:8:router = APIRouter()
+./app/api/api_v1.py:13:router.include_router(
+./app/api/api_v1.py:14:    auth.router,
+./app/api/api_v1.py:22:router.include_router(
+./app/api/api_v1.py:23:    settings.router,
+./app/api/routes/settings.py:5:from app.routers.auth import get_current_user   # ✅ correct import
+./app/api/routes/settings.py:7:router = APIRouter()
+./app/api/routes/settings.py:20:@router.get("/")
+./app/api/routes/settings.py:24:@router.patch("/")
+./app/api/auth.py:23:router = APIRouter(prefix="/api/auth", tags=["auth"])
+./app/api/auth.py:48:@router.post("/login")
+./app/api/auth.py:94:@router.post("/verify-totp")
+./app/api/auth.py:135:@router.get("/session/restore")
+./app/api/auth.py:161:@router.get("/heartbeat")
+./app/api/auth.py:178:@router.post("/logout")
+./app/main.py:10:from app.routers.auth import router as auth_router
+./app/main.py:11:from app.routers.users import router as users_router
+./app/main.py:24:    so all routers can access the DB cleanly.
+./app/main.py:51:app.include_router(auth_router, prefix="/api/auth")
+./app/main.py:54:app.include_router(users_router, prefix="/api/users")
+./app/dependencies/session.py:9:    Minimal session accessor used by dashboard and other routers.
+./app/dependencies/session.py.bak:9:    Minimal session accessor used by dashboard and other routers.
+./app/routers/admin.py:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py
+./app/routers/admin.py:14:# FIXED: Admin router prefix corrected (no /api here)
+./app/routers/admin.py:18:router = APIRouter(prefix="/admin", tags=["Admin"])
+./app/routers/admin.py:24:@router.post("/create-admin", response_model=UserRead, status_code=201)
+./app/routers/admin.py:65:@router.get("/users", response_model=list[UserRead])
+./app/routers/idrim_diif.py:1:# app/routers/idrim_diff.py
+./app/routers/idrim_diif.py:5:router = APIRouter(prefix="/idrim", tags=["IDRIM-Diff"])
+./app/routers/idrim_diif.py:22:@router.post("/diff")
+./app/routers/workflow_runs.py:8:# main.py applies prefix="/api", so this router must NOT include /api
+./app/routers/workflow_runs.py:9:router = APIRouter(prefix="/workflow-runs", tags=["workflow-runs"])
+./app/routers/workflow_runs.py:15:@router.get("/", summary="Get recent GitHub workflow runs")
+./app/routers/idrim_sse.py.bak:4:router = APIRouter(prefix="/idrim", tags=["IDRIM SSE"])
+./app/routers/idrim_sse.py.bak:21:@router.get("/stream/{task_id}")
+./app/routers/router_drift.py.bak:8:# Final path becomes /api/plugins/router-drift
+./app/routers/router_drift.py.bak:10:router = APIRouter(prefix="/plugins", tags=["plugins"])
+./app/routers/router_drift.py.bak:13:DRIFT_FILE = ROOT / "data" / "router_drift.json"
+./app/routers/router_drift.py.bak:16:@router.get("/router-drift")
+./app/routers/router_drift.py.bak:17:def router_drift():
+./app/routers/router_drift.py:8:# Final path becomes /api/plugins/router-drift
+./app/routers/router_drift.py:10:router = APIRouter(prefix="/plugins", tags=["plugins"])
+./app/routers/router_drift.py:13:DRIFT_FILE = ROOT / "data" / "router_drift.json"
+./app/routers/router_drift.py:16:@router.get("/router-drift")
+./app/routers/router_drift.py:17:def router_drift():
+./app/routers/pelm.py:7:router = APIRouter(prefix="/pelm", tags=["PELM"])
+./app/routers/pelm.py:10:@router.get("/summary")
+./app/routers/pelm.py:31:@router.get("/events")
+./app/routers/pelm.py:44:@router.get("/risks")
+./app/routers/pelm.py:59:@router.get("/graph")
+./app/routers/makefile_admin.py.bak:1:# app/routers/makefile_admin.py
+./app/routers/makefile_admin.py.bak:13:router = APIRouter()
+./app/routers/makefile_admin.py.bak:22:@router.get("/makefile")
+./app/routers/makefile_admin.py.bak:37:@router.get("/makefile/reference")
+./app/routers/makefile_admin.py.bak:56:@router.post("/makefile/reference/regenerate")
+./app/routers/makefile_admin.py.bak:71:@router.get("/makefile/diff")
+./app/routers/makefile_admin.py.bak:98:@router.get("/makefile/health")
+./app/routers/dashboard_health.py.bak:1:# File: app/routers/dashboard_health.py
+./app/routers/dashboard_health.py.bak:7:router = APIRouter(
+./app/routers/dashboard_health.py.bak:15:@router.get("/summary", response_model=dict)
+./app/routers/dashboard_health.py.bak:46:@router.post("/run", response_model=dict)
+./app/routers/users.py:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py
+./app/routers/users.py:17:router = APIRouter(prefix="/users", tags=["Users"])
+./app/routers/users.py:23:@router.post("/", response_model=UserRead, status_code=201)
+./app/routers/users.py:63:@router.get("/{user_id}", response_model=UserRead)
+./app/routers/users.py:81:@router.get("/", response_model=list[UserRead])
+./app/routers/admin.py.bak:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py
+./app/routers/admin.py.bak:14:# FIXED: Admin router prefix corrected (no /api here)
+./app/routers/admin.py.bak:18:router = APIRouter(prefix="/admin", tags=["Admin"])
+./app/routers/admin.py.bak:24:@router.post("/create-admin", response_model=UserRead, status_code=201)
+./app/routers/admin.py.bak:65:@router.get("/users", response_model=list[UserRead])
+./app/routers/pelm_stream.py.bak:8:router = APIRouter(prefix="/pelm/events", tags=["PELM Stream"])
+./app/routers/pelm_stream.py.bak:21:@router.get("/stream")
+./app/routers/plugins.py.bak:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py
+./app/routers/plugins.py.bak:26:router = APIRouter(prefix="/plugins", tags=["Plugins"])
+./app/routers/plugins.py.bak:32:@router.get("/", response_model=List[PluginResponse])
+./app/routers/plugins.py.bak:44:@router.get("/{plugin_id}", response_model=PluginResponse)
+./app/routers/plugins.py.bak:58:@router.post("/{plugin_id}/run")
+./app/routers/plugins.py.bak:74:@router.get("/../metrics/timing", response_model=List[TimingBucketResponse])
+./app/routers/plugins.py.bak:85:@router.get("/{plugin_id}/logs", response_model=List[str])
+./app/routers/makefile_health.py:7:router = APIRouter(prefix="/api/makefile", tags=["makefile"])
+./app/routers/makefile_health.py:15:@router.get("/health")
+./app/routers/makefile_health.py:52:@router.post("/heal")
+./app/routers/idrim_sse.py:4:router = APIRouter(prefix="/idrim", tags=["IDRIM SSE"])
+./app/routers/idrim_sse.py:21:@router.get("/stream/{task_id}")
+./app/routers/idrim_diff.py:1:# app/routers/idrim_diff.py
+./app/routers/idrim_diff.py:9:router = APIRouter(prefix="/idrim/diff", tags=["IDRIM Diff"])
+./app/routers/idrim_diff.py:21:@router.post("/", response_model=IDRIMResult)
+./app/routers/__init__.py.bak:1:from .auth import router as auth_router
+./app/routers/__init__.py.bak:2:from .users import router as users_router
+./app/routers/__init__.py.bak:3:from .admin import router as admin_router
+./app/routers/__init__.py.bak:4:from .session import router as session_router
+./app/routers/__init__.py.bak:5:from .health import router as health_router
+./app/routers/__init__.py:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py
+./app/routers/__init__.py:3:from .auth import router as auth_router
+./app/routers/__init__.py:6:# Do NOT import any other routers here until they are verified clean.
+./app/routers/users.py.bak:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py
+./app/routers/users.py.bak:14:# FIXED: Users router prefix corrected (no /api here)
+./app/routers/users.py.bak:18:router = APIRouter(prefix="/users", tags=["Users"])
+./app/routers/users.py.bak:24:@router.post("/", response_model=UserRead, status_code=201)
+./app/routers/users.py.bak:64:@router.get("/{user_id}", response_model=UserRead)
+./app/routers/users.py.bak:82:@router.get("/", response_model=list[UserRead])
+./app/routers/idrim_diif.py.bak:1:# app/routers/idrim_diff.py
+./app/routers/idrim_diif.py.bak:5:router = APIRouter(prefix="/idrim", tags=["IDRIM-Diff"])
+./app/routers/idrim_diif.py.bak:22:@router.post("/diff")
+./app/routers/iam_fetch.py:1:# app/routers/iam_fetch.py
+./app/routers/iam_fetch.py:8:router = APIRouter(prefix="/iam", tags=["IAM"])
+./app/routers/iam_fetch.py:11:@router.get("/{provider}")
+./app/routers/auth.py:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py
+./app/routers/auth.py:19:router = APIRouter()
+./app/routers/auth.py:29:    Dependency used by other routers (e.g., settings)
+./app/routers/auth.py:62:@router.post("/login")
+./app/routers/auth.py:97:@router.post("/mfa/verify")
+./app/routers/auth.py:132:@router.get("/session/restore")
+./app/routers/auth.py:152:@router.get("/session")
+./app/routers/auth.py:172:@router.get("/heartbeat")
+./app/routers/auth.py:191:@router.post("/logout")
+./app/routers/plugins.py:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py
+./app/routers/plugins.py:26:router = APIRouter(prefix="/plugins", tags=["Plugins"])
+./app/routers/plugins.py:32:@router.get("/", response_model=List[PluginResponse])
+./app/routers/plugins.py:44:@router.get("/{plugin_id}", response_model=PluginResponse)
+./app/routers/plugins.py:58:@router.post("/{plugin_id}/run")
+./app/routers/plugins.py:74:@router.get("/../metrics/timing", response_model=List[TimingBucketResponse])
+./app/routers/plugins.py:85:@router.get("/{plugin_id}/logs", response_model=List[str])
+./app/routers/settings_router.py.bak:1:# backend/app/routers/settings_router.py
+./app/routers/settings_router.py.bak:10:router = APIRouter(
+./app/routers/settings_router.py.bak:16:@router.get("/", response_model=UserSettingsOut)
+./app/routers/settings_router.py.bak:28:@router.put("/", response_model=UserSettingsOut)
+./app/routers/idrim_router.py:1:# app/routers/idrim_router.py
+./app/routers/idrim_router.py:18:router = APIRouter(
+./app/routers/idrim_router.py:39:@router.get("/health")
+./app/routers/idrim_router.py:47:@router.post("/baseline/rebuild", response_model=IDRIMBaseline)
+./app/routers/idrim_router.py:62:@router.post("/drift", response_model=list[IDRIMDriftEvent])
+./app/routers/idrim_router.py:77:@router.post("/analysis", response_model=IDRIMAnalysisResult)
+./app/routers/idrim_router.py:95:@router.post("/analysis/background")
+./app/routers/workflow_runs.py.bak:8:# main.py applies prefix="/api", so this router must NOT include /api
+./app/routers/workflow_runs.py.bak:9:router = APIRouter(prefix="/workflow-runs", tags=["workflow-runs"])
+./app/routers/workflow_runs.py.bak:15:@router.get("/", summary="Get recent GitHub workflow runs")
+./app/routers/dashboard_health.py:1:# File: app/routers/dashboard_health.py
+./app/routers/dashboard_health.py:7:router = APIRouter(
+./app/routers/dashboard_health.py:15:@router.get("/summary", response_model=dict)
+./app/routers/dashboard_health.py:46:@router.post("/run", response_model=dict)
+./app/routers/makefile_diff.py.bak:5:router = APIRouter(prefix="/makefile", tags=["makefile"])
+./app/routers/makefile_diff.py.bak:12:@router.get("/diff", summary="Get diff between current Makefile and snapshot")
+./app/routers/settings_router.py:1:# backend/app/routers/settings_router.py
+./app/routers/settings_router.py:10:router = APIRouter(
+./app/routers/settings_router.py:16:@router.get("/", response_model=UserSettingsOut)
+./app/routers/settings_router.py:28:@router.put("/", response_model=UserSettingsOut)
+./app/routers/idrim_history.py:1:# app/routers/idrim_diff.py
+./app/routers/idrim_history.py:9:router = APIRouter(prefix="/idrim/diff", tags=["IDRIM Diff"])
+./app/routers/idrim_history.py:21:@router.post("/", response_model=IDRIMResult)
+./app/routers/makefile_diff.py:5:router = APIRouter(prefix="/makefile", tags=["makefile"])
+./app/routers/makefile_diff.py:12:@router.get("/diff", summary="Get diff between current Makefile and snapshot")
+./app/routers/idrim_analysis.py:1:# app/routers/idrim_analysis.py
+./app/routers/idrim_analysis.py:10:router = APIRouter(prefix="/idrim", tags=["IDRIM"])
+./app/routers/idrim_analysis.py:17:@router.get("/health")
+./app/routers/idrim_analysis.py:30:@router.post("/run", response_model=IDRIMResult)
+./app/routers/idrim_analysis.py:43:@router.post("/tasks/run")
+./app/routers/health.py:3:router = APIRouter(prefix="/health", tags=["health"])
+./app/routers/health.py:5:@router.get("/heartbeat")
+./app/routers/idrim_diff.py.bak:1:# app/routers/idrim_diff.py
+./app/routers/idrim_diff.py.bak:9:router = APIRouter(prefix="/idrim/diff", tags=["IDRIM Diff"])
+./app/routers/idrim_diff.py.bak:21:@router.post("/", response_model=IDRIMResult)
+./app/routers/session.py:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py
+./app/routers/session.py:15:# FIXED: Session router prefix corrected (no /api here)
+./app/routers/session.py:19:router = APIRouter(prefix="/sessions", tags=["Sessions"])
+./app/routers/session.py:25:@router.post("/", response_model=SessionRead, status_code=201)
+./app/routers/session.py:51:@router.get("/user/{user_id}", response_model=list[SessionRead])
+./app/routers/session.py:62:@router.delete("/{session_id}", status_code=204)
+./app/routers/session.py:73:@router.get("/", response_model=list[SessionRead])
+./app/routers/iam_fetch.py.bak:1:# app/routers/iam_fetch.py
+./app/routers/iam_fetch.py.bak:8:router = APIRouter(prefix="/iam", tags=["IAM"])
+./app/routers/iam_fetch.py.bak:11:@router.get("/{provider}")
+./app/routers/ci_summary.py.bak:6:# main.py applies prefix="/api", so this router must NOT include /api
+./app/routers/ci_summary.py.bak:7:router = APIRouter(prefix="/ci", tags=["ci"])
+./app/routers/ci_summary.py.bak:13:@router.get("/summary")
+./app/routers/ops_stream_router.py:5:router = APIRouter(prefix="/stream", tags=["Streaming"])
+./app/routers/ops_stream_router.py:35:@router.get("/ops")
+./app/routers/system.py:6:router = APIRouter()
+./app/routers/system.py:11:@router.get("/system/health")
+./app/routers/system.py:16:@router.get("/system/info")
+./app/routers/pelm.py.bak:7:router = APIRouter(prefix="/pelm", tags=["PELM"])
+./app/routers/pelm.py.bak:10:@router.get("/summary")
+./app/routers/pelm.py.bak:31:@router.get("/events")
+./app/routers/pelm.py.bak:44:@router.get("/risks")
+./app/routers/pelm.py.bak:59:@router.get("/graph")
+./app/routers/ci_summary.py:6:# main.py applies prefix="/api", so this router must NOT include /api
+./app/routers/ci_summary.py:7:router = APIRouter(prefix="/ci", tags=["ci"])
+./app/routers/ci_summary.py:13:@router.get("/summary")
+./app/routers/git_snapshots.py:5:router = APIRouter(prefix="/snapshots", tags=["Git Snapshots"])
+./app/routers/git_snapshots.py:9:@router.get("/latest", response_class=Response)
+./app/routers/git_snapshots.py.bak:5:router = APIRouter(prefix="/snapshots", tags=["Git Snapshots"])
+./app/routers/git_snapshots.py.bak:9:@router.get("/latest", response_class=Response)
+./app/routers/repo_health.py.bak:13:router = APIRouter(prefix="/repo", tags=["repo"])
+./app/routers/repo_health.py.bak:18:ROUTER_DRIFT_FILE = ROOT / "data" / "router_drift.json"
+./app/routers/repo_health.py.bak:31:def _router_status() -> str:
+./app/routers/repo_health.py.bak:73:@router.get("/health")
+./app/routers/repo_health.py.bak:76:    router = _router_status()
+./app/routers/repo_health.py.bak:83:    if router != "ok":
+./app/routers/repo_health.py.bak:96:        "router": router if router != "ok" else "ok",
+./app/routers/ops_stream_router.py.bak:5:router = APIRouter(prefix="/stream", tags=["Streaming"])
+./app/routers/ops_stream_router.py.bak:35:@router.get("/ops")
+./app/routers/session.py.bak:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py
+./app/routers/session.py.bak:15:# FIXED: Session router prefix corrected (no /api here)
+./app/routers/session.py.bak:19:router = APIRouter(prefix="/sessions", tags=["Sessions"])
+./app/routers/session.py.bak:25:@router.post("/", response_model=SessionRead, status_code=201)
+./app/routers/session.py.bak:51:@router.get("/user/{user_id}", response_model=list[SessionRead])
+./app/routers/session.py.bak:62:@router.delete("/{session_id}", status_code=204)
+./app/routers/session.py.bak:73:@router.get("/", response_model=list[SessionRead])
+./app/routers/dashboard.py.bak:1:# File: app/routers/dashboard.py
+./app/routers/dashboard.py.bak:11:router = APIRouter(prefix="/dashboard", tags=["dashboard"])
+./app/routers/dashboard.py.bak:14:@router.get("/summary")
+./app/routers/logs_router.py:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py
+./app/routers/logs_router.py:12:router = APIRouter(prefix="/stream", tags=["Streaming"])
+./app/routers/logs_router.py:27:@router.get("/logs")
+./app/routers/logs_router.py.bak:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py
+./app/routers/logs_router.py.bak:12:router = APIRouter(prefix="/stream", tags=["Streaming"])
+./app/routers/logs_router.py.bak:27:@router.get("/logs")
+./app/routers/idrim_analysis.py.bak:1:# app/routers/idrim_analysis.py
+./app/routers/idrim_analysis.py.bak:10:router = APIRouter(prefix="/idrim", tags=["IDRIM"])
+./app/routers/idrim_analysis.py.bak:17:@router.get("/health")
+./app/routers/idrim_analysis.py.bak:30:@router.post("/run", response_model=IDRIMResult)
+./app/routers/idrim_analysis.py.bak:43:@router.post("/tasks/run")
+./app/routers/plugins/router_prefix_drift.py:3:Scans all FastAPI router files for prefix violations relative to the SentinelOps model.
+./app/routers/plugins/router_prefix_drift.py:21:    "router-drift": "/plugins",  # special case
+./app/routers/plugins/router_prefix_drift.py:38:def scan_router_file(path: Path) -> Dict[str, Any]:
+./app/routers/plugins/router_prefix_drift.py:54:    router_dir = root / "backend" / "app" / "routers"
+./app/routers/plugins/router_prefix_drift.py:58:    for py_file in router_dir.rglob("*.py"):
+./app/routers/plugins/router_prefix_drift.py:59:        info = scan_router_file(py_file)
+./app/routers/plugins/router_prefix_drift.py:63:            # Rule 1: No router may contain /api in its prefix
+./app/routers/plugins/router_prefix_drift.py:80:            stem = py_file.stem.replace("_router", "").replace("_", "-")
+./app/routers/plugins/router_prefix_drift.py.bak:3:Scans all FastAPI router files for prefix violations relative to the SentinelOps model.
+./app/routers/plugins/router_prefix_drift.py.bak:21:    "router-drift": "/plugins",  # special case
+./app/routers/plugins/router_prefix_drift.py.bak:38:def scan_router_file(path: Path) -> Dict[str, Any]:
+./app/routers/plugins/router_prefix_drift.py.bak:54:    router_dir = root / "backend" / "app" / "routers"
+./app/routers/plugins/router_prefix_drift.py.bak:58:    for py_file in router_dir.rglob("*.py"):
+./app/routers/plugins/router_prefix_drift.py.bak:59:        info = scan_router_file(py_file)
+./app/routers/plugins/router_prefix_drift.py.bak:63:            # Rule 1: No router may contain /api in its prefix
+./app/routers/plugins/router_prefix_drift.py.bak:80:            stem = py_file.stem.replace("_router", "").replace("_", "-")
+./app/routers/makefile_admin.py:1:# app/routers/makefile_admin.py
+./app/routers/makefile_admin.py:13:router = APIRouter()
+./app/routers/makefile_admin.py:22:@router.get("/makefile")
+./app/routers/makefile_admin.py:37:@router.get("/makefile/reference")
+./app/routers/makefile_admin.py:56:@router.post("/makefile/reference/regenerate")
+./app/routers/makefile_admin.py:71:@router.get("/makefile/diff")
+./app/routers/makefile_admin.py:98:@router.get("/makefile/health")
+./app/routers/idrim_history.py.bak:1:# app/routers/idrim_diff.py
+./app/routers/idrim_history.py.bak:9:router = APIRouter(prefix="/idrim/diff", tags=["IDRIM Diff"])
+./app/routers/idrim_history.py.bak:21:@router.post("/", response_model=IDRIMResult)
+./app/routers/health.py.bak:3:router = APIRouter(prefix="/health", tags=["health"])
+./app/routers/health.py.bak:5:@router.get("/heartbeat")
+./app/routers/makefile_health.py.bak:7:router = APIRouter(prefix="/api/makefile", tags=["makefile"])
+./app/routers/makefile_health.py.bak:15:@router.get("/health")
+./app/routers/makefile_health.py.bak:52:@router.post("/heal")
+./app/routers/repo_health.py:13:router = APIRouter(prefix="/repo", tags=["repo"])
+./app/routers/repo_health.py:18:ROUTER_DRIFT_FILE = ROOT / "data" / "router_drift.json"
+./app/routers/repo_health.py:31:def _router_status() -> str:
+./app/routers/repo_health.py:73:@router.get("/health")
+./app/routers/repo_health.py:76:    router = _router_status()
+./app/routers/repo_health.py:83:    if router != "ok":
+./app/routers/repo_health.py:96:        "router": router if router != "ok" else "ok",
+./app/routers/pelm_stream.py:8:router = APIRouter(prefix="/pelm/events", tags=["PELM Stream"])
+./app/routers/pelm_stream.py:21:@router.get("/stream")
+./app/routers/system.py.bak:6:router = APIRouter()
+./app/routers/system.py.bak:11:@router.get("/system/health")
+./app/routers/system.py.bak:16:@router.get("/system/info")
+./app/routers/auth.py.bak:1:# /home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py
+./app/routers/auth.py.bak:15:router = APIRouter(prefix="/api/auth", tags=["auth"])
+./app/routers/auth.py.bak:35:@router.post("/login")
+./app/routers/auth.py.bak:61:@router.post("/mfa/verify")
+./app/routers/auth.py.bak:91:@router.get("/session/restore")
+./app/routers/auth.py.bak:102:@router.get("/session")
+./app/routers/auth.py.bak:113:@router.get("/heartbeat")
+./app/routers/auth.py.bak:124:@router.post("/logout")
+./app/utils/startup_validator.py:33:    router_modules = []
+./app/utils/startup_validator.py:34:    for _, module_name, _ in pkgutil.iter_modules(["app/routers"]):
+./app/utils/startup_validator.py:35:        if module_name.endswith("_router") or module_name in [
+./app/utils/startup_validator.py:36:            "ci_summary", "git_snapshots", "idrim_router", "logs_router",
+./app/utils/startup_validator.py:38:            "ops_stream_router", "pelm", "pelm_stream", "plugins",
+./app/utils/startup_validator.py:39:            "repo_health", "router_drift", "system", "workflow_runs"
+./app/utils/startup_validator.py:41:            router_modules.append(module_name)
+./app/utils/startup_validator.py:43:    for mod in router_modules:
+./app/utils/startup_validator.py:45:            importlib.import_module(f"app.routers.{mod}")
+./app/utils/startup_validator.py:46:            print(f"  ✓ Loaded router: {mod}")
+./app/utils/startup_validator.py:48:            print(f"  ✗ Failed to load router {mod}: {exc}")
+./app/utils/router_loader.py:6:def auto_discover_routers():
+./app/utils/router_loader.py:8:    Safely discovers routers inside app/routers/.
+./app/utils/router_loader.py:9:    Only modules containing a 'router' attribute are loaded.
+./app/utils/router_loader.py:13:    for _, module_name, _ in pkgutil.iter_modules(["app/routers"]):
+./app/utils/router_loader.py:14:        module_path = f"app.routers.{module_name}"
+./app/utils/router_loader.py:19:            if hasattr(module, "router") and isinstance(module.router, APIRouter):
+./app/utils/router_loader.py:20:                discovered.append((module_name, module.router))
+./app/utils/router_loader.py:22:                print(f"  - Skipped {module_name}: no valid router")
+./app/utils/startup_validator.py.bak:33:    router_modules = []
+./app/utils/startup_validator.py.bak:34:    for _, module_name, _ in pkgutil.iter_modules(["app/routers"]):
+./app/utils/startup_validator.py.bak:35:        if module_name.endswith("_router") or module_name in [
+./app/utils/startup_validator.py.bak:36:            "ci_summary", "git_snapshots", "idrim_router", "logs_router",
+./app/utils/startup_validator.py.bak:38:            "ops_stream_router", "pelm", "pelm_stream", "plugins",
+./app/utils/startup_validator.py.bak:39:            "repo_health", "router_drift", "system", "workflow_runs"
+./app/utils/startup_validator.py.bak:41:            router_modules.append(module_name)
+./app/utils/startup_validator.py.bak:43:    for mod in router_modules:
+./app/utils/startup_validator.py.bak:45:            importlib.import_module(f"app.routers.{mod}")
+./app/utils/startup_validator.py.bak:46:            print(f"  ✓ Loaded router: {mod}")
+./app/utils/startup_validator.py.bak:48:            print(f"  ✗ Failed to load router {mod}: {exc}")
+./app/utils/router_loader.py.bak:6:def auto_discover_routers():
+./app/utils/router_loader.py.bak:8:    Safely discovers routers inside app/routers/.
+./app/utils/router_loader.py.bak:9:    Only modules containing a 'router' attribute are loaded.
+./app/utils/router_loader.py.bak:13:    for _, module_name, _ in pkgutil.iter_modules(["app/routers"]):
+./app/utils/router_loader.py.bak:14:        module_path = f"app.routers.{module_name}"
+./app/utils/router_loader.py.bak:19:            if hasattr(module, "router") and isinstance(module.router, APIRouter):
+./app/utils/router_loader.py.bak:20:                discovered.append((module_name, module.router))
+./app/utils/router_loader.py.bak:22:                print(f"  - Skipped {module_name}: no valid router")
+./tools/security/idrim/__init__.py:21:from .idrim_router import *
+./tools/security/idrim/idrim_router.py:6:This router is intentionally:
+./tools/security/idrim/idrim_router.py:29:router = APIRouter(prefix="/idrim", tags=["IDRIM"])
+./tools/security/idrim/idrim_router.py:36:@router.get("/health")
+./tools/security/idrim/idrim_router.py:51:@router.post("/run", response_model=IDRIMResult)
+./tools/security/idrim/idrim_router.py:72:@router.post("/run-async", response_model=IDRIMResult)
+./tools/security/idrim/idrim_stream.py:25:router = APIRouter(prefix="/idrim", tags=["IDRIM"])
+./tools/security/idrim/idrim_stream.py:45:@router.get("/stream")
+./tools/security/idrim/idrim_service.py:5:IDRIMTaskRunner, and external callers (API router, CLI, scheduled jobs).
+./tools/security/idrim/idrim_tile.py:22:router = APIRouter(prefix="/idrim", tags=["IDRIM"])
+./tools/security/idrim/idrim_tile.py:26:@router.get("/tile")
+./code_health_report.json:1516:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+./code_health_report.json:1519:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+./code_health_report.json:1529:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+./code_health_report.json:1539:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+./code_health_report.json:1549:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+./code_health_report.json:1559:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+./code_health_report.json:1569:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+./code_health_report.json:1579:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/admin.py",
+./code_health_report.json:1592:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diif.py",
+./code_health_report.json:1595:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diif.py",
+./code_health_report.json:1605:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diif.py",
+./code_health_report.json:1618:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+./code_health_report.json:1621:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+./code_health_report.json:1631:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+./code_health_report.json:1641:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+./code_health_report.json:1651:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+./code_health_report.json:1661:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+./code_health_report.json:1671:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/workflow_runs.py",
+./code_health_report.json:1684:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/router_drift.py",
+./code_health_report.json:1687:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/router_drift.py",
+./code_health_report.json:1697:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/router_drift.py",
+./code_health_report.json:1707:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/router_drift.py",
+./code_health_report.json:1720:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm.py",
+./code_health_report.json:1723:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm.py",
+./code_health_report.json:1733:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm.py",
+./code_health_report.json:1743:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm.py",
+./code_health_report.json:1756:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+./code_health_report.json:1759:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+./code_health_report.json:1769:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+./code_health_report.json:1779:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+./code_health_report.json:1789:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+./code_health_report.json:1799:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+./code_health_report.json:1809:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+./code_health_report.json:1819:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/users.py",
+./code_health_report.json:1832:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+./code_health_report.json:1835:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+./code_health_report.json:1845:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+./code_health_report.json:1855:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+./code_health_report.json:1865:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+./code_health_report.json:1875:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_health.py",
+./code_health_report.json:1888:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_sse.py",
+./code_health_report.json:1891:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_sse.py",
+./code_health_report.json:1901:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_sse.py",
+./code_health_report.json:1911:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_sse.py",
+./code_health_report.json:1924:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+./code_health_report.json:1927:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+./code_health_report.json:1937:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+./code_health_report.json:1947:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+./code_health_report.json:1957:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_diff.py",
+./code_health_report.json:1970:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+./code_health_report.json:1973:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+./code_health_report.json:1983:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+./code_health_report.json:1993:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+./code_health_report.json:2003:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+./code_health_report.json:2015:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/__init__.py",
+./code_health_report.json:2020:          "name": "router",
+./code_health_report.json:2027:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/iam_fetch.py",
+./code_health_report.json:2030:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/iam_fetch.py",
+./code_health_report.json:2040:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/iam_fetch.py",
+./code_health_report.json:2053:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+./code_health_report.json:2056:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+./code_health_report.json:2066:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+./code_health_report.json:2076:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+./code_health_report.json:2086:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+./code_health_report.json:2096:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+./code_health_report.json:2106:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+./code_health_report.json:2116:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/auth.py",
+./code_health_report.json:2129:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+./code_health_report.json:2132:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+./code_health_report.json:2142:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+./code_health_report.json:2152:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+./code_health_report.json:2162:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+./code_health_report.json:2172:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+./code_health_report.json:2182:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+./code_health_report.json:2192:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins.py",
+./code_health_report.json:2205:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard_health.py",
+./code_health_report.json:2208:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard_health.py",
+./code_health_report.json:2218:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard_health.py",
+./code_health_report.json:2231:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+./code_health_report.json:2234:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+./code_health_report.json:2244:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+./code_health_report.json:2254:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+./code_health_report.json:2264:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+./code_health_report.json:2274:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/settings_router.py",
+./code_health_report.json:2287:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+./code_health_report.json:2290:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+./code_health_report.json:2300:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+./code_health_report.json:2310:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+./code_health_report.json:2320:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_history.py",
+./code_health_report.json:2333:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+./code_health_report.json:2336:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+./code_health_report.json:2346:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+./code_health_report.json:2356:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+./code_health_report.json:2366:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+./code_health_report.json:2376:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/dashboard.py",
+./code_health_report.json:2389:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_diff.py",
+./code_health_report.json:2392:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_diff.py",
+./code_health_report.json:2402:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_diff.py",
+./code_health_report.json:2412:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_diff.py",
+./code_health_report.json:2425:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+./code_health_report.json:2428:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+./code_health_report.json:2438:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+./code_health_report.json:2448:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+./code_health_report.json:2458:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+./code_health_report.json:2468:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/idrim_analysis.py",
+./code_health_report.json:2481:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/health.py",
+./code_health_report.json:2484:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/health.py",
+./code_health_report.json:2497:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2500:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2510:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2520:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2530:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2540:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2550:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2560:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2570:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/session.py",
+./code_health_report.json:2583:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+./code_health_report.json:2586:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+./code_health_report.json:2596:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+./code_health_report.json:2606:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+./code_health_report.json:2616:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+./code_health_report.json:2626:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ops_stream_router.py",
+./code_health_report.json:2639:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/system.py",
+./code_health_report.json:2642:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/system.py",
+./code_health_report.json:2652:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/system.py",
+./code_health_report.json:2662:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/system.py",
+./code_health_report.json:2675:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+./code_health_report.json:2678:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+./code_health_report.json:2688:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+./code_health_report.json:2698:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+./code_health_report.json:2708:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/ci_summary.py",
+./code_health_report.json:2721:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/git_snapshots.py",
+./code_health_report.json:2724:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/git_snapshots.py",
+./code_health_report.json:2734:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/git_snapshots.py",
+./code_health_report.json:2747:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py",
+./code_health_report.json:2750:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py",
+./code_health_report.json:2760:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py",
+./code_health_report.json:2770:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/logs_router.py",
+./code_health_report.json:2783:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_admin.py",
+./code_health_report.json:2786:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_admin.py",
+./code_health_report.json:2796:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/makefile_admin.py",
+./code_health_report.json:2809:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+./code_health_report.json:2812:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+./code_health_report.json:2822:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+./code_health_report.json:2832:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+./code_health_report.json:2842:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+./code_health_report.json:2852:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+./code_health_report.json:2862:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/repo_health.py",
+./code_health_report.json:2875:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+./code_health_report.json:2878:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+./code_health_report.json:2888:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+./code_health_report.json:2898:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+./code_health_report.json:2908:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/pelm_stream.py",
+./code_health_report.json:3029:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/router_loader.py",
+./code_health_report.json:3032:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/router_loader.py",
+./code_health_report.json:3042:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/router_loader.py",
+./code_health_report.json:3052:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/utils/router_loader.py",
+./code_health_report.json:3349:      "path": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins/router_prefix_drift.py",
+./code_health_report.json:3352:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins/router_prefix_drift.py",
+./code_health_report.json:3362:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins/router_prefix_drift.py",
+./code_health_report.json:3372:          "file": "/home/ubuntu/sentinel-ops-suite/backend/app/routers/plugins/router_prefix_drift.py",
+./ci/makefile_canonical.py:51:	uv run app/routers/pelm.py
+./ci/makefile_canonical.py:54:	uv run app/routers/pelm_stream.py
+./auth/routes.py:5:# located in: app/routers/auth.py
+./auth/routes.py:10:router = APIRouter(prefix="/auth", tags=["auth"])
+./auth/routes.py:12:@router.post("/login")
+./auth/routes.py:19:@router.post("/logout")
+./auth/routes.py:26:@router.post("/create")
+./auth/routes.py:33:@router.get("/me")
+./auth/routes.py:40:@router.get("/validate")
+./auth/routes.py.bak:5:# located in: app/routers/auth.py
+./auth/routes.py.bak:10:router = APIRouter(prefix="/auth", tags=["auth"])
+./auth/routes.py.bak:12:@router.post("/login")
+./auth/routes.py.bak:19:@router.post("/logout")
+./auth/routes.py.bak:26:@router.post("/create")
+./auth/routes.py.bak:33:@router.get("/me")
+./auth/routes.py.bak:40:@router.get("/validate")
+./auditresults.txt:28:./admin/routes.py:147:@router.get("/audit-logs", response_model=list[AuditLogOut])

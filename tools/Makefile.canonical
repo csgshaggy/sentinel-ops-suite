@@ -1,0 +1,17 @@
+# ============================================
+# CANONICAL MAKEFILE — HARDENED EDITION
+# ============================================
+
+.PHONY: canonical
+canonical:
+	@echo "=== CANONICAL STRUCTURE CHECK ==="
+	@python3 scripts/structure_validator.py
+
+.PHONY: safe-clean
+safe-clean:
+	@echo "Delegating safe-clean to root Makefile..."
+	@make -C .. safe-clean
+
+.PHONY: validate
+validate:
+	@python3 scripts/structure_validator.py

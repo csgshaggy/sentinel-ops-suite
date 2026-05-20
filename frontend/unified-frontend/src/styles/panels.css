@@ -1,0 +1,7 @@
+/* Placeholder panel styles */
+.panel {
+  background: var(--bg-surface);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}

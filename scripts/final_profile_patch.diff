@@ -1,0 +1,185 @@
+diff --git a/src/pages/Profile/Profile.jsx b/src/pages/Profile/Profile.jsx
+index 1111111..2222222 100644
+--- a/src/pages/Profile/Profile.jsx
++++ b/src/pages/Profile/Profile.jsx
+@@ -1,6 +1,8 @@
+ import { useState, useEffect, useCallback } from "react";
+ import apiClient from "../../api/apiClient.js";
+ import { toast } from "../../components/ToastManager.jsx";
++
++// MFA controlled component imports
+ import AvatarUploader from "../../components/profile/AvatarUploader.jsx";
+ import MFAToggle from "../../components/profile/MFAToggle.jsx";
+ import ChangePasswordForm from "../../components/profile/ChangePasswordForm.jsx";
+@@ -12,6 +14,10 @@ export default function Profile() {
+   const [loading, setLoading] = useState(true);
+   const [profile, setProfile] = useState(null);
+
++  // Controlled MFA state
++  const [mfaQr, setMfaQr] = useState(null);
++  const [mfaSecret, setMfaSecret] = useState(null);
++
+   // ------------------------------------------------------------
+   // Fetch profile (React 18 safe)
+   // ------------------------------------------------------------
+@@ -63,6 +69,63 @@ const handleSave = async () => {
+     }
+   };
+
++  // ------------------------------------------------------------
++  // MFA controlled handlers
++  // ------------------------------------------------------------
++  const handleMfaStart = async () => {
++    try {
++      const res = await apiClient.post("/auth/mfa/enable");
++      setMfaQr(res.data.qr);
++      setMfaSecret(res.data.secret);
++      toast.success("MFA setup started. Scan the QR code.");
++    } catch (err) {
++      console.error("Failed to enable MFA:", err);
++      toast.error("Failed to update MFA settings.");
++    }
++  };
++
++  const handleMfaVerify = async (code) => {
++    try {
++      await apiClient.post("/auth/mfa/verify", { code });
++
++      setProfile((prev) => ({ ...prev, mfa_enabled: true }));
++      setMfaQr(null);
++      setMfaSecret(null);
++
++      toast.success("MFA enabled successfully.");
++    } catch (err) {
++      console.error("Failed to verify MFA:", err);
++      toast.error("Failed to update MFA settings.");
++    }
++  };
++
++  const handleMfaDisable = async () => {
++    try {
++      await apiClient.post("/auth/mfa/disable");
++
++      setProfile((prev) => ({ ...prev, mfa_enabled: false }));
++      toast.success("MFA disabled.");
++    } catch (err) {
++      console.error("Failed to disable MFA:", err);
++      toast.error("Failed to update MFA settings.");
++    }
++  };
++
+@@ -140,7 +203,14 @@ return (
+       <section className="profile-section">
+         <h2 className="profile-section-title">Multi‑Factor Authentication</h2>
+-        <MFAToggle enabled={profile.mfa_enabled} />
++        <MFAToggle
++          enabled={profile.mfa_enabled}
++          qr={mfaQr}
++          secret={mfaSecret}
++          onStart={handleMfaStart}
++          onVerify={handleMfaVerify}
++          onDisable={handleMfaDisable}
++        />
+       </section>
+
+       {/* Password */}
+diff --git a/src/components/profile/MFAToggle.jsx b/src/components/profile/MFAToggle.jsx
+index 3333333..4444444 100644
+--- a/src/components/profile/MFAToggle.jsx
++++ b/src/components/profile/MFAToggle.jsx
+@@ -1,63 +1,41 @@
+-import React, { useState, useEffect } from "react";
+-import apiClient from "../../api/apiClient";
+-import { toast } from "../../components/ToastManager.jsx";
++import React, { useState } from "react";
+
+-export default function MFAToggle() {
+-  const [enabled, setEnabled] = useState(false);
+-  const [loading, setLoading] = useState(true);
+-  const [qr, setQr] = useState(null);
+-  const [secret, setSecret] = useState(null);
+-  const [code, setCode] = useState("");
++export default function MFAToggle({
++  enabled,
++  qr,
++  secret,
++  onStart,
++  onVerify,
++  onDisable,
++}) {
++  const [code, setCode] = useState("");
+
+-  useEffect(() => {
+-    async function loadStatus() {
+-      try {
+-        const res = await apiClient.get("/auth/mfa/status");
+-        setEnabled(res.data.enabled);
+-      } catch (err) {
+-        console.error("Failed to load MFA status:", err);
+-        toast.error("Failed to load MFA status.");
+-      } finally {
+-        setLoading(false);
+-      }
+-    }
+-
+-    loadStatus();
+-  }, []);
+-
+-  if (loading) return <p className="profile-loading">Loading MFA…</p>;
++  return (
++    <div>
++      <h3 className="profile-section-title" style={{ marginBottom: "8px" }}>
++        MFA
++      </h3>
+
+-  return (
+-    <div>
+-      <h3 className="profile-section-title" style={{ marginBottom: "8px" }}>
+-        MFA
+-      </h3>
+-
+-      {!enabled && !qr && (
+-        <button className="profile-button" onClick={enableMFA}>
++      {!enabled && !qr && (
++        <button className="profile-button" onClick={onStart}>
+           Enable MFA
+         </button>
+       )}
+
+       {qr && (
+         <div>
+           <p>Scan this QR code with your authenticator app:</p>
+-          <img src={qr} alt="MFA QR" className="mfa-qr" />
++          <img src={qr} alt="MFA QR" className="mfa-qr" />
+
+           <input
+             className="profile-input"
+             placeholder="Enter 6-digit code"
+-            value={code}
+-            onChange={(e) => setCode(e.target.value)}
++            value={code}
++            onChange={(e) => setCode(e.target.value)}
+           />
+
+-          <button className="profile-button" onClick={verifyMFA}>
+-            Verify & Enable
+-          </button>
++          <button
++            className="profile-button"
++            onClick={() => {
++              onVerify(code);
++              setCode("");
++            }}
++          >
++            Verify & Enable
++          </button>
+         </div>
+       )}
+
+-      {enabled && !qr && (
+-        <button className="profile-button danger" onClick={disableMFA}>
++      {enabled && !qr && (
++        <button className="profile-button danger" onClick={onDisable}>
+           Disable MFA
+         </button>
+       )}

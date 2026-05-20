@@ -1,0 +1,63 @@
+/* ============================================================
+   RouteLoader.css — Sentinel Ops Route Transition Overlay
+   ============================================================ */
+
+@import "../styles/auth/brand.css";
+
+.route-loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 13, 18, 0.88);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+  animation: loaderFadeIn 0.2s ease-out;
+}
+
+@keyframes loaderFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Pulsing glow behind logo */
+.route-loader-pulse {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 175, 255, 0.35),
+    rgba(0, 119, 204, 0.05),
+    transparent 70%
+  );
+  filter: blur(28px);
+  animation: routePulse 2.4s ease-in-out infinite;
+}
+
+@keyframes routePulse {
+  0% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 0.9; }
+  100% { transform: scale(0.9); opacity: 0.6; }
+}
+
+/* Logo */
+.route-loader-logo {
+  width: 140px;
+  border-radius: 8px;
+  filter: drop-shadow(0 0 12px var(--brand-primary));
+  z-index: 2;
+}
+
+/* Text */
+.route-loader-text {
+  margin-top: 18px;
+  color: var(--brand-text);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  opacity: 0.9;
+  text-shadow: 0 0 8px var(--brand-primary);
+}

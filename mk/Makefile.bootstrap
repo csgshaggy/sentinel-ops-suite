@@ -1,0 +1,51 @@
+# =====================================================================
+# MAKEFILE.BOOTSTRAP
+# Bootstrap pipeline for Sentinel Ops Suite
+# =====================================================================
+
+SHELL := /bin/bash
+PYTHON := python3
+VENV := .venv
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: bootstrap
+bootstrap: bootstrap-venv bootstrap-python bootstrap-node
+	@echo "[bootstrap] Environment bootstrapped."
+
+# ---------------------------------------------------------------------
+# PYTHON VENV
+# ---------------------------------------------------------------------
+.PHONY: bootstrap-venv
+bootstrap-venv:
+	@echo "[bootstrap] Creating virtual environment..."
+	@if [ ! -d "$(VENV)" ]; then \
+		$(PYTHON) -m venv $(VENV); \
+	fi
+	@echo "[bootstrap] Virtual environment ready."
+
+# ---------------------------------------------------------------------
+# PYTHON DEPENDENCIES
+# ---------------------------------------------------------------------
+.PHONY: bootstrap-python
+bootstrap-python:
+	@echo "[bootstrap] Installing Python dependencies..."
+	@$(VENV)/bin/pip install --upgrade pip setuptools wheel
+	@if [ -f requirements.txt ]; then \
+		$(VENV)/bin/pip install -r requirements.txt; \
+	fi
+	@echo "[bootstrap] Python dependencies installed."
+
+# ---------------------------------------------------------------------
+# NODE DEPENDENCIES
+# ---------------------------------------------------------------------
+.PHONY: bootstrap-node
+bootstrap-node:
+	@echo "[bootstrap] Installing Node dependencies..."
+	@if [ -f package.json ]; then \
+		npm install; \
+	else \
+		echo "[bootstrap] No package.json found. Skipping."; \
+	fi
+	@echo "[bootstrap] Node dependencies installed."

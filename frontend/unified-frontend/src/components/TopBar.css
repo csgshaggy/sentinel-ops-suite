@@ -1,0 +1,125 @@
+/* ------------------------------------------------------------
+   Sentinel Ops — TopBar (Neon‑Glassy, Black, High‑Contrast)
+------------------------------------------------------------- */
+
+/* Z‑layer fix — ensures TopBar sits above dashboard cards */
+.topbar.topbar-zfix {
+  position: relative;
+  z-index: 2000;
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------
+   CORE TOPBAR
+------------------------------------------------------------- */
+
+.topbar {
+  width: 100%;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 20px;
+  margin: 0;
+
+  /* RESTORED ORIGINAL BLACK GLASS */
+  background: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+
+  /* Neon border */
+  border-bottom: 1px solid rgba(0, 255, 255, 0.18) !important;
+
+  box-sizing: border-box;
+  flex-shrink: 0;
+
+  /* Prevent stacking-context traps */
+  overflow: visible;
+  transform: none;
+  opacity: 1;
+  filter: none;
+}
+
+/* ------------------------------------------------------------
+   TEXT + ICON CONTRAST FIX
+------------------------------------------------------------- */
+
+.topbar,
+.topbar * {
+  color: #e8faff !important; /* neon-friendly readable cyan */
+}
+
+/* Icon sizing (TopBar only) */
+.topbar svg,
+.topbar .icon {
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+}
+
+/* ------------------------------------------------------------
+   LEFT SECTION (Breadcrumbs / Status)
+------------------------------------------------------------- */
+
+.topbar-left {
+  width: 140px;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------
+   CENTER SECTION (Balancer)
+------------------------------------------------------------- */
+
+.topbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------
+   RIGHT SECTION (User Menu Anchor)
+------------------------------------------------------------- */
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  position: relative;
+  padding-right: 4px;
+
+  overflow: visible; /* ensures UserMenu never clips */
+}
+
+/* ------------------------------------------------------------
+   MOBILE OPTIMIZATION
+------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .topbar {
+    height: 58px;
+    padding: 0 14px;
+  }
+
+  .topbar svg,
+  .topbar .icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* ------------------------------------------------------------
+   PREVENT LIGHT MODE OVERRIDES
+------------------------------------------------------------- */
+
+.topbar {
+  --glass-bg: rgba(0, 0, 0, 0.45) !important;
+  --glass-border: rgba(0, 255, 255, 0.18) !important;
+  --text-primary: #e8faff !important;
+}

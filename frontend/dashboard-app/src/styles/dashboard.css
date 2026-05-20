@@ -1,0 +1,126 @@
+/* ============================================
+   SENTINEL‑OPS DASHBOARD PAGE STYLES
+   ============================================ */
+
+/* ROOT DASHBOARD WRAPPER */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+  padding: 10px;
+}
+
+/* GRID FOR METRIC CARDS */
+.dashboard-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+/* METRIC CARD */
+.metric-card {
+  background: var(--so-bg-card);
+  border: 1px solid var(--so-neon-soft);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.15);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 22px rgba(0, 255, 255, 0.25);
+}
+
+/* METRIC TITLE */
+.metric-title {
+  font-size: 0.95rem;
+  color: var(--so-text-dim);
+  letter-spacing: 0.4px;
+}
+
+/* METRIC VALUE */
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--so-text);
+  text-shadow: 0 0 12px rgba(0, 255, 255, 0.35);
+}
+
+/* CHART PANEL */
+.dashboard-chart-panel {
+  background: var(--so-bg-panel);
+  border: 1px solid var(--so-neon-soft);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CHART TITLE */
+.dashboard-chart-title {
+  font-size: 1.2rem;
+  color: var(--so-text);
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.35);
+}
+
+/* CHART AREA */
+.dashboard-chart-area {
+  width: 100%;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* TABLE PANEL */
+.dashboard-table-panel {
+  background: var(--so-bg-panel);
+  border: 1px solid var(--so-neon-soft);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* TABLE */
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--so-text);
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--so-neon-soft);
+}
+
+.dashboard-table th {
+  color: var(--so-text);
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.35);
+}
+
+.dashboard-table tr:hover {
+  background: rgba(0, 255, 255, 0.05);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .dashboard-chart-area {
+    height: 240px;
+  }
+}

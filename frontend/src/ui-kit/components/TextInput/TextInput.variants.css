@@ -1,0 +1,52 @@
+/* File: /home/ubuntu/sentinel-ops-suite/frontend/src/ui-kit/components/TextInput/TextInput.variants.css */
+/* -------------------------------------------------------
+   TextInput — Variant Styles
+   These layer on top of base + theme styles.
+-------------------------------------------------------- */
+
+/* Default (matches theme) */
+.ui-textinput-variant-default {
+  /* No overrides needed — base + theme define this */
+}
+
+/* Ghost Variant — transparent, minimal chrome */
+.ui-textinput-variant-ghost {
+  background: transparent !important;
+  border-color: transparent !important;
+  border-bottom: 1px solid var(--ui-border) !important;
+  border-radius: 0 !important;
+}
+
+.ui-textinput-variant-ghost:focus {
+  border-bottom-color: var(--ui-primary) !important;
+  box-shadow: none !important;
+}
+
+/* Solid Variant — filled background */
+.ui-textinput-variant-solid {
+  background: var(--ui-surface-alt) !important;
+  border-color: var(--ui-border) !important;
+}
+
+.ui-textinput-variant-solid:focus {
+  background: var(--ui-surface) !important;
+}
+
+/* Underline Variant — bottom border only */
+.ui-textinput-variant-underline {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid var(--ui-border) !important;
+  border-radius: 0 !important;
+}
+
+.ui-textinput-variant-underline:focus {
+  border-bottom-color: var(--ui-primary) !important;
+  box-shadow: none !important;
+}
+
+/* Compact Variant — reduced padding for dense layouts */
+.ui-textinput-variant-compact {
+  padding: 6px 8px !important;
+  font-size: 0.9rem !important;
+}

@@ -1,0 +1,122 @@
+/* ============================================================
+   EditUser.css — Admin Edit User Page
+   Dark‑Ops theme aligned with CreateUser + AdminPanel
+   ============================================================ */
+
+:root {
+  --admin-bg: #0d0f12;
+  --admin-card-bg: #15181d;
+  --admin-border: #1f2329;
+  --admin-text: #e5e7eb;
+  --admin-text-dim: #9ca3af;
+  --admin-accent: #3b82f6;
+  --admin-accent-hover: #60a5fa;
+  --admin-radius: 10px;
+  --admin-transition: 0.18s ease;
+}
+
+.edit-user-container {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.edit-user-card {
+  width: 480px;
+  background: var(--admin-card-bg);
+  padding: 32px;
+  border-radius: var(--admin-radius);
+  border: 1px solid var(--admin-border);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.edit-user-title {
+  color: var(--admin-text);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.edit-user-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-user-form label {
+  color: var(--admin-text);
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.edit-user-form input,
+.edit-user-form select {
+  padding: 12px;
+  background: #0f1115;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  color: var(--admin-text);
+  margin-bottom: 18px;
+  transition: var(--admin-transition);
+}
+
+.edit-user-form input:focus,
+.edit-user-form select:focus {
+  border-color: var(--admin-accent);
+  outline: none;
+}
+
+.active-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--admin-text);
+  margin-bottom: 18px;
+}
+
+.edit-user-form button {
+  padding: 14px;
+  background: var(--admin-accent);
+  color: white;
+  border: none;
+  border-radius: var(--admin-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: var(--admin-transition);
+}
+
+.edit-user-form button:hover {
+  background: var(--admin-accent-hover);
+}
+
+.edit-user-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.edit-user-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.edit-user-footer a {
+  color: var(--admin-accent);
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.edit-user-footer a:hover {
+  color: var(--admin-accent-hover);
+}
+
+.edit-user-loading {
+  padding: 40px;
+  text-align: center;
+  color: var(--admin-text);
+}

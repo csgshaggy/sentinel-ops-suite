@@ -1,0 +1,138 @@
+# ---------------------------------------------------------
+# HTTP → HTTPS Redirect (Strict)
+# ---------------------------------------------------------
+server {
+    listen 80;
+    listen [::]:80;
+    server_name crcybercop.dpdns.org;
+
+    return 301 https://$host$request_uri;
+}
+
+# ---------------------------------------------------------
+# HTTPS Server Block (Frontend + Backend API)
+# ---------------------------------------------------------
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name crcybercop.dpdns.org;
+
+    # -----------------------------------------------------
+    # SSL Certificates (Let’s Encrypt)
+    # -----------------------------------------------------
+    ssl_certificate /etc/letsencrypt/live/crcybercop.dpdns.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/crcybercop.dpdns.org/privkey.pem;
+
+    # -----------------------------------------------------
+    # Hardened TLS Settings (A+ target)
+    # -----------------------------------------------------
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers on;
+
+    ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256';
+
+    ssl_session_timeout 10m;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_tickets off;
+
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 1.1.1.1 1.0.0.1 valid=300s;
+    resolver_timeout 5s;
+
+    add_header Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" always;
+
+    # -----------------------------------------------------
+    # Security Headers (Hardened)
+    # -----------------------------------------------------
+    add_header X-Frame-Options "DENY" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
+
+    # -----------------------------------------------------
+    # CSP (STRICTLY SINGLE-LINE, HTTP/2 SAFE)
+    # -----------------------------------------------------
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://crcybercop.dpdns.org https://crcybercop.dpdns.org/api; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; media-src 'self'; worker-src 'self';" always;
+
+    # -----------------------------------------------------
+    # FRONTEND ROOT
+    # -----------------------------------------------------
+    root /var/www/sentinel-frontend;
+    index index.html;
+
+    # -----------------------------------------------------
+    # Redirect root → /login/
+    # -----------------------------------------------------
+    location = / {
+        return 302 /login/;
+    }
+
+    # -----------------------------------------------------
+    # LOGIN SPA — ASSET FIX (CRITICAL)
+    # -----------------------------------------------------
+    location ^~ /login/assets/ {
+        try_files $uri =404;
+    }
+
+    # LOGIN SPA ROUTING
+    location /login/ {
+        try_files $uri $uri/ /login/index.html;
+    }
+
+    # -----------------------------------------------------
+    # ADMIN SPA — ASSET FIX (CRITICAL)
+    # -----------------------------------------------------
+    location ^~ /admin/assets/ {
+        try_files $uri =404;
+    }
+
+    # ADMIN SPA ROUTING
+    location /admin/ {
+        try_files $uri $uri/ /admin/index.html;
+    }
+
+    # -----------------------------------------------------
+    # BACKEND API (FastAPI)
+    # -----------------------------------------------------
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000;
+
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+	proxy_set_header Cookie $http_cookie;
+
+        add_header Access-Control-Allow-Credentials "true" always;
+        add_header Access-Control-Allow-Origin "https://crcybercop.dpdns.org" always;
+
+        proxy_cookie_path / "/; SameSite=None; Secure";
+    }
+
+    # -----------------------------------------------------
+    # Block Hidden Files
+    # -----------------------------------------------------
+    location ~ /\. {
+        deny all;
+    }
+
+    # -----------------------------------------------------
+    # Bot / Scan Protection
+    # -----------------------------------------------------
+    if ($http_user_agent ~* (nikto|dirbuster|dirb|sqlmap|fimap|nessus|nmap|wpscan|acunetix|openvas|havij|arachni|python-requests|libwww-perl|masscan|zgrab)) {
+        return 403;
+    }
+
+    if ($http_user_agent = "") {
+        return 403;
+    }
+
+    # -----------------------------------------------------
+    # Block backup/config file access
+    # -----------------------------------------------------
+    location ~* "\.(bak|old|backup|swp|sql|tar|gz|zip|7z)$" {
+        deny all;
+    }
+}

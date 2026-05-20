@@ -1,0 +1,116 @@
+/* ============================================================
+   CreateUser.css — Admin Create User Page
+   Dark‑Ops theme aligned with AdminPanel
+   ============================================================ */
+
+:root {
+  --admin-bg: #0d0f12;
+  --admin-card-bg: #15181d;
+  --admin-border: #1f2329;
+  --admin-text: #e5e7eb;
+  --admin-text-dim: #9ca3af;
+  --admin-accent: #3b82f6;
+  --admin-accent-hover: #60a5fa;
+  --admin-radius: 10px;
+  --admin-transition: 0.18s ease;
+}
+
+.create-user-container {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.create-user-card {
+  width: 480px;
+  background: var(--admin-card-bg);
+  padding: 32px;
+  border-radius: var(--admin-radius);
+  border: 1px solid var(--admin-border);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.create-user-title {
+  color: var(--admin-text);
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.create-user-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-user-form label {
+  color: var(--admin-text);
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+}
+
+.create-user-form input,
+.create-user-form select {
+  padding: 12px;
+  background: #0f1115;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+  color: var(--admin-text);
+  margin-bottom: 18px;
+  transition: var(--admin-transition);
+}
+
+.create-user-form input:focus,
+.create-user-form select:focus {
+  border-color: var(--admin-accent);
+  outline: none;
+}
+
+.active-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--admin-text);
+  margin-bottom: 18px;
+}
+
+.create-user-form button {
+  padding: 14px;
+  background: var(--admin-accent);
+  color: white;
+  border: none;
+  border-radius: var(--admin-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: var(--admin-transition);
+}
+
+.create-user-form button:hover {
+  background: var(--admin-accent-hover);
+}
+
+.create-user-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.create-user-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.create-user-footer a {
+  color: var(--admin-accent);
+  cursor: pointer;
+  transition: var(--admin-transition);
+}
+
+.create-user-footer a:hover {
+  color: var(--admin-accent-hover);
+}

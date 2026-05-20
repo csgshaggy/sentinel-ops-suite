@@ -1,0 +1,24 @@
+/* /src/components/GlassPanel.css */
+
+.glass-panel {
+  background: var(--panel-bg);                 /* unified theme variable */
+  border: 1px solid var(--panel-border);       /* unified theme variable */
+
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+
+  border-radius: var(--radius);                /* unified radius */
+  box-shadow: var(--neon-glow);                /* unified glow */
+
+  padding: 20px;                               /* default padding */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  transition: 0.25s ease;
+}
+
+/* Optional but recommended: consistent hover glow */
+.glass-panel:hover {
+  box-shadow: 0 0 22px var(--accent-soft);
+}

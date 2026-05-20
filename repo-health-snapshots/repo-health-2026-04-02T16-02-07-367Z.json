@@ -1,0 +1,32 @@
+{
+  "mfa": {
+    "ok": false,
+    "score": 0,
+    "detail": {}
+  },
+  "docs": {
+    "ok": false,
+    "score": 0,
+    "detail": {}
+  },
+  "structure": {
+    "ok": false,
+    "score": 0,
+    "detail": {}
+  },
+  "deps": {
+    "ok": false,
+    "score": 0,
+    "detail": {}
+  },
+  "makefile": {
+    "ok": false,
+    "score": 0,
+    "detail": {}
+  },
+  "syncHistory": {
+    "ok": false,
+    "score": 0,
+    "detail": {}
+  }
+}

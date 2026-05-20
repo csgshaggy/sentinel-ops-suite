@@ -1,0 +1,198 @@
+/* ==========================================================================
+   Sentinel Ops Console — Sidebar Styling (Option A: Full Compatibility Mode)
+   Supports existing Sidebar.jsx without modification
+   Absolute path: /src/styles/sidebar.css
+   ========================================================================== */
+
+/* ROOT SIDEBAR CONTAINER */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: var(--sidebar-width);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border-right: 1px solid var(--color-border);
+  overflow-y: auto;
+  transition: width var(--transition), transform var(--transition);
+}
+
+/* COLLAPSED MODE (settings-controlled) */
+.sidebar.collapsed {
+  width: 70px;
+}
+
+.sidebar.collapsed .sidebar-label {
+  display: none;
+}
+
+.sidebar.collapsed .sidebar-profile {
+  display: none;
+}
+
+/* MOBILE DRAWER */
+.sidebar.open {
+  transform: translateX(0);
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: absolute;
+    top: var(--topbar-height);
+    left: 0;
+    height: calc(100vh - var(--topbar-height));
+    transform: translateX(-100%);
+    z-index: 20;
+  }
+}
+
+/* BACKDROP FOR MOBILE */
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+  z-index: 15;
+}
+
+.sidebar-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* TITLE */
+.sidebar-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 16px 20px;
+  color: var(--color-accent);
+}
+
+/* PROFILE BLOCK */
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+}
+
+.sidebar-profile .avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--color-border);
+  border-radius: 50%;
+}
+
+.profile-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+/* NAVIGATION */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+/* NAV ITEM */
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: background var(--transition), color var(--transition);
+  border-left: 3px solid transparent;
+}
+
+.sidebar-item:hover {
+  background: var(--color-surface);
+  color: var(--color-accent);
+}
+
+.sidebar-item.active {
+  background: var(--color-surface);
+  border-left-color: var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* ICONS */
+.icon {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+/* COLLAPSIBLE GROUP CHEVRON */
+.sidebar-chevron {
+  margin-left: auto;
+  transition: transform var(--transition);
+}
+
+.sidebar-item.open .sidebar-chevron {
+  transform: rotate(90deg);
+}
+
+/* SUBMENU */
+.sidebar-submenu {
+  display: none;
+  flex-direction: column;
+  padding-left: 40px;
+}
+
+.sidebar-submenu.open {
+  display: flex;
+}
+
+.sidebar-subitem {
+  padding: 8px 0;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.sidebar-subitem:hover {
+  color: var(--color-accent);
+}
+
+/* SETTINGS BUTTON */
+.settings-btn {
+  margin: 20px;
+  padding: 10px 14px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition), border var(--transition);
+}
+
+.settings-btn:hover {
+  background: var(--color-surface-alt);
+  border-color: var(--color-accent);
+}
+
+/* MOBILE MENU BUTTON */
+.mobile-menu-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 25;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .mobile-menu-button {
+    display: block;
+  }
+}

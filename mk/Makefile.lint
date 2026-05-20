@@ -1,0 +1,56 @@
+# =====================================================================
+# MAKEFILE.LINT
+# Makefile drift prevention for mk/ directory
+# =====================================================================
+
+SHELL := /bin/bash
+
+# ---------------------------------------------------------------------
+# MASTER TARGET
+# ---------------------------------------------------------------------
+.PHONY: makefile-lint
+makefile-lint: lint-tabs lint-no-heredoc lint-parse lint-duplicates
+	@echo "[lint] Makefile linting complete."
+
+# ---------------------------------------------------------------------
+# ENFORCE TAB-ONLY RECIPES
+# ---------------------------------------------------------------------
+.PHONY: lint-tabs
+lint-tabs:
+	@echo "[lint] Checking for space-indented recipes..."
+	@grep -RIn "^\s\{4,\}@" mk && \
+		(echo "[lint] ERROR: Space-indented recipe detected." && exit 1) || \
+		echo "[lint] TAB indentation OK."
+
+# ---------------------------------------------------------------------
+# BLOCK HEREDOCS
+# ---------------------------------------------------------------------
+.PHONY: lint-no-heredoc
+lint-no-heredoc:
+	@echo "[lint] Checking for heredocs..."
+	@grep -RIn "<<EOF" mk && \
+		(echo "[lint] ERROR: Heredoc detected in Makefile." && exit 1) || \
+		echo "[lint] No heredocs found."
+
+# ---------------------------------------------------------------------
+# PARSE VALIDATION
+# ---------------------------------------------------------------------
+.PHONY: lint-parse
+lint-parse:
+	@echo "[lint] Validating Makefile syntax..."
+	@find mk -type f -name "Makefile.*" | while read f; do \
+		echo "[lint] Checking $$f"; \
+		make -n -f $$f >/dev/null || exit 1; \
+	done
+	@echo "[lint] Syntax OK."
+
+# ---------------------------------------------------------------------
+# DUPLICATE TARGET DETECTION
+# ---------------------------------------------------------------------
+.PHONY: lint-duplicates
+lint-duplicates:
+	@echo "[lint] Checking for duplicate targets..."
+	@awk '/^[a-zA-Z0-9_.-]+:/{print $$1}' mk/Makefile.* | sort | uniq -d | \
+		grep . && \
+		(echo "[lint] ERROR: Duplicate Makefile targets detected." && exit 1) || \
+		echo "[lint] No duplicate targets."
