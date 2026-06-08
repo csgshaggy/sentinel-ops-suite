@@ -1,7 +1,12 @@
 // /src/pages/Profile/Profile.jsx
 // SentinelOps — Unified Profile Page (Avatar / Account / MFA / Security)
 
-import { useQuery } from "@tanstack/react-query";
+import { useRef, useState } from "react";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import apiClient from "../../api/apiClient";
 
 import "./Profile.css";
@@ -23,10 +28,71 @@ import ApiKeysTab from "./components/tabs/ApiKeysTab";
 import LoginHistoryTab from "./components/tabs/LoginHistoryTab";
 import AvatarTab from "./components/tabs/AvatarTab";
 
+/* ------------------------------------------------------------
+   Helpers
+------------------------------------------------------------ */
+
+function getApiBaseUrl() {
+  // If apiClient already has a baseURL configured, use that.
+  const configuredBase = apiClient?.defaults?.baseURL || "";
+  return configuredBase.replace(/\/+$/, "");
+}
+
+function resolveAvatarUrl(url) {
+  if (!url) return "/default-avatar.png";
+
+  // Absolute URL (S3, CDN, full backend URL)
+  if (/^https?:\/\//i.test(url)) {
+    return url;
+  }
+
+  // Relative local path
+  const normalizedPath = url.startsWith("/") ? url : `/${url}`;
+  const base = getApiBaseUrl();
+
+  // If no base configured, fall back to same-origin relative path
+  return base ? `${base}${normalizedPath}` : normalizedPath;
+}
+
+function addCacheBust(url, version) {
+  if (!url) return url;
+  const separator = url.includes("?") ? "&" : "?";
+  const safeVersion = version || Date.now();
+  return `${url}${separator}v=${encodeURIComponent(safeVersion)}`;
+}
+
+function normalizeProfile(profile) {
+  if (!profile) return profile;
+
+  const rawAvatar =
+    profile.avatar_thumb_url ||
+    profile.avatar_url ||
+    profile.avatarThumbUrl ||
+    null;
+
+  const normalizedAvatar = addCacheBust(
+    resolveAvatarUrl(rawAvatar),
+    profile.avatar_version
+  );
+
+  return {
+    ...profile,
+    avatar_url: normalizedAvatar,
+    avatar_thumb_url: normalizedAvatar,
+  };
+}
+
 export default function Profile() {
-  // ------------------------------------------------------------
-  // Load authenticated user profile (FULL profile, not /auth/me)
-  // ------------------------------------------------------------
+  const queryClient = useQueryClient();
+  const fileInputRef = useRef(null);
+
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadError, setUploadError] = useState("");
+
+  /* ------------------------------------------------------------
+     Load authenticated user profile
+     CORRECT ENDPOINT: /users/me
+  ------------------------------------------------------------ */
   const {
     data: profile,
     isLoading,
@@ -35,11 +101,99 @@ export default function Profile() {
   } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      const res = await apiClient.get("/profile", { withCredentials: true });
-      return res.data;
+      const res = await apiClient.get("/users/me", {
+        withCredentials: true,
+      });
+      return normalizeProfile(res.data);
     },
     retry: false,
   });
+
+  /* ------------------------------------------------------------
+     Avatar upload mutation
+     - uploads to /users/me/avatar
+     - updates progress
+     - optimistically updates cache
+     - invalidates profile query to re-fetch fresh data
+  ------------------------------------------------------------ */
+  const avatarUploadMutation = useMutation({
+    mutationFn: async (file) => {
+      const formData = new FormData();
+      formData.append("avatar", file);
+
+      setUploadError("");
+      setUploadProgress(0);
+
+      const response = await apiClient.post("/users/me/avatar", formData, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: (event) => {
+          if (!event?.total) return;
+          const percent = Math.round((event.loaded * 100) / event.total);
+          setUploadProgress(percent);
+        },
+      });
+
+      return response.data;
+    },
+
+    onSuccess: async (data) => {
+      const newAvatarUrl = addCacheBust(resolveAvatarUrl(data?.avatar_url));
+
+      // Optimistically update cached profile immediately
+      queryClient.setQueryData(["profile"], (oldProfile) => {
+        if (!oldProfile) return oldProfile;
+
+        return normalizeProfile({
+          ...oldProfile,
+          avatar_url: newAvatarUrl,
+          avatar_thumb_url: newAvatarUrl,
+          avatar_version: Date.now(),
+        });
+      });
+
+      // Then re-fetch authoritative profile from backend
+      await queryClient.invalidateQueries({
+        queryKey: ["profile"],
+      });
+    },
+
+    onError: (err) => {
+      setUploadError(
+        err?.response?.data?.detail ||
+          err?.message ||
+          "Avatar upload failed."
+      );
+    },
+
+    onSettled: () => {
+      setTimeout(() => {
+        setUploadProgress(0);
+      }, 400);
+    },
+  });
+
+  const handleChooseAvatar = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarSelected = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please choose a valid image file.");
+      event.target.value = "";
+      return;
+    }
+
+    avatarUploadMutation.mutate(file);
+
+    // Allow re-selecting the same file later
+    event.target.value = "";
+  };
 
   if (isLoading) {
     return (
@@ -67,7 +221,16 @@ export default function Profile() {
     "Personal Info": <PersonalInfoTab profile={profile} />,
     Preferences: <PreferencesTab profile={profile} />,
     Devices: <DevicesTab profile={profile} />,
-    Avatar: <AvatarTab profile={profile} />,
+    Avatar: (
+      <AvatarTab
+        profile={profile}
+        onChooseAvatar={handleChooseAvatar}
+        onAvatarSelected={handleAvatarSelected}
+        isUploading={avatarUploadMutation.isPending}
+        uploadProgress={uploadProgress}
+        uploadError={uploadError}
+      />
+    ),
     Security: <SecurityTab profile={profile} />,
     "Multi‑Factor Auth": <MFATab profile={profile} />,
     Sessions: <SessionsTab profile={profile} />,
@@ -90,7 +253,17 @@ export default function Profile() {
         <MFAStatusBadge enabled={profile.mfa_enabled} />
       </div>
 
+      {/* Hidden file input controlled from Avatar tab */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        hidden
+        onChange={handleAvatarSelected}
+      />
+
       <ProfileTabs tabs={tabs} />
     </div>
   );
 }
+``
