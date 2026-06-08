@@ -1,6 +1,3 @@
-// /src/pages/Profile/Profile.jsx
-// SentinelOps — Unified Profile Page (Avatar / Account / MFA / Security)
-
 import { useRef, useState } from "react";
 import {
   useMutation,
@@ -33,7 +30,6 @@ import AvatarTab from "./components/tabs/AvatarTab";
 ------------------------------------------------------------ */
 
 function getApiBaseUrl() {
-  // If apiClient already has a baseURL configured, use that.
   const configuredBase = apiClient?.defaults?.baseURL || "";
   return configuredBase.replace(/\/+$/, "");
 }
@@ -41,16 +37,13 @@ function getApiBaseUrl() {
 function resolveAvatarUrl(url) {
   if (!url) return "/default-avatar.png";
 
-  // Absolute URL (S3, CDN, full backend URL)
   if (/^https?:\/\//i.test(url)) {
     return url;
   }
 
-  // Relative local path
   const normalizedPath = url.startsWith("/") ? url : `/${url}`;
   const base = getApiBaseUrl();
 
-  // If no base configured, fall back to same-origin relative path
   return base ? `${base}${normalizedPath}` : normalizedPath;
 }
 
@@ -110,16 +103,18 @@ export default function Profile() {
   });
 
   /* ------------------------------------------------------------
-     Avatar upload mutation
-     - uploads to /users/me/avatar
-     - updates progress
-     - optimistically updates cache
-     - invalidates profile query to re-fetch fresh data
+     Avatar upload mutation (Corrected)
+     - Backend expects field name: "file"
+     - Uses multipart/form-data
+     - Cache-busts avatar URL
+     - Updates React Query cache
   ------------------------------------------------------------ */
   const avatarUploadMutation = useMutation({
     mutationFn: async (file) => {
       const formData = new FormData();
-      formData.append("avatar", file);
+
+      // Correct field name for FastAPI UploadFile
+      formData.append("file", file);
 
       setUploadError("");
       setUploadProgress(0);
@@ -140,9 +135,12 @@ export default function Profile() {
     },
 
     onSuccess: async (data) => {
-      const newAvatarUrl = addCacheBust(resolveAvatarUrl(data?.avatar_url));
+      const newAvatarUrl = addCacheBust(
+        resolveAvatarUrl(data?.avatar_url),
+        data?.avatar_version
+      );
 
-      // Optimistically update cached profile immediately
+      // Optimistic update
       queryClient.setQueryData(["profile"], (oldProfile) => {
         if (!oldProfile) return oldProfile;
 
@@ -150,11 +148,11 @@ export default function Profile() {
           ...oldProfile,
           avatar_url: newAvatarUrl,
           avatar_thumb_url: newAvatarUrl,
-          avatar_version: Date.now(),
+          avatar_version: data?.avatar_version,
         });
       });
 
-      // Then re-fetch authoritative profile from backend
+      // Re-fetch authoritative profile
       await queryClient.invalidateQueries({
         queryKey: ["profile"],
       });
@@ -191,7 +189,6 @@ export default function Profile() {
 
     avatarUploadMutation.mutate(file);
 
-    // Allow re-selecting the same file later
     event.target.value = "";
   };
 
@@ -253,7 +250,7 @@ export default function Profile() {
         <MFAStatusBadge enabled={profile.mfa_enabled} />
       </div>
 
-      {/* Hidden file input controlled from Avatar tab */}
+      {/* Hidden file input */}
       <input
         ref={fileInputRef}
         type="file"
@@ -266,4 +263,3 @@ export default function Profile() {
     </div>
   );
 }
-``
