@@ -151,4 +151,4 @@ app.include_router(settings_router, prefix="/api/settings", tags=["settings"])
 @app.get("/health", tags=["health"])
 async def health_check():
     return {"status": "ok"}
-``
+
