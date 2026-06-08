@@ -14,13 +14,11 @@
     padding: 0 20px;
     box-sizing: border-box;
 
-    /* Neon‑Glassy */
     background: rgba(10, 10, 15, 0.55);
     backdrop-filter: blur(14px) saturate(180%);
     -webkit-backdrop-filter: blur(14px) saturate(180%);
     border-bottom: 1px solid rgba(0, 255, 255, 0.18);
 
-    /* ⭐ Must sit above Sidebar (z-index: 500) */
     position: relative;
     z-index: 1000;
 
@@ -52,7 +50,7 @@
 }
 
 /* ================================
-   CENTER — OPTIONAL SEARCH / STATUS
+   CENTER — OPTIONAL
    ================================ */
 
 .topbar-center {
@@ -71,14 +69,32 @@
     align-items: center;
     justify-content: flex-end;
 
-    /* ⭐ Deterministic spacing */
     gap: 18px;
     padding-right: 12px;
-
     height: 100%;
 }
 
-/* Icon wrapper */
+/* ================================
+   BUTTON RESET
+   ================================ */
+
+.topbar-icon-button,
+.topbar-avatar-button,
+.dropdown-item {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    border: none;
+    outline: none;
+    background: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+/* ================================
+   ICON BUTTONS
+   ================================ */
+
 .topbar-icon {
     display: flex;
     align-items: center;
@@ -90,12 +106,46 @@
     cursor: pointer;
     border-radius: 6px;
 
+    color: #dffefe;
     transition: all 0.18s ease;
 }
 
 .topbar-icon:hover {
     background: rgba(0, 255, 255, 0.12);
     box-shadow: 0 0 8px rgba(0, 255, 255, 0.35);
+}
+
+.topbar-icon:focus-visible {
+    background: rgba(0, 255, 255, 0.12);
+    box-shadow:
+        0 0 0 2px rgba(0, 255, 255, 0.25),
+        0 0 10px rgba(0, 255, 255, 0.45);
+    border-radius: 6px;
+}
+
+/* ================================
+   AVATAR + DROPDOWN
+   ================================ */
+
+.avatar-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.topbar-avatar-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.topbar-avatar-button:focus-visible {
+    box-shadow:
+        0 0 0 2px rgba(0, 255, 255, 0.25),
+        0 0 12px rgba(0, 255, 255, 0.45);
+    border-radius: 999px;
 }
 
 /* Avatar */
@@ -108,6 +158,93 @@
 
     border: 1px solid rgba(0, 255, 255, 0.25);
     box-shadow: 0 0 6px rgba(0, 255, 255, 0.25);
+
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+.topbar-avatar:hover {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.45);
+}
+
+/* ================================
+   DROPDOWN PANEL
+   ================================ */
+
+.avatar-dropdown {
+    position: absolute;
+    top: 48px;
+    right: 0;
+
+    min-width: 210px;
+    padding: 6px 0;
+
+    background: rgba(15, 20, 25, 0.8);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+
+    border: 1px solid rgba(0, 255, 255, 0.18);
+    border-radius: 10px;
+
+    box-shadow:
+        0 0 12px rgba(0, 255, 255, 0.25),
+        0 8px 20px rgba(0, 0, 0, 0.35);
+
+    z-index: 1100;
+    animation: dropdownFade 0.18s ease-out;
+}
+
+/* ================================
+   DROPDOWN ITEMS
+   ================================ */
+
+.dropdown-item {
+    width: 100%;
+    padding: 10px 16px;
+
+    font-size: 0.9rem;
+    color: #e8fefe;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+
+    cursor: pointer;
+    transition: all 0.16s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(0, 255, 255, 0.12);
+    box-shadow: inset 0 0 8px rgba(0, 255, 255, 0.25);
+}
+
+.dropdown-item:focus-visible {
+    background: rgba(0, 255, 255, 0.16);
+    box-shadow:
+        inset 0 0 8px rgba(0, 255, 255, 0.25),
+        0 0 0 2px rgba(0, 255, 255, 0.22);
+}
+
+.dropdown-divider {
+    height: 1px;
+    margin: 6px 0;
+    background: rgba(0, 255, 255, 0.15);
+}
+
+/* ================================
+   ANIMATIONS
+   ================================ */
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 /* ================================
@@ -126,5 +263,10 @@
 
     .topbar-right {
         gap: 14px;
+    }
+
+    .avatar-dropdown {
+        right: -4px;
+        min-width: 190px;
     }
 }
