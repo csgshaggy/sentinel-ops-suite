@@ -24,6 +24,9 @@ from app.routers.admin import router as admin_router
 from app.routers.health import router as health_router
 from app.routers.profile import router as profile_router
 
+# ✅ NEW: Settings Router
+from app.routers.settings import router as settings_router
+
 # ⚠️ DO NOT IMPORT THESE — THEY BREAK AUTH
 # from app.routers.sessions import router as sessions_router
 # from app.routers.api_keys import router as api_keys_router
@@ -64,6 +67,7 @@ async def startup_event():
         sanitized_db_url = settings.DATABASE_URL.replace(settings.DB_PASSWORD, "***")
     except Exception:
         sanitized_db_url = "UNAVAILABLE"
+
     logger.info(f"DATABASE_URL: {sanitized_db_url}")
 
     logger.info(f"SESSION_COOKIE_NAME: {settings.SESSION_COOKIE_NAME}")
@@ -92,7 +96,7 @@ app.mount(
 
 
 # -------------------------------------------------
-# CORS
+# CORS (FIXED: removed malformed HTML wrapper)
 # -------------------------------------------------
 app.add_middleware(
     CORSMiddleware,
@@ -125,11 +129,6 @@ async def db_session_middleware(request: Request, call_next):
 # ✅ REAL AUTH ROUTER → /api/auth/*
 app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
 
-# ❌ DO NOT MOUNT OLD AUTH/SYSTEM ROUTERS
-# app.include_router(sessions_router, prefix="/api/auth", tags=["sessions"])
-# app.include_router(api_keys_router, prefix="/api/auth", tags=["api-keys"])
-# app.include_router(session_status_router, prefix="/api/auth", tags=["auth"])
-
 # Users → /api/users/*
 app.include_router(users_router, prefix="/api/users", tags=["users"])
 
@@ -142,6 +141,9 @@ app.include_router(health_router, prefix="/api/health", tags=["health"])
 # Profile → /api/profile/*
 app.include_router(profile_router, prefix="/api/profile", tags=["profile"])
 
+# ✅ NEW: Settings → /api/settings/*
+app.include_router(settings_router, prefix="/api/settings", tags=["settings"])
+
 
 # -------------------------------------------------
 # Root Health Check
@@ -149,3 +151,4 @@ app.include_router(profile_router, prefix="/api/profile", tags=["profile"])
 @app.get("/health", tags=["health"])
 async def health_check():
     return {"status": "ok"}
+``
