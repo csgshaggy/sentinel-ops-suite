@@ -20,9 +20,10 @@ export default function TopBar({ userRole = "user" }) {
   const menuRef = useRef(null);
 
   const menuId = "topbar-avatar-menu";
+  const isAdmin = userRole === "admin";
 
   const menuItems = useMemo(() => {
-    const baseItems = [
+    const items = [
       {
         key: "profile",
         label: "Profile",
@@ -37,39 +38,41 @@ export default function TopBar({ userRole = "user" }) {
       },
     ];
 
-    const adminItems =
-      userRole === "admin"
-        ? [
-            {
-              key: "admin-panel",
-              label: "Admin Panel",
-              icon: <Shield size={16} />,
-              action: () => navigate("/admin"),
-            },
-            {
-              key: "system-tools",
-              label: "System Tools",
-              icon: <Wrench size={16} />,
-              action: () => navigate("/admin/tools"),
-            },
-          ]
-        : [];
+    if (isAdmin) {
+      items.push(
+        {
+          key: "admin-panel",
+          label: "Admin Panel",
+          icon: <Shield size={16} />,
+          action: () => navigate("/admin"),
+        },
+        {
+          key: "system-tools",
+          label: "System Tools",
+          icon: <Wrench size={16} />,
+          action: () => navigate("/admin/tools"),
+        }
+      );
+    }
 
-    const endItems = [
-      {
-        key: "logout",
-        label: "Logout",
-        icon: <LogOut size={16} />,
-        action: () => navigate("/logout"),
-      },
-    ];
+    items.push({
+      key: "logout",
+      label: "Logout",
+      icon: <LogOut size={16} />,
+      action: () => navigate("/logout"),
+    });
 
-    return [...baseItems, ...adminItems, ...endItems];
-  }, [navigate, userRole]);
+    return items;
+  }, [navigate, isAdmin]);
 
-  const closeMenu = () => {
+  const closeMenu = (restoreFocus = true) => {
     setMenuOpen(false);
-    avatarButtonRef.current?.focus();
+
+    if (restoreFocus) {
+      requestAnimationFrame(() => {
+        avatarButtonRef.current?.focus();
+      });
+    }
   };
 
   const openMenu = () => {
@@ -80,25 +83,30 @@ export default function TopBar({ userRole = "user" }) {
     setMenuOpen((prev) => !prev);
   };
 
-  // ✅ Click-outside close + ESC close
+  const focusFirstMenuItem = () => {
+    const firstItem = menuRef.current?.querySelector('[role="menuitem"]');
+    firstItem?.focus();
+  };
+
+  // Click-outside close + ESC close
   useEffect(() => {
-    function handleMouseDown(event) {
+    if (!menuOpen) return;
+
+    const handleMouseDown = (event) => {
       if (!wrapperRef.current?.contains(event.target)) {
         setMenuOpen(false);
       }
-    }
+    };
 
-    function handleKeyDown(event) {
+    const handleKeyDown = (event) => {
       if (event.key === "Escape") {
-        setMenuOpen(false);
-        avatarButtonRef.current?.focus();
+        event.preventDefault();
+        closeMenu(true);
       }
-    }
+    };
 
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleMouseDown);
-      document.addEventListener("keydown", handleKeyDown);
-    }
+    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("mousedown", handleMouseDown);
@@ -106,15 +114,15 @@ export default function TopBar({ userRole = "user" }) {
     };
   }, [menuOpen]);
 
-  // ✅ Move focus into menu when opened
+  // Move focus into menu when opened
   useEffect(() => {
-    if (menuOpen && menuRef.current) {
-      const firstItem = menuRef.current.querySelector('[role="menuitem"]');
-      firstItem?.focus();
+    if (menuOpen) {
+      requestAnimationFrame(() => {
+        focusFirstMenuItem();
+      });
     }
   }, [menuOpen]);
 
-  // ✅ Keyboard support on avatar button
   const handleAvatarKeyDown = (event) => {
     switch (event.key) {
       case "Enter":
@@ -122,56 +130,67 @@ export default function TopBar({ userRole = "user" }) {
         event.preventDefault();
         toggleMenu();
         break;
+
       case "ArrowDown":
         event.preventDefault();
         if (!menuOpen) {
           openMenu();
         } else {
-          const firstItem = menuRef.current?.querySelector('[role="menuitem"]');
-          firstItem?.focus();
+          focusFirstMenuItem();
         }
         break;
+
       default:
         break;
     }
   };
 
-  // ✅ Keyboard navigation inside the menu
   const handleMenuKeyDown = (event) => {
     const items = menuRef.current?.querySelectorAll('[role="menuitem"]');
     if (!items || items.length === 0) return;
 
-    const currentIndex = Array.from(items).indexOf(document.activeElement);
+    const itemArray = Array.from(items);
+    const currentIndex = itemArray.indexOf(document.activeElement);
 
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      const nextIndex = (currentIndex + 1) % items.length;
-      items[nextIndex].focus();
-    }
+    switch (event.key) {
+      case "ArrowDown": {
+        event.preventDefault();
+        const nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % itemArray.length;
+        itemArray[nextIndex].focus();
+        break;
+      }
 
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-      const previousIndex = (currentIndex - 1 + items.length) % items.length;
-      items[previousIndex].focus();
-    }
+      case "ArrowUp": {
+        event.preventDefault();
+        const previousIndex =
+          currentIndex < 0
+            ? itemArray.length - 1
+            : (currentIndex - 1 + itemArray.length) % itemArray.length;
+        itemArray[previousIndex].focus();
+        break;
+      }
 
-    if (event.key === "Home") {
-      event.preventDefault();
-      items[0].focus();
-    }
+      case "Home":
+        event.preventDefault();
+        itemArray[0].focus();
+        break;
 
-    if (event.key === "End") {
-      event.preventDefault();
-      items[items.length - 1].focus();
-    }
+      case "End":
+        event.preventDefault();
+        itemArray[itemArray.length - 1].focus();
+        break;
 
-    if (event.key === "Tab") {
-      setMenuOpen(false);
-    }
+      case "Tab":
+        setMenuOpen(false);
+        break;
 
-    if (event.key === "Escape") {
-      event.preventDefault();
-      closeMenu();
+      case "Escape":
+        event.preventDefault();
+        closeMenu(true);
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -236,15 +255,15 @@ export default function TopBar({ userRole = "user" }) {
               ref={menuRef}
               onKeyDown={handleMenuKeyDown}
             >
-              {menuItems.map((item, index) => {
-                const showDividerBefore =
-                  userRole === "admin" &&
-                  item.key === "logout" &&
-                  menuItems.some((entry) => entry.key === "admin-panel");
+              {menuItems.map((item) => {
+                const showDividerBeforeLogout = isAdmin && item.key === "logout";
 
                 return (
                   <React.Fragment key={item.key}>
-                    {showDividerBefore && <div className="dropdown-divider" />}
+                    {showDividerBeforeLogout && (
+                      <div className="dropdown-divider" aria-hidden="true" />
+                    )}
+
                     <button
                       type="button"
                       className="dropdown-item"
