@@ -3,15 +3,14 @@ from typing import Any
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 from sqlalchemy.orm import Session
 
-# ✅ Correct import — this is where we will define get_current_user
 from app.auth.dependencies import get_current_user
-
-# DB session
 from app.db.session import SessionLocal
 
 from app.models.user import User
 from app.schemas.user import UserProfileResponse
-from app.services.storage import save_avatar_file, delete_avatar_file
+
+# ✅ Correct avatar service import
+from app.services.avatar_service import save_user_avatar
 
 
 # Local DB dependency
@@ -41,27 +40,16 @@ async def upload_avatar(
     current_user: User = Depends(get_current_user),
 ) -> Any:
 
+    # Basic MIME validation (avatar_service does deeper validation)
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Invalid image file.")
 
-    # Delete old avatar if present
-    if current_user.avatar_url:
-        delete_avatar_file(current_user.avatar_url)
-    if current_user.avatar_thumb_url:
-        delete_avatar_file(current_user.avatar_thumb_url)
-
-    # Save new avatar
-    avatar_url, avatar_thumb_url = await save_avatar_file(
-        file=file,
-        user_id=current_user.id,
-    )
-
-    current_user.avatar_url = avatar_url
-    current_user.avatar_thumb_url = avatar_thumb_url
-    current_user.avatar_version = (current_user.avatar_version or 0) + 1
-
-    db.add(current_user)
-    db.commit()
-    db.refresh(current_user)
+    # Avatar service handles:
+    # - validation
+    # - cleanup of old avatars
+    # - thumbnail generation
+    # - versioning
+    # - DB update
+    await save_user_avatar(db, current_user, file)
 
     return current_user
