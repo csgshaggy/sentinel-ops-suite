@@ -3,8 +3,8 @@ from typing import Any
 from fastapi import APIRouter, Depends, File, UploadFile, HTTPException
 from sqlalchemy.orm import Session
 
-# ✅ Correct import for your project
-from app.auth.router import get_current_user
+# ✅ Correct import — this is where we will define get_current_user
+from app.auth.dependencies import get_current_user
 
 # DB session
 from app.db.session import SessionLocal
@@ -23,7 +23,7 @@ def get_db():
         db.close()
 
 
-# NOTE: main.py already mounts this router at /api/users/me
+# NOTE: main.py mounts this router at /api/users/me
 router = APIRouter(tags=["profile"])
 
 
