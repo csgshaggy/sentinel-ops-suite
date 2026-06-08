@@ -1,35 +1,44 @@
+# alembic/env.py
+
 from logging.config import fileConfig
-from sqlalchemy import engine_from_config, pool
-from alembic import context
 import os
 import sys
+
+from sqlalchemy import engine_from_config, pool
+from alembic import context
 from dotenv import load_dotenv
 
 # ---------------------------------------------------------
-# Load environment variables from .env
+# Load environment variables (.env)
 # ---------------------------------------------------------
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ENV_PATH = os.path.join(BASE_DIR, ".env")
 load_dotenv(ENV_PATH)
 
 # ---------------------------------------------------------
-# Ensure backend root is added to PYTHONPATH
+# Ensure backend root is on PYTHONPATH
 # ---------------------------------------------------------
-sys.path.insert(0, BASE_DIR)
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 
-# Import Base metadata AFTER PYTHONPATH fix
+# ---------------------------------------------------------
+# Import Base metadata
+# ---------------------------------------------------------
 from app.db.base import Base
+
+# ✅ CRITICAL: Import ALL models so Alembic detects changes
+from app.models import user, session, user_preferences, api_key
 
 # Alembic Config object
 config = context.config
 
 # ---------------------------------------------------------
-# Inject DATABASE_URL from environment (with % escaping)
+# Inject DATABASE_URL from environment
 # ---------------------------------------------------------
 database_url = os.getenv("DATABASE_URL")
 
 if database_url:
-    # Alembic uses ConfigParser → % must be escaped as %%
+    # Alembic uses ConfigParser → % must be escaped
     safe_url = database_url.replace("%", "%%")
     config.set_main_option("sqlalchemy.url", safe_url)
 
@@ -40,14 +49,18 @@ if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 # ---------------------------------------------------------
-# Alembic needs metadata from your models
+# Metadata for autogeneration
 # ---------------------------------------------------------
 target_metadata = Base.metadata
 
 
+# ---------------------------------------------------------
+# OFFLINE MIGRATIONS
+# ---------------------------------------------------------
 def run_migrations_offline():
     """Run migrations in 'offline' mode."""
     url = config.get_main_option("sqlalchemy.url")
+
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -61,8 +74,12 @@ def run_migrations_offline():
         context.run_migrations()
 
 
+# ---------------------------------------------------------
+# ONLINE MIGRATIONS
+# ---------------------------------------------------------
 def run_migrations_online():
     """Run migrations in 'online' mode."""
+
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",
@@ -81,6 +98,9 @@ def run_migrations_online():
             context.run_migrations()
 
 
+# ---------------------------------------------------------
+# Entry point
+# ---------------------------------------------------------
 if context.is_offline_mode():
     run_migrations_offline()
 else:

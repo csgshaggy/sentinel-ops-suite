@@ -1,4 +1,5 @@
-# SentinelOps — Unified User Model (MFA + Sessions + Preferences + Public Dict + Avatar Versioning)
+# SentinelOps — Unified User Model
+# (MFA + Sessions + Preferences + Settings + Public Dict + Avatar Versioning)
 
 from sqlalchemy import Column, Integer, String, Boolean, DateTime
 from sqlalchemy.orm import relationship
@@ -7,18 +8,19 @@ from datetime import datetime, timezone
 from app.db.base import Base
 
 # ------------------------------------------------------------
-# IMPORTANT: Ensure SQLAlchemy sees UserPreferences BEFORE
-# the User mapper initializes. This fixes the mapper crash:
-# "expression 'UserPreferences' failed to locate a name"
+# Ensure proper import order to avoid mapper issues
 # ------------------------------------------------------------
 from app.models.user_preferences import UserPreferences
 from app.models.session import Session
-from app.models.api_key import ApiKey   # ⭐ NEW IMPORT
+from app.models.api_key import ApiKey
 
 
 class User(Base):
     __tablename__ = "users"
 
+    # ------------------------------------------------------------
+    # Primary Key
+    # ------------------------------------------------------------
     id = Column(Integer, primary_key=True, index=True)
 
     # ------------------------------------------------------------
@@ -44,12 +46,18 @@ class User(Base):
     mfa_secret = Column(String(255), nullable=True)
 
     # ------------------------------------------------------------
+    # ✅ NEW: User Settings (persisted)
+    # ------------------------------------------------------------
+    theme = Column(String(20), nullable=False, default="dark")
+    notifications = Column(Boolean, nullable=False, default=True)
+
+    # ------------------------------------------------------------
     # Avatar (URL + Thumbnail + Version)
     # ------------------------------------------------------------
     avatar_url = Column(String(255), nullable=True)
     avatar_thumb_url = Column(String(255), nullable=True)
 
-    # ⭐ NEW: deterministic avatar version for cache‑busting
+    # Cache-busting version for avatars
     avatar_version = Column(Integer, nullable=False, default=1)
 
     # ------------------------------------------------------------
@@ -69,8 +77,10 @@ class User(Base):
     )
 
     # ------------------------------------------------------------
-    # Unified DB-backed sessions
+    # Relationships
     # ------------------------------------------------------------
+
+    # Sessions
     sessions = relationship(
         "Session",
         back_populates="user",
@@ -78,9 +88,7 @@ class User(Base):
         passive_deletes=True,
     )
 
-    # ------------------------------------------------------------
     # API Keys
-    # ------------------------------------------------------------
     api_keys = relationship(
         "ApiKey",
         back_populates="user",
@@ -88,9 +96,7 @@ class User(Base):
         passive_deletes=True,
     )
 
-    # ------------------------------------------------------------
     # User Preferences (1-to-1)
-    # ------------------------------------------------------------
     preferences = relationship(
         "UserPreferences",
         back_populates="user",
@@ -99,11 +105,7 @@ class User(Base):
     )
 
     # ------------------------------------------------------------
-    # Public dict used by:
-    # - /api/users/me
-    # - AuthContext
-    # - Login flow
-    # - Security.jsx
+    # Public dict (used across frontend/auth)
     # ------------------------------------------------------------
     def to_public_dict(self):
         return {
@@ -114,5 +116,12 @@ class User(Base):
             "mfa_enabled": self.mfa_enabled,
             "avatar_url": self.avatar_url,
             "avatar_thumb_url": self.avatar_thumb_url,
-            "avatar_version": self.avatar_version,  # ⭐ NEW
+            "avatar_version": self.avatar_version,
+
+            # ✅ NEW: expose settings
+            "theme": self.theme,
+            "notifications": self.notifications,
         }
+
+    def __repr__(self) -> str:
+        return f"<User id={self.id} username={self.username} role={self.role}>"
