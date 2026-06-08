@@ -1,10 +1,10 @@
 """
-Unified Avatar Service (Final Corrected Version)
------------------------------------------------
+Unified Avatar Service (Refactored)
+-----------------------------------
 Supports:
 - Local FS storage (static/avatars)
 - Optional S3 storage
-- PNG/JPG validation
+- PNG/JPG validation (expanded real-world MIME types)
 - Safe RGBA flattening
 - Thumbnail generation (256x256)
 - Cache-busting version tokens
@@ -23,8 +23,15 @@ from app.services.s3_client import upload_to_s3
 AVATAR_DIR = "static/avatars"
 DEFAULT_AVATAR_FILENAME = "default-avatar.png"
 
+# Expanded real-world MIME types
+ALLOWED_CONTENT_TYPES = {
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/pjpeg",
+}
+
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
-ALLOWED_CONTENT_TYPES = {"image/png", "image/jpeg"}
 
 
 # ------------------------------------------------------------
@@ -76,17 +83,19 @@ def cleanup_old_avatars(user_id: int, avatar_root: str):
 # Validation
 # ------------------------------------------------------------
 def validate_file_type(file: UploadFile):
+    # MIME validation
     if file.content_type not in ALLOWED_CONTENT_TYPES:
         raise HTTPException(
             status_code=400,
-            detail="Invalid file type. Only PNG and JPG/JPEG are allowed.",
+            detail=f"Invalid file type '{file.content_type}'. Only PNG and JPG/JPEG are allowed.",
         )
 
-    ext = file.filename.split(".")[-1].lower()
+    # Extension validation
+    ext = (file.filename or "").split(".")[-1].lower()
     if ext not in ALLOWED_EXTENSIONS:
         raise HTTPException(
             status_code=400,
-            detail="Invalid file extension. Only PNG and JPG/JPEG are allowed.",
+            detail=f"Invalid file extension '.{ext}'. Only PNG and JPG/JPEG are allowed.",
         )
 
 
@@ -189,4 +198,3 @@ async def save_user_avatar(db, user, file: UploadFile) -> str:
     db.refresh(user)
 
     return avatar_url
-
