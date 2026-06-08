@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bell, Settings } from "lucide-react";
 
@@ -6,13 +6,14 @@ import "./TopBar.css";
 
 export default function TopBar() {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="topbar-container">
       {/* LEFT — LOGO + TITLE */}
       <div className="topbar-left">
         <img
-          src="/logo.png"   // ⭐ FIXED: correct asset path
+          src="/logo.png"
           alt="SentinelOps Logo"
           className="topbar-logo"
         />
@@ -24,6 +25,7 @@ export default function TopBar() {
 
       {/* RIGHT — ICON CLUSTER */}
       <div className="topbar-right">
+        {/* Notifications */}
         <div
           className="topbar-icon"
           onClick={() => navigate("/notifications")}
@@ -32,18 +34,41 @@ export default function TopBar() {
           <Bell size={18} />
         </div>
 
-        <img
-          src="/default-avatar.png"   // ⭐ FIXED: correct asset path
-          alt="User Avatar"
-          className="topbar-avatar"
-        />
+        {/* Avatar + Dropdown */}
+        <div className="avatar-wrapper">
+          <img
+            src="/default-avatar.png"
+            alt="User Avatar"
+            className="topbar-avatar"
+            onClick={() => setMenuOpen(!menuOpen)}
+          />
 
-        <div
-          className="topbar-icon"
-          onClick={() => navigate("/settings")}
-          aria-label="Settings"
-        >
-          <Settings size={18} />
+          {/* Dropdown Menu */}
+          {menuOpen && (
+            <div className="avatar-dropdown">
+              <div
+                className="dropdown-item"
+                onClick={() => navigate("/profile")}
+              >
+                Profile
+              </div>
+
+              <div
+                className="dropdown-item"
+                onClick={() => navigate("/settings")}
+              >
+                <Settings size={16} style={{ marginRight: "8px" }} />
+                Settings
+              </div>
+
+              <div
+                className="dropdown-item"
+                onClick={() => navigate("/logout")}
+              >
+                Logout
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>
