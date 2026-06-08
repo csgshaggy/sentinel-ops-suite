@@ -1,25 +1,23 @@
 /* ============================================================
-   Login.css — Sentinel Ops Branded Login Theme
-   Neon blue, cyber grid, glowing accents + shield pulse
-   Cross‑platform + iOS‑safe version
+   Login.css — Sentinel Ops Cyber/Glass Login Theme (Final)
+   Neon glow, glassmorphism, animated depth
    ============================================================ */
 
 :root {
-  --logo-primary: #00afff;      /* neon glow */
-  --logo-secondary: #0077cc;    /* deep blue */
-  --logo-text: #e8f7ff;         /* ice white */
+  --logo-primary: #00afff;
+  --logo-secondary: #0077cc;
+  --logo-text: #e8f7ff;
   --grid-line: #1a1f27;
   --bg-dark: #0a0d12;
 
   --radius: 12px;
-  --transition: 0.18s ease;
+  --transition: 0.25s ease;
 
-  /* iOS viewport fix */
   --vh: 1vh;
 }
 
 /* ============================================================
-   GLOBAL RESET + iOS FIXES
+   GLOBAL RESET
    ============================================================ */
 
 *,
@@ -37,26 +35,28 @@ html, body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
 }
 
-/* Prevent iOS zoom on input focus */
 input {
   font-size: 16px;
 }
 
-/* Remove iOS default input/button styling */
 input,
 button {
-  -webkit-appearance: none;
   appearance: none;
+  -webkit-appearance: none;
   border-radius: 0;
 }
 
 /* ============================================================
-   OPTIONAL CYBER GRID BACKGROUND
+   LAYOUT + CYBER GRID
    ============================================================ */
 
 .auth-layout {
-  min-height: calc(var(--vh) * 100); /* iOS-safe full height */
-  background: repeating-linear-gradient(
+  position: relative;
+  overflow: hidden;
+  min-height: calc(var(--vh) * 100);
+
+  background:
+    repeating-linear-gradient(
       0deg,
       var(--bg-dark),
       var(--bg-dark) 48px,
@@ -68,6 +68,7 @@ button {
       var(--bg-dark) 48px,
       var(--grid-line) 49px
     );
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -75,20 +76,34 @@ button {
   padding: 24px;
 }
 
+/* ambient glow layer */
+.auth-layout::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(0, 175, 255, 0.12),
+    transparent 70%
+  );
+  filter: blur(60px);
+  z-index: 0;
+}
+
 /* ============================================================
-   LOGO + GLOWING SHIELD PULSE
+   LOGO + PULSE
    ============================================================ */
 
-.login-logo-container,
-.auth-logo-container {
+.login-logo-container {
   position: relative;
   display: flex;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: 26px;
+  z-index: 2;
 }
 
-.login-logo-container::before,
-.auth-logo-container::before {
+.login-logo-container::before {
   content: "";
   position: absolute;
   width: 220px;
@@ -108,42 +123,77 @@ button {
 @keyframes shieldPulse {
   0% {
     transform: scale(0.92);
-    opacity: 0.55;
+    opacity: 0.5;
   }
   50% {
-    transform: scale(1.08);
+    transform: scale(1.1);
     opacity: 0.9;
   }
   100% {
     transform: scale(0.92);
-    opacity: 0.55;
+    opacity: 0.5;
   }
 }
 
-.login-logo,
-.auth-logo {
+.login-logo {
   position: relative;
   z-index: 2;
   width: 180px;
   height: auto;
-  filter: drop-shadow(0 0 12px var(--logo-primary));
-  border-radius: 8px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px var(--logo-primary));
 }
 
 /* ============================================================
-   LOGIN CARD
+   LOGIN PANEL (GLASS + GLOW)
    ============================================================ */
 
 .login-form {
+  position: relative;
+  z-index: 2;
+
   width: 380px;
-  background: rgba(21, 24, 29, 0.85);
   padding: 32px;
+
+  background: rgba(21, 24, 29, 0.75);
   border-radius: var(--radius);
-  border: 1px solid var(--grid-line);
-  backdrop-filter: blur(6px);
-  box-shadow: 0 0 20px rgba(0, 175, 255, 0.15);
+  border: 1px solid rgba(0, 175, 255, 0.15);
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 0 20px rgba(0, 175, 255, 0.12),
+    inset 0 0 12px rgba(0, 175, 255, 0.05);
+
   animation: fadeIn 0.25s ease;
-  margin-top: 10px;
+}
+
+/* animated glow border */
+.login-form::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  pointer-events: none;
+  border: 1px solid rgba(0, 175, 255, 0.15);
+  box-shadow: 0 0 18px rgba(0, 175, 255, 0.15);
+  opacity: 0.6;
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+  0% {
+    opacity: 0.4;
+    box-shadow: 0 0 10px rgba(0, 175, 255, 0.1);
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow: 0 0 24px rgba(0, 175, 255, 0.25);
+  }
+  100% {
+    opacity: 0.4;
+    box-shadow: 0 0 10px rgba(0, 175, 255, 0.1);
+  }
 }
 
 @keyframes fadeIn {
@@ -151,46 +201,56 @@ button {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ============================================================
+   TEXT
+   ============================================================ */
+
 .login-form h2 {
   color: var(--logo-text);
   font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 6px;
   text-align: center;
 }
 
 .login-subtitle {
   color: var(--logo-secondary);
   text-align: center;
-  margin-bottom: 24px;
-  font-size: 0.95rem;
+  margin-bottom: 22px;
 }
 
 /* ============================================================
-   FORM FIELD WRAPPER — aligns label + input cleanly
+   ERROR
+   ============================================================ */
+
+.login-error {
+  margin-bottom: 14px;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: rgba(255, 77, 79, 0.08);
+  border: 1px solid rgba(255, 77, 79, 0.4);
+  color: #ff4d4f;
+  text-align: center;
+  box-shadow: 0 0 8px rgba(255, 77, 79, 0.25);
+}
+
+/* ============================================================
+   FORM
    ============================================================ */
 
 .login-field {
   display: flex;
   flex-direction: column;
-  width: 100%;
   margin-bottom: 18px;
 }
 
-/* Left-align labels */
 .login-label {
-  text-align: left;
   margin-bottom: 6px;
-  font-size: 0.95rem;
   color: var(--logo-text);
-  display: flex;
-  align-items: center;
+  font-size: 0.95rem;
 }
 
-/* Space between label text and input */
 .label-spacer {
-  width: 8px;
   display: inline-block;
+  width: 8px;
 }
 
 /* ============================================================
@@ -198,45 +258,54 @@ button {
    ============================================================ */
 
 .login-input {
-  width: 100%;
   padding: 12px;
-  background: #0f1115;
+  background: rgba(15, 17, 21, 0.85);
   border: 1px solid var(--grid-line);
   border-radius: var(--radius);
   color: var(--logo-text);
-  transition: var(--transition);
+  transition: all 0.2s ease;
 }
 
-/* Remove iOS blue glow + neon pulse */
+.login-input:hover {
+  border-color: rgba(0, 175, 255, 0.4);
+}
+
 .login-input:focus {
   border-color: var(--logo-primary);
   outline: none;
-  animation: inputPulse 1.6s ease-in-out infinite;
+  box-shadow:
+    0 0 6px rgba(0, 175, 255, 0.4),
+    0 0 14px rgba(0, 175, 255, 0.3);
 }
 
 /* ============================================================
-   BUTTON — centered under the form
+   BUTTON
    ============================================================ */
 
 .login-btn {
   width: 100%;
-  display: block;
-  margin: 10px auto 0 auto;
+  margin-top: 10px;
   padding: 14px;
-  background: var(--logo-primary);
-  color: #000;
+  background: linear-gradient(135deg, #00afff, #0077cc);
   border: none;
   border-radius: var(--radius);
-  cursor: pointer;
-  font-size: 1rem;
+
   font-weight: 600;
-  transition: var(--transition);
-  touch-action: manipulation;
+  font-size: 1rem;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
 }
 
 .login-btn:hover {
-  background: var(--logo-secondary);
-  box-shadow: 0 0 10px var(--logo-primary);
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 12px rgba(0, 175, 255, 0.5),
+    0 0 20px rgba(0, 175, 255, 0.25);
+}
+
+.login-btn:active {
+  transform: scale(0.98);
 }
 
 .login-btn:disabled {
@@ -245,110 +314,20 @@ button {
 }
 
 /* ============================================================
-   FOOTER
-   ============================================================ */
-
-.login-footer {
-  margin-top: 18px;
-  text-align: center;
-}
-
-.login-footer a {
-  color: var(--logo-primary);
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.login-footer a:hover {
-  color: var(--logo-secondary);
-  text-shadow: 0 0 6px var(--logo-primary);
-}
-
-/* ============================================================
-   MOBILE BREAKPOINTS — Sentinel Ops Mobile Optimization
+   MOBILE
    ============================================================ */
 
 @media (max-width: 480px) {
   .login-form {
-    width: 92%;
-    padding: 26px;
+    width: 100%;
+    padding: 24px;
   }
 
   .login-logo {
     width: 150px;
   }
 
-  .login-logo-container::before {
-    width: 180px;
-    height: 180px;
+  .auth-layout {
+    padding: 16px;
   }
-}
-
-@media (max-width: 390px) {
-  .login-form {
-    width: 94%;
-    padding: 22px;
-  }
-
-  .login-logo {
-    width: 135px;
-  }
-
-  .login-logo-container::before {
-    width: 160px;
-    height: 160px;
-  }
-}
-
-/* ============================================================
-   TABLET BREAKPOINTS — Sentinel Ops Tablet Optimization
-   ============================================================ */
-
-@media (max-width: 1024px) {
-  .login-form {
-    width: 420px;
-    padding: 36px;
-  }
-
-  .login-logo {
-    width: 190px;
-  }
-
-  .login-logo-container::before {
-    width: 240px;
-    height: 240px;
-  }
-}
-
-@media (max-width: 768px) {
-  .login-form {
-    width: 380px;
-    padding: 32px;
-  }
-
-  .login-logo {
-    width: 170px;
-  }
-
-  .login-logo-container::before {
-    width: 210px;
-    height: 210px;
-  }
-}
-
-/* ============================================================
-   ANIMATED INPUT FOCUS BORDERS — Sentinel Ops Neon Pulse
-   ============================================================ */
-
-@keyframes inputPulse {
-  0% {
-    box-shadow: 0 0 6px var(--logo-primary), 0 0 0px rgba(0, 175, 255, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 10px var(--logo-primary), 0 0 12px rgba(0, 175, 255, 0.35);
-  }
-  100% {
-    box-shadow: 0 0 6px var(--logo-primary), 0 0 0px rgba(0, 175, 255, 0.25);
-  }
-}
-
+}  /* ← ⭐ THIS WAS THE MISSING BRACE */

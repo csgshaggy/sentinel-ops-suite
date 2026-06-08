@@ -1,6 +1,15 @@
-/* Sentinel Ops — User Management */
+/* ============================================================
+   SentinelOps — Admin User Management (Neon‑Glassy Unified Theme)
+   Aligns with AdminPanel.css + AdminUsers.jsx + unified tables
+   ============================================================ */
 
-.user-mgmt-container {
+/* ------------------------------------------------------------
+   Container (AdminPanel already provides base styling)
+   ------------------------------------------------------------ */
+.user-mgmt-container,
+.admin-panel {
+  padding: 20px;
+  color: var(--text-primary);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -8,41 +17,155 @@
   box-sizing: border-box;
 }
 
-/* Table wrapper */
-.user-table-wrapper {
-  background: rgba(255, 255, 255, 0.06);
+/* ------------------------------------------------------------
+   Neon‑Glassy Table Wrapper (Unified Admin Style)
+   ------------------------------------------------------------ */
+.user-table-wrapper,
+.admin-table-wrapper {
+  background: var(--glass-bg);
   border: 1px solid var(--neon-accent-soft);
-  border-radius: 12px;
+  border-radius: var(--radius);
 
-  padding: 16px 20px;
+  padding: 18px;
   box-sizing: border-box;
 
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
 
+  box-shadow: 0 0 12px var(--neon-accent-glow);
+
   overflow-x: auto;
 }
 
-/* Table */
-.user-table {
+/* ------------------------------------------------------------
+   Unified Admin Table
+   ------------------------------------------------------------ */
+.user-table,
+.admin-table {
   width: 100%;
   border-collapse: collapse;
+  color: var(--text-primary);
+  font-size: 14px;
 }
 
 .user-table th,
-.user-table td {
+.user-table td,
+.admin-table th,
+.admin-table td {
   padding: 10px 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+}
+
+.user-table th,
+.admin-table th {
   text-align: left;
-  font-size: 14px;
-  color: var(--text-primary);
-}
-
-.user-table th {
-  color: var(--text-secondary);
   font-weight: 600;
-  border-bottom: 1px solid var(--neon-accent-soft);
+  color: var(--text-primary);
+  background: rgba(0, 255, 255, 0.05);
 }
 
-.user-table tr:hover {
-  background: rgba(255, 255, 255, 0.06);
+.user-table tr:hover,
+.admin-table tr:hover {
+  background: rgba(0, 255, 255, 0.08);
+}
+
+/* ------------------------------------------------------------
+   Status Badges (Unified)
+   ------------------------------------------------------------ */
+.admin-status {
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-active {
+  background: rgba(0, 255, 140, 0.15);
+  border: 1px solid rgba(0, 255, 140, 0.35);
+  color: #00ff8c;
+}
+
+.status-disabled {
+  background: rgba(255, 60, 60, 0.15);
+  border: 1px solid rgba(255, 60, 60, 0.35);
+  color: #ff3c3c;
+}
+
+/* ------------------------------------------------------------
+   Empty State (Unified)
+   ------------------------------------------------------------ */
+.admin-empty {
+  text-align: center;
+  padding: 16px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* ------------------------------------------------------------
+   Buttons (Unified Admin Buttons)
+   ------------------------------------------------------------ */
+.admin-btn {
+  padding: 10px 16px;
+  background: rgba(0, 255, 255, 0.15);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.admin-btn:hover {
+  background: rgba(0, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.admin-btn-danger {
+  background: rgba(255, 60, 60, 0.2);
+  border-color: rgba(255, 60, 60, 0.4);
+}
+
+.admin-btn-danger:hover {
+  background: rgba(255, 60, 60, 0.3);
+}
+
+/* ------------------------------------------------------------
+   Form Layout (Unified)
+   ------------------------------------------------------------ */
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.admin-form input,
+.admin-form select {
+  width: 100%;
+  padding: 10px;
+  background: rgba(15, 15, 25, 0.6);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+  outline: none;
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 6px var(--neon-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   Actions Row
+   ------------------------------------------------------------ */
+.admin-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
 }

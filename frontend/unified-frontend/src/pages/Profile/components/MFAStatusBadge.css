@@ -1,0 +1,43 @@
+/* -----------------------------------------------------------
+   SentinelOps — MFA Status Badge
+------------------------------------------------------------ */
+
+.mfa-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mfa-status-badge.enabled {
+  background: rgba(0, 255, 170, 0.15);
+  border-color: rgba(0, 255, 170, 0.35);
+  color: #9fffd9;
+  box-shadow: 0 0 10px rgba(0, 255, 170, 0.25);
+}
+
+.mfa-status-badge.disabled {
+  background: rgba(255, 80, 80, 0.15);
+  border-color: rgba(255, 80, 80, 0.35);
+  color: #ffb3b3;
+  box-shadow: 0 0 10px rgba(255, 80, 80, 0.25);
+}
+
+.mfa-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.mfa-status-badge.enabled .mfa-status-dot {
+  background: #00ff99;
+}
+
+.mfa-status-badge.disabled .mfa-status-dot {
+  background: #ff4d4d;
+}

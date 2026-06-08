@@ -1,0 +1,54 @@
+diff --git a/app/routers/admin.py b/app/routers/admin.py
+index 1234567..abcdef0 100644
+--- a/app/routers/admin.py
++++ b/app/routers/admin.py
+@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
+ from sqlalchemy.orm import Session
+ from app.schemas.user import UserCreate, UserOut
+-from app.dependencies import get_db
++from app.db.session import get_db
+
+ router = APIRouter(prefix="/admin", tags=["Admin"])
+
+diff --git a/app/routers/mfa.py b/app/routers/mfa.py
+index 1234567..abcdef0 100644
+--- a/app/routers/mfa.py
++++ b/app/routers/mfa.py
+@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
+ from sqlalchemy.orm import Session
+-from app.dependencies import get_db
++from app.db.session import get_db
+ from app.schemas.user import UserOut
+
+ router = APIRouter(prefix="/mfa", tags=["MFA"])
+
+diff --git a/app/routers/settings_router.py b/app/routers/settings_router.py
+index 1234567..abcdef0 100644
+--- a/app/routers/settings_router.py
++++ b/app/routers/settings_router.py
+@@ -3,7 +3,8 @@ from fastapi import APIRouter, Depends
+-from app.dependencies import get_db, get_current_user
++from app.db.session import get_db
++from app.dependencies.auth import get_current_user
+
+ router = APIRouter(prefix="/settings", tags=["Settings"])
+
+diff --git a/app/api/routes/settings.py b/app/api/routes/settings.py
+index 1234567..abcdef0 100644
+--- a/app/api/routes/settings.py
++++ b/app/api/routes/settings.py
+@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
+ from sqlalchemy.orm import Session
+-from app.dependencies import get_db
++from app.db.session import get_db
+
+ router = APIRouter(prefix="/settings", tags=["Settings API"])
+
+diff --git a/app/dependencies/session.py b/app/dependencies/session.py
+index 1234567..abcdef0 100644
+--- a/app/dependencies/session.py
++++ b/app/dependencies/session.py
+@@ -3,7 +3,7 @@ from fastapi import Depends
+-from app.dependencies import get_db
++from app.db.session import get_db
+ from app.schemas.session import SessionOut

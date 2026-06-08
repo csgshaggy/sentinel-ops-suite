@@ -1,0 +1,34 @@
+/* -----------------------------------------------------------
+   SentinelOps — Avatar Upload Progress
+------------------------------------------------------------ */
+
+.avatar-upload-progress {
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.avatar-upload-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.avatar-upload-bar-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #00eaff, #0077ff);
+  transition: width 0.2s ease;
+}
+
+.avatar-upload-label {
+  font-size: 0.9rem;
+  color: #b8eaff;
+  text-align: center;
+}

@@ -1,278 +1,135 @@
-// /src/components/UserMenu.jsx
-import React, { useState, useRef, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../features/auth/AuthContext.jsx";
-import "./UserMenu.css";
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { User, LogOut, Settings, ChevronDown } from "lucide-react";
+import { GlassPanel, NeonDivider } from "@/components/ui";
 
-export default function UserMenu({ initials = "U" }) {
-  const { logout } = useAuth();
-  const navigate = useNavigate();
-
+export default function UserMenu({ user, onLogout }) {
   const [open, setOpen] = useState(false);
-  const [submenuOpen, setSubmenuOpen] = useState(false);
+  const menuRef = useRef(null);
 
-  const avatarRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const submenuRef = useRef(null);
+  const toggleMenu = () => setOpen((prev) => !prev);
 
-  const toggle = () => setOpen((v) => !v);
-
-  /* -----------------------------------------------------------
-     CLICK OUTSIDE
-  ------------------------------------------------------------ */
   useEffect(() => {
-    if (!open) return;
-
-    const handleClick = (e) => {
-      const avatar = avatarRef.current;
-      const dropdown = dropdownRef.current;
-
-      if (!avatar || !dropdown) return;
-
-      const insideAvatar = avatar.contains(e.target);
-      const insideDropdown = dropdown.contains(e.target);
-
-      if (!insideAvatar && !insideDropdown) {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
         setOpen(false);
-        setSubmenuOpen(false);
       }
-    };
-
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("touchstart", handleClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("touchstart", handleClick);
-    };
-  }, [open]);
-
-  /* -----------------------------------------------------------
-     POSITION DROPDOWN
-  ------------------------------------------------------------ */
-  const [coords, setCoords] = useState({ top: 0, left: 0 });
-
-  useEffect(() => {
-    if (!open || !avatarRef.current) return;
-
-    const rect = avatarRef.current.getBoundingClientRect();
-    const isMobile = window.innerWidth < 600;
-    const dropdownWidth = isMobile ? 220 : 180;
-    const margin = 8;
-
-    let left = rect.left - 70;
-    let top = rect.bottom + margin;
-
-    const maxLeft = window.innerWidth - dropdownWidth - margin;
-    const minLeft = margin;
-    left = Math.max(minLeft, Math.min(left, maxLeft));
-
-    const dropdownHeight = isMobile ? 300 : 240;
-    const maxTop = window.innerHeight - dropdownHeight - margin;
-    top = Math.max(margin, Math.min(top, maxTop));
-
-    setCoords({ top, left });
-  }, [open]);
-
-  /* -----------------------------------------------------------
-     REPOSITION ON RESIZE
-  ------------------------------------------------------------ */
-  useEffect(() => {
-    if (!open) return;
-
-    const handleRecalc = () => {
-      if (!avatarRef.current) return;
-      const rect = avatarRef.current.getBoundingClientRect();
-      setCoords({
-        top: rect.bottom + 8,
-        left: rect.left - 70,
-      });
-    };
-
-    window.addEventListener("resize", handleRecalc);
-    window.addEventListener("orientationchange", handleRecalc);
-
-    return () => {
-      window.removeEventListener("resize", handleRecalc);
-      window.removeEventListener("orientationchange", handleRecalc);
-    };
-  }, [open]);
-
-  /* -----------------------------------------------------------
-     KEYBOARD NAVIGATION
-  ------------------------------------------------------------ */
-  const handleKeyDown = (e) => {
-    if (!open) return;
-
-    switch (e.key) {
-      case "Escape":
-        setOpen(false);
-        setSubmenuOpen(false);
-        break;
-
-      case "ArrowRight":
-        if (!submenuOpen) setSubmenuOpen(true);
-        break;
-
-      case "ArrowLeft":
-        if (submenuOpen) setSubmenuOpen(false);
-        break;
-
-      default:
-        break;
     }
-  };
 
-  /* -----------------------------------------------------------
-     ICONS
-  ------------------------------------------------------------ */
-  const IconProfile = (
-    <svg className="icon menu-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="2">
-      <circle cx="12" cy="7" r="4" />
-      <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
-    </svg>
-  );
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
 
-  const IconSettings = (
-    <svg className="icon menu-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="2">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 
-               2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 
-               1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 
-               1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 
-               2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 
-               1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 
-               1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 
-               2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01A1.65 
-               1.65 0 0 0 9 3.09V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 
-               1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 
-               2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01A1.65 
-               1.65 0 0 0 21 12h.09a2 2 0 1 1 0 4h-.09a1.65 
-               1.65 0 0 0-1.51 1z" />
-    </svg>
-  );
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
 
-  const IconLogout = (
-    <svg className="icon menu-icon" viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth="2">
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <polyline points="16 17 21 12 16 7" />
-      <line x1="21" y1="12" x2="9" y2="12" />
-    </svg>
-  );
-
-  /* -----------------------------------------------------------
-     RENDER
-  ------------------------------------------------------------ */
   return (
-    <div className="user-menu">
-      <div
-        className="user-avatar"
-        ref={avatarRef}
-        onClick={toggle}
-        aria-haspopup="true"
-        aria-expanded={open}
-        aria-label="User menu"
+    <div ref={menuRef} className="relative">
+      {/* Trigger */}
+      <button
+        onClick={toggleMenu}
+        className="group flex items-center gap-2 px-3 py-1.5 rounded-xl glass-panel hover-glow"
       >
-        <span className="ripple-layer"></span>
-        <span className="hud-inner-ring"></span>
-        {initials}
-      </div>
+        <Avatar name={user?.name} />
 
-      {open &&
-        createPortal(
-          <div
-            className={`user-dropdown ${open ? "open" : "closing"}`}
-            ref={dropdownRef}
-            onKeyDown={handleKeyDown}
-            role="menu"
-            style={{
-              position: "fixed",
-              top: coords.top,
-              left: coords.left,
-            }}
+        <span className="hidden sm:block text-sm text-white/80 group-hover:text-white transition">
+          {user?.name || "User"}
+        </span>
+
+        <ChevronDown
+          size={16}
+          className={`text-white/50 transition-transform duration-300 ${
+            open ? "rotate-180 text-cyan-300" : ""
+          }`}
+        />
+      </button>
+
+      {/* Dropdown */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -12, scale: 0.94 }}
+            animate={{ opacity: 1, y: 10, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.94 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="absolute right-0 mt-3 w-60 z-50"
           >
-            {/* PROFILE — NOW WITH CONSOLE LOG */}
-            <button
-              className="dropdown-item"
-              role="menuitem"
-              onClick={() => {
-                console.log("PROFILE CLICKED");
-                navigate("/profile");
-                setOpen(false);
-                setSubmenuOpen(false);
-              }}
-            >
-              {IconProfile}
-              Profile
-            </button>
+            <GlassPanel className="relative overflow-hidden rounded-2xl">
+              {/* Glow Border */}
+              <div className="pointer-events-none absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-cyan-400/40 via-purple-500/30 to-blue-400/40 blur-[1px] opacity-80" />
 
-            <div className="submenu-wrapper">
-              <button
-                className="dropdown-item"
-                role="menuitem"
-                aria-haspopup="true"
-                aria-expanded={submenuOpen}
-                onClick={() => setSubmenuOpen((v) => !v)}
-              >
-                {IconSettings}
-                Settings
-              </button>
+              <div className="relative">
+                <MenuHeader user={user} />
 
-              {submenuOpen && (
-                <div className="submenu" ref={submenuRef} role="menu">
-                  <button
-                    className="submenu-item"
-                    role="menuitem"
-                    onClick={() => {
-                      navigate("/profile");
-                      setOpen(false);
-                      setSubmenuOpen(false);
-                    }}
-                  >
-                    Account
-                  </button>
+                <div className="flex flex-col py-1">
+                  <MenuItem icon={<User size={16} />} label="Profile" />
+                  <MenuItem icon={<Settings size={16} />} label="Settings" />
 
-                  <button
-                    className="submenu-item"
-                    role="menuitem"
-                    onClick={() => {
-                      navigate("/profile");
-                      setOpen(false);
-                      setSubmenuOpen(false);
-                    }}
-                  >
-                    Security
-                  </button>
+                  <div className="px-3 py-1">
+                    <NeonDivider />
+                  </div>
 
-                  <button
-                    className="submenu-item"
-                    role="menuitem"
-                    onClick={() => {
-                      navigate("/profile");
-                      setOpen(false);
-                      setSubmenuOpen(false);
-                    }}
-                  >
-                    Preferences
-                  </button>
+                  <MenuItem
+                    icon={<LogOut size={16} />}
+                    label="Logout"
+                    onClick={onLogout}
+                    danger
+                  />
                 </div>
-              )}
-            </div>
-
-            <div className="user-menu-divider"></div>
-
-            <button
-              className="dropdown-item logout"
-              role="menuitem"
-              onClick={() => logout()}
-            >
-              {IconLogout}
-              Logout
-            </button>
-          </div>,
-          document.body
+              </div>
+            </GlassPanel>
+          </motion.div>
         )}
+      </AnimatePresence>
     </div>
+  );
+}
+
+/* ========================
+   Subcomponents
+======================== */
+
+function Avatar({ name }) {
+  return (
+    <div className="relative w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-purple-500 flex items-center justify-center text-black font-bold shadow-[0_0_10px_rgba(0,255,255,0.6)]">
+      {name?.[0] || "U"}
+      <div className="absolute inset-0 rounded-full border border-cyan-400/40 blur-[2px]" />
+    </div>
+  );
+}
+
+function MenuHeader({ user }) {
+  return (
+    <div className="px-4 py-3 border-b border-white/10">
+      <p className="text-white text-sm font-medium tracking-wide">
+        {user?.name || "Guest User"}
+      </p>
+      <p className="text-xs text-cyan-300/70">
+        {user?.email || "no-email@example.com"}
+      </p>
+    </div>
+  );
+}
+
+function MenuItem({ icon, label, onClick, danger = false }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`group relative flex items-center gap-3 px-4 py-2.5 text-sm overflow-hidden transition-all duration-200 ${
+        danger
+          ? "text-red-400 hover:text-red-300"
+          : "text-white/70 hover:text-white"
+      }`}
+    >
+      <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300 bg-gradient-to-r from-cyan-500/10 via-transparent to-purple-500/10" />
+
+      <span className="relative opacity-70 group-hover:opacity-100 transition">
+        {icon}
+      </span>
+
+      <span className="relative">{label}</span>
+    </button>
   );
 }

@@ -1,41 +1,32 @@
 // /src/components/ProtectedRoute.jsx
+// SentinelOps — Protected Route (React Router v6 + Layout-Compatible)
 
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../features/auth/AuthContext.jsx";
 import { isAuthRoute } from "../utils/isAuthRoute.js";
 
-/**
- * ProtectedRoute
- * - Blocks access unless user is authenticated
- * - Skips protection for public routes (login, mfa)
- * - Prevents redirect loops
- */
-export default function ProtectedRoute({ children }) {
+export default function ProtectedRoute() {
   const { user, loading } = useAuth();
   const location = useLocation();
 
   const isPublic = isAuthRoute(location.pathname);
 
-  // Public routes should NEVER be protected
+  // Public routes bypass protection
   if (isPublic) {
-    return children;
+    return <Outlet />;
   }
 
-  // Still restoring session → don't redirect yet
+  // Wait for session restore
   if (loading) {
     return null;
   }
 
   // Not authenticated → redirect to login
   if (!user) {
-    return (
-      <Navigate
-        to={`/login?redirectTo=${encodeURIComponent(location.pathname)}`}
-        replace
-      />
-    );
+    const redirectTo = encodeURIComponent(location.pathname);
+    return <Navigate to={`/login?redirectTo=${redirectTo}`} replace />;
   }
 
-  // Authenticated → render wrapped tree
-  return children;
+  // Authenticated → allow nested routes to render
+  return <Outlet />;
 }

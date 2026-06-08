@@ -1,29 +1,15 @@
 // /src/components/RoleProtectedRoute.jsx
+// SentinelOps — Role-Based Route Guard (React Router v6 + Layout-Compatible)
 
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../features/auth/AuthContext.jsx";
 import { toast } from "./ToastManager.jsx";
 
-/**
- * RoleProtectedRoute
- *
- * Ensures:
- *   - AuthContext has completed session restore
- *   - User is authenticated
- *   - User has one of the allowed roles
- *   - Redirects to /login if unauthenticated
- *   - Redirects to / if authenticated but unauthorized
- *   - No inline UI (toast-only migration)
- */
-export default function RoleProtectedRoute({
-  allowedRoles = [],
-  children,
-  onError,
-}) {
+export default function RoleProtectedRoute({ allowedRoles = [], onError }) {
   const { user, isAuthenticated, loading } = useAuth();
   const location = useLocation();
 
-  // Still restoring session → block rendering silently
+  // Wait for session restore
   if (loading) {
     return null;
   }
@@ -43,7 +29,7 @@ export default function RoleProtectedRoute({
     );
   }
 
-  // Missing or invalid role → unauthorized
+  // Missing role → unauthorized
   if (!user.role) {
     toast.error("Access denied: no role assigned.");
     return <Navigate to="/" replace />;
@@ -55,6 +41,6 @@ export default function RoleProtectedRoute({
     return <Navigate to="/" replace />;
   }
 
-  // Authorized → allow access
-  return children;
+  // Authorized → allow nested routes to render
+  return <Outlet />;
 }

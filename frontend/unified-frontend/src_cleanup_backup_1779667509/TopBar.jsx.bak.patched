@@ -1,0 +1,51 @@
+// /src/components/TopBar.jsx
+
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../features/auth/AuthContext.jsx";
+import { useLogout } from "../hooks/useLogout.js";
+
+import UserMenu from "./UserMenu.jsx";   // ensure .jsx extension for Vite consistency
+import "./TopBar.css";
+
+export default function TopBar() {
+  const { user, loading, setUser } = useAuth();
+  const navigate = useNavigate();
+  const logout = useLogout(setUser);
+
+  // Avoid flicker during session restore
+  if (loading) {
+    return null;
+  }
+
+  // Derive initials safely (matches new UserMenu.jsx)
+  const initials =
+    user?.initials ||
+    (user?.username?.trim()
+      ? user.username.charAt(0).toUpperCase()
+      : user?.email
+      ? user.email.charAt(0).toUpperCase()
+      : "U");
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
+
+  return (
+    <header className="topbar topbar-zfix">
+      {/* LEFT: reserved for breadcrumbs, status, etc. */}
+      <div className="topbar-left" />
+
+      {/* CENTER: layout balancer */}
+      <div className="topbar-center" />
+
+      {/* RIGHT: User Menu (portal-based dropdown) */}
+      <div className="topbar-right">
+        {user ? (
+          <UserMenu initials={initials} onLogout={handleLogout} user={user} />
+        ) : null}
+      </div>
+    </header>
+  );
+}

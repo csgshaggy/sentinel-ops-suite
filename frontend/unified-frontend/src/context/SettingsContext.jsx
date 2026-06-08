@@ -9,7 +9,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 
-const SettingsContext = createContext(null);
+// ⭐ FIXED: Export the context so Settings.jsx can import it
+export const SettingsContext = createContext(null);
 
 export function SettingsProvider({ children }) {
   const [settings, setSettings] = useState(null);
@@ -111,6 +112,7 @@ export function SettingsProvider({ children }) {
   );
 }
 
+// ⭐ FIXED: This hook now works because SettingsContext is exported
 export function useSettings() {
   return useContext(SettingsContext);
 }

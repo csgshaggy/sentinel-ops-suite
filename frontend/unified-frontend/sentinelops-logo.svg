@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="200" viewBox="0 0 640 200">
+  <defs>
+    <!-- Background glow for shield -->
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#35f2ff" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#1b0f3b" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#05030f" stop-opacity="1"/>
+    </radialGradient>
+
+    <!-- Neon gradient stroke -->
+    <linearGradient id="neonStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#35f2ff"/>
+      <stop offset="50%" stop-color="#7b5cff"/>
+      <stop offset="100%" stop-color="#ff3df2"/>
+    </linearGradient>
+
+    <!-- Outer glow -->
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feColorMatrix
+        in="blur"
+        type="matrix"
+        values="0 0 0 0 0.2
+                0 0 0 0 0.9
+                0 0 0 0 1
+                0 0 0 0.8 0"/>
+    </filter>
+
+    <!-- Inner glow -->
+    <filter id="innerGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="arithmetic" k2="1" k3="-1"/>
+    </filter>
+
+    <!-- Text gradient -->
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#35f2ff"/>
+      <stop offset="50%" stop-color="#7b5cff"/>
+      <stop offset="100%" stop-color="#ff3df2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Shield Icon -->
+  <g transform="translate(20, 20) scale(0.55)">
+    <rect width="256" height="256" rx="64" fill="url(#bg)"/>
+    <circle cx="128" cy="128" r="92" fill="none" stroke="#35f2ff" stroke-width="4" filter="url(#glow)" opacity="0.9"/>
+
+    <path
+      d="M128 56
+         L88 72
+         V124
+         C88 154 104 182 128 196
+         C152 182 168 154 168 124
+         V72
+         Z"
+      fill="rgba(5, 5, 20, 0.75)"
+      stroke="url(#neonStroke)"
+      stroke-width="4"
+      filter="url(#innerGlow)"
+    />
+
+    <path
+      d="M112 98
+         C112 88 120 82 132 82
+         C144 82 152 88 152 98
+         C152 108 146 112 136 114
+         L128 116
+         C120 118 116 121 116 128
+         C116 134 121 138 130 138
+         C138 138 144 135 148 130
+         L152 136
+         C146 144 138 148 129 148
+         C116 148 108 140 108 129
+         C108 119 114 113 124 111
+         L132 109
+         C140 107 144 104 144 98
+         C144 92 139 88 132 88
+         C124 88 120 92 118 98
+         Z"
+      fill="#35f2ff"
+      opacity="0.95"
+    />
+  </g>
+
+  <!-- SentinelOps Text -->
+  <text x="260" y="120"
+        font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        font-size="72"
+        font-weight="700"
+        fill="url(#textGrad)"
+        letter-spacing="2">
+    Sentinel
+  </text>
+
+  <text x="260" y="170"
+        font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        font-size="48"
+        font-weight="300"
+        fill="#d0d0ff"
+        letter-spacing="4">
+    OPS SUITE
+  </text>
+</svg>

@@ -1,0 +1,181 @@
+/* ------------------------------------------------------------
+   SentinelOps — Utility Classes
+   Glass panels, page containers, layout primitives
+------------------------------------------------------------- */
+
+@import "./theme.css";
+
+/* ------------------------------------------------------------
+   GLASS PANEL
+   Used for cards, panels, profile sections, dashboard widgets
+------------------------------------------------------------- */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  padding: 20px;
+}
+
+/* Stronger glass (for modals, top-level panels) */
+.glass-strong {
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+  padding: 24px;
+}
+
+/* ------------------------------------------------------------
+   PAGE CONTAINER
+   Wraps every main page (Dashboard, Profile, Admin, etc.)
+------------------------------------------------------------- */
+.page-container {
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  padding: 32px;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Page container with glass background */
+.page-container.glass {
+  background: var(--background-panel);
+  border-radius: var(--radius);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ------------------------------------------------------------
+   SECTION WRAPPER
+   Used inside pages for grouping content
+------------------------------------------------------------- */
+.section {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ------------------------------------------------------------
+   FLEX UTILITIES
+------------------------------------------------------------- */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------------
+   GRID UTILITIES
+------------------------------------------------------------- */
+.grid {
+  display: grid;
+  gap: var(--grid-gap);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--grid-gap);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--grid-gap);
+}
+
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--grid-gap);
+}
+
+/* ------------------------------------------------------------
+   WIDTH UTILITIES
+------------------------------------------------------------- */
+.w-full {
+  width: 100%;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+/* ------------------------------------------------------------
+   TEXT UTILITIES
+------------------------------------------------------------- */
+.text-glow {
+  color: var(--text-primary);
+  text-shadow: var(--glow-cyan);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+/* ------------------------------------------------------------
+   BORDER UTILITIES
+------------------------------------------------------------- */
+.border {
+  border: 1px solid var(--glass-border);
+}
+
+.rounded {
+  border-radius: var(--radius);
+}
+
+.rounded-sm {
+  border-radius: var(--radius-sm);
+}
+
+/* ------------------------------------------------------------
+   SPACING UTILITIES (extended)
+------------------------------------------------------------- */
+.gap-1 { gap: 8px; }
+.gap-2 { gap: 16px; }
+.gap-3 { gap: 24px; }
+.gap-4 { gap: 32px; }
+
+.p-4 { padding: 32px; }
+.m-4 { margin: 32px; }
+
+/* ------------------------------------------------------------
+   ANIMATION UTILITIES
+------------------------------------------------------------- */
+.fade-in {
+  animation: fadeIn 0.25s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,113 @@
+// ============================================================
+// SentinelOps — Unified Router (Zero Drift, No Redirect Loops)
+// ============================================================
+
+import React from "react";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
+
+import App from "./App.jsx";
+
+// Public pages
+import Login from "./pages/Login.jsx";
+import ForgotPasswordRequest from "./pages/ForgotPasswordRequest.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+
+// Authenticated pages
+import Dashboard from "./pages/Dashboard.jsx";
+import Security from "./pages/Security.jsx";
+import Profile from "./pages/Profile/Profile.jsx";
+
+// ⭐ USER PREFERENCES PAGE
+import Preferences from "./pages/Preferences.jsx";
+
+// ⭐ ADMIN PREFERENCES PAGE (NEW)
+import AdminPreferences from "./pages/Admin/AdminPreferences.jsx";
+
+// Admin pages
+import AdminUsers from "./pages/AdminUsers.jsx";
+import AdminAuditLogs from "./pages/AdminAuditLogs.jsx";
+
+// Layouts
+import Layout from "./components/Layout.jsx";
+import ProtectedLayout from "./layouts/ProtectedLayout.jsx";
+
+// Route guards
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import RoleProtectedRoute from "./components/RoleProtectedRoute.jsx";
+
+// Errors
+import NotFound from "./pages/NotFound.jsx";
+import ServerError from "./pages/ServerError.jsx";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      // ------------------------------------------------------------
+      // PUBLIC ROUTES
+      // ------------------------------------------------------------
+      { index: true, element: <Navigate to="/login" replace /> },
+      { path: "login", element: <Login /> },
+      { path: "forgot-password", element: <ForgotPasswordRequest /> },
+      { path: "reset-password", element: <ResetPassword /> },
+
+      // ------------------------------------------------------------
+      // AUTHENTICATED ROUTES
+      // ------------------------------------------------------------
+      {
+        element: (
+          <ProtectedRoute>
+            <Outlet />
+          </ProtectedRoute>
+        ),
+        children: [
+          {
+            element: <ProtectedLayout />,
+            children: [
+              {
+                element: <Layout />,
+                children: [
+                  // MAIN AUTHENTICATED ROUTES
+                  { path: "dashboard", element: <Dashboard /> },
+                  { path: "security", element: <Security /> },
+                  { path: "profile", element: <Profile /> },
+
+                  // USER PREFERENCES
+                  { path: "preferences", element: <Preferences /> },
+
+                  // ------------------------------------------------------------
+                  // ADMIN ROUTES
+                  // ------------------------------------------------------------
+                  {
+                    path: "admin",
+                    element: (
+                      <RoleProtectedRoute allowedRoles={["admin"]}>
+                        <Outlet />
+                      </RoleProtectedRoute>
+                    ),
+                    children: [
+                      { path: "users", element: <AdminUsers /> },
+                      { path: "audit-logs", element: <AdminAuditLogs /> },
+
+                      // ⭐ NEW — ADMIN PREFERENCES ROUTE
+                      { path: "preferences", element: <AdminPreferences /> },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
+      // ------------------------------------------------------------
+      // ERROR ROUTES
+      // ------------------------------------------------------------
+      { path: "500", element: <ServerError /> },
+      { path: "*", element: <NotFound /> },
+    ],
+  },
+]);
+
+export default router;

@@ -47,7 +47,7 @@
 /* Logo */
 .lockdown-logo {
   width: 200px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   filter: drop-shadow(0 0 18px red);
   z-index: 2;
 }

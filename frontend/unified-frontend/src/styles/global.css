@@ -1,23 +1,291 @@
+/* ------------------------------------------------------------
+   SentinelOps — Global Cyber/Glass Stylesheet (Final System)
+------------------------------------------------------------- */
+
+@import "./theme.css";
+
+/* ------------------------------------------------------------
+   ROOT DESIGN TOKENS
+------------------------------------------------------------- */
+
+:root {
+  /* Glass System */
+  --glass-bg: rgba(0, 0, 0, 0.35);
+  --glass-bg-strong: rgba(0, 0, 0, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Neon System */
+  --neon-cyan: #00ffff;
+  --neon-purple: #8b5cf6;
+  --neon-blue: #38bdf8;
+
+  /* Text */
+  --text-primary: #e8faff;
+  --text-secondary: rgba(200, 240, 255, 0.7);
+  --text-muted: rgba(200, 240, 255, 0.5);
+
+  /* Glow System */
+  --glow-soft: 0 0 15px rgba(0, 255, 255, 0.15);
+  --glow-medium: 0 0 25px rgba(0, 255, 255, 0.25);
+  --glow-strong: 0 0 35px rgba(0, 255, 255, 0.4);
+
+  /* Blur Levels (new) */
+  --blur-sm: blur(12px);
+  --blur-md: blur(18px);
+  --blur-lg: blur(24px);
+
+  /* Radius */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+}
+
+/* ------------------------------------------------------------
+   RESET
+------------------------------------------------------------- */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
 }
+
+/* ------------------------------------------------------------
+   ROOT LAYOUT
+------------------------------------------------------------- */
 
 html, body, #root {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: var(--bg-root);
+
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,255,255,0.06), transparent),
+    radial-gradient(circle at 80% 30%, rgba(139,92,246,0.06), transparent),
+    #05070d;
+
   color: var(--text-primary);
   font-family: "Inter", sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* ------------------------------------------------------------
+   LINKS
+------------------------------------------------------------- */
+
 a {
-  color: inherit;
+  color: var(--neon-cyan);
   text-decoration: none;
 }
 
+a:hover {
+  color: #a5f3fc;
+  text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* ------------------------------------------------------------
+   BUTTONS (SYSTEM ALIGNED)
+------------------------------------------------------------- */
+
 button {
   font-family: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* Base button */
+.btn {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-md);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glow-soft);
+}
+
+/* Base hover */
+.btn:hover {
+  box-shadow: var(--glow-medium);
+}
+
+/* Primary */
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    rgba(0,255,255,0.2),
+    rgba(139,92,246,0.25)
+  );
+  border: 1px solid rgba(0,255,255,0.35);
+  color: white;
+}
+
+.btn-primary:hover {
+  box-shadow: var(--glow-strong);
+}
+
+/* Secondary */
+.btn-secondary {
+  background: var(--glass-bg);
+  color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Danger */
+.btn-danger {
+  background: rgba(255, 80, 80, 0.12);
+  border: 1px solid rgba(255, 80, 80, 0.3);
+  color: #ff6b6b;
+}
+
+.btn-danger:hover {
+  box-shadow: 0 0 18px rgba(255, 80, 80, 0.6);
+}
+
+/* ------------------------------------------------------------
+   INPUTS (GLASS)
+------------------------------------------------------------- */
+
+input, select, textarea {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+
+  color: var(--text-primary);
+  backdrop-filter: var(--blur-sm);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0,255,255,0.4);
+}
+
+/* ------------------------------------------------------------
+   SCROLLBARS
+------------------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0,255,255,0.25);
+  border-radius: var(--radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-cyan);
+}
+
+/* ------------------------------------------------------------
+   GLASS PANELS (UI CORE)
+------------------------------------------------------------- */
+
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--blur-md);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glow-soft);
+  border-radius: var(--radius-md);
+}
+
+/* Strong variant (dropdowns, modals) */
+.glass-panel-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--blur-lg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glow-medium);
+  border-radius: var(--radius-md);
+}
+
+/* Optional neon edge */
+.glass-panel::before,
+.glass-panel-strong::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  pointer-events: none;
+
+  background: linear-gradient(
+    135deg,
+    rgba(0,255,255,0.2),
+    transparent,
+    rgba(139,92,246,0.2)
+  );
+
+  opacity: 0.5;
+
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+}
+
+/* ------------------------------------------------------------
+   DIVIDER
+------------------------------------------------------------- */
+
+.neon-divider {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--neon-cyan),
+    transparent
+  );
+  opacity: 0.5;
+}
+
+/* ------------------------------------------------------------
+   INTERACTION UTILITIES
+------------------------------------------------------------- */
+
+.hover-glow:hover {
+  box-shadow: var(--glow-strong);
+}
+
+.hover-lift:hover {
+  transform: translateY(-1px);
+}
+
+/* ------------------------------------------------------------
+   TYPOGRAPHY
+------------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+p {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   ANIMATIONS
+------------------------------------------------------------- */
+
+.fade-in {
+  animation: fadeIn 0.25s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }

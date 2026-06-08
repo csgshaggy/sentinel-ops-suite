@@ -1,17 +1,21 @@
 // /src/pages/ResetPassword.jsx
+// ============================================================
+// SentinelOps — Reset Password (Unified)
+// ============================================================
 
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout.jsx";
 import { toast } from "../components/ToastManager.jsx";
-import { resetPassword } from "../api/auth";
+import client from "../api/apiClient.js";
 
 import "../styles/auth/ResetPassword.css";
 import logo from "../assets/SentinelOps.jpg";
 
 export default function ResetPassword() {
   const navigate = useNavigate();
-  const { token } = useParams();
+  const [params] = useSearchParams();
+  const token = params.get("token");
 
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
@@ -26,11 +30,16 @@ export default function ResetPassword() {
     }
 
     setLoading(true);
-    const res = await resetPassword(token, password);
+
+    const res = await client.post("/auth/reset-password", {
+      token,
+      password,
+    });
+
     setLoading(false);
 
-    if (res?.error) {
-      toast.error(res.error);
+    if (!res.ok) {
+      toast.error(res.data?.detail || "Failed to reset password.");
       return;
     }
 
@@ -40,7 +49,6 @@ export default function ResetPassword() {
 
   return (
     <AuthLayout>
-      {/* Logo */}
       <div className="auth-logo-container">
         <img src={logo} className="auth-logo" alt="Sentinel Ops" />
       </div>
@@ -48,7 +56,6 @@ export default function ResetPassword() {
       <form className="auth-card" onSubmit={handleSubmit}>
         <h2>Create New Password</h2>
 
-        {/* NEW PASSWORD FIELD */}
         <div className="float-field">
           <label className="float-label">
             <input
@@ -63,7 +70,6 @@ export default function ResetPassword() {
           </label>
         </div>
 
-        {/* CONFIRM PASSWORD FIELD */}
         <div className="float-field">
           <label className="float-label">
             <input
@@ -78,7 +84,6 @@ export default function ResetPassword() {
           </label>
         </div>
 
-        {/* SUBMIT BUTTON */}
         <button className="auth-btn" disabled={loading}>
           {loading ? "Updating..." : "Update Password"}
         </button>

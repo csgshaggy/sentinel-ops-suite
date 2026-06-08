@@ -1,0 +1,31 @@
+/* Neon-glassy Admin Users table */
+
+.users-container {
+  padding: 2rem;
+  color: #e0e0e0;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(20, 20, 30, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.users-table th,
+.users-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.users-table th {
+  background: rgba(0, 255, 255, 0.1);
+  color: #7df9ff;
+  text-shadow: 0 0 8px #7df9ff;
+}
+
+.users-table tr:hover {
+  background: rgba(0, 255, 255, 0.05);
+}

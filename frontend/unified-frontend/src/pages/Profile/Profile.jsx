@@ -1,226 +1,95 @@
 // /src/pages/Profile/Profile.jsx
+// SentinelOps — Unified Profile Page (Avatar / Account / MFA / Security)
 
-import { useState, useEffect, useCallback } from "react";
-import apiClient from "../../api/apiClient.js";
-import { toast } from "../../components/ToastManager.jsx";
-
-import AvatarUploader from "../../components/profile/AvatarUploader.jsx";
-import MFAToggle from "../../components/profile/MFAToggle.jsx";
-import ChangePasswordForm from "../../components/profile/ChangePasswordForm.jsx";
-import ProfileTabs from "../../components/profile/ProfileTabs.jsx";
+import { useQuery } from "@tanstack/react-query";
+import apiClient from "../../api/apiClient";
 
 import "./Profile.css";
 
+import ProfileSummaryCard from "./components/ProfileSummaryCard";
+import ProfileBreadcrumbs from "./components/ProfileBreadcrumbs";
+import MFAStatusBadge from "./components/MFAStatusBadge";
+import ProfileTabs from "./components/ProfileTabs";
+
+import OverviewTab from "./components/tabs/OverviewTab";
+import AccountTab from "./components/tabs/AccountTab";
+import PersonalInfoTab from "./components/tabs/PersonalInfoTab";
+import PreferencesTab from "./components/tabs/PreferencesTab";
+import DevicesTab from "./components/tabs/DevicesTab";
+import SecurityTab from "./components/tabs/SecurityTab";
+import MFATab from "./components/tabs/MFATab";
+import SessionsTab from "./components/tabs/SessionsTab";
+import ApiKeysTab from "./components/tabs/ApiKeysTab";
+import LoginHistoryTab from "./components/tabs/LoginHistoryTab";
+import AvatarTab from "./components/tabs/AvatarTab";
+
 export default function Profile() {
-  const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState(null);
-
-  const [mfaQr, setMfaQr] = useState(null);
-  const [mfaSecret, setMfaSecret] = useState(null);
-
   // ------------------------------------------------------------
-  // Fetch profile (FIXED: send cookies)
+  // Load authenticated user profile (FULL profile, not /auth/me)
   // ------------------------------------------------------------
-  const fetchProfile = useCallback(async (signal) => {
-    try {
-      const res = await apiClient.get("/api/auth/profile", {
-        signal,
-        withCredentials: true,   // ⭐ REQUIRED
-      });
-      setProfile(res.data);
-    } catch (err) {
-      if (err.name === "CanceledError") return;
-      console.error("Failed to load profile:", err);
-      toast.error("Failed to load profile.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const {
+    data: profile,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const res = await apiClient.get("/profile", { withCredentials: true });
+      return res.data;
+    },
+    retry: false,
+  });
 
-  useEffect(() => {
-    const controller = new AbortController();
-    Promise.resolve().then(() => fetchProfile(controller.signal));
-    return () => controller.abort();
-  }, [fetchProfile]);
-
-  // ------------------------------------------------------------
-  // Save profile changes (FIXED: send cookies)
-  // ------------------------------------------------------------
-  const handleSave = async () => {
-    try {
-      await apiClient.post(
-        "/api/auth/profile/update",
-        {
-          email: profile.email,
-          username: profile.username,
-          mfa_enabled: profile.mfa_enabled,
-        },
-        { withCredentials: true }   // ⭐ REQUIRED
-      );
-
-      toast.success("Profile updated.");
-    } catch (err) {
-      console.error("Failed to update profile:", err);
-      toast.error("Failed to update profile.");
-    }
-  };
-
-  // ------------------------------------------------------------
-  // MFA handlers (FIXED: send cookies)
-  // ------------------------------------------------------------
-  const handleMfaStart = async () => {
-    try {
-      const res = await apiClient.post(
-        "/api/auth/mfa/enable",
-        {},
-        { withCredentials: true }   // ⭐ REQUIRED
-      );
-
-      setMfaQr(res.data.qr);
-      setMfaSecret(res.data.secret);
-      toast.success("MFA setup started. Scan the QR code.");
-    } catch (err) {
-      console.error("Failed to enable MFA:", err);
-      toast.error("Failed to update MFA settings.");
-    }
-  };
-
-  const handleMfaVerify = async (code) => {
-    try {
-      await apiClient.post(
-        "/api/auth/mfa/verify",
-        { code },
-        { withCredentials: true }   // ⭐ REQUIRED
-      );
-
-      setProfile((prev) => ({ ...prev, mfa_enabled: true }));
-      setMfaQr(null);
-      setMfaSecret(null);
-
-      toast.success("MFA enabled successfully.");
-    } catch (err) {
-      console.error("Failed to verify MFA:", err);
-      toast.error("Failed to update MFA settings.");
-    }
-  };
-
-  const handleMfaDisable = async () => {
-    try {
-      await apiClient.post(
-        "/api/auth/mfa/disable",
-        {},
-        { withCredentials: true }   // ⭐ REQUIRED
-      );
-
-      setProfile((prev) => ({ ...prev, mfa_enabled: false }));
-      toast.success("MFA disabled.");
-    } catch (err) {
-      console.error("Failed to disable MFA:", err);
-      toast.error("Failed to update MFA settings.");
-    }
-  };
-
-  // ------------------------------------------------------------
-  // Loading skeleton
-  // ------------------------------------------------------------
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="profile-page-container">
-        <div className="profile-section">
-          <div className="skeleton skeleton-avatar"></div>
-          <div className="skeleton skeleton-line" style={{ width: "60%" }}></div>
-          <div className="skeleton skeleton-line" style={{ width: "40%" }}></div>
-        </div>
+      <div className="profile-page fade-in">
+        <div className="profile-loading">Loading profile…</div>
+      </div>
+    );
+  }
 
-        <div className="profile-section">
-          <div className="skeleton skeleton-line" style={{ width: "50%" }}></div>
-          <div className="skeleton skeleton-line"></div>
-          <div className="skeleton skeleton-line"></div>
-          <div className="skeleton skeleton-line" style={{ width: "80%" }}></div>
-        </div>
-
-        <div className="profile-section">
-          <div className="skeleton skeleton-line" style={{ width: "50%" }}></div>
-          <div className="skeleton skeleton-line"></div>
+  if (isError || !profile) {
+    return (
+      <div className="profile-page fade-in">
+        <div className="profile-error">
+          Unable to load profile.
+          <br />
+          {error?.response?.data?.detail || "Unknown error"}
         </div>
       </div>
     );
   }
 
-  if (!profile) {
-    return (
-      <div className="profile-page-container">
-        <div className="profile-error">Unable to load profile.</div>
-      </div>
-    );
-  }
-
-  // ------------------------------------------------------------
-  // Tabs
-  // ------------------------------------------------------------
   const tabs = {
-    Avatar: (
-      <AvatarUploader
-        avatarUrl={profile.avatar_url}
-        onUploaded={(newUrl) =>
-          setProfile((prev) => ({ ...prev, avatar_url: newUrl }))
-        }
-      />
-    ),
-
-    Account: (
-      <div className="profile-form">
-        <label className="profile-label">Email</label>
-        <input
-          className="profile-input"
-          type="email"
-          value={profile.email}
-          onChange={(e) =>
-            setProfile({ ...profile, email: e.target.value })
-          }
-        />
-
-        <label className="profile-label">Username</label>
-        <input
-          className="profile-input"
-          type="text"
-          value={profile.username}
-          onChange={(e) =>
-            setProfile({ ...profile, username: e.target.value })
-          }
-        />
-
-        <label className="profile-label">Role</label>
-        <input
-          className="profile-input"
-          type="text"
-          value={profile.role}
-          disabled
-        />
-
-        <button className="profile-button" onClick={handleSave}>
-          Save Changes
-        </button>
-      </div>
-    ),
-
-    MFA: (
-      <MFAToggle
-        enabled={profile.mfa_enabled}
-        qr={mfaQr}
-        secret={mfaSecret}
-        onStart={handleMfaStart}
-        onVerify={handleMfaVerify}
-        onDisable={handleMfaDisable}
-      />
-    ),
-
-    Security: <ChangePasswordForm />,
+    Overview: <OverviewTab profile={profile} />,
+    Account: <AccountTab profile={profile} />,
+    "Personal Info": <PersonalInfoTab profile={profile} />,
+    Preferences: <PreferencesTab profile={profile} />,
+    Devices: <DevicesTab profile={profile} />,
+    Avatar: <AvatarTab profile={profile} />,
+    Security: <SecurityTab profile={profile} />,
+    "Multi‑Factor Auth": <MFATab profile={profile} />,
+    Sessions: <SessionsTab profile={profile} />,
+    "API Keys": <ApiKeysTab profile={profile} />,
+    "Login History": <LoginHistoryTab profile={profile} />,
   };
 
   return (
-    <div className="profile-page-container">
-      <h1 className="profile-title">Your Profile</h1>
+    <div className="profile-page fade-in">
+      <ProfileBreadcrumbs />
+
+      <ProfileSummaryCard
+        fullName={profile.full_name}
+        email={profile.email}
+        role={profile.role}
+        avatarUrl={profile.avatar_thumb_url || profile.avatar_url}
+      />
+
+      <div className="profile-status-row">
+        <MFAStatusBadge enabled={profile.mfa_enabled} />
+      </div>
+
       <ProfileTabs tabs={tabs} />
     </div>
   );

@@ -1,0 +1,144 @@
+/* -----------------------------------------------------------
+   SentinelOps — Final Polish (Global UI Enhancements)
+------------------------------------------------------------ */
+
+/* -----------------------------------------------------------
+   1. Smooth Transitions (Global)
+------------------------------------------------------------ */
+
+* {
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+/* -----------------------------------------------------------
+   2. Focus Rings (Unified)
+------------------------------------------------------------ */
+
+:focus-visible {
+  outline: 2px solid #00eaff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* -----------------------------------------------------------
+   3. Unified Spacing Scale
+------------------------------------------------------------ */
+
+:root {
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+}
+
+/* -----------------------------------------------------------
+   4. Neon Hover Micro-Animations
+------------------------------------------------------------ */
+
+.glass:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(0, 200, 255, 0.18);
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+/* -----------------------------------------------------------
+   5. Scrollbar Styling (Optional but recommended)
+------------------------------------------------------------ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #00eaff, #0077ff);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #00ffff, #0099ff);
+}
+
+/* -----------------------------------------------------------
+   6. Neon Theme Overrides (Consistent Glow)
+------------------------------------------------------------ */
+
+.neon-text {
+  color: #00eaff;
+  text-shadow: 0 0 10px rgba(0, 234, 255, 0.7);
+}
+
+.neon-border {
+  border: 1px solid rgba(0, 234, 255, 0.4);
+  box-shadow: 0 0 12px rgba(0, 234, 255, 0.25);
+}
+
+/* -----------------------------------------------------------
+   7. Smooth Fade-In for Panels
+------------------------------------------------------------ */
+
+.fade-in {
+  animation: fadeIn 0.25s ease forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* -----------------------------------------------------------
+   8. Tab Animation Polish
+------------------------------------------------------------ */
+
+.profile-tab-button.active {
+  animation: tabPulse 0.25s ease;
+}
+
+@keyframes tabPulse {
+  0% {
+    transform: scale(0.96);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* -----------------------------------------------------------
+   9. Table Row Hover Glow (Unified)
+------------------------------------------------------------ */
+
+table tr:hover {
+  background: rgba(0, 200, 255, 0.08);
+  cursor: pointer;
+}
+
+/* -----------------------------------------------------------
+   10. Modal Fade-In
+------------------------------------------------------------ */
+
+.modal-fade {
+  animation: modalFade 0.25s ease forwards;
+  opacity: 0;
+}
+
+@keyframes modalFade {
+  to {
+    opacity: 1;
+  }
+}

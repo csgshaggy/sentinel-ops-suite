@@ -1,10 +1,13 @@
 // /src/pages/ForgotPasswordRequest.jsx
+// ============================================================
+// SentinelOps — Forgot Password Request (Unified)
+// ============================================================
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout.jsx";
 import { toast } from "../components/ToastManager.jsx";
-import { requestPasswordReset } from "../api/auth";
+import client from "../api/apiClient.js";
 
 import "../styles/auth/ForgotPassword.css";
 import logo from "../assets/SentinelOps.jpg";
@@ -18,11 +21,11 @@ export default function ForgotPasswordRequest() {
     e.preventDefault();
     setLoading(true);
 
-    const res = await requestPasswordReset(email);
+    const res = await client.post("/auth/forgot-password", { email });
     setLoading(false);
 
-    if (res?.error) {
-      toast.error(res.error);
+    if (!res.ok) {
+      toast.error(res.data?.detail || "Failed to send reset link.");
       return;
     }
 

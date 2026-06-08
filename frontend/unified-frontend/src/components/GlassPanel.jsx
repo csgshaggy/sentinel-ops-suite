@@ -1,9 +1,10 @@
 // /src/components/GlassPanel.jsx
 
+import React, { memo } from "react";
 import "./GlassPanel.css";
 import "../styles/theme.css";
 
-export default function GlassPanel({
+function GlassPanel({
   children,
   className = "",
   padding = "20px",
@@ -27,3 +28,5 @@ export default function GlassPanel({
     </div>
   );
 }
+
+export default memo(GlassPanel);

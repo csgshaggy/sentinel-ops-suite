@@ -1,0 +1,142 @@
+/* -----------------------------------------------------------
+   SentinelOps — RBAC Tab (Roles & Permissions)
+   Deep Navy + Cyan Neon + Glass Panels
+------------------------------------------------------------ */
+
+.rbac-tab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: 4px;
+  color: #e7faff;
+}
+
+/* -----------------------------------------------------------
+   Section Title
+------------------------------------------------------------ */
+.tab-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #b8eaff;
+  margin-bottom: 6px;
+}
+
+/* -----------------------------------------------------------
+   Roles List (Glass Panel)
+------------------------------------------------------------ */
+.rbac-roles-panel {
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rbac-role-item {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0, 40, 70, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.2);
+  color: #e7faff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rbac-role-item strong {
+  color: #b8eaff;
+}
+
+/* -----------------------------------------------------------
+   Permissions List
+------------------------------------------------------------ */
+.rbac-permissions-panel {
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.rbac-permission-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(0, 40, 70, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.2);
+  color: #e7faff;
+  font-size: 0.9rem;
+}
+
+/* -----------------------------------------------------------
+   Assign / Remove Buttons
+------------------------------------------------------------ */
+.btn-accent {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #00c6ff, #00eaff);
+  color: #00121f;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(0, 220, 255, 0.5);
+}
+
+.btn-danger {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff4d4d, #ff6b6b);
+  color: #00121f;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(255, 80, 80, 0.5);
+}
+
+/* -----------------------------------------------------------
+   Empty State
+------------------------------------------------------------ */
+.rbac-empty {
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+  color: #b8eaff;
+}
+
+/* -----------------------------------------------------------
+   Mobile
+------------------------------------------------------------ */
+@media (max-width: 600px) {
+  .rbac-role-item {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .btn-accent,
+  .btn-danger {
+    width: 100%;
+    text-align: center;
+  }
+}

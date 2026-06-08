@@ -1,37 +1,156 @@
-/* src/pages/settings.css */
+/* ============================================================
+   SentinelOps — Settings Page (Neon‑Glassy Unified Theme)
+   Fully aligned with Dashboard.css, AdminPanel.css, Profile.css
+   ============================================================ */
 
+/* ------------------------------------------------------------
+   Page Container
+   ------------------------------------------------------------ */
 .settings-page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
+  width: 100%;
+  padding: 24px;
+  box-sizing: border-box;
+  color: var(--text-primary);
 }
 
+/* ------------------------------------------------------------
+   Title
+   ------------------------------------------------------------ */
 .settings-title {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  color: var(--text-primary);
   text-shadow: var(--neon-glow);
 }
 
+/* ------------------------------------------------------------
+   Grid Layout (Unified with Dashboard)
+   ------------------------------------------------------------ */
 .settings-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
+  gap: 24px;
+  width: 100%;
 }
 
+/* ------------------------------------------------------------
+   Neon‑Glassy Settings Card
+   ------------------------------------------------------------ */
 .settings-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius);
+
   padding: 20px;
+  box-sizing: border-box;
+
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+              border-color 0.15s ease;
 }
 
+.settings-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 22px var(--neon-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   Card Title
+   ------------------------------------------------------------ */
+.settings-card-title,
 .card-title {
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--brand-text-light);
+  color: var(--text-primary);
   text-shadow: var(--neon-glow);
+  margin-bottom: 4px;
 }
 
-.card-body {
-  color: var(--brand-text-light);
-  opacity: 0.85;
+/* ------------------------------------------------------------
+   Input / Select / Number Fields
+   ------------------------------------------------------------ */
+.settings-select,
+.settings-number,
+.settings-color-picker {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--neon-accent-soft);
+  color: var(--text-primary);
+
+  font-size: 0.95rem;
+  box-sizing: border-box;
+
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.settings-select:focus,
+.settings-number:focus,
+.settings-color-picker:focus {
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 12px var(--neon-accent-soft);
+  outline: none;
+}
+
+/* ------------------------------------------------------------
+   Toggle Rows
+   ------------------------------------------------------------ */
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  opacity: 0.9;
+
+  cursor: pointer;
+  user-select: none;
+}
+
+.settings-toggle-row input[type="checkbox"] {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* ------------------------------------------------------------
+   Save Button (Unified with Preferences)
+   ------------------------------------------------------------ */
+.settings-save-button {
+  margin-top: 10px;
+  padding: 12px 20px;
+
+  background: var(--neon-accent);
+  color: #000;
+
+  border: none;
+  border-radius: 10px;
+
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+
+  box-shadow: 0 0 14px var(--neon-accent-soft);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.settings-save-button:hover {
+  box-shadow: 0 0 22px var(--neon-accent);
+  transform: translateY(-2px);
 }

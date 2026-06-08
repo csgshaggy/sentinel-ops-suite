@@ -1,6 +1,7 @@
 # /home/ubuntu/sentinel-ops-suite/backend/app/db/base.py
 
-from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.orm import declarative_base
 
-class Base(DeclarativeBase):
-    pass
+# This file MUST remain clean.
+# No model imports here — prevents circular imports.
+Base = declarative_base()

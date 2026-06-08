@@ -10,8 +10,6 @@
  * - /reset-password-request
  * - /forgot-password
  * - /auth/*
- *
- * Admin routes (/admin/*) must NEVER be treated as public.
  */
 
 const AUTH_ROUTE_PREFIXES = [
@@ -24,11 +22,15 @@ const AUTH_ROUTE_PREFIXES = [
 ];
 
 export function isAuthRoute(pathname) {
-  // 🔒 Never treat admin routes as public
-  if (pathname.startsWith("/admin")) return false;
+  // Normalize (remove trailing slash except root)
+  if (pathname.length > 1 && pathname.endsWith("/")) {
+    pathname = pathname.slice(0, -1);
+  }
 
-  // 🔍 Only match exact prefix or prefix + "/"
-  return AUTH_ROUTE_PREFIXES.some((prefix) =>
-    pathname === prefix || pathname.startsWith(prefix + "/")
+  const isPublic = AUTH_ROUTE_PREFIXES.some(
+    (prefix) =>
+      pathname === prefix || pathname.startsWith(prefix + "/")
   );
+
+  return isPublic;
 }

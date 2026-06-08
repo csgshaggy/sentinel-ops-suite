@@ -1,0 +1,105 @@
+/* -----------------------------------------------------------
+   SentinelOps — Profile Tabs (Horizontal + Responsive Hybrid)
+------------------------------------------------------------ */
+
+.profile-tabs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+/* -----------------------------------------------------------
+   DESKTOP / DEFAULT — Horizontal Tabs with Wrapping
+------------------------------------------------------------ */
+.profile-tabs-list {
+  display: flex;
+  flex-wrap: wrap;              /* desktop: wrap */
+  gap: 12px;
+  padding-bottom: 4px;
+  overflow-x: visible;          /* desktop: no scroll */
+}
+
+.profile-tab-button {
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  color: #cfeaff;
+  cursor: pointer;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: 0.2s ease;
+  backdrop-filter: blur(10px);
+}
+
+.profile-tab-button:hover {
+  background: rgba(0, 40, 70, 0.55);
+  border-color: rgba(0, 200, 255, 0.35);
+  box-shadow: 0 0 10px rgba(0, 200, 255, 0.25);
+}
+
+.profile-tab-button.active {
+  background: rgba(0, 200, 255, 0.18);
+  border-color: rgba(0, 200, 255, 0.45);
+  color: #00eaff;
+  font-weight: 600;
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
+}
+
+/* Keyboard focus */
+.profile-tab-button:focus-visible {
+  outline: 2px solid #00eaff;
+  outline-offset: 3px;
+}
+
+/* -----------------------------------------------------------
+   TAB CONTENT PANEL
+------------------------------------------------------------ */
+.profile-tabs-panel {
+  width: 100%;
+  padding: 24px;
+  border-radius: 14px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 18px rgba(0, 200, 255, 0.12);
+}
+
+/* -----------------------------------------------------------
+   MOBILE (<800px) — Single Row Scroll, No Wrap
+------------------------------------------------------------ */
+@media (max-width: 800px) {
+  .profile-tabs-list {
+    flex-wrap: nowrap;          /* mobile: NO wrapping */
+    overflow-x: auto;           /* mobile: horizontal scroll */
+    gap: 10px;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .profile-tab-button {
+    flex-shrink: 0;             /* prevent squishing */
+    white-space: nowrap;
+    padding: 9px 14px;
+    font-size: 0.9rem;
+  }
+
+  .profile-tabs-panel {
+    padding: 20px;
+  }
+}
+
+/* -----------------------------------------------------------
+   EXTRA SMALL (<480px) — Ultra Compact
+------------------------------------------------------------ */
+@media (max-width: 480px) {
+  .profile-tab-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .profile-tabs-panel {
+    padding: 16px;
+  }
+}

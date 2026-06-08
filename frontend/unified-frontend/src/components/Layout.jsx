@@ -1,21 +1,20 @@
 // /src/components/Layout.jsx
-import React from "react";
-import { Outlet, useOutletContext } from "react-router-dom";
+import React, { memo } from "react";
+import { Outlet } from "react-router-dom";
 
-import Sidebar from "./Sidebar";
-import TopBar from "./TopBar";
-import SentinelFooter from "./SentinelFooter";
+import Sidebar from "./Sidebar.jsx";
+import TopBar from "./TopBar.jsx";
+import SentinelFooter from "./SentinelFooter.jsx";
 
 import useInactivityLogout from "../hooks/useInactivityLogout.js";
 import { useAuth } from "../features/auth/AuthContext.jsx";
 
 import "./Layout.css";
 
-export default function Layout() {
-  const { user } = useOutletContext() || {};
+function Layout() {
   const { logout } = useAuth();
 
-  // ⏳ Enforce 15‑minute inactivity logout with 3‑minute warning
+  // Inactivity logout (15m timeout, 3m warning)
   useInactivityLogout({
     timeoutMinutes: 15,
     warningMinutes: 3,
@@ -24,17 +23,24 @@ export default function Layout() {
 
   return (
     <div className="layout-container">
+      {/* Sidebar (left) */}
       <Sidebar />
 
+      {/* Main content column */}
       <div className="layout-main">
-        <TopBar user={user} />
+        {/* TopBar (normal flow, no fixed positioning) */}
+        <TopBar />
 
+        {/* Routed content */}
         <main className="layout-content">
           <Outlet />
         </main>
 
+        {/* Footer */}
         <SentinelFooter />
       </div>
     </div>
   );
 }
+
+export default memo(Layout);

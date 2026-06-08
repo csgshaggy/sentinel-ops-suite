@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import "../styles/theme.css";
 import { toast } from "./toastBus.js";   // event bus
 
-// NEW: Named export so Vite can resolve it
+// Named export (kept exactly as-is)
 export function ToastManager({ children }) {
   const [toasts, setToasts] = useState([]);
 
@@ -50,7 +50,7 @@ export function ToastManager({ children }) {
   );
 }
 
-// NEW: Re-export toast so other files can import { toast }
+// Re-export toast so other files can import { toast }
 export { toast };
 
 function Toast({ type, message }) {
@@ -104,3 +104,6 @@ function Toast({ type, message }) {
     </div>
   );
 }
+
+// ✅ Default export added — fixes Vite + validator + Profile.jsx import
+export default ToastManager;

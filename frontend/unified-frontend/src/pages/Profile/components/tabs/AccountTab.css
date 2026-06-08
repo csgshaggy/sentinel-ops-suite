@@ -1,0 +1,29 @@
+/* -----------------------------------------------------------
+   SentinelOps — Account Tab
+------------------------------------------------------------ */
+
+.account-tab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.account-tab-container .form-group {
+  margin-bottom: 12px;
+}
+
+.account-tab-container .form-label {
+  color: #b8eaff;
+}
+
+.account-tab-container .form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .account-tab-container {
+    gap: 16px;
+  }
+}

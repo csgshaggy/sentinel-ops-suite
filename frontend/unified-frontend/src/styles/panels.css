@@ -2,6 +2,6 @@
 .panel {
   background: var(--bg-surface);
   padding: 16px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   margin-bottom: 16px;
 }

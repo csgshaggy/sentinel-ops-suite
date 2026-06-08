@@ -1,29 +1,50 @@
-// /src/components/TopBar.jsx
 import React from "react";
-import UserMenu from "./UserMenu.jsx";   // ensure .jsx extension for Vite consistency
+import { useNavigate } from "react-router-dom";
+import { Bell, Settings } from "lucide-react";
+
 import "./TopBar.css";
 
-export default function TopBar({ user }) {
-  // Derive initials safely (matches new UserMenu.jsx)
-  const initials =
-    user?.initials ||
-    (user?.name?.trim()
-      ? user.name.charAt(0).toUpperCase()
-      : user?.email
-      ? user.email.charAt(0).toUpperCase()
-      : "U");
+export default function TopBar() {
+  const navigate = useNavigate();
 
   return (
-    <header className="topbar topbar-zfix">
-      {/* LEFT: reserved for breadcrumbs, status, etc. */}
-      <div className="topbar-left" />
+    <header className="topbar-container">
+      {/* LEFT — LOGO + TITLE */}
+      <div className="topbar-left">
+        <img
+          src="/logo.png"   // ⭐ FIXED: correct asset path
+          alt="SentinelOps Logo"
+          className="topbar-logo"
+        />
+        <span className="topbar-title">Sentinel Ops Suite</span>
+      </div>
 
-      {/* CENTER: layout balancer */}
-      <div className="topbar-center" />
+      {/* CENTER — OPTIONAL */}
+      <div className="topbar-center"></div>
 
-      {/* RIGHT: User Menu (portal-based dropdown) */}
+      {/* RIGHT — ICON CLUSTER */}
       <div className="topbar-right">
-        <UserMenu initials={initials} />
+        <div
+          className="topbar-icon"
+          onClick={() => navigate("/notifications")}
+          aria-label="Notifications"
+        >
+          <Bell size={18} />
+        </div>
+
+        <img
+          src="/default-avatar.png"   // ⭐ FIXED: correct asset path
+          alt="User Avatar"
+          className="topbar-avatar"
+        />
+
+        <div
+          className="topbar-icon"
+          onClick={() => navigate("/settings")}
+          aria-label="Settings"
+        >
+          <Settings size={18} />
+        </div>
       </div>
     </header>
   );

@@ -1,12 +1,21 @@
-# File: app/dependencies/session.py
+# app/dependencies/session.py
 
-from typing import Optional, Any
-from fastapi import Request
+from fastapi import Cookie, HTTPException, Depends
+from sqlalchemy.orm import Session as DBSession
+
+from app.db.session import get_db
+from app.core.sessions import get_session_by_id
 
 
-def get_current_session(request: Request) -> Optional[Any]:
-    """
-    Minimal session accessor used by dashboard and other routers.
-    Returns the underlying Starlette session dict or None.
-    """
-    return getattr(request, "session", None)
+def require_session(
+    session_id: str | None = Cookie(None),
+    db: DBSession = Depends(get_db),
+):
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    session = get_session_by_id(db, session_id)
+    if not session or session.is_expired():
+        raise HTTPException(status_code=401, detail="Session expired")
+
+    return session

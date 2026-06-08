@@ -47,7 +47,7 @@
 /* Logo */
 .route-loader-logo {
   width: 140px;
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   filter: drop-shadow(0 0 12px var(--brand-primary));
   z-index: 2;
 }

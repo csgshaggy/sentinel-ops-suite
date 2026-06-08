@@ -1,15 +1,13 @@
-# /home/ubuntu/sentinel-ops-suite/backend/app/schemas/session.py
-# SentinelOps — Session Schemas (Pydantic v2, Session-Based Auth)
+# app/schemas/session.py
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 from datetime import datetime
 
 
-class SessionRead(BaseModel):
-    id: str
+class SessionOut(BaseModel):
+    session_id: str
     user_id: int
-    created_at: datetime
     expires_at: datetime
-    is_active: bool
 
-    model_config = ConfigDict(from_attributes=True)
+    class Config:
+        orm_mode = True

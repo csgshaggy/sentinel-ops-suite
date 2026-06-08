@@ -3,12 +3,23 @@
 
 from passlib.context import CryptContext
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# Bcrypt context (cost=12)
+pwd_context = CryptContext(
+    schemes=["bcrypt"],
+    deprecated="auto",
+)
 
 
 def hash_password(password: str) -> str:
+    """
+    Hash a plaintext password using bcrypt.
+    """
     return pwd_context.hash(password)
 
 
-def verify_password(password: str, password_hash: str) -> bool:
-    return pwd_context.verify(password, password_hash)
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    """
+    Verify a plaintext password against a stored bcrypt hash.
+    Returns True if they match.
+    """
+    return pwd_context.verify(plain_password, hashed_password)

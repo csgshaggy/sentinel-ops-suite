@@ -1,4 +1,5 @@
 // /src/components/SessionManager.jsx
+// SentinelOps — Session Manager (Final, Fetch‑Aligned, Deterministic)
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
@@ -7,44 +8,55 @@ import apiClient from "../api/apiClient.js";
 import { toast } from "./ToastManager.jsx";
 
 export default function SessionManager() {
-  const { user, logout, restoreSession } = useAuth();
+  const { user, logout, refreshUser } = useAuth();
   const location = useLocation();
 
   const [showWarning, setShowWarning] = useState(false);
 
-  const restoreLock = useRef(false);
   const ttlLock = useRef(false);
+  const restoreLock = useRef(false);
 
+  // Public routes should NOT trigger TTL or heartbeat
   const isPublicRoute =
     location.pathname.startsWith("/login") ||
     location.pathname.startsWith("/mfa");
 
+  // ------------------------------------------------------------
+  // TTL CHECK — fetch‑aligned (no try/catch, no err.response)
+  // ------------------------------------------------------------
   const checkTTL = useCallback(async () => {
     if (ttlLock.current) return;
     ttlLock.current = true;
 
-    try {
-      const res = await apiClient.get("/auth/session/ttl");
+    const res = await apiClient.get("/auth/session/ttl");
 
-      // ✅ TTL patch: distinguish "missing" from 0
-      const ttl = res?.data?.ttl;
-      if (ttl === undefined || ttl === null) return;
-
-      // Show warning when <= 60s remaining, otherwise hide
-      if (ttl > 0 && ttl <= 60) setShowWarning(true);
-      else setShowWarning(false);
-
-      // Expired → logout
-      if (ttl <= 0) {
-        logout();
+    if (!res.ok) {
+      // 401 = not logged in → ignore silently
+      if (res.status !== 401) {
+        console.error("TTL check error:", res);
       }
-    } catch {
-      // optional: consider logging
-    } finally {
       ttlLock.current = false;
+      return;
     }
+
+    const ttl = res.data?.ttl;
+
+    if (ttl === undefined || ttl === null) {
+      ttlLock.current = false;
+      return;
+    }
+
+    if (ttl > 0 && ttl <= 60) setShowWarning(true);
+    else setShowWarning(false);
+
+    if (ttl <= 0) logout();
+
+    ttlLock.current = false;
   }, [logout]);
 
+  // ------------------------------------------------------------
+  // TTL polling — disabled on public routes
+  // ------------------------------------------------------------
   useEffect(() => {
     if (!user || isPublicRoute) return;
 
@@ -55,23 +67,34 @@ export default function SessionManager() {
     return () => clearInterval(interval);
   }, [user, isPublicRoute, checkTTL]);
 
+  // ------------------------------------------------------------
+  // Stay Logged In — heartbeat + refreshUser
+  // ------------------------------------------------------------
   const stayLoggedIn = async () => {
     if (restoreLock.current) return;
     restoreLock.current = true;
 
-    try {
-      await apiClient.get("/auth/heartbeat");
-      await restoreSession();
+    const res = await apiClient.get("/auth/heartbeat");
 
-      toast.success("Session extended.");
-      setShowWarning(false);
-    } catch {
+    if (!res.ok) {
+      if (res.status !== 401) {
+        console.error("Heartbeat error:", res);
+      }
       logout();
-    } finally {
       restoreLock.current = false;
+      return;
     }
+
+    await refreshUser();
+    toast.success("Session extended.");
+    setShowWarning(false);
+
+    restoreLock.current = false;
   };
 
+  // ------------------------------------------------------------
+  // Render warning modal (never on public routes)
+  // ------------------------------------------------------------
   if (!showWarning || isPublicRoute) return null;
 
   return (
@@ -92,3 +115,4 @@ export default function SessionManager() {
     </div>
   );
 }
+

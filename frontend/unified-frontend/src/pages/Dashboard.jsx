@@ -1,79 +1,107 @@
 // /src/pages/Dashboard.jsx
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../features/auth/AuthContext.jsx";
 import "./Dashboard.css";
 
 export default function Dashboard() {
-  const now = new Date();
-  const hour = now.getHours();
+  const { user } = useAuth();
 
-  let greeting = "Hello";
+  const [backendStatus, setBackendStatus] = useState("checking");
+  const [backendLatency, setBackendLatency] = useState(null);
 
-  if (hour < 12) {
-    greeting = "Good morning";
-  } else if (hour < 18) {
-    greeting = "Good afternoon";
-  } else {
-    greeting = "Good evening";
+  async function checkBackend() {
+    const start = performance.now();
+
+    try {
+      const res = await fetch("/api/users/me", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      const end = performance.now();
+      setBackendLatency(Math.round(end - start));
+
+      if (res.status === 401 || res.status === 200) {
+        setBackendStatus("online");
+      } else {
+        setBackendStatus("degraded");
+      }
+    } catch {
+      setBackendStatus("offline");
+    }
   }
 
+  useEffect(() => {
+    checkBackend();
+  }, []);
+
   return (
-    <div className="dashboard">
+    <div className="dashboard-page fade-in">
+      <h1 className="dashboard-title">SentinelOps Operational Dashboard</h1>
 
-      {/* Greeting */}
-      <h1 className="dashboard-greeting">
-        {greeting}, Charlie
-      </h1>
+      {/* Backend Status */}
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">Backend Status</h2>
 
-      {/* Neon‑glassy grid */}
-      <div className="dashboard-grid">
+        <div className="dashboard-metric-row">
+          <div className="dashboard-metric-card">
+            <div className="metric-label">Status</div>
+            <div
+              className={`metric-value ${
+                backendStatus === "online"
+                  ? "metric-ok"
+                  : backendStatus === "offline"
+                  ? "metric-bad"
+                  : "metric-warn"
+              }`}
+            >
+              {backendStatus}
+            </div>
+          </div>
 
-        {/* Backend Heartbeat */}
-        <div className="dash-card">
-          <div className="dash-title">Backend Heartbeat</div>
-          <div className="dash-line">
-            <span>Status:</span>
-            <span className="dash-ok">Online</span>
-          </div>
-          <div className="dash-line">
-            <span>Latency:</span>
-            <span>42ms</span>
-          </div>
-        </div>
-
-        {/* Environment Status */}
-        <div className="dash-card">
-          <div className="dash-title">Environment Status</div>
-          <div className="dash-line">
-            <span>Node:</span>
-            <span>v18.x</span>
-          </div>
-          <div className="dash-line">
-            <span>Python:</span>
-            <span>3.11</span>
-          </div>
-          <div className="dash-line">
-            <span>FastAPI:</span>
-            <span className="dash-ok">OK</span>
+          <div className="dashboard-metric-card">
+            <div className="metric-label">Latency</div>
+            <div className="metric-value">
+              {backendLatency !== null ? `${backendLatency} ms` : "—"}
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Sandbox Logs */}
-        <div className="dash-card">
-          <div className="dash-title">Sandbox Logs</div>
-          <div className="dash-empty">No recent sandbox events.</div>
-        </div>
+      {/* User Identity */}
+      <section className="dashboard-section">
+        <h2 className="dashboard-section-title">User Identity</h2>
 
-        {/* Plugin Registry */}
-        <div className="dash-card">
-          <div className="dash-title">Plugin Registry</div>
-          <div className="dash-line">
-            <span>Registered Plugins:</span>
-            <span>0</span>
+        {user ? (
+          <div className="identity-grid">
+            <div className="identity-item">
+              <span className="identity-label">Username:</span>
+              <span className="identity-value">{user.username}</span>
+            </div>
+
+            <div className="identity-item">
+              <span className="identity-label">Email:</span>
+              <span className="identity-value">{user.email}</span>
+            </div>
+
+            <div className="identity-item">
+              <span className="identity-label">Role:</span>
+              <span className="identity-value">{user.role}</span>
+            </div>
+
+            <div className="identity-item">
+              <span className="identity-label">MFA Enabled:</span>
+              <span className="identity-value">
+                {user.mfa_enabled ? "Yes" : "No"}
+              </span>
+            </div>
           </div>
-          <div className="dash-empty">No plugins loaded.</div>
-        </div>
+        ) : (
+          <div className="dashboard-loading">Loading user profile…</div>
+        )}
+      </section>
 
-      </div>
+      {/* Remaining sections unchanged */}
     </div>
   );
 }

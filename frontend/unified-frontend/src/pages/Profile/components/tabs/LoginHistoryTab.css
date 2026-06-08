@@ -1,0 +1,93 @@
+/* -----------------------------------------------------------
+   SentinelOps — Login History Tab
+   Deep Navy + Cyan Neon + Glass Panels
+------------------------------------------------------------ */
+
+.loginhistory-tab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: 4px;
+  color: #e7faff;
+}
+
+/* -----------------------------------------------------------
+   Section Title
+------------------------------------------------------------ */
+.tab-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #b8eaff;
+  margin-bottom: 6px;
+}
+
+/* -----------------------------------------------------------
+   Table Wrapper (Glass Panel)
+------------------------------------------------------------ */
+.loginhistory-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+/* -----------------------------------------------------------
+   Login History Table
+------------------------------------------------------------ */
+.loginhistory-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.loginhistory-table thead {
+  background: rgba(0, 40, 70, 0.45);
+}
+
+.loginhistory-table th {
+  padding: 12px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #b8eaff;
+  border-bottom: 1px solid rgba(0, 180, 255, 0.25);
+  white-space: nowrap;
+}
+
+.loginhistory-table td {
+  padding: 12px;
+  font-size: 0.9rem;
+  color: #e7faff;
+  border-bottom: 1px solid rgba(0, 180, 255, 0.15);
+}
+
+.loginhistory-table tr:hover {
+  background: rgba(0, 200, 255, 0.08);
+}
+
+/* -----------------------------------------------------------
+   Empty State
+------------------------------------------------------------ */
+.loginhistory-empty {
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+  color: #b8eaff;
+}
+
+/* -----------------------------------------------------------
+   Mobile Horizontal Scroll
+------------------------------------------------------------ */
+@media (max-width: 700px) {
+  .loginhistory-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .loginhistory-table {
+    min-width: 600px;
+  }
+}

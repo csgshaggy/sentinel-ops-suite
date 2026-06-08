@@ -1,10 +1,11 @@
 {
   "name": "Sentinel Ops Suite",
-  "short_name": "Sentinel",
+  "short_name": "SentinelOps",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0f172a",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Unified Frontend for Sentinel Ops Suite",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -16,7 +17,7 @@
       "sizes": "512x512",
       "type": "image/png"
     },
-    {
+    { 
       "src": "/maskable-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",

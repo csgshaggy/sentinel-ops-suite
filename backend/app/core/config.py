@@ -15,7 +15,6 @@ class Settings(BaseSettings):
     DB_PASSWORD: str = Field(...)
     DB_NAME: str = Field(...)
 
-    # Computed database URL (optional convenience)
     @property
     def DATABASE_URL(self) -> str:
         return (
@@ -40,7 +39,6 @@ class Settings(BaseSettings):
     SESSION_COOKIE_HTTPONLY: bool = Field(default=True)
     SESSION_COOKIE_SAMESITE: str = Field(default="lax")
 
-    # REQUIRED — fixes your current crash
     SESSION_EXPIRE_HOURS: int = Field(default=12)
 
     # ---------------------------------------------------------
@@ -57,12 +55,24 @@ class Settings(BaseSettings):
     ENABLE_PLUGIN_SYSTEM: bool = Field(default=True)
 
     # ---------------------------------------------------------
+    # S3 AVATAR STORAGE (REAL SETTINGS APPLIED)
+    # ---------------------------------------------------------
+    USE_S3: bool = Field(default=True)
+    S3_BUCKET: str | None = Field(default="sentinelops-avatars")
+    S3_REGION: str | None = Field(default="us-east-1")
+    S3_ACCESS_KEY: str | None = Field(default="AKIA42HLACB76D2CXYNZ")
+    S3_SECRET_KEY: str | None = Field(default="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")
+    S3_BASE_URL: str | None = Field(
+        default="https://sentinelops-avatars.s3.us-east-1.amazonaws.com"
+    )
+
+    # ---------------------------------------------------------
     # Pydantic Settings Config
     # ---------------------------------------------------------
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
-        extra="ignore",  # prevents crashes from unexpected env vars
+        extra="ignore",
     )
 
 

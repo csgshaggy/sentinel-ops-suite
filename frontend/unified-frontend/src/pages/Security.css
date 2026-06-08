@@ -1,14 +1,26 @@
-/* Sentinel Ops — Security Page */
+/* ============================================================
+   SentinelOps — Security Page (Neon‑Glassy Unified Theme)
+   - Preserves your grid + card layout
+   - Adds unified admin-panel styling
+   - Adds unified modal + form + button styling
+   ============================================================ */
 
+/* ------------------------------------------------------------
+   Container
+   ------------------------------------------------------------ */
 .security-container {
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 100%;
   box-sizing: border-box;
+  padding: 20px;
+  color: var(--text-primary);
 }
 
-/* Grid for security cards */
+/* ------------------------------------------------------------
+   Grid for security cards
+   ------------------------------------------------------------ */
 .security-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -16,12 +28,13 @@
   width: 100%;
 }
 
-/* Security card */
+/* ------------------------------------------------------------
+   Security Card (Neon‑Glassy)
+   ------------------------------------------------------------ */
 .security-card {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--glass-bg);
   border: 1px solid var(--neon-accent-soft);
-  border-radius: 12px;
-
+  border-radius: var(--radius);
   padding: 18px 20px;
   box-sizing: border-box;
 
@@ -32,14 +45,19 @@
   flex-direction: column;
   gap: 10px;
 
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+              border-color 0.15s ease;
 }
 
 .security-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  border-color: var(--neon-accent);
+  box-shadow: 0 6px 18px rgba(0, 255, 255, 0.25);
 }
 
+/* ------------------------------------------------------------
+   Titles + Lines
+   ------------------------------------------------------------ */
 .security-title {
   font-size: 15px;
   font-weight: 600;
@@ -51,4 +69,100 @@
   justify-content: space-between;
   font-size: 14px;
   color: var(--text-secondary);
+}
+
+/* ------------------------------------------------------------
+   Unified Form Inputs (matches AdminPanel.css)
+   ------------------------------------------------------------ */
+.security-card input,
+.security-card select,
+.mfa-disable-form input {
+  width: 100%;
+  padding: 10px;
+  background: rgba(15, 15, 25, 0.6);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  margin-top: 6px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.security-card input:focus,
+.security-card select:focus,
+.mfa-disable-form input:focus {
+  outline: none;
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 6px var(--neon-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   Unified Buttons (matches AdminPanel.css)
+   ------------------------------------------------------------ */
+.mfa-btn,
+.security-btn {
+  padding: 10px 16px;
+  background: rgba(0, 255, 255, 0.15);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.mfa-btn:hover,
+.security-btn:hover {
+  background: rgba(0, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.mfa-btn.danger,
+.security-btn-danger {
+  background: rgba(255, 60, 60, 0.2);
+  border-color: rgba(255, 60, 60, 0.4);
+}
+
+.mfa-btn.danger:hover,
+.security-btn-danger:hover {
+  background: rgba(255, 60, 60, 0.3);
+}
+
+/* ------------------------------------------------------------
+   MFA Setup Modal (Unified SentinelOps Modal)
+   ------------------------------------------------------------ */
+.mfa-setup-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 20, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+}
+
+.mfa-setup-content {
+  background: rgba(20, 20, 35, 0.85);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: 420px;
+  max-width: 90%;
+  box-shadow: 0 0 18px var(--neon-accent-glow);
+  position: relative;
+}
+
+.mfa-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.mfa-close-btn:hover {
+  color: var(--neon-accent);
 }

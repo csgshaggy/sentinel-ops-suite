@@ -1,64 +1,114 @@
 /* /src/components/CommandPalette.css */
+/* ============================================================
+   SentinelOps — Neon‑Glassy Command Palette (Refactored)
+   ============================================================ */
 
+/* OVERLAY */
 .cmdp-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
-  z-index: 99999;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 20000;
+
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 80px;
+  padding-top: 100px;
+
+  animation: cmdpFade 0.18s ease-out;
 }
 
+@keyframes cmdpFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* CONTAINER */
 .cmdp-container {
   width: 520px;
-  background: #1b1b1b;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 255, 255, 0.25);
-  box-shadow: 0 0 18px rgba(0, 255, 255, 0.35);
+
+  background: rgba(15, 18, 24, 0.85);
+  border-radius: 14px;
+  border: 1px solid rgba(0, 255, 255, 0.22);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 0 25px rgba(0, 255, 255, 0.25),
+    inset 0 0 12px rgba(0, 255, 255, 0.08);
+
   overflow: hidden;
+  animation: cmdpSlide 0.18s ease-out;
 }
 
+@keyframes cmdpSlide {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* INPUT */
 .cmdp-input {
   width: 100%;
   padding: 14px;
   font-size: 1rem;
-  background: #111;
+
+  background: rgba(0, 0, 0, 0.35);
   border: none;
-  color: #e0f7fa;
-  outline: none;
   border-bottom: 1px solid rgba(0, 255, 255, 0.25);
+
+  color: #e8faff;
+  outline: none;
+
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.15),
+    inset 0 0 6px rgba(0, 255, 255, 0.05);
 }
 
+/* RESULTS LIST */
 .cmdp-results {
   max-height: 360px;
   overflow-y: auto;
 }
 
+/* EMPTY STATE */
 .cmdp-empty {
   padding: 20px;
   text-align: center;
   color: #80deea;
+  opacity: 0.8;
 }
 
+/* ITEM */
 .cmdp-item {
   display: flex;
   align-items: center;
   padding: 12px 14px;
   cursor: pointer;
-  transition: background 0.15s ease;
+
+  color: #e8faff;
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
-.cmdp-item:hover,
+.cmdp-item:hover {
+  background: rgba(0, 255, 255, 0.08);
+}
+
 .cmdp-item.selected {
-  background: rgba(0, 255, 255, 0.12);
+  background: rgba(0, 255, 255, 0.18);
+  box-shadow:
+    0 0 12px rgba(0, 255, 255, 0.35),
+    inset 0 0 8px rgba(0, 255, 255, 0.12);
+  transform: translateX(2px);
 }
 
+/* ICON + TEXT */
 .cmdp-icon {
   font-size: 1.2rem;
   margin-right: 12px;
+  opacity: 0.9;
 }
 
 .cmdp-text {

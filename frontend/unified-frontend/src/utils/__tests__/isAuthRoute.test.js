@@ -27,14 +27,14 @@ describe("isAuthRoute()", () => {
 
   // ADMIN ROUTES (NEVER PUBLIC)
   const adminRoutes = [
-    "/admin",
-    "/admin/",
-    "/admin/dashboard",
-    "/admin/security",
-    "/admin/settings",
-    "/admin/users",
-    "/admin/audit-logs",
-    "/admin/session-metrics"
+    "",
+    "/",
+    "/dashboard",
+    "/security",
+    "/settings",
+    "/users",
+    "/audit-logs",
+    "/session-metrics"
   ];
 
   adminRoutes.forEach((route) => {
@@ -61,8 +61,8 @@ describe("isAuthRoute()", () => {
   });
 
   // SUBSTRING COLLISION PROTECTION
-  it("should NOT treat '/admin/security/reset-password' as public", () => {
-    expect(isAuthRoute("/admin/security/reset-password")).toBe(false);
+  it("should NOT treat '/security/reset-password' as public", () => {
+    expect(isAuthRoute("/security/reset-password")).toBe(false);
   });
 
   it("should treat '/reset-password/flow' as public", () => {

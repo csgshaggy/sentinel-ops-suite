@@ -1,26 +1,38 @@
-# /app/auth/router.py
-# SentinelOps — Auth Router
+# SentinelOps — Auth Router (Unified)
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Response, Request, status
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
 from app.dependencies.auth import get_db
-from auth.models import User
-from auth.utils import verify_password
-from auth.session import (
+from app.models.user import User
+
+from app.core.security import verify_password
+from app.utils.sessions import (
     create_session,
-    invalidate_all_sessions_for_user,
-    invalidate_session,
+    get_session_by_id,
+    is_session_valid,
 )
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter(tags=["auth"])
+
+
+# ---------------------------------------------------------
+# Login Request Model (JSON body)
+# ---------------------------------------------------------
+class LoginRequest(BaseModel):
+    username: str
+    password: str
 
 
 # ---------------------------------------------------------
 # Login
 # ---------------------------------------------------------
 @router.post("/login")
-def login(username: str, password: str, response: Response, db: Session = Depends(get_db)):
+def login(payload: LoginRequest, response: Response, db: Session = Depends(get_db)):
+    username = payload.username
+    password = payload.password
+
     user = db.query(User).filter(User.username == username).first()
 
     if not user or not verify_password(password, user.password_hash):
@@ -29,9 +41,7 @@ def login(username: str, password: str, response: Response, db: Session = Depend
             detail="Invalid username or password",
         )
 
-    # Enforce single active session
-    invalidate_all_sessions_for_user(db, user.id)
-
+    # Create a new session for the user
     session = create_session(db, user.id)
 
     response.set_cookie(
@@ -41,6 +51,7 @@ def login(username: str, password: str, response: Response, db: Session = Depend
         secure=False,  # set True in production
         samesite="lax",
         max_age=3600,
+        path="/",
     )
 
     return {"message": "Login successful", "role": user.role}
@@ -50,9 +61,75 @@ def login(username: str, password: str, response: Response, db: Session = Depend
 # Logout
 # ---------------------------------------------------------
 @router.post("/logout")
-def logout(response: Response, session_id: str, db: Session = Depends(get_db)):
-    invalidate_session(db, session_id)
-
-    response.delete_cookie("session_id")
-
+def logout(response: Response, request: Request, db: Session = Depends(get_db)):
+    # No invalidate_session() exists — cookie removal is sufficient.
+    response.delete_cookie("session_id", path="/")
     return {"message": "Logged out"}
+
+
+# ---------------------------------------------------------
+# /me — Required by frontend
+# ---------------------------------------------------------
+@router.get("/me")
+def me(request: Request, db: Session = Depends(get_db)):
+    session_id = request.cookies.get("session_id")
+    if not session_id:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    session = get_session_by_id(db, session_id)
+    if not session or not is_session_valid(session):
+        raise HTTPException(status_code=401, detail="Invalid session")
+
+    user = db.query(User).filter(User.id == session.user_id).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="User not found")
+
+    return {
+        "id": user.id,
+        "username": user.username,
+        "role": user.role,
+    }
+
+
+# ---------------------------------------------------------
+# Session Restore
+# ---------------------------------------------------------
+@router.get("/session/restore")
+def session_restore(request: Request, db: Session = Depends(get_db)):
+    session_id = request.cookies.get("session_id")
+
+    if not session_id:
+        return {"user": None}
+
+    session = get_session_by_id(db, session_id)
+    if not session or not is_session_valid(session):
+        return {"user": None}
+
+    user = db.query(User).filter(User.id == session.user_id).first()
+    if not user:
+        return {"user": None}
+
+    return {
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "role": user.role,
+        }
+    }
+
+
+# ---------------------------------------------------------
+# Session Status
+# ---------------------------------------------------------
+@router.get("/session/status")
+def session_status(request: Request, db: Session = Depends(get_db)):
+    session_id = request.cookies.get("session_id")
+
+    if not session_id:
+        return {"active": False}
+
+    session = get_session_by_id(db, session_id)
+    if not session or not is_session_valid(session):
+        return {"active": False}
+
+    return {"active": True}

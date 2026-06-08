@@ -1,0 +1,124 @@
+/* ------------------------------------------------------------
+   Sentinel Ops — Profile Page (Upgraded Neon/Glassy Styling)
+   Based on your original minimal profile.css
+------------------------------------------------------------- */
+
+/* Root grid layout (replaces old .profile-grid usage) */
+.profile-root {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Left + Right columns */
+.profile-left,
+.profile-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ------------------------------------------------------------
+   Glassy Card Base (replaces .profile-item)
+------------------------------------------------------------- */
+
+.profile-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius);
+  padding: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 0 12px rgba(0, 175, 255, 0.15);
+  color: var(--text-primary);
+}
+
+/* ------------------------------------------------------------
+   Identity Card
+------------------------------------------------------------- */
+
+.identity-card {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Avatar */
+.avatar-wrapper {
+  position: relative;
+  width: 90px;
+  height: 90px;
+}
+
+.avatar-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 175, 255, 0.4),
+    rgba(0, 175, 255, 0.05),
+    transparent
+  );
+  filter: blur(12px);
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+.avatar-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid var(--neon-accent);
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes pulseGlow {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Identity text */
+.identity-info {
+  flex: 1;
+}
+
+.identity-name {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.identity-username {
+  margin: 4px 0 12px;
+  color: var(--text-secondary);
+}
+
+.identity-meta .meta-item {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* ------------------------------------------------------------
+   Security Buttons
+------------------------------------------------------------- */
+
+.card-title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.profile-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--bg-elevated

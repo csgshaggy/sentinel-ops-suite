@@ -1,9 +1,119 @@
+/* ------------------------------------------------------------
+   SentinelOps — Unified Neon‑Glassy Theme Variables
+   (Merged with your existing variables)
+------------------------------------------------------------- */
+
 :root {
+  /* ----------------------------------------------------------
+     EXISTING VARIABLES (preserved)
+  ----------------------------------------------------------- */
   --bg-root: #0d0f12;
   --bg-surface: #14171c;
+
   --text-primary: #ffffff;
   --text-secondary: #9ca3af;
-  --neon-accent: #00eaff;
-  --neon-accent-soft: rgba(0, 234, 255, 0.25);
+
+  --neon-accent: var(--accent);
+  --neon-accent-soft: var(--neon-accent-soft);
+
   --glass-blur: blur(12px);
+
+  /* ----------------------------------------------------------
+     BRAND COLORS
+  ----------------------------------------------------------- */
+  --brand-primary: #00c8ff;
+  --brand-secondary: #005a8f;
+  --brand-bg-dark: #001f2e;
+  --brand-bg-deep: #000a12;
+  --brand-text-light: #e6f7ff;
+
+  /* ----------------------------------------------------------
+     BACKGROUND SYSTEM
+  ----------------------------------------------------------- */
+  --background-gradient: radial-gradient(
+    circle at top,
+    #000a12 0%,
+    #001f2e 40%,
+    #000000 100%
+  );
+
+  --background-panel: rgba(0, 31, 46, 0.45);
+  --background-panel-strong: rgba(0, 31, 46, 0.65);
+
+  /* ----------------------------------------------------------
+     GLASS SYSTEM
+  ----------------------------------------------------------- */
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-bg-strong: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+
+  /* ----------------------------------------------------------
+     NEON GLOW SYSTEM
+  ----------------------------------------------------------- */
+  --glow-cyan: 0 0 12px rgba(0, 200, 255, 0.75),
+               0 0 24px rgba(0, 200, 255, 0.45);
+
+  --glow-strong: 0 0 18px rgba(0, 200, 255, 0.9),
+                 0 0 32px rgba(0, 200, 255, 0.6);
+
+  --text-glow: rgba(0, 200, 255, 0.85);
+
+  /* ----------------------------------------------------------
+     GEOMETRY
+  ----------------------------------------------------------- */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --sidebar-width: 260px;
+  --topbar-height: 60px;
+  --grid-gap: 1.5rem;
+
+  /* ----------------------------------------------------------
+     INPUTS
+  ----------------------------------------------------------- */
+  --input-bg: rgba(0, 31, 46, 0.55);
+  --input-border: rgba(0, 200, 255, 0.35);
+  --input-focus-shadow: 0 0 10px rgba(0, 200, 255, 0.45);
+
+  /* ----------------------------------------------------------
+     BUTTONS
+  ----------------------------------------------------------- */
+  --btn-primary-bg: #00c8ff;
+  --btn-primary-text: #000a12;
+
+  --btn-secondary-bg: rgba(0, 200, 255, 0.15);
+  --btn-secondary-border: rgba(0, 200, 255, 0.35);
+  --btn-secondary-text: #e6f7ff;
+
+  --btn-danger-bg: rgba(255, 80, 80, 0.18);
+  --btn-danger-border: rgba(255, 80, 80, 0.45);
+  --btn-danger-text: #ffb3b3;
+
+  /* ----------------------------------------------------------
+     STATUS COLORS
+  ----------------------------------------------------------- */
+  --status-critical: #ff6b6b;
+  --status-high: #ffb347;
+  --status-medium: #ffe066;
+  --status-low: #6be7ff;
+
+  --status-critical-glow: rgba(255, 65, 65, 0.45);
+  --status-high-glow: rgba(255, 165, 0, 0.45);
+  --status-medium-glow: rgba(255, 220, 0, 0.45);
+  --status-low-glow: rgba(0, 200, 255, 0.45);
+
+  /* ----------------------------------------------------------
+     TEXT COLORS (expanded)
+  ----------------------------------------------------------- */
+  --text-muted: rgba(255, 255, 255, 0.55);
+
+  /* ----------------------------------------------------------
+     ACCENT COLORS
+  ----------------------------------------------------------- */
+  --accent: #00c8ff;
+  --accent-hover: #6be7ff;
+
+  --cyan-300: #6be7ff;
+  --cyan-500: #00c8ff;
+  --cyan-700: #1a9db5;
 }

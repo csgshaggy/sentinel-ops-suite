@@ -1,0 +1,18 @@
+@import "./brand.css";
+
+.mfa-qr {
+  width: 180px;
+  margin: 0 auto 16px auto;
+  display: block;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--brand-grid);
+  box-shadow: 0 0 12px rgba(0, 175, 255, 0.2);
+}
+
+.mfa-secret {
+  color: var(--brand-primary);
+  text-align: center;
+  font-family: monospace;
+  margin-bottom: 20px;
+  font-size: 1.1rem;
+}

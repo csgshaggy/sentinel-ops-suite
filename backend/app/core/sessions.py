@@ -1,78 +1,85 @@
-# /backend/app/core/sessions.py
+# app/core/sessions.py
+# SentinelOps — DB-backed Session Helpers
 
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
-from datetime import datetime, timedelta
+from sqlalchemy.orm import Session as DBSession
 
-from app.db import (
-    save_session,
-    delete_sessions_for_user,
-    get_session,
-    update_session_expiry,
-)
+from app.models.session import Session as SessionModel
 
 
-# ------------------------------------------------------------
-# Destroy all sessions for a user (single-session enforcement)
-# ------------------------------------------------------------
-async def destroy_existing_sessions_for_user(user_id: int | None, session_id: str | None = None):
-    """
-    If user_id is provided → delete all sessions for that user.
-    If session_id is provided → delete only that session.
-    If both are None → no-op.
-    """
-    try:
-        await delete_sessions_for_user(user_id=user_id, session_id=session_id)
-    except Exception:
-        # Must be idempotent — never throw
-        pass
+SESSION_EXPIRE_HOURS = 12
 
 
 # ------------------------------------------------------------
 # Create a new session
 # ------------------------------------------------------------
-async def create_session(user_id: int, ttl: timedelta):
-    session_id = uuid4().hex
-    expires_at = datetime.utcnow() + ttl
+def create_session(db: DBSession, user_id: int) -> str:
+    session_id = str(uuid4())
+    expires_at = datetime.now(timezone.utc) + timedelta(hours=SESSION_EXPIRE_HOURS)
 
-    session = await save_session(
+    db_session = SessionModel(
+        id=session_id,
         user_id=user_id,
-        session_id=session_id,
         expires_at=expires_at,
     )
 
-    return session
+    db.add(db_session)
+    db.commit()
+    db.refresh(db_session)
+
+    return session_id
 
 
 # ------------------------------------------------------------
 # Retrieve a session by ID
 # ------------------------------------------------------------
-async def get_session_by_id(session_id: str):
-    try:
-        return await get_session(session_id)
-    except Exception:
-        return None
+def get_session_by_id(db: DBSession, session_id: str):
+    return (
+        db.query(SessionModel)
+        .filter(SessionModel.id == session_id)
+        .first()
+    )
 
 
 # ------------------------------------------------------------
-# Check if a session is expired
+# Delete a single session
 # ------------------------------------------------------------
-def is_session_expired(session) -> bool:
-    if not session or not session.expires_at:
-        return True
-    return datetime.utcnow() >= session.expires_at
+def delete_session(db: DBSession, session_id: str):
+    session = get_session_by_id(db, session_id)
+    if session:
+        db.delete(session)
+        db.commit()
 
 
 # ------------------------------------------------------------
-# Refresh TTL (sliding expiration)
+# NEW: Get all sessions for a user
 # ------------------------------------------------------------
-async def refresh_session_ttl(session_id: str, ttl: timedelta):
-    """
-    Refresh the session's expiration timestamp.
-    If session doesn't exist → no-op.
-    """
-    try:
-        new_expiry = datetime.utcnow() + ttl
-        await update_session_expiry(session_id, new_expiry)
-    except Exception:
-        # No-op — session may already be gone
-        pass
+def get_sessions_for_user(db: DBSession, user_id: int):
+    return (
+        db.query(SessionModel)
+        .filter(SessionModel.user_id == user_id)
+        .order_by(SessionModel.expires_at.desc())
+        .all()
+    )
+
+
+# ------------------------------------------------------------
+# NEW: Delete all sessions for a user (single-session enforcement)
+# ------------------------------------------------------------
+def destroy_existing_sessions_for_user(db: DBSession, user_id: int):
+    db.query(SessionModel).filter(
+        SessionModel.user_id == user_id
+    ).delete()
+    db.commit()
+
+
+# ------------------------------------------------------------
+# NEW: Admin — list all sessions
+# ------------------------------------------------------------
+def get_all_sessions(db: DBSession):
+    return (
+        db.query(SessionModel)
+        .order_by(SessionModel.expires_at.desc())
+        .all()
+    )

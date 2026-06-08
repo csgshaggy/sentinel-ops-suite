@@ -1,117 +1,263 @@
-/* ------------------------------------------------------------
-   Sentinel Ops — Dashboard (FINAL Neon‑Glassy Unified Theme)
-------------------------------------------------------------- */
+/* -----------------------------------------------------------
+   SentinelOps — Cyber / Glass Dashboard (Aligned with Login)
+------------------------------------------------------------ */
 
-/* Main dashboard wrapper */
-.dashboard {
-  width: 100%;
+/* ============================================================
+   PAGE LAYOUT + CYBER GRID
+============================================================ */
+
+.dashboard-page {
+  position: relative;
+  padding: 32px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  color: #e8f6ff;
+  font-family: "Inter", sans-serif;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #0a0d12,
+      #0a0d12 48px,
+      #1a1f27 49px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #0a0d12,
+      #0a0d12 48px,
+      #1a1f27 49px
+    );
+
+  overflow: hidden;
+}
+
+/* ambient glow */
+.dashboard-page::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(0, 175, 255, 0.12),
+    transparent 70%
+  );
+  filter: blur(60px);
+  z-index: 0;
+}
+
+/* ============================================================
+   TITLE
+============================================================ */
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+  color: #e8f6ff;
+
+  text-shadow:
+    0 0 10px rgba(0, 175, 255, 0.6),
+    0 0 20px rgba(0, 175, 255, 0.3);
+}
+
+/* ============================================================
+   SECTIONS (GLASS PANELS)
+============================================================ */
+
+.dashboard-section {
+  position: relative;
+  z-index: 2;
+
+  background: rgba(21, 24, 29, 0.75);
+  border: 1px solid rgba(0, 175, 255, 0.18);
+  border-radius: 14px;
+  padding: 28px;
+
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    0 0 18px rgba(0, 175, 255, 0.12),
+    inset 0 0 12px rgba(0, 175, 255, 0.05);
+
   display: flex;
   flex-direction: column;
   gap: 20px;
-  box-sizing: border-box;
 
-  /* FINAL: Fully unified neon‑glassy background */
-  background: rgba(0, 0, 0, 0.45) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-
-  color: #e8faff;
-  min-height: calc(100vh - 64px); /* below TopBar */
-  padding: 24px;
+  overflow: hidden;
+  transition: all 0.25s ease;
 }
 
-/* Greeting header */
-.dashboard-greeting {
-  margin: 0;
-  padding: 0;
-  font-size: 1.75rem;
-  font-weight: 600;
-  opacity: 0.9;
-  color: #e8faff;
-}
-
-/* Responsive neon‑glassy grid */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Neon‑glassy card */
-.dash-card {
-  background: rgba(0, 0, 0, 0.35);
-  
-  /* FINAL: Border intensity now matches Sidebar exactly */
-  border: 1px solid rgba(0, 255, 255, 0.18) !important;
-
+/* glowing border animation */
+.dashboard-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   border-radius: 14px;
+  border: 1px solid rgba(0, 175, 255, 0.2);
+  opacity: 0.6;
+  pointer-events: none;
+  animation: sectionGlow 3.5s ease-in-out infinite;
+}
 
-  padding: 20px;
-  box-sizing: border-box;
+@keyframes sectionGlow {
+  0% {
+    opacity: 0.4;
+    box-shadow: 0 0 8px rgba(0, 175, 255, 0.1);
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow: 0 0 22px rgba(0, 175, 255, 0.25);
+  }
+  100% {
+    opacity: 0.4;
+    box-shadow: 0 0 8px rgba(0, 175, 255, 0.1);
+  }
+}
 
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+.dashboard-section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #00afff;
 
-  box-shadow: 0 0 14px rgba(0, 255, 255, 0.08);
+  text-shadow: 0 0 10px rgba(0, 175, 255, 0.4);
+  letter-spacing: 0.4px;
+}
 
+/* ============================================================
+   METRIC CARDS
+============================================================ */
+
+.dashboard-metric-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dashboard-metric-card {
+  flex: 1;
+  min-width: 180px;
+  padding: 18px;
+  text-align: center;
+
+  background: rgba(15, 17, 21, 0.75);
+  border: 1px solid rgba(0, 175, 255, 0.18);
+  border-radius: 12px;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 0 12px rgba(0, 175, 255, 0.12),
+    inset 0 0 6px rgba(0, 175, 255, 0.05);
+
+  transition: all 0.2s ease;
+}
+
+/* hover lift */
+.dashboard-metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 20px rgba(0, 175, 255, 0.25),
+    0 0 30px rgba(0, 175, 255, 0.1);
+}
+
+.metric-label {
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+/* status colors */
+
+.metric-ok {
+  color: #4cd964;
+  text-shadow: 0 0 6px rgba(76, 217, 100, 0.4);
+}
+
+.metric-bad {
+  color: #ff6b6b;
+  text-shadow: 0 0 6px rgba(255, 80, 80, 0.4);
+}
+
+.metric-warn {
+  color: #ffd86b;
+  text-shadow: 0 0 6px rgba(255, 216, 107, 0.4);
+}
+
+/* ============================================================
+   IDENTITY GRID
+============================================================ */
+
+.identity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.identity-item {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  gap: 4px;
 }
 
-/* Hover elevation */
-.dash-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 22px rgba(0, 255, 255, 0.18);
+.identity-label {
+  font-size: 0.85rem;
+  opacity: 0.7;
 }
 
-/* Card title */
-.dash-title {
+.identity-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #e8f6ff;
+}
+
+/* ============================================================
+   STATES
+============================================================ */
+
+.dashboard-placeholder {
+  opacity: 0.7;
   font-size: 1rem;
-  font-weight: 600;
-  color: #b8eaff;
-  margin-bottom: 6px;
+  padding: 12px 0;
 }
 
-/* Status rows */
-.dash-line {
-  display: flex;
-  justify-content: space-between;
-  color: #e8faff;
+.dashboard-error {
+  color: #ff6b6b;
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(255, 80, 80, 0.4);
+}
+
+.dashboard-loading {
   opacity: 0.9;
-  font-size: 0.95rem;
+  color: #00afff;
+  font-size: 1.1rem;
 }
 
-/* OK status */
-.dash-ok {
-  color: #00ffff;
-  font-weight: 600;
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+.fade-in {
+  animation: fadeIn 0.35s ease-out;
 }
 
-/* Empty state */
-.dash-empty {
-  color: #e8faff;
-  opacity: 0.65;
-  font-size: 0.95rem;
-  font-style: italic;
-  margin-top: 4px;
-}
-
-/* Mobile optimization */
-@media (max-width: 600px) {
-  .dashboard {
-    padding: 16px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
   }
-
-  .dashboard-grid {
-    gap: 16px;
-  }
-
-  .dash-card {
-    padding: 16px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

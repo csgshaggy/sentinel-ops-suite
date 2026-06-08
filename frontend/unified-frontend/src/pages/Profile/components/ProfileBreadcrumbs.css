@@ -1,0 +1,27 @@
+/* -----------------------------------------------------------
+   SentinelOps — Profile Breadcrumbs
+------------------------------------------------------------ */
+
+.profile-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #9fdfff;
+  opacity: 0.9;
+}
+
+.profile-breadcrumbs a {
+  color: #00eaff;
+  text-decoration: none;
+  transition: 0.2s ease;
+}
+
+.profile-breadcrumbs a:hover {
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+}
+
+.profile-breadcrumbs-separator {
+  opacity: 0.5;
+  color: #7fcfff;
+}

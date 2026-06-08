@@ -3,26 +3,31 @@
 
 import uuid
 from datetime import datetime, timedelta
-from sqlalchemy.orm import Session
 
-from auth.models import Session as SessionModel
+# IMPORTANT:
+# Rename SQLAlchemy ORM session import to avoid collisions with your Session model.
+from sqlalchemy.orm import Session as DBSession
+
+# Rename SQLAlchemy model import to avoid collisions with DBSession.
+from app.models.session import Session as SessionModel
+
+
+SESSION_TTL_SECONDS = 3600  # 1 hour
 
 
 # ---------------------------------------------------------
 # Create a new session for a user
 # ---------------------------------------------------------
-def create_session(
-    db: Session,
-    user_id: int,
-    duration_minutes: int = 60,
-) -> SessionModel:
+def create_session(db: DBSession, user_id: int) -> SessionModel:
+    """
+    Creates a new session row for the given user.
+    """
     session_id = str(uuid.uuid4())
-    expires_at = datetime.utcnow() + timedelta(minutes=duration_minutes)
+    expires_at = datetime.utcnow() + timedelta(seconds=SESSION_TTL_SECONDS)
 
     new_session = SessionModel(
         id=session_id,
         user_id=user_id,
-        is_active=True,
         expires_at=expires_at,
     )
 
@@ -34,52 +39,43 @@ def create_session(
 
 
 # ---------------------------------------------------------
-# Invalidate a single session
+# Invalidate a single session (delete)
 # ---------------------------------------------------------
-def invalidate_session(db: Session, session_id: str) -> None:
-    session = (
-        db.query(SessionModel)
-        .filter(SessionModel.id == session_id)
-        .first()
-    )
-
-    if session:
-        session.is_active = False
-        db.commit()
+def invalidate_session(db: DBSession, session_id: str) -> None:
+    """
+    Deletes a session by ID.
+    """
+    db.query(SessionModel).filter(SessionModel.id == session_id).delete()
+    db.commit()
 
 
 # ---------------------------------------------------------
-# Invalidate all sessions for a user
-# (Used for single-active-session enforcement)
+# Invalidate all sessions for a user (single-session policy)
 # ---------------------------------------------------------
-def invalidate_all_sessions_for_user(db: Session, user_id: int) -> None:
-    db.query(SessionModel).filter(
-        SessionModel.user_id == user_id,
-        SessionModel.is_active == True,
-    ).update({"is_active": False})
-
+def invalidate_all_sessions_for_user(db: DBSession, user_id: int) -> None:
+    """
+    Deletes all sessions for a given user.
+    """
+    db.query(SessionModel).filter(SessionModel.user_id == user_id).delete()
     db.commit()
 
 
 # ---------------------------------------------------------
 # Retrieve an active session (no renewal)
 # ---------------------------------------------------------
-def get_active_session(db: Session, session_id: str) -> SessionModel | None:
-    session = (
-        db.query(SessionModel)
-        .filter(
-            SessionModel.id == session_id,
-            SessionModel.is_active == True,
-        )
-        .first()
-    )
+def get_active_session(db: DBSession, session_id: str) -> SessionModel | None:
+    """
+    Returns the session if it exists and is not expired.
+    Deletes expired sessions automatically.
+    """
+    session = db.query(SessionModel).filter(SessionModel.id == session_id).first()
 
     if not session:
         return None
 
-    # Expiration check
+    # Expired → delete it
     if session.expires_at < datetime.utcnow():
-        session.is_active = False
+        db.delete(session)
         db.commit()
         return None
 

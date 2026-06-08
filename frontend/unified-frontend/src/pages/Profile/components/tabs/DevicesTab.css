@@ -1,0 +1,61 @@
+/* -----------------------------------------------------------
+   SentinelOps — Devices Tab (Trusted Devices Table)
+------------------------------------------------------------ */
+
+.devices-tab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.devices-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.devices-empty {
+  text-align: center;
+  padding: 20px;
+  color: #b8eaff;
+  border-radius: 12px;
+}
+
+.devices-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.devices-table thead {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.devices-table th {
+  padding: 12px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #cfeaff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.devices-table td {
+  padding: 12px;
+  font-size: 0.9rem;
+  color: #e8f6ff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.devices-table tr:hover {
+  background: rgba(0, 200, 255, 0.08);
+}
+
+/* Mobile horizontal scroll */
+@media (max-width: 700px) {
+  .devices-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

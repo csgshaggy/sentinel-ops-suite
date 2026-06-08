@@ -1,0 +1,59 @@
+/* -----------------------------------------------------------
+   SentinelOps — API Key Create Modal (Secret‑Once Reveal)
+------------------------------------------------------------ */
+
+.apikey-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 10, 20, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+.apikey-modal {
+  width: 380px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 0 22px rgba(0, 200, 255, 0.2);
+  backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.apikey-warning {
+  font-size: 0.9rem;
+  color: #ffb3b3;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.apikey-secret-box {
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #e8f6ff;
+  font-family: monospace;
+  font-size: 0.95rem;
+  user-select: all;
+  text-align: center;
+}
+
+.apikey-modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .apikey-modal {
+    width: 90%;
+    padding: 18px;
+  }
+}

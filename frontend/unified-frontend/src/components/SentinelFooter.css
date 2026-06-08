@@ -1,15 +1,18 @@
-/* Sentinel Ops — Footer (Right-Aligned Trademark) */
+/* ============================================================
+   SentinelOps — Neon‑Glassy Footer (Aligned with Footer.jsx)
+   ============================================================ */
 
 .sentinel-footer {
   width: 100%;
-  height: 28px; /* matches Layout.css */
+  height: 32px; /* slightly taller for version badge */
 
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* right-align text */
+  justify-content: flex-end; /* right-aligned trademark */
 
-  padding: 0 16px;
+  padding: 0 18px;
   margin: 0;
+  box-sizing: border-box;
 
   background: var(--bg-surface);
   border-top: 1px solid var(--neon-accent-soft);
@@ -17,13 +20,41 @@
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
 
-  box-sizing: border-box;
-  flex-shrink: 0; /* prevents footer from collapsing */
+  flex-shrink: 0;
+  z-index: 10;
 }
+
+/* ============================================================
+   TEXT + VERSION
+   ============================================================ */
 
 .footer-text {
   color: var(--text-secondary);
   font-size: 13px;
   opacity: 0.85;
-  letter-spacing: 0.3px; /* subtle polish */
+  letter-spacing: 0.3px;
+  margin-right: 8px;
+}
+
+.footer-version {
+  color: var(--text-secondary);
+  font-size: 12px;
+  opacity: 0.75;
+  font-family: monospace;
+  letter-spacing: 0.4px;
+}
+
+/* ============================================================
+   MOBILE OPTIMIZATION
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .sentinel-footer {
+    height: 28px;
+    padding: 0 14px;
+  }
+
+  .footer-version {
+    display: none; /* keep footer minimal on small screens */
+  }
 }

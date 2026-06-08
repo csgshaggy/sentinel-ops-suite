@@ -1,0 +1,151 @@
+/* ============================================================
+   SentinelOps — MFA Setup (Neon‑Glassy Unified Theme)
+   Matches Security.css + AdminPanel.css + unified forms
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Container
+   ------------------------------------------------------------ */
+.mfa-setup-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px;
+  color: var(--text-primary);
+}
+
+/* ------------------------------------------------------------
+   Title
+   ------------------------------------------------------------ */
+.mfa-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+  text-shadow: var(--neon-glow);
+}
+
+/* ------------------------------------------------------------
+   Neon‑Glassy MFA Card
+   ------------------------------------------------------------ */
+.mfa-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius);
+
+  padding: 20px;
+  box-sizing: border-box;
+
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  box-shadow: 0 0 12px var(--neon-accent-glow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+              border-color 0.15s ease;
+}
+
+.mfa-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--neon-accent);
+  box-shadow: 0 6px 18px var(--neon-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   Description Text
+   ------------------------------------------------------------ */
+.mfa-description {
+  color: var(--text-secondary);
+  opacity: 0.9;
+  line-height: 1.45;
+}
+
+/* ------------------------------------------------------------
+   QR Code Wrapper
+   ------------------------------------------------------------ */
+.mfa-qr-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+}
+
+.mfa-qr {
+  width: 180px;
+  height: 180px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--neon-accent-soft);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 6px;
+  box-shadow: 0 0 8px var(--neon-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   Secret Key
+   ------------------------------------------------------------ */
+.mfa-secret {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.mfa-secret span {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------
+   Form Layout
+   ------------------------------------------------------------ */
+.mfa-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ------------------------------------------------------------
+   Input Field (Unified Admin Input)
+   ------------------------------------------------------------ */
+.mfa-input {
+  width: 100%;
+  padding: 10px;
+  background: rgba(15, 15, 25, 0.6);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mfa-input:focus {
+  outline: none;
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 6px var(--neon-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   Buttons (Unified Admin Buttons)
+   ------------------------------------------------------------ */
+.mfa-btn {
+  padding: 10px 16px;
+  background: rgba(0, 255, 255, 0.15);
+  border: 1px solid var(--neon-accent-soft);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.mfa-btn:hover {
+  background: rgba(0, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.mfa-btn-danger {
+  background: rgba(255, 60, 60, 0.2);
+  border-color: rgba(255, 60, 60, 0.4);
+}
+
+.mfa-btn-danger:hover {
+  background: rgba(255, 60, 60, 0.3);
+}

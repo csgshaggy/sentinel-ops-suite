@@ -1,65 +1,196 @@
-/* ------------------------------------------------------------
-   Sentinel Ops — Admin Panel (Neon‑Glassy Unified Theme)
-------------------------------------------------------------- */
+/* ============================================================
+   SentinelOps — Neon‑Glassy Admin Panel
+   Matches AdminPanel.jsx exactly
+   ============================================================ */
+
+:root {
+  --admin-bg: rgba(0, 0, 0, 0.35);
+  --admin-border: rgba(0, 255, 255, 0.18);
+  --admin-hover: rgba(0, 255, 255, 0.12);
+  --admin-shadow: rgba(0, 255, 255, 0.22);
+
+  --text-primary: #e8faff;
+  --text-secondary: #b8eaff;
+
+  --radius: 10px;
+}
+
+/* ============================================================
+   WRAPPER
+   ============================================================ */
 
 .admin-panel {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
+
+  width: 100%;
+  height: 100%;
+  padding: 10px 4px;
   box-sizing: border-box;
 
-  background: rgba(0, 0, 0, 0.45);
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.admin-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  margin: 0 0 6px 0;
+  color: var(--text-primary);
+}
+
+/* ============================================================
+   TABLE WRAPPER
+   ============================================================ */
+
+.admin-table-wrapper {
+  background: var(--admin-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--radius);
+
+  padding: 18px;
+  box-sizing: border-box;
+
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 
-  color: #e8faff;
-  min-height: calc(100vh - 64px);
-  padding: 24px;
+  box-shadow: 0 0 14px var(--admin-shadow);
+
+  overflow-x: auto;
 }
 
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+/* ============================================================
+   TABLE
+   ============================================================ */
+
+.admin-table {
   width: 100%;
-  box-sizing: border-box;
+  border-collapse: collapse;
+  color: var(--text-primary);
 }
 
-.admin-card {
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(0, 255, 255, 0.18);
-  border-radius: 14px;
-
-  padding: 20px;
-  box-sizing: border-box;
-
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  box-shadow: 0 0 14px rgba(0, 255, 255, 0.08);
-
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.admin-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 22px rgba(0, 255, 255, 0.18);
-}
-
-.admin-card h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #b8eaff;
-  margin-bottom: 6px;
-}
-
-.admin-card p {
-  color: #e8faff;
-  opacity: 0.9;
+.admin-table th,
+.admin-table td {
+  padding: 12px 14px;
+  text-align: left;
   font-size: 0.95rem;
+}
+
+.admin-table th {
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--admin-border);
+  letter-spacing: 0.4px;
+}
+
+.admin-table tr {
+  transition: background 0.15s ease;
+}
+
+.admin-table tr:hover {
+  background: var(--admin-hover);
+}
+
+/* ============================================================
+   STATUS BADGES
+   ============================================================ */
+
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.status-active {
+  background: rgba(0, 255, 140, 0.15);
+  color: #00ff8c;
+}
+
+.status-disabled {
+  background: rgba(255, 80, 80, 0.15);
+  color: #ff6b6b;
+}
+
+/* ============================================================
+   ACTION BUTTONS
+   ============================================================ */
+
+.admin-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+
+  background: transparent;
+  border: 1px solid var(--admin-border);
+  color: var(--text-primary);
+
+  font-size: 0.85rem;
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.admin-btn:hover {
+  background: var(--admin-hover);
+  transform: translateY(-1px);
+}
+
+.admin-btn-danger {
+  border-color: rgba(255, 80, 80, 0.4);
+  color: #ff6b6b;
+}
+
+.admin-btn-danger:hover {
+  background: rgba(255, 80, 80, 0.15);
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.admin-empty {
+  text-align: center;
+  padding: 20px 0;
+  color: var(--text-secondary);
+  opacity: 0.75;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   MOBILE OPTIMIZATION
+   ============================================================ */
+
+@media (max-width: 600px) {
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .admin-title {
+    font-size: 1.4rem;
+  }
+
+  .admin-btn {
+    padding: 5px 10px;
+  }
 }

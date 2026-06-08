@@ -1,0 +1,20 @@
+/* SentinelOps — Neon Glass Effect */
+
+.glass {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 20px rgba(0, 200, 255, 0.08);
+  padding: 16px;
+}
+
+.glass:hover {
+  box-shadow: 0 0 24px rgba(0, 200, 255, 0.15);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(18px);
+}

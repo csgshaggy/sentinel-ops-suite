@@ -1,4 +1,5 @@
 // /src/features/auth/AuthContext.jsx
+// SentinelOps — Unified Auth Context (Corrected for /api namespace)
 
 import {
   createContext,
@@ -6,257 +7,154 @@ import {
   useEffect,
   useCallback,
   useContext,
-  useRef,
 } from "react";
 
+import { useLocation } from "react-router-dom";
+import client, { setUnauthorizedHandler } from "../../api/apiClient.js";
 import { toast } from "../../components/ToastManager.jsx";
-
-import {
-  login as apiLogin,
-  verifyTotp as apiVerifyTotp,
-  restoreSession as apiRestoreSession,
-  logout as apiLogout,
-} from "../../api/auth.js";
-
-import { logSessionEvent } from "../../utils/sessionLogger.js";
-import { recordRestore } from "../../utils/sessionMetrics.js";
 
 export const AuthContext = createContext(null);
 
-/* ------------------------------------------------------------
-   USER ENRICHMENT — ensures initials + logout handler exist
-------------------------------------------------------------- */
-function enrichUser(rawUser, logoutFn) {
-  if (!rawUser) return null;
-
-  const initials =
-    rawUser.initials ||
-    rawUser.name?.[0] ||
-    rawUser.username?.[0] ||
-    rawUser.email?.[0] ||
-    "U";
-
-  return {
-    ...rawUser,
-    initials,
-    onLogout: logoutFn,
-  };
-}
-
-/* ------------------------------------------------------------
-   AuthProvider
-------------------------------------------------------------- */
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [mfaPending, setMfaPending] = useState(false);
-  const [pendingLoginToken, setPendingLoginToken] = useState(null);
+  const [mfaUserId, setMfaUserId] = useState(null);
 
-  // Prevent overlapping + repeated restore calls
-  const restoreLock = useRef(false);
-  const hasRestoredOnce = useRef(false);   // <-- NEW: permanent one‑shot gate
+  const location = useLocation();
+  const isLoginPage = location.pathname === "/login";
 
-  /* ------------------------------------------------------------
-     logout() — idempotent
-  ------------------------------------------------------------- */
-  const logout = useCallback(async () => {
-    logSessionEvent("logout_attempt", {
-      user: user?.username || null,
-    });
-
+  // ------------------------------------------------------------
+  // refreshUser — correct session restore via /api/users/me
+  // ------------------------------------------------------------
+  const refreshUser = useCallback(async () => {
     try {
-      await apiLogout();
-    } catch {
-      logSessionEvent("logout_api_error");
-    }
+      const res = await client.get("/api/users/me", {
+        withCredentials: true,
+      });
 
-    setUser(null);
-    setMfaPending(false);
-    setPendingLoginToken(null);
-
-    logSessionEvent("logout_success");
-    toast.info("You have been logged out.");
-  }, [user]);
-
-  /* ------------------------------------------------------------
-     restoreSession() — loop‑safe + ONE‑SHOT
-  ------------------------------------------------------------- */
-  const restoreSession = useCallback(async () => {
-    // 🚫 If we've already restored once this page load → NEVER restore again
-    if (hasRestoredOnce.current) return;
-
-    // 🚫 Prevent overlapping calls
-    if (restoreLock.current) return;
-    restoreLock.current = true;
-
-    logSessionEvent("session_restore_attempt");
-
-    try {
-      const data = await apiRestoreSession();
-
-      if (data?.user) {
-        const enriched = enrichUser(data.user, logout);
-        setUser(enriched);
-
-        recordRestore();
-        logSessionEvent("session_restore_success", {
-          user: data.user.username,
-        });
-
-        // 🔒 Permanently block all future restore attempts
-        hasRestoredOnce.current = true;
-      } else {
-        setUser(null);
-        logSessionEvent("session_restore_no_user");
+      if (res.status === 200 && res.data) {
+        setUser(res.data);
+        return res.data;
       }
+
+      setUser(null);
+      return null;
     } catch {
       setUser(null);
-      logSessionEvent("session_restore_error");
-    } finally {
-      restoreLock.current = false;
-      setLoading(false);
+      return null;
     }
-  }, [logout]);
+  }, []);
 
-  /* ------------------------------------------------------------
-     Initial session restore (ONE TIME ONLY)
-  ------------------------------------------------------------- */
-  useEffect(() => {
-    restoreSession();
-  }, [restoreSession]);
+  // ------------------------------------------------------------
+  // logout — destroys session + resets state
+  // ------------------------------------------------------------
+  const logout = useCallback(async () => {
+    try {
+      await client.post("/api/auth/logout", {}, { withCredentials: true });
+    } catch {}
 
-  /* ------------------------------------------------------------
-     login(username, password)
-  ------------------------------------------------------------- */
+    setUser(null);
+    setMfaUserId(null);
+    toast.info("You have been logged out.");
+    window.location.href = "/login";
+  }, []);
+
+  // ------------------------------------------------------------
+  // login — unified backend login flow
+  // ------------------------------------------------------------
   const login = useCallback(
     async (username, password) => {
-      logSessionEvent("login_attempt", { username });
-
       try {
-        const res = await apiLogin(username, password);
+        const res = await client.post(
+          "/api/auth/login",
+          { username, password },
+          { withCredentials: true }
+        );
 
-        if (res?.mfa_required) {
-          setMfaPending(true);
-          setPendingLoginToken(res.pending_login_token);
-
-          logSessionEvent("mfa_challenge", { username });
-          return "mfa_required";
+        if (res.data?.mfa_required === true) {
+          setMfaUserId(res.data.user_id);
+          return { status: "mfa_required", user_id: res.data.user_id };
         }
 
-        if (res?.user) {
-          const enriched = enrichUser(res.user, logout);
-          setUser(enriched);
-          setMfaPending(false);
-          setPendingLoginToken(null);
-
-          logSessionEvent("login_success", {
-            user: res.user.username,
-          });
-
-          toast.success("Logged in successfully.");
-          return "success";
-        }
-
-        logSessionEvent("login_failed", { username });
-        return "error";
+        await refreshUser();
+        toast.success("Logged in successfully.");
+        return { status: "success" };
       } catch {
-        logSessionEvent("login_error", { username });
-        toast.error("Login failed. Check your credentials.");
-        return "error";
+        toast.error("Invalid username or password.");
+        return { status: "error" };
       }
     },
-    [logout]
+    [refreshUser]
   );
 
-  /* ------------------------------------------------------------
-     verifyMfa(code)
-  ------------------------------------------------------------- */
-  const verifyMfa = useCallback(
-    async (code) => {
-      if (!pendingLoginToken) {
-        toast.error("No pending MFA session.");
-        logSessionEvent("mfa_verify_no_pending");
-        return "error";
-      }
-
-      logSessionEvent("mfa_verify_attempt");
+  // ------------------------------------------------------------
+  // completeMfa — correct endpoint: /api/auth/login/mfa-complete
+  // ------------------------------------------------------------
+  const completeMfa = useCallback(
+    async () => {
+      if (!mfaUserId) return "error";
 
       try {
-        const res = await apiVerifyTotp(pendingLoginToken, code);
+        await client.post(
+          "/api/auth/login/mfa-complete",
+          { user_id: mfaUserId },
+          { withCredentials: true }
+        );
 
-        if (res?.user) {
-          const enriched = enrichUser(res.user, logout);
-          setUser(enriched);
-          setMfaPending(false);
-          setPendingLoginToken(null);
-
-          logSessionEvent("mfa_success", {
-            user: res.user.username,
-          });
-
-          toast.success("MFA verified. Welcome!");
-          return "success";
-        }
-
-        logSessionEvent("mfa_failed");
-        return "error";
+        setMfaUserId(null);
+        await refreshUser();
+        toast.success("MFA verified. Welcome!");
+        return "success";
       } catch {
-        logSessionEvent("mfa_error");
         toast.error("Invalid MFA code.");
         return "error";
       }
     },
-    [pendingLoginToken, logout]
+    [mfaUserId, refreshUser]
   );
 
-  /* ------------------------------------------------------------
-     Auto-logout when backend session expires
-  ------------------------------------------------------------- */
+  // ------------------------------------------------------------
+  // 401 interceptor — ONLY logout if user was authenticated
+  // ------------------------------------------------------------
   useEffect(() => {
-    if (!user) return;
+    setUnauthorizedHandler(() => {
+      if (user) logout();
+    });
+  }, [logout, user]);
 
-    const interval = setInterval(async () => {
-      try {
-        const res = await fetch("/api/auth/session-status", {
-          credentials: "include",
-        });
+  // ------------------------------------------------------------
+  // Initial load — restore session (but NOT on login page)
+  // ------------------------------------------------------------
+  useEffect(() => {
+    if (isLoginPage) {
+      setLoading(false);
+      return;
+    }
 
-        if (res.status === 401) {
-          logSessionEvent("session_expired_auto_logout");
-          toast.warning("Your session has expired.");
-          logout();
-        }
-      } catch (err) {
-        console.error("session-status check failed:", err);
-      }
-    }, 10000);
+    (async () => {
+      await refreshUser();
+      setLoading(false);
+    })();
+  }, [refreshUser, isLoginPage]);
 
-    return () => clearInterval(interval);
-  }, [user, logout]);
-
-  /* ------------------------------------------------------------
-     isAuthenticated()
-  ------------------------------------------------------------- */
-  const isAuthenticated = useCallback(() => !!user, [user]);
-
-  const value = {
-    user,
-    loading,
-    mfaPending,
-    pendingLoginToken,
-    login,
-    verifyMfa,
-    logout,
-    restoreSession,
-    isAuthenticated,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        login,
+        completeMfa,
+        logout,
+        refreshUser,
+        mfaUserId,
+        isAuthenticated: !!user,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
-/* ------------------------------------------------------------
-   useAuth()
-------------------------------------------------------------- */
 export function useAuth() {
   return useContext(AuthContext);
 }

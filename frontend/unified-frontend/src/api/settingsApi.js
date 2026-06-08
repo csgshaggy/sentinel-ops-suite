@@ -1,5 +1,7 @@
 // /src/api/settingsApi.js
 
+import { logError } from "@/utils/logger";
+
 // ------------------------------------------------------------
 // Generic API wrapper (same pattern as /api/auth.js)
 // ------------------------------------------------------------
@@ -27,7 +29,8 @@ async function apiRequest(path, options = {}) {
       data,
     };
   } catch (err) {
-    console.error("API request failed:", err);
+    logError("settingsApi: Network request failed", { error: err });
+
     return {
       ok: false,
       status: 0,

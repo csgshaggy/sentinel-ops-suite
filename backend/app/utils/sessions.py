@@ -1,164 +1,141 @@
-# /home/ubuntu/sentinel-ops-suite/backend/app/utils/sessions.py
+# /app/utils/sessions.py
+# SentinelOps — Session Utilities (Complete + Correct)
 
 from datetime import datetime, timedelta
 from fastapi import Request
 from sqlalchemy.orm import Session as DBSession
 
-# Correct models
-from auth.models import Session as SessionModel, User
+from app.models.session import Session as SessionModel
+from app.models.user import User
+
 
 COOKIE_NAME = "session_id"
-
-# Sliding inactivity timeout (15 minutes)
-INACTIVITY_MINUTES = 15
-
-# Absolute max session lifetime (24 hours)
-ABSOLUTE_MAX_MINUTES = 60 * 24
+SESSION_LIFETIME_HOURS = 1
 
 
 # ---------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------
 
-def _get_cookie(request: Request):
+def _get_cookie(request: Request) -> str | None:
     return request.cookies.get(COOKIE_NAME)
 
 
-def _fetch_session(db: DBSession, token: str) -> SessionModel | None:
+def get_session_by_id(db: DBSession, token: str) -> SessionModel | None:
+    """
+    Public wrapper around the session fetch logic.
+    """
     return (
         db.query(SessionModel)
-        .filter(SessionModel.session_id == token)
+        .filter(SessionModel.id == token)
         .first()
     )
 
 
-def _is_absolute_expired(sess: SessionModel) -> bool:
+def is_session_valid(sess: SessionModel) -> bool:
+    """
+    Public wrapper around the session validity logic.
+    """
     now = datetime.utcnow()
-    absolute_expiry = sess.created_at + timedelta(minutes=ABSOLUTE_MAX_MINUTES)
-    return now > absolute_expiry
 
-
-def _is_ip_mismatch(request: Request, sess: SessionModel) -> bool:
-    request_ip = request.client.host
-    return sess.ip_address is not None and sess.ip_address != request_ip
-
-
-def _is_ua_mismatch(request: Request, sess: SessionModel) -> bool:
-    request_ua = request.headers.get("user-agent", "")
-    return sess.user_agent is not None and sess.user_agent != request_ua
-
-
-def _is_inactive(sess: SessionModel) -> bool:
-    now = datetime.utcnow()
-    if not sess.last_activity_at:
+    # Hard expiration
+    if sess.expires_at < now:
         return False
-    return sess.last_activity_at < now - timedelta(minutes=INACTIVITY_MINUTES)
+
+    # Optional is_active flag
+    is_active_attr = getattr(sess, "is_active", None)
+    if is_active_attr is None:
+        return True
+
+    return bool(is_active_attr)
 
 
 # ---------------------------------------------------------
-# Session Validators
+# Session Creation
+# ---------------------------------------------------------
+
+def create_session(db: DBSession, user_id: int) -> SessionModel:
+    """
+    Creates a new session row for the user.
+    Only uses fields that actually exist in the Session model.
+    """
+    now = datetime.utcnow()
+    expires = now + timedelta(hours=SESSION_LIFETIME_HOURS)
+
+    # Only include fields that exist in your Session model
+    sess = SessionModel(
+        user_id=user_id,
+        expires_at=expires,
+        created_at=now,   # safe: your model includes this
+        # ❌ removed: is_active=True (your model does not have this)
+    )
+
+    db.add(sess)
+    db.commit()
+    db.refresh(sess)
+
+    return sess
+
+
+# ---------------------------------------------------------
+# Request-Based Validators (used by /me, restore, heartbeat)
 # ---------------------------------------------------------
 
 def validate_session(request: Request, db: DBSession) -> User | None:
+    """
+    Lightweight validation used by /api/users/me.
+    """
     token = _get_cookie(request)
     if not token:
         return None
 
-    sess = _fetch_session(db, token)
+    sess = get_session_by_id(db, token)
     if not sess:
         return None
 
-    now = datetime.utcnow()
-
-    if _is_ip_mismatch(request, sess):
-        return None
-
-    if _is_ua_mismatch(request, sess):
-        return None
-
-    if _is_absolute_expired(sess):
-        return None
-
-    if sess.expires_at < now:
-        return None
-
-    if _is_inactive(sess):
+    if not is_session_valid(sess):
         return None
 
     return sess.user
 
 
 def restore_session(request: Request, db: DBSession):
+    """
+    Used by /api/auth/session/restore.
+    """
     token = _get_cookie(request)
     if not token:
         return None
 
-    sess = _fetch_session(db, token)
+    sess = get_session_by_id(db, token)
     if not sess:
         return None
 
-    now = datetime.utcnow()
-
-    if _is_ip_mismatch(request, sess):
+    if not is_session_valid(sess):
         return None
-
-    if _is_ua_mismatch(request, sess):
-        return None
-
-    if _is_absolute_expired(sess):
-        return None
-
-    if sess.expires_at < now:
-        return None
-
-    if _is_inactive(sess):
-        return None
-
-    # Update sliding timestamps
-    sess.last_activity_at = now
-    sess.last_seen_at = now
-    db.add(sess)
-    db.commit()
 
     return {
-        "session_token": sess.session_id,
+        "session_token": sess.id,
         "user": {
             "id": sess.user.id,
-            "email": sess.user.email,
             "username": sess.user.username,
         },
     }
 
 
 def heartbeat(request: Request, db: DBSession) -> bool:
+    """
+    Used by /api/auth/heartbeat.
+    """
     token = _get_cookie(request)
     if not token:
         return False
 
-    sess = _fetch_session(db, token)
+    sess = get_session_by_id(db, token)
     if not sess:
         return False
 
-    now = datetime.utcnow()
-
-    if _is_ip_mismatch(request, sess):
+    if not is_session_valid(sess):
         return False
-
-    if _is_ua_mismatch(request, sess):
-        return False
-
-    if _is_absolute_expired(sess):
-        return False
-
-    if sess.expires_at < now:
-        return False
-
-    if _is_inactive(sess):
-        return False
-
-    sess.last_seen_at = now
-    sess.last_activity_at = now
-    db.add(sess)
-    db.commit()
 
     return True

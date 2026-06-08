@@ -1,0 +1,51 @@
+/* -----------------------------------------------------------
+   SentinelOps — Overview Tab
+   Deep Navy + Cyan Neon + Glass Panels
+------------------------------------------------------------ */
+
+.tab-section {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.tab-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #b8eaff;
+  margin-bottom: 4px;
+}
+
+/* -----------------------------------------------------------
+   Overview Grid
+------------------------------------------------------------ */
+.tab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.tab-item {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+  color: #e7faff;
+}
+
+.tab-item label {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* -----------------------------------------------------------
+   Mobile
+------------------------------------------------------------ */
+@media (max-width: 600px) {
+  .tab-grid {
+    grid-template-columns: 1fr;
+  }
+}

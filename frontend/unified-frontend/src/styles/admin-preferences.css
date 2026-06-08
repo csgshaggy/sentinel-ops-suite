@@ -1,0 +1,161 @@
+/* ============================================================
+   Admin Preferences — Neon Glassy Theme
+   Matches Sidebar, Dashboard, Admin Panel, and TopBar
+   ============================================================ */
+
+.admin-preferences-container {
+  padding: 2rem;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Title */
+.admin-preferences-container h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 8px var(--neon-accent-soft);
+}
+
+/* Status message */
+.status-message {
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid var(--neon-accent);
+  padding: 0.75rem 1rem;
+  border-radius: var(--panel-radius);
+  box-shadow: 0 0 12px var(--neon-accent-soft);
+  font-weight: 500;
+  width: fit-content;
+}
+
+/* Table container */
+.admin-preferences-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--panel-radius);
+  overflow: hidden;
+  box-shadow: var(--panel-shadow);
+}
+
+/* Table header */
+.admin-preferences-table th {
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--glass-border);
+  font-weight: 600;
+  text-align: left;
+  color: var(--text-primary);
+}
+
+/* Table rows */
+.admin-preferences-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-primary);
+}
+
+/* Hover effect */
+.admin-preferences-table tr:hover {
+  background: rgba(0, 255, 255, 0.06);
+}
+
+/* Inputs + selects */
+.admin-preferences-table select,
+.admin-preferences-table input[type="text"],
+.admin-preferences-table input[type="number"] {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.admin-preferences-table select:focus,
+.admin-preferences-table input:focus {
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 8px var(--neon-accent-soft);
+}
+
+/* Checkboxes */
+.admin-preferences-table input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--neon-accent);
+}
+
+/* Save button */
+.admin-preferences-table button {
+  background: var(--neon-accent);
+  color: black;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 0 10px var(--neon-accent-soft);
+  transition: 0.2s ease;
+}
+
+.admin-preferences-table button:hover {
+  box-shadow: 0 0 16px var(--neon-accent);
+  transform: translateY(-1px);
+}
+
+.admin-preferences-table button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  background: rgba(0, 255, 255, 0.15);
+  border: 1px solid var(--neon-accent);
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: rgba(0, 255, 255, 0.25);
+  box-shadow: 0 0 10px var(--neon-accent-soft);
+}
+
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Search bar */
+.search-input {
+  width: 250px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: var(--neon-accent);
+  box-shadow: 0 0 8px var(--neon-accent-soft);
+}

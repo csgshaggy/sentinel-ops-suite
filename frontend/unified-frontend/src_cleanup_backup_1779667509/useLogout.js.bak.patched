@@ -1,0 +1,27 @@
+// /src/hooks/useLogout.js
+
+import apiClient from "../api/apiClient.js";
+import { logSessionEvent } from "../utils/sessionLogger.js";
+
+/**
+ * useLogout
+ * Logs out the user by invalidating the session server-side.
+ * Cookie is cleared by backend. Frontend should clear user state.
+ */
+export function useLogout(setUser) {
+  return async function logout() {
+    try {
+      await apiClient.post("/api/auth/logout", null, {
+        withCredentials: true,
+      });
+
+      logSessionEvent("logout_success");
+    } catch (err) {
+      logSessionEvent("logout_error");
+    }
+
+    // Clear frontend state regardless of backend result
+    setUser(null);
+    return true;
+  };
+}

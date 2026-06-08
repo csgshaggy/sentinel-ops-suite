@@ -1,0 +1,66 @@
+/* -----------------------------------------------------------
+   SentinelOps — Avatar Crop Modal
+------------------------------------------------------------ */
+
+.avatar-crop-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 10, 20, 0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5000;
+}
+
+.avatar-crop-modal {
+  width: 380px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 0 22px rgba(0, 200, 255, 0.2);
+  backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.avatar-crop-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #e8f6ff;
+  text-align: center;
+}
+
+.avatar-crop-preview {
+  display: flex;
+  justify-content: center;
+}
+
+.avatar-crop-preview img {
+  width: 240px;
+  height: 240px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid rgba(0, 255, 255, 0.35);
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.25);
+}
+
+.avatar-crop-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .avatar-crop-modal {
+    width: 90%;
+    padding: 18px;
+  }
+
+  .avatar-crop-preview img {
+    width: 200px;
+    height: 200px;
+  }
+}

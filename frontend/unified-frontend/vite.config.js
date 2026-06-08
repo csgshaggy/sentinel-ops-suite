@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import fs from "fs";
+import path from "path";   // <-- 🔥 REQUIRED for alias
 import { version as pkgVersion } from "./package.json";
 
 // Read version numbers for cache-busting
@@ -15,8 +16,16 @@ export default defineConfig({
   },
 
   esbuild: {
-    // ensure esbuild handles CSS minification
     legalComments: "none"
+  },
+
+  // ------------------------------------------------------------
+  // 🔥 ADD ALIAS SUPPORT (Validator-safe, project-wide)
+  // ------------------------------------------------------------
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
   },
 
   plugins: [
@@ -58,8 +67,6 @@ export default defineConfig({
   build: {
     outDir: "dist",
     emptyOutDir: true,
-
-    // 🔥 Force esbuild for CSS minification
     cssMinify: "esbuild",
   },
 

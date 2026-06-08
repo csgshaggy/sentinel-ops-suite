@@ -1,0 +1,64 @@
+/* -----------------------------------------------------------
+   SentinelOps — Profile Summary Card (Neon‑Glassy)
+------------------------------------------------------------ */
+
+.profile-summary-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 0 18px rgba(0, 200, 255, 0.12);
+}
+
+.profile-summary-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 1px solid rgba(0, 255, 255, 0.35);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+}
+
+.profile-summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-summary-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #e8f6ff;
+}
+
+.profile-summary-email {
+  font-size: 0.95rem;
+  color: #b8dfff;
+}
+
+.profile-summary-role {
+  font-size: 0.85rem;
+  color: #7fcfff;
+  opacity: 0.9;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .profile-summary-card {
+    padding: 18px;
+    gap: 16px;
+  }
+
+  .profile-summary-avatar {
+    width: 70px;
+    height: 70px;
+  }
+
+  .profile-summary-name {
+    font-size: 1.2rem;
+  }
+}

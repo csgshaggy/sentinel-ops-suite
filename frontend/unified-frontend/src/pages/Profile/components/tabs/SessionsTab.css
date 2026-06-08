@@ -1,0 +1,144 @@
+/* -----------------------------------------------------------
+   SentinelOps — Sessions Tab (Active Sessions Table)
+   Deep Navy + Cyan Neon + Glass Panels
+------------------------------------------------------------ */
+
+.sessions-tab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 4px;
+  color: #e7faff;
+}
+
+/* -----------------------------------------------------------
+   Header Row
+------------------------------------------------------------ */
+.sessions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #b8eaff;
+}
+
+/* -----------------------------------------------------------
+   Empty State
+------------------------------------------------------------ */
+.sessions-empty {
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+  color: #b8eaff;
+}
+
+/* -----------------------------------------------------------
+   Sessions Table Wrapper (Glass Panel)
+------------------------------------------------------------ */
+.sessions-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+/* -----------------------------------------------------------
+   Sessions Table
+------------------------------------------------------------ */
+.sessions-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.sessions-table thead {
+  background: rgba(0, 40, 70, 0.45);
+}
+
+.sessions-table th {
+  padding: 12px;
+  text-align: left;
+  font-size: 0.9rem;
+  color: #b8eaff;
+  border-bottom: 1px solid rgba(0, 180, 255, 0.25);
+  white-space: nowrap;
+}
+
+.sessions-table td {
+  padding: 12px;
+  font-size: 0.9rem;
+  color: #e7faff;
+  border-bottom: 1px solid rgba(0, 180, 255, 0.15);
+}
+
+.sessions-table tr:hover {
+  background: rgba(0, 200, 255, 0.08);
+}
+
+/* -----------------------------------------------------------
+   Terminate Buttons
+------------------------------------------------------------ */
+.btn-danger {
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff4d4d, #ff6b6b);
+  color: #00121f;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(255, 80, 80, 0.5);
+}
+
+.btn-danger.small {
+  padding: 5px 10px;
+  font-size: 0.85rem;
+}
+
+/* -----------------------------------------------------------
+   Terminate All Sessions Button
+------------------------------------------------------------ */
+.terminate-all-btn {
+  width: fit-content;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff4d4d, #ff6b6b);
+  color: #00121f;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.terminate-all-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 12px rgba(255, 80, 80, 0.5);
+}
+
+/* -----------------------------------------------------------
+   Mobile Horizontal Scroll
+------------------------------------------------------------ */
+@media (max-width: 700px) {
+  .sessions-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .sessions-table {
+    min-width: 600px;
+  }
+
+  .btn-danger,
+  .terminate-all-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

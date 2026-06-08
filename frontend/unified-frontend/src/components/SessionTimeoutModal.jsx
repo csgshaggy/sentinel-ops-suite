@@ -3,17 +3,10 @@
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useAuth } from "../features/auth/AuthContext.jsx";
+import client from "../api/apiClient.js";
 import { toast } from "./ToastManager.jsx";
 import "./SessionTimeoutModal.css";
 
-/**
- * SessionTimeoutModal
- * - Neon-glass modal
- * - Countdown timer
- * - Stay Logged In + Logout Now
- * - ESC closes (Stay Logged In)
- * - Focus trap
- */
 export default function SessionTimeoutModal({
   isOpen,
   onStayLoggedIn,
@@ -23,16 +16,10 @@ export default function SessionTimeoutModal({
   const { user } = useAuth();
   const modalRef = useRef(null);
 
-  /* ------------------------------------------------------------
-     Reset countdown when modal opens
-  ------------------------------------------------------------ */
   useEffect(() => {
     if (isOpen) setCountdown(10);
   }, [isOpen]);
 
-  /* ------------------------------------------------------------
-     Countdown timer
-  ------------------------------------------------------------ */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -45,9 +32,6 @@ export default function SessionTimeoutModal({
     return () => clearTimeout(timer);
   }, [isOpen, countdown, onLogout]);
 
-  /* ------------------------------------------------------------
-     ESC closes modal (Stay Logged In)
-  ------------------------------------------------------------ */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -59,9 +43,6 @@ export default function SessionTimeoutModal({
     return () => document.removeEventListener("keydown", handleKey);
   }, [isOpen, onStayLoggedIn]);
 
-  /* ------------------------------------------------------------
-     Focus trap when modal opens
-  ------------------------------------------------------------ */
   useEffect(() => {
     if (!isOpen) return;
 
@@ -76,6 +57,20 @@ export default function SessionTimeoutModal({
 
   if (!isOpen || !user) return null;
 
+  const extendSession = async () => {
+    try {
+      const res = await client.get("/auth/refresh");
+      if (res.status === 200) {
+        toast.success("Session extended.");
+        onStayLoggedIn();
+      } else {
+        onLogout();
+      }
+    } catch {
+      onLogout();
+    }
+  };
+
   return createPortal(
     <div className="session-timeout-overlay">
       <div className="session-timeout-modal glass-panel" ref={modalRef}>
@@ -87,13 +82,7 @@ export default function SessionTimeoutModal({
         </p>
 
         <div className="session-timeout-actions">
-          <button
-            className="session-btn stay-btn"
-            onClick={() => {
-              toast.success("Session extended.");
-              onStayLoggedIn();
-            }}
-          >
+          <button className="session-btn stay-btn" onClick={extendSession}>
             Stay Logged In
           </button>
 
@@ -112,4 +101,3 @@ export default function SessionTimeoutModal({
     document.body
   );
 }
-

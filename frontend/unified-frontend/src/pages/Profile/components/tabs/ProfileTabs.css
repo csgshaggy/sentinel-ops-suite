@@ -1,0 +1,87 @@
+/* -----------------------------------------------------------
+   SentinelOps — Global Profile Tabs Theme
+   Deep Navy + Cyan Neon + Glass Panels
+------------------------------------------------------------ */
+
+.profile-tabs-container {
+  display: flex;
+  gap: 22px;
+  width: 100%;
+}
+
+/* -----------------------------------------------------------
+   Vertical Tabs (Desktop)
+------------------------------------------------------------ */
+.profile-tabs-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 180px;
+}
+
+/* -----------------------------------------------------------
+   Horizontal Tabs (Mobile)
+------------------------------------------------------------ */
+.profile-tabs-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+/* -----------------------------------------------------------
+   Tab Button
+------------------------------------------------------------ */
+.profile-tab {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(0, 20, 40, 0.35);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  color: #b8eaff;
+  cursor: pointer;
+  transition: 0.15s ease;
+  white-space: nowrap;
+}
+
+.profile-tab:hover {
+  background: rgba(0, 40, 70, 0.45);
+  border-color: rgba(0, 200, 255, 0.4);
+  box-shadow: 0 0 8px rgba(0, 200, 255, 0.3);
+}
+
+.profile-tab.active {
+  background: rgba(0, 40, 70, 0.55);
+  border-color: rgba(0, 200, 255, 0.6);
+  box-shadow: 0 0 12px rgba(0, 200, 255, 0.5);
+  color: #e7faff;
+  font-weight: 600;
+}
+
+/* -----------------------------------------------------------
+   Tab Content Panel
+------------------------------------------------------------ */
+.profile-tab-content {
+  flex: 1;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+  color: #e7faff;
+  min-height: 200px;
+}
+
+/* -----------------------------------------------------------
+   Mobile
+------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .profile-tabs-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .profile-tab-content {
+    padding: 16px;
+  }
+}

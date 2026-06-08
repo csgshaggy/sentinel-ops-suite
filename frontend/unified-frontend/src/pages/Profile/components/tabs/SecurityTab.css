@@ -1,0 +1,137 @@
+/* -----------------------------------------------------------
+   SentinelOps — Security Tab (Full Security Dashboard)
+   Deep Navy + Cyan Neon + Glass Panels
+------------------------------------------------------------ */
+
+.security-tab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 4px;
+}
+
+/* -----------------------------------------------------------
+   Section Titles
+------------------------------------------------------------ */
+.tab-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #b8eaff;
+  margin-bottom: 6px;
+}
+
+/* -----------------------------------------------------------
+   Security Overview Grid
+------------------------------------------------------------ */
+.security-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.security-item {
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(0, 20, 40, 0.45);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  color: #e7faff;
+}
+
+.security-item label {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* -----------------------------------------------------------
+   Password Change Form
+------------------------------------------------------------ */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  color: #b8eaff;
+  font-size: 0.9rem;
+}
+
+.form-input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  background: rgba(0, 20, 40, 0.35);
+  color: #e7faff;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #4dd2ff;
+  box-shadow: 0 0 6px rgba(0, 180, 255, 0.4);
+}
+
+/* -----------------------------------------------------------
+   Primary Button
+------------------------------------------------------------ */
+.btn-primary {
+  margin-top: 6px;
+  width: fit-content;
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #009dff, #00d4ff);
+  color: #00121f;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(0, 200, 255, 0.5);
+}
+
+/* -----------------------------------------------------------
+   Security Recommendations
+------------------------------------------------------------ */
+.security-recommendations {
+  padding: 16px 18px;
+  border-radius: 10px;
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(10px);
+  list-style: disc;
+  margin-left: 20px;
+  color: #e7faff;
+}
+
+.security-recommendations li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+/* -----------------------------------------------------------
+   Mobile
+------------------------------------------------------------ */
+@media (max-width: 600px) {
+  .security-tab-container {
+    gap: 22px;
+  }
+
+  .security-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+}

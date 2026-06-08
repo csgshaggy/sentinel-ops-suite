@@ -1,5 +1,6 @@
 // /src/components/Dashboard/DashboardGrid.jsx
 
+import React, { memo } from "react";
 import "./DashboardGrid.css";
 
 /**
@@ -10,10 +11,12 @@ import "./DashboardGrid.css";
  * - Neon-glass compatible
  * - Clean, modular layout
  */
-export default function DashboardGrid({ children }) {
+function DashboardGrid({ children }) {
   return (
     <div className="dashboard-grid">
       {children}
     </div>
   );
 }
+
+export default memo(DashboardGrid);

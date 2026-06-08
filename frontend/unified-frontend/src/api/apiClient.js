@@ -1,16 +1,17 @@
 // /src/api/apiClient.js
 // ============================================================
-// Operator‑Grade API Client
-// Centralized fetch wrapper with:
-// - JSON parsing
-// - Error normalization
+// SentinelOps — Operator‑Grade API Client (Unified Backend)
+// - Fetch-based (deterministic, low drift)
+// - JSON parsing with fallback
 // - Timeout protection
 // - Credentials included by default
-// - Automatic FormData handling (file uploads)
-// - 401 Unauthorized handler ("interceptor"-style)
+// - Automatic FormData handling
+// - 401 Unauthorized interceptor (AuthContext-driven)
+// - Axios-style wrapper for compatibility
 // ============================================================
 
 const DEFAULT_TIMEOUT = 12_000; // 12 seconds
+const BASE_URL = "/api";
 
 // ------------------------------------------------------------
 // 401 handler registration (set by AuthContext)
@@ -36,6 +37,15 @@ function triggerUnauthorizedOnce(meta = {}) {
 }
 
 // ------------------------------------------------------------
+// Normalize path to avoid double /api/api
+// ------------------------------------------------------------
+function normalizePath(path) {
+  if (path.startsWith("/api/")) return path;
+  if (path.startsWith("api/")) return "/" + path;
+  return BASE_URL + path;
+}
+
+// ------------------------------------------------------------
 // Core API client
 // ------------------------------------------------------------
 export async function apiClient(path, options = {}) {
@@ -43,19 +53,20 @@ export async function apiClient(path, options = {}) {
   const timeout = setTimeout(() => controller.abort(), DEFAULT_TIMEOUT);
 
   const isFormData = options.body instanceof FormData;
+  const noJSON = options.noJSON === true;
 
   try {
-    const res = await fetch(path, {
-      credentials: "include", // ⭐ ALWAYS send cookies
+    const res = await fetch(normalizePath(path), {
+      credentials: "include",
       signal: controller.signal,
 
-      // ⭐ Only set JSON headers when NOT sending FormData
       headers: isFormData
         ? {
             ...(options.headers || {}),
           }
         : {
             "Content-Type": "application/json",
+            Accept: "application/json",
             ...(options.headers || {}),
           },
 
@@ -64,12 +75,16 @@ export async function apiClient(path, options = {}) {
 
     clearTimeout(timeout);
 
-    // Try to parse JSON, but tolerate non‑JSON responses
+    // --------------------------------------------------------
+    // Parse JSON unless explicitly disabled
+    // --------------------------------------------------------
     let data = null;
-    try {
-      data = await res.json();
-    } catch {
-      data = null;
+    if (!noJSON) {
+      try {
+        data = await res.json();
+      } catch {
+        data = null;
+      }
     }
 
     // --------------------------------------------------------
@@ -87,12 +102,12 @@ export async function apiClient(path, options = {}) {
       ok: res.ok,
       status: res.status,
       data,
+      raw: res,
     };
   } catch (err) {
     clearTimeout(timeout);
 
     if (err.name === "AbortError") {
-      console.error("API timeout:", path);
       return {
         ok: false,
         status: 0,
@@ -100,7 +115,6 @@ export async function apiClient(path, options = {}) {
       };
     }
 
-    console.error("API network error:", err);
     return {
       ok: false,
       status: 0,
@@ -113,7 +127,6 @@ export async function apiClient(path, options = {}) {
 // Convenience helpers
 // ============================================================
 
-// GET ---------------------------------------------------------
 export function get(path, extraOptions = {}) {
   return apiClient(path, {
     method: "GET",
@@ -121,21 +134,18 @@ export function get(path, extraOptions = {}) {
   });
 }
 
-// POST --------------------------------------------------------
 export function post(path, body, extraOptions = {}) {
-  // ⭐ Special case: FormData (file uploads)
   if (body instanceof FormData) {
     return apiClient(path, {
       method: "POST",
-      body, // raw FormData
+      body,
       ...extraOptions,
       headers: {
-        ...(extraOptions.headers || {}), // DO NOT set Content-Type
+        ...(extraOptions.headers || {}),
       },
     });
   }
 
-  // ⭐ Normal JSON POST
   return apiClient(path, {
     method: "POST",
     body: JSON.stringify(body),
@@ -147,7 +157,6 @@ export function post(path, body, extraOptions = {}) {
   });
 }
 
-// PUT ---------------------------------------------------------
 export function put(path, body, extraOptions = {}) {
   return apiClient(path, {
     method: "PUT",
@@ -160,7 +169,6 @@ export function put(path, body, extraOptions = {}) {
   });
 }
 
-// DELETE ------------------------------------------------------
 export function del(path, extraOptions = {}) {
   return apiClient(path, {
     method: "DELETE",
@@ -169,7 +177,7 @@ export function del(path, extraOptions = {}) {
 }
 
 // ============================================================
-// Axios‑style wrapper (for compatibility with existing code)
+// Axios‑style wrapper (compatibility)
 // ============================================================
 const client = {
   get,

@@ -10,7 +10,6 @@ export function logSessionEvent(event, data = {}) {
   };
 
   // Structured JSON log for console + backend mirroring
-  console.info("[SESSION]", JSON.stringify(payload));
 
   // Emit event for operator UI components
   window.dispatchEvent(

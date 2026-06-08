@@ -27,7 +27,7 @@
   color: white;
   font-size: 0.65rem;
   padding: 2px 5px;
-  border-radius: 10px;
+  border-radius: var(--radius);
   font-weight: 700;
   box-shadow: 0 0 6px rgba(255, 0, 0, 0.6);
 }
@@ -40,7 +40,7 @@
   width: 260px;
   background: #1e1e1e;
   border: 1px solid rgba(0, 255, 255, 0.2);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   box-shadow: 0 0 12px rgba(0, 255, 255, 0.25);
   padding: 10px 0;
   z-index: 9999;

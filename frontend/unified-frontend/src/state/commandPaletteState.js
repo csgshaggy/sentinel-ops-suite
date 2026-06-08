@@ -10,22 +10,22 @@ const ROUTES = [
   { path: "/login", label: "Login", icon: "🔐" },
 
   // Admin
-  { path: "/admin", label: "Admin Home", icon: "📊" },
-  { path: "/admin/dashboard", label: "Dashboard", icon: "📊" },
+  { path: "", label: "Admin Home", icon: "📊" },
+  { path: "/dashboard", label: "Dashboard", icon: "📊" },
 
   // Security
-  { path: "/admin/security", label: "Security", icon: "🔐" },
-  { path: "/admin/security/change-password", label: "Change Password", icon: "🔑" },
-  { path: "/admin/security/mfa-disable", label: "Disable MFA", icon: "🔑" },
-  { path: "/admin/security/recovery", label: "Recovery Options", icon: "🛟" },
-  { path: "/admin/security/backup-codes", label: "Backup Codes", icon: "📄" },
-  { path: "/admin/security/device-trust", label: "Device Trust", icon: "🖥️" },
-  { path: "/admin/security/login-alerts", label: "Login Alerts", icon: "🚨" },
-  { path: "/admin/security/notifications", label: "Security Notifications", icon: "🔔" },
+  { path: "/security", label: "Security", icon: "🔐" },
+  { path: "/security/change-password", label: "Change Password", icon: "🔑" },
+  { path: "/security/mfa-disable", label: "Disable MFA", icon: "🔑" },
+  { path: "/security/recovery", label: "Recovery Options", icon: "🛟" },
+  { path: "/security/backup-codes", label: "Backup Codes", icon: "📄" },
+  { path: "/security/device-trust", label: "Device Trust", icon: "🖥️" },
+  { path: "/security/login-alerts", label: "Login Alerts", icon: "🚨" },
+  { path: "/security/notifications", label: "Security Notifications", icon: "🔔" },
 
   // Admin-only
-  { path: "/admin/audit-logs", label: "Audit Logs", icon: "📜" },
-  { path: "/admin/users", label: "Users", icon: "👥" },
+  { path: "/audit-logs", label: "Audit Logs", icon: "📜" },
+  { path: "/users", label: "Users", icon: "👥" },
 ];
 
 // -------------------------------

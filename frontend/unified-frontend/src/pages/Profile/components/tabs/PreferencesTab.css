@@ -1,0 +1,119 @@
+/* -----------------------------------------------------------
+   SentinelOps — Preferences Tab (Full Suite)
+------------------------------------------------------------ */
+
+.preferences-tab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 4px;
+}
+
+/* -----------------------------------------------------------
+   SECTION WRAPPER
+------------------------------------------------------------ */
+.pref-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 0 14px rgba(0, 200, 255, 0.12);
+}
+
+/* -----------------------------------------------------------
+   TITLES
+------------------------------------------------------------ */
+.pref-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e8f6ff;
+  letter-spacing: 0.3px;
+}
+
+/* -----------------------------------------------------------
+   SELECT INPUTS
+------------------------------------------------------------ */
+.pref-select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+
+  background: rgba(0, 20, 40, 0.45);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  color: #e8f6ff;
+
+  font-size: 0.95rem;
+  backdrop-filter: blur(10px);
+  transition: 0.2s ease;
+}
+
+.pref-select:hover {
+  background: rgba(0, 40, 70, 0.55);
+  border-color: rgba(0, 200, 255, 0.35);
+}
+
+.pref-select:focus {
+  outline: none;
+  border-color: #00eaff;
+  box-shadow: 0 0 10px rgba(0, 200, 255, 0.35);
+}
+
+/* -----------------------------------------------------------
+   TOGGLES
+------------------------------------------------------------ */
+.pref-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #cfeaff;
+  font-size: 0.9rem;
+}
+
+.pref-toggle input {
+  transform: scale(1.25);
+  cursor: pointer;
+}
+
+/* -----------------------------------------------------------
+   SKELETON LOADING
+------------------------------------------------------------ */
+.preferences-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton-line {
+  height: 14px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  animation: pulse 1.6s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.45; }
+}
+
+/* -----------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------------ */
+@media (max-width: 600px) {
+  .pref-section {
+    padding: 14px;
+  }
+
+  .pref-select {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}
+

@@ -3,7 +3,7 @@
 .panel {
   background: var(--bg-surface);
   border: 1px solid var(--neon-accent-soft);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 20px;
   box-sizing: border-box;
 
