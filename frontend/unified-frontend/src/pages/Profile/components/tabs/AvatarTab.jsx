@@ -1,13 +1,18 @@
+// src/pages/Profile/components/tabs/AvatarTab.jsx
+
 import { useRef, useState, useEffect, useMemo } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import apiClient from "../../../../api/apiClient";
-import useAvatarUrl from "../../../../hooks/useAvatarUrl";
 
+import { uploadAvatar } from "../../../../api/profileClient";
+import useAvatarUrl from "../../../../hooks/useAvatarUrl";
 import AvatarCropModal from "../AvatarCropModal";
 import { toast } from "../../../../components/ToastManager.jsx";
 
 import "./AvatarTab.css";
 
+/* ------------------------------------------------------------
+   Constants
+------------------------------------------------------------ */
 const MAX_FILE_SIZE_MB = 5;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
@@ -17,75 +22,39 @@ const ALLOWED_EXTENSIONS = [".png", ".jpg", ".jpeg", ".webp"];
 /* ------------------------------------------------------------
    Helpers
 ------------------------------------------------------------ */
-function getApiBaseUrl() {
-  const configuredBase = apiClient?.defaults?.baseURL || "";
-  return configuredBase.replace(/\/+$/, "");
-}
-
-function resolveAvatarUrl(url) {
-  if (!url) return null;
-
-  // Already absolute (S3/CDN/full backend URL)
-  if (/^https?:\/\//i.test(url)) {
-    return url;
-  }
-
-  // Relative local path
-  const normalized = url.startsWith("/") ? url : `/${url}`;
-  const base = getApiBaseUrl();
-
-  return base ? `${base}${normalized}` : normalized;
-}
-
-function addCacheBust(url, version) {
-  if (!url) return url;
-  const separator = url.includes("?") ? "&" : "?";
-  const v = version || Date.now();
-  return `${url}${separator}v=${encodeURIComponent(v)}`;
-}
-
-function normalizeAvatarUrl(url, version) {
-  const resolved = resolveAvatarUrl(url);
-  return resolved ? addCacheBust(resolved, version) : null;
-}
-
 function hasAllowedExtension(filename = "") {
   const lower = filename.toLowerCase();
   return ALLOWED_EXTENSIONS.some((ext) => lower.endsWith(ext));
 }
 
-export default function AvatarTab({ profile, refetchProfile }) {
+export default function AvatarTab({ profile }) {
   const queryClient = useQueryClient();
 
   const fileInputRef = useRef(null);
   const tempObjectUrlRef = useRef(null);
 
-  /**
-   * Keep your existing hook as a fallback in case it already handles
-   * app-specific avatar resolution logic.
-   */
   const hookAvatarUrl = useAvatarUrl(profile);
 
   const incomingAvatarUrl = useMemo(() => {
-    return normalizeAvatarUrl(
-      profile?.avatar_thumb_url || profile?.avatar_url || hookAvatarUrl,
-      profile?.avatar_version
-    );
+    return hookAvatarUrl ||
+      profile?.avatar_thumb_url ||
+      profile?.avatar_url ||
+      null;
   }, [
     profile?.avatar_thumb_url,
     profile?.avatar_url,
-    profile?.avatar_version,
     hookAvatarUrl,
   ]);
 
-  const [preview, setPreview] = useState(incomingAvatarUrl || null);
-  const [originalAvatar, setOriginalAvatar] = useState(incomingAvatarUrl || null);
-  const [error, setError] = useState(null);
+  const [preview, setPreview] = useState(incomingAvatarUrl);
+  const [originalAvatar, setOriginalAvatar] = useState(incomingAvatarUrl);
 
   const [pendingImage, setPendingImage] = useState(null);
   const [pendingUploadBlob, setPendingUploadBlob] = useState(null);
+
   const [hasNewUpload, setHasNewUpload] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [error, setError] = useState(null);
 
   const revokeTempObjectUrl = () => {
     if (tempObjectUrlRef.current) {
@@ -98,15 +67,12 @@ export default function AvatarTab({ profile, refetchProfile }) {
     return () => revokeTempObjectUrl();
   }, []);
 
-  /**
-   * Keep preview synced with backend profile unless the user has an unsaved crop.
-   */
   useEffect(() => {
     if (hasNewUpload) return;
 
     revokeTempObjectUrl();
-    setPreview(incomingAvatarUrl || null);
-    setOriginalAvatar(incomingAvatarUrl || null);
+    setPreview(incomingAvatarUrl);
+    setOriginalAvatar(incomingAvatarUrl);
     setPendingUploadBlob(null);
     setPendingImage(null);
     setError(null);
@@ -114,72 +80,41 @@ export default function AvatarTab({ profile, refetchProfile }) {
   }, [incomingAvatarUrl, hasNewUpload]);
 
   /* ------------------------------------------------------------
-     Upload mutation
-     - POST /users/me/avatar
-     - Tracks upload progress
-     - Updates React Query cache
-     - Invalidates profile query to re-fetch authoritative data
-  ------------------------------------------------------------ */
-  const uploadAvatarMutation = useMutation({
+     Upload Mutation (Unified)
+------------------------------------------------------------ */
+  const uploadMutation = useMutation({
     mutationFn: async (blob) => {
-      const formData = new FormData();
-      formData.append("avatar", blob, "avatar-upload.webp");
-
-      const response = await apiClient.post("/users/me/avatar", formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: (event) => {
-          if (!event?.total) return;
-          const percent = Math.round((event.loaded * 100) / event.total);
-          setUploadProgress(percent);
-        },
+      return await uploadAvatar(blob, (percent) => {
+        setUploadProgress(percent);
       });
-
-      return response.data;
     },
 
     onSuccess: async (result) => {
-      const freshAvatarUrl = normalizeAvatarUrl(
-        result?.avatar_url || originalAvatar,
-        Date.now()
-      );
+      const freshUrl = result?.avatar_thumb_url || result?.avatar_url;
 
       revokeTempObjectUrl();
 
-      setOriginalAvatar(freshAvatarUrl);
-      setPreview(freshAvatarUrl);
+      setOriginalAvatar(freshUrl);
+      setPreview(freshUrl);
       setPendingUploadBlob(null);
       setHasNewUpload(false);
       setError(null);
       setUploadProgress(100);
 
-      // Optimistically update the cached profile immediately
-      queryClient.setQueryData(["profile"], (oldProfile) => {
-        if (!oldProfile) return oldProfile;
-
+      // Optimistic update
+      queryClient.setQueryData(["profile"], (old) => {
+        if (!old) return old;
         return {
-          ...oldProfile,
-          avatar_url: freshAvatarUrl,
-          avatar_thumb_url: freshAvatarUrl,
-          avatar_version: Date.now(),
+          ...old,
+          avatar_url: freshUrl,
+          avatar_thumb_url: freshUrl,
+          avatar_version: result?.avatar_version,
         };
       });
 
-      // Re-fetch authoritative profile from backend
-      await queryClient.invalidateQueries({
-        queryKey: ["profile"],
-      });
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
 
-      // Optional compatibility if parent still passes a manual refetch
-      if (typeof refetchProfile === "function") {
-        await Promise.resolve(refetchProfile());
-      }
-
-      if (toast?.success) {
-        toast.success("Avatar updated successfully.");
-      }
+      toast?.success?.("Avatar updated successfully.");
     },
 
     onError: (err) => {
@@ -189,22 +124,17 @@ export default function AvatarTab({ profile, refetchProfile }) {
         "Unable to upload avatar.";
 
       setError(message);
-
-      if (toast?.error) {
-        toast.error(message);
-      }
+      toast?.error?.(message);
     },
 
     onSettled: () => {
-      setTimeout(() => {
-        setUploadProgress(0);
-      }, 600);
+      setTimeout(() => setUploadProgress(0), 600);
     },
   });
 
   /* ------------------------------------------------------------
      Handlers
-  ------------------------------------------------------------ */
+------------------------------------------------------------ */
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -214,7 +144,7 @@ export default function AvatarTab({ profile, refetchProfile }) {
     if (!ALLOWED_TYPES.includes(file.type) || !hasAllowedExtension(file.name)) {
       const message = "Only PNG, JPG, JPEG, and WEBP images are allowed.";
       setError(message);
-      if (toast?.error) toast.error(message);
+      toast?.error?.(message);
       e.target.value = "";
       return;
     }
@@ -222,7 +152,7 @@ export default function AvatarTab({ profile, refetchProfile }) {
     if (file.size > MAX_FILE_SIZE_BYTES) {
       const message = `Avatar must be ${MAX_FILE_SIZE_MB}MB or smaller.`;
       setError(message);
-      if (toast?.error) toast.error(message);
+      toast?.error?.(message);
       e.target.value = "";
       return;
     }
@@ -245,8 +175,8 @@ export default function AvatarTab({ profile, refetchProfile }) {
   };
 
   const handleSaveAvatar = async () => {
-    if (!pendingUploadBlob || uploadAvatarMutation.isPending) return;
-    await uploadAvatarMutation.mutateAsync(pendingUploadBlob);
+    if (!pendingUploadBlob || uploadMutation.isPending) return;
+    await uploadMutation.mutateAsync(pendingUploadBlob);
   };
 
   const handleRevertChanges = () => {
@@ -259,8 +189,11 @@ export default function AvatarTab({ profile, refetchProfile }) {
     setUploadProgress(0);
   };
 
-  const isUploading = uploadAvatarMutation.isPending;
+  const isUploading = uploadMutation.isPending;
 
+  /* ------------------------------------------------------------
+     Render
+------------------------------------------------------------ */
   return (
     <div className="avatar-tab-container">
       <h2>Avatar</h2>
@@ -268,7 +201,7 @@ export default function AvatarTab({ profile, refetchProfile }) {
       <div className="avatar-panel">
         <div className="avatar-preview-wrapper">
           {preview ? (
-            {preview}
+            <img src={preview} alt="Avatar preview" className="avatar-preview" />
           ) : (
             <div>No avatar</div>
           )}
