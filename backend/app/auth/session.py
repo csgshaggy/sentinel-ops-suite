@@ -4,12 +4,11 @@
 import uuid
 from datetime import datetime, timedelta
 
-# IMPORTANT:
-# Rename SQLAlchemy ORM session import to avoid collisions with your Session model.
+from fastapi import Request
 from sqlalchemy.orm import Session as DBSession
 
-# Rename SQLAlchemy model import to avoid collisions with DBSession.
 from app.models.session import Session as SessionModel
+from app.models.user import User
 
 
 SESSION_TTL_SECONDS = 3600  # 1 hour
@@ -80,3 +79,25 @@ def get_active_session(db: DBSession, session_id: str) -> SessionModel | None:
         return None
 
     return session
+
+
+# ---------------------------------------------------------
+# Resolve user from session cookie
+# ---------------------------------------------------------
+def get_session_user(request: Request, db: DBSession) -> User | None:
+    """
+    Retrieves the authenticated user based on the session cookie.
+    Returns None if no valid session exists.
+    """
+
+    session_id = request.cookies.get("session_id")
+    if not session_id:
+        return None
+
+    session = get_active_session(db, session_id)
+    if not session:
+        return None
+
+    user = db.query(User).filter(User.id == session.user_id).first()
+    return user
+
