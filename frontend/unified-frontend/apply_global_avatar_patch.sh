@@ -27,7 +27,10 @@ if ! grep -q "const { updateAvatar }" "$AVATAR_TAB"; then
 fi
 
 # Patch onSuccess handler
-sed -i 's|setOriginalAvatar(freshUrl);|updateAvatar(base, version);\n\n      setOriginalAvatar(freshUrl);|' "$AVATAR_TAB"
+if grep -q "setOriginalAvatar(freshUrl);" "$AVATAR_TAB"; then
+  sed -i 's|setOriginalAvatar(freshUrl);|updateAvatar(base, version);\n\n      setOriginalAvatar(freshUrl);|' "$AVATAR_TAB"
+  echo "   ➕ Added updateAvatar(base, version) call"
+fi
 
 echo "   ✅ AvatarTab patched"
 

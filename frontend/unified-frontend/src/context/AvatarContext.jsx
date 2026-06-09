@@ -15,7 +15,13 @@ export function AvatarProvider({ children }) {
     const img = new Image();
     img.src = finalUrl;
 
+    const finalUrl = baseUrl ? `${baseUrl}?v=${v}` : DEFAULT_AVATAR;
+
+    const img = new Image();
+    img.src = finalUrl;
+
     setAvatarVersion(v);
+    setAvatarUrl(finalUrl);
     setAvatarUrl(finalUrl);
     setAvatarUrl(`${baseUrl}?v=${v}`);
   }, []);

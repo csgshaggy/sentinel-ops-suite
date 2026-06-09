@@ -105,6 +105,8 @@ export default function AvatarTab({ profile }) {
 
       updateAvatar(base, version);
 
+      updateAvatar(base, version);
+
       setOriginalAvatar(freshUrl);
       setPreview(freshUrl);
       setPendingUploadBlob(null);
