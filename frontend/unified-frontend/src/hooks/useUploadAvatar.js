@@ -1,37 +1,31 @@
-// /src/hooks/useUploadAvatar.js
-// SentinelOps — Upload Avatar Hook (Corrected Endpoint)
+// src/hooks/useAvatarUrl.js
+// SentinelOps — Global Avatar Cache-Busting Hook (Final Version)
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import apiClient from "../api/apiClient";
+import { useEffect, useState } from "react";
 
-export default function useUploadAvatar() {
-  const queryClient = useQueryClient();
+export default function useAvatarUrl(profile) {
+  const [url, setUrl] = useState(null);
 
-  return useMutation({
-    mutationFn: async (payload) => {
-      let formData;
+  useEffect(() => {
+    if (!profile) {
+      setUrl(null);
+      return;
+    }
 
-      if (payload instanceof FormData) {
-        formData = payload;
-      } else {
-        formData = new FormData();
-        formData.append("avatar", payload);
-      }
+    const base =
+      profile.avatar_thumb_url ||
+      profile.avatar_url ||
+      "/static/default-avatar.png";
 
-      // ⭐ FIXED: correct backend endpoint
-      const res = await apiClient.post("/users/me/avatar", formData, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+    const version = profile.avatar_version || Date.now();
 
-      return res.data;
-    },
+    // ⭐ Always append version to force browser refresh
+    setUrl(`${base}?v=${version}`);
+  }, [
+    profile?.avatar_url,
+    profile?.avatar_thumb_url,
+    profile?.avatar_version,
+  ]);
 
-    onSuccess: () => {
-      // Refresh authenticated profile so avatar_url updates
-      queryClient.invalidateQueries({ queryKey: ["auth", "me"] });
-    },
-  });
+  return url;
 }

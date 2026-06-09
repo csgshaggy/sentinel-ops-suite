@@ -78,24 +78,25 @@ export default function AvatarTab({ profile }) {
   }, [incomingAvatarUrl, hasNewUpload]);
 
   /* ------------------------------------------------------------
-     Upload Mutation (Unified, aligned with backend)
+     Upload Mutation (Corrected + Cache-Busting)
 ------------------------------------------------------------ */
   const uploadMutation = useMutation({
     mutationFn: async (blob) => {
       const formData = new FormData();
-      // ⭐ Field name MUST match FastAPI UploadFile parameter (e.g. avatar: UploadFile = File(...))
       formData.append("avatar", blob, "avatar.png");
 
       const res = await apiClient.post("/api/users/me/avatar", formData, {
         withCredentials: true,
-        // Let the browser set the multipart boundary
       });
 
       return res.data;
     },
 
     onSuccess: async (result) => {
-      const freshUrl = result?.avatar_thumb_url || result?.avatar_url;
+      // ⭐ Always apply version to force browser refresh
+      const version = result?.avatar_version || Date.now();
+      const base = result?.avatar_thumb_url || result?.avatar_url;
+      const freshUrl = `${base}?v=${version}`;
 
       revokeTempObjectUrl();
 
@@ -106,14 +107,14 @@ export default function AvatarTab({ profile }) {
       setError(null);
       setUploadProgress(100);
 
-      // Optimistic update
+      // ⭐ Optimistic update with versioned URL
       queryClient.setQueryData(["profile"], (old) => {
         if (!old) return old;
         return {
           ...old,
           avatar_url: freshUrl,
           avatar_thumb_url: freshUrl,
-          avatar_version: result?.avatar_version,
+          avatar_version: version,
         };
       });
 
