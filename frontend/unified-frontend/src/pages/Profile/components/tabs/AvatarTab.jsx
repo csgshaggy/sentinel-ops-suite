@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect, useMemo } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { uploadAvatar } from "../../../../api/profileClient";
+import apiClient from "../../../../api/apiClient";
 import useAvatarUrl from "../../../../hooks/useAvatarUrl";
 import AvatarCropModal from "../AvatarCropModal";
 import { toast } from "../../../../components/ToastManager.jsx";
@@ -36,15 +36,13 @@ export default function AvatarTab({ profile }) {
   const hookAvatarUrl = useAvatarUrl(profile);
 
   const incomingAvatarUrl = useMemo(() => {
-    return hookAvatarUrl ||
+    return (
+      hookAvatarUrl ||
       profile?.avatar_thumb_url ||
       profile?.avatar_url ||
-      null;
-  }, [
-    profile?.avatar_thumb_url,
-    profile?.avatar_url,
-    hookAvatarUrl,
-  ]);
+      null
+    );
+  }, [profile?.avatar_thumb_url, profile?.avatar_url, hookAvatarUrl]);
 
   const [preview, setPreview] = useState(incomingAvatarUrl);
   const [originalAvatar, setOriginalAvatar] = useState(incomingAvatarUrl);
@@ -80,13 +78,20 @@ export default function AvatarTab({ profile }) {
   }, [incomingAvatarUrl, hasNewUpload]);
 
   /* ------------------------------------------------------------
-     Upload Mutation (Unified)
+     Upload Mutation (Unified, aligned with backend)
 ------------------------------------------------------------ */
   const uploadMutation = useMutation({
     mutationFn: async (blob) => {
-      return await uploadAvatar(blob, (percent) => {
-        setUploadProgress(percent);
+      const formData = new FormData();
+      // ⭐ Field name MUST match FastAPI UploadFile parameter (e.g. avatar: UploadFile = File(...))
+      formData.append("avatar", blob, "avatar.png");
+
+      const res = await apiClient.post("/api/users/me/avatar", formData, {
+        withCredentials: true,
+        // Let the browser set the multipart boundary
       });
+
+      return res.data;
     },
 
     onSuccess: async (result) => {
