@@ -1,3 +1,4 @@
+import { useAvatarContext } from "../../context/AvatarContext";
 import React, { memo, useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../features/auth/AuthContext.jsx";
@@ -23,6 +24,7 @@ const sectionIds = [
 ];
 
 function Sidebar() {
+  const { avatarUrl } = useAvatarContext();
   const { user, loading, logout } = useAuth();
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState(null);

@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, useMemo } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import apiClient from "../../../../api/apiClient";
+import { useAvatarContext } from "../../../../context/AvatarContext";
 import useAvatarUrl from "../../../../hooks/useAvatarUrl";
 import AvatarCropModal from "../AvatarCropModal";
 import { toast } from "../../../../components/ToastManager.jsx";
@@ -28,6 +29,8 @@ function hasAllowedExtension(filename = "") {
 }
 
 export default function AvatarTab({ profile }) {
+  const { updateAvatar } = useAvatarContext();
+
   const queryClient = useQueryClient();
 
   const fileInputRef = useRef(null);
@@ -99,6 +102,8 @@ export default function AvatarTab({ profile }) {
       const freshUrl = `${base}?v=${version}`;
 
       revokeTempObjectUrl();
+
+      updateAvatar(base, version);
 
       setOriginalAvatar(freshUrl);
       setPreview(freshUrl);

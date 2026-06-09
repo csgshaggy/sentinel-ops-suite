@@ -1,0 +1,217 @@
+diff --git a/src/context/AvatarContext.jsx b/src/context/AvatarContext.jsx
+new file mode 100644
+index 0000000..aaaaaaaa
+--- /dev/null
++++ b/src/context/AvatarContext.jsx
+@@ -0,0 +1,52 @@
++// src/context/AvatarContext.jsx
++import { createContext, useContext, useState, useCallback } from "react";
++
++const DEFAULT_AVATAR = "/static/default-avatar.png";
++
++const AvatarContext = createContext(null);
++
++export function AvatarProvider({ children }) {
++  const [avatarUrl, setAvatarUrl] = useState(DEFAULT_AVATAR);
++  const [avatarVersion, setAvatarVersion] = useState(Date.now());
++
++  const updateAvatar = useCallback((baseUrl, version) => {
++    const v = version || Date.now();
++    const finalUrl = baseUrl ? `${baseUrl}?v=${v}` : DEFAULT_AVATAR;
++
++    const img = new Image();
++    img.src = finalUrl;
++
++    setAvatarVersion(v);
++    setAvatarUrl(finalUrl);
++  }, []);
++
++  return (
++    <AvatarContext.Provider
++      value={{
++        avatarUrl,
++        avatarVersion,
++        updateAvatar,
++      }}
++    >
++      {children}
++    </AvatarContext.Provider>
++  );
++}
++
++export function useAvatarContext() {
++  return useContext(AvatarContext);
++}
+diff --git a/src/App.jsx b/src/App.jsx
+index bbbbbbb..ccccccc 100644
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
+ 
+ import { AuthProvider } from "./features/auth/AuthContext.jsx";
+ import { SettingsProvider } from "./context/SettingsContext.jsx";
++import { AvatarProvider } from "./context/AvatarContext.jsx";
+ import { ModalProvider } from "./components/ModalManager.jsx";
+@@ -63,7 +64,8 @@ export default function App() {
+   if (LOCKDOWN_ENABLED) {
+     return <SystemLockdown />;
+   }
+ 
+   return (
+     <AuthProvider>
+-      <SettingsProvider>
+-        <ModalProvider>
++      <SettingsProvider>
++        <AvatarProvider>
++          <ModalProvider>
+@@ -104,7 +106,8 @@ export default function App() {
+               </Routes>
+             </RouteErrorBoundary>
+           </Suspense>
+-        </ModalProvider>
+-      </SettingsProvider>
++        </ModalProvider>
++      </AvatarProvider>
++    </SettingsProvider>
+   </AuthProvider>
+ );
+diff --git a/src/pages/Profile/components/tabs/AvatarTab.jsx b/src/pages/Profile/components/tabs/AvatarTab.jsx
+index ddddddd..eeeeeee 100644
+--- a/src/pages/Profile/components/tabs/AvatarTab.jsx
++++ b/src/pages/Profile/components/tabs/AvatarTab.jsx
+@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
+ 
+ import apiClient from "../../../../api/apiClient";
+ import useAvatarUrl from "../../../../hooks/useAvatarUrl";
++import { useAvatarContext } from "../../../../context/AvatarContext";
+ import AvatarCropModal from "../AvatarCropModal";
+ import { toast } from "../../../../components/ToastManager.jsx";
+@@ -30,6 +31,8 @@ export default function AvatarTab({ profile }) {
+   const queryClient = useQueryClient();
+ 
+   const fileInputRef = useRef(null);
+   const tempObjectUrlRef = useRef(null);
++
++  const { updateAvatar } = useAvatarContext();
+@@ -86,7 +89,13 @@   const uploadMutation = useMutation({
+-    onSuccess: async (result) => {
+-      const freshUrl = result?.avatar_thumb_url || result?.avatar_url;
++    onSuccess: async (result) => {
++      const version = result?.avatar_version || Date.now();
++      const base = result?.avatar_thumb_url || result?.avatar_url;
++      const freshUrl = `${base}?v=${version}`;
++
++      // Global avatar update
++      updateAvatar(base, version);
+@@ -104,9 +113,10 @@       queryClient.setQueryData(["profile"], (old) => {
+         if (!old) return old;
+         return {
+           ...old,
+-          avatar_url: freshUrl,
+-          avatar_thumb_url: freshUrl,
+-          avatar_version: result?.avatar_version,
++          avatar_url: freshUrl,
++          avatar_thumb_url: freshUrl,
++          avatar_version: version,
+         };
+       });
+diff --git a/src/components/AvatarSync.jsx b/src/components/AvatarSync.jsx
+new file mode 100644
+index 0000000..ffffffff
+--- /dev/null
++++ b/src/components/AvatarSync.jsx
+@@ -0,0 +1,30 @@
++// src/components/AvatarSync.jsx
++import { useEffect } from "react";
++import { useQuery } from "@tanstack/react-query";
++import { fetchProfile } from "../api/profileClient";
++import { useAvatarContext } from "../context/AvatarContext";
++
++export default function AvatarSync() {
++  const { data: profile } = useQuery(["profile"], fetchProfile);
++  const { updateAvatar } = useAvatarContext();
++
++  useEffect(() => {
++    if (!profile) return;
++
++    const base =
++      profile.avatar_thumb_url ||
++      profile.avatar_url ||
++      "/static/default-avatar.png";
++
++    updateAvatar(base, profile.avatar_version);
++  }, [profile, updateAvatar]);
++
++  return null;
++}
+diff --git a/src/components/Layout.jsx b/src/components/Layout.jsx
+index ggggggg..hhhhhhh 100644
+--- a/src/components/Layout.jsx
++++ b/src/components/Layout.jsx
+@@ -1,4 +1,5 @@
+ import TopBar from "./TopBar";
+ import Sidebar from "./Sidebar";
++import AvatarSync from "./AvatarSync";
+@@ -10,7 +11,9 @@ export default function Layout() {
+   return (
+-    <div className="layout-root">
++    <>
++      <AvatarSync />
++      <div className="layout-root">
+       {/* existing layout content */}
+-    </div>
++      </div>
++    </>
+   );
+}
+diff --git a/src/components/TopBar.jsx b/src/components/TopBar.jsx
+index iiiiiii..jjjjjjj 100644
+--- a/src/components/TopBar.jsx
++++ b/src/components/TopBar.jsx
+@@ -1,4 +1,5 @@
+ import React from "react";
++import { useAvatarContext } from "../context/AvatarContext";
+@@ -200,7 +201,11 @@ export default function TopBar({ profile }) {
+-        <img
+-          src={profile.avatar_url}
++        const { avatarUrl } = useAvatarContext();
++
++        <img
++          src={avatarUrl}
+           alt="User avatar"
+           className="topbar-avatar"
+         />
+diff --git a/src/components/Sidebar.jsx b/src/components/Sidebar.jsx
+index kkkkkkk..lllllll 100644
+--- a/src/components/Sidebar.jsx
++++ b/src/components/Sidebar.jsx
+@@ -1,4 +1,5 @@
+ import React from "react";
++import { useAvatarContext } from "../context/AvatarContext";
+@@ -20,7 +21,11 @@ export default function Sidebar({ profile }) {
+-      <img
+-        src={profile.avatar_thumb_url}
++      const { avatarUrl } = useAvatarContext();
++
++      <img
++        src={avatarUrl}
+         alt="User avatar"
+         className="sidebar-avatar"
+       />
+diff --git a/src/pages/Profile/components/ProfileSummaryCard.jsx b/src/pages/Profile/components/ProfileSummaryCard.jsx
+index mmmmmmm..nnnnnnn 100644
+--- a/src/pages/Profile/components/ProfileSummaryCard.jsx
++++ b/src/pages/Profile/components/ProfileSummaryCard.jsx
+@@ -1,6 +1,7 @@
+ import React from "react";
++import { useAvatarContext } from "../../../context/AvatarContext";
+@@ -22,8 +23,12 @@ export default function ProfileSummaryCard({ profile }) {
+-        <img
+-          src={profile.avatar_url}
++        const { avatarUrl } = useAvatarContext();
++
++        <img
++          src={avatarUrl}
+           alt="Avatar"
+           className="profile-summary-avatar"
+         />

@@ -1,3 +1,4 @@
+import { useAvatarContext } from "../../context/AvatarContext";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,6 +12,7 @@ import {
 import "./TopBar.css";
 
 export default function TopBar({ userRole = "user" }) {
+  const { avatarUrl } = useAvatarContext();
   const navigate = useNavigate();
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -204,7 +206,7 @@ export default function TopBar({ userRole = "user" }) {
       {/* LEFT — LOGO + TITLE */}
       <div className="topbar-left">
         <img
-          src="/logo.png"
+          src={avatarUrl}
           alt="SentinelOps Logo"
           className="topbar-logo"
         />
@@ -240,7 +242,7 @@ export default function TopBar({ userRole = "user" }) {
             aria-controls={menuId}
           >
             <img
-              src="/default-avatar.png"
+              src={avatarUrl}
               alt="User Avatar"
               className="topbar-avatar"
             />

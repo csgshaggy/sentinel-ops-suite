@@ -1,3 +1,4 @@
+import AvatarSync from "./AvatarSync";
 // /src/components/Layout.jsx
 import React, { memo } from "react";
 import { Outlet } from "react-router-dom";
@@ -22,6 +23,7 @@ function Layout() {
   });
 
   return (
+    <AvatarSync />
     <div className="layout-container">
       {/* Sidebar (left) */}
       <Sidebar />

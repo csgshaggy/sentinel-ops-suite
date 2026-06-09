@@ -1,9 +1,11 @@
+import { useAvatarContext } from "../../context/AvatarContext";
 // /src/pages/Profile/components/tabs/SessionsTab.jsx
 // SentinelOps — Sessions Tab (Safe + Placeholder Mode)
 
 import "./SessionsTab.css";
 
 export default function SessionsTab({ loading, sessions, onRefresh }) {
+  const { avatarUrl } = useAvatarContext();
   // ⭐ SAFETY: ensure sessions is always an array
   const safeSessions = Array.isArray(sessions) ? sessions : [];
 

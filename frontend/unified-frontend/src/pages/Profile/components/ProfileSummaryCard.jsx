@@ -1,11 +1,12 @@
+import { useAvatarContext } from "../../context/AvatarContext";
 // /src/pages/Profile/components/ProfileSummaryCard.jsx
 // SentinelOps — Profile Summary Card (Neon‑Glassy + Global Avatar Cache‑Buster)
 
 import MFAStatusBadge from "./MFAStatusBadge.jsx";
-import useAvatarUrl from "../../../hooks/useAvatarUrl";   // <-- NEW
 import "./ProfileSummaryCard.css";
 
 export default function ProfileSummaryCard({ profile }) {
+  const { avatarUrl } = useAvatarContext();
   if (!profile) return null;
 
   const {
@@ -17,13 +18,12 @@ export default function ProfileSummaryCard({ profile }) {
   } = profile;
 
   // 🔥 Global avatar cache‑buster hook
-  const avatarSrc = useAvatarUrl(profile);
 
   return (
     <div className="profile-summary-card glass">
       <div className="profile-summary-left">
         <img
-          src={avatarSrc}   // <-- FIXED: uses global cache‑buster
+          src={avatarUrl}   // <-- FIXED: uses global cache‑buster
           alt="Avatar"
           className="profile-summary-avatar"
         />

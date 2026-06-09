@@ -1,11 +1,12 @@
 // /src/App.jsx
-// SentinelOps — Unified Application Router (Final, Corrected)
+// SentinelOps — Unified Application Router (Final, Corrected + AvatarProvider)
 
 import { useEffect, useState, Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import { AuthProvider } from "./features/auth/AuthContext.jsx";
-import { SettingsProvider } from "./context/SettingsContext.jsx";   // ⭐ ADDED
+import { SettingsProvider } from "./context/SettingsContext.jsx";
+import { AvatarProvider } from "./context/AvatarContext.jsx";   // ⭐ ADDED
 import { ModalProvider } from "./components/ModalManager.jsx";
 
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -33,7 +34,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
 const Security = lazy(() => import("./pages/Security.jsx"));
 const Profile = lazy(() => import("./pages/Profile/Profile.jsx"));
 const Preferences = lazy(() => import("./pages/Preferences.jsx"));
-const SettingsPage = lazy(() => import("./pages/Settings.jsx"));   // ⭐ FIXED
+const SettingsPage = lazy(() => import("./pages/Settings.jsx"));
 
 // ---------------- ADMIN PAGES ----------------
 const AdminUsers = lazy(() => import("./pages/AdminUsers.jsx"));
@@ -74,51 +75,51 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <SettingsProvider>   {/* ⭐ REQUIRED WRAPPER */}
-        <ModalProvider>
-          <ApiErrorOverlay />
+      <SettingsProvider>
+        <AvatarProvider>   {/* ⭐ NEW GLOBAL AVATAR CONTEXT WRAPPER */}
+          <ModalProvider>
+            <ApiErrorOverlay />
 
-          {!isPublic && loadingRoute && <RouteLoader />}
+            {!isPublic && loadingRoute && <RouteLoader />}
 
-          <Suspense fallback={<RouteLoader />}>
-            <RouteErrorBoundary>
-              <Routes>
+            <Suspense fallback={<RouteLoader />}>
+              <RouteErrorBoundary>
+                <Routes>
 
-                {/* ---------------- PUBLIC ROUTES ---------------- */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/forgot-password" element={<ForgotPasswordRequest />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
+                  {/* ---------------- PUBLIC ROUTES ---------------- */}
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/forgot-password" element={<ForgotPasswordRequest />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
 
-                {/* ---------------- AUTHENTICATED ROUTES ---------------- */}
-                <Route element={<ProtectedRoute />}>
-                  <Route element={<Layout />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/security" element={<Security />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/preferences" element={<Preferences />} />
-
-                    {/* ⭐ SETTINGS ROUTE NOW WORKS */}
-                    <Route path="/settings" element={<SettingsPage />} />
+                  {/* ---------------- AUTHENTICATED ROUTES ---------------- */}
+                  <Route element={<ProtectedRoute />}>
+                    <Route element={<Layout />}>
+                      <Route path="/dashboard" element={<Dashboard />} />
+                      <Route path="/security" element={<Security />} />
+                      <Route path="/profile" element={<Profile />} />
+                      <Route path="/preferences" element={<Preferences />} />
+                      <Route path="/settings" element={<SettingsPage />} />
+                    </Route>
                   </Route>
-                </Route>
 
-                {/* ---------------- ADMIN ROUTES ---------------- */}
-                <Route element={<RoleProtectedRoute allowedRoles={["admin"]} />}>
-                  <Route element={<Layout />}>
-                    <Route path="/admin/users" element={<AdminUsers />} />
-                    <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
-                    <Route path="/admin/preferences" element={<AdminPreferences />} />
+                  {/* ---------------- ADMIN ROUTES ---------------- */}
+                  <Route element={<RoleProtectedRoute allowedRoles={["admin"]} />}>
+                    <Route element={<Layout />}>
+                      <Route path="/admin/users" element={<AdminUsers />} />
+                      <Route path="/admin/audit-logs" element={<AdminAuditLogs />} />
+                      <Route path="/admin/preferences" element={<AdminPreferences />} />
+                    </Route>
                   </Route>
-                </Route>
 
-                {/* ---------------- ERROR ROUTES ---------------- */}
-                <Route path="/500" element={<ServerError />} />
-                <Route path="*" element={<NotFound />} />
+                  {/* ---------------- ERROR ROUTES ---------------- */}
+                  <Route path="/500" element={<ServerError />} />
+                  <Route path="*" element={<NotFound />} />
 
-              </Routes>
-            </RouteErrorBoundary>
-          </Suspense>
-        </ModalProvider>
+                </Routes>
+              </RouteErrorBoundary>
+            </Suspense>
+          </ModalProvider>
+        </AvatarProvider>
       </SettingsProvider>
     </AuthProvider>
   );

@@ -1,3 +1,4 @@
+const DEFAULT_AVATAR = "/static/default-avatar.png";
 // src/context/AvatarContext.jsx
 import { createContext, useContext, useState, useCallback } from "react";
 
@@ -9,7 +10,13 @@ export function AvatarProvider({ children }) {
 
   const updateAvatar = useCallback((baseUrl, version) => {
     const v = version || Date.now();
+    const finalUrl = baseUrl ? `${baseUrl}?v=${v}` : DEFAULT_AVATAR;
+
+    const img = new Image();
+    img.src = finalUrl;
+
     setAvatarVersion(v);
+    setAvatarUrl(finalUrl);
     setAvatarUrl(`${baseUrl}?v=${v}`);
   }, []);
 
