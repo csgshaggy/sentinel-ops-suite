@@ -6,6 +6,7 @@ import "./SessionsTab.css";
 
 export default function SessionsTab({ loading, sessions, onRefresh }) {
   const { avatarUrl } = useAvatarContext();
+
   // ⭐ SAFETY: ensure sessions is always an array
   const safeSessions = Array.isArray(sessions) ? sessions : [];
 
@@ -54,6 +55,7 @@ export default function SessionsTab({ loading, sessions, onRefresh }) {
         <table className="sessions-table glass">
           <thead>
             <tr>
+              <th>Avatar</th>
               <th>IP Address</th>
               <th>Device</th>
               <th>Location</th>
@@ -65,6 +67,20 @@ export default function SessionsTab({ loading, sessions, onRefresh }) {
           <tbody>
             {safeSessions.map((s, idx) => (
               <tr key={idx}>
+                <td>
+                  <img
+                    src={avatarUrl}
+                    alt="User avatar"
+                    className="sessions-avatar"
+                    style={{
+                      width: "32px",
+                      height: "32px",
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                  />
+                </td>
+
                 <td>{s.ip || "—"}</td>
                 <td>{s.user_agent || "Unknown"}</td>
                 <td>{s.location || "—"}</td>
