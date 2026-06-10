@@ -1,0 +1,35 @@
+name: Bundle Size Tracking
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  bundle-size:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: frontend/unified-frontend
+        run: npm ci
+
+      - name: Build unified-frontend
+        working-directory: frontend/unified-frontend
+        run: npm run build
+
+      - name: Analyze bundle size
+        uses: preactjs/compressed-size-action@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: "frontend/unified-frontend/dist/**/*.{js,css}"
