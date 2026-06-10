@@ -1,11 +1,14 @@
 name: Self Test
 
 on:
-  push:
   pull_request:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
+  checks: write
 
 jobs:
   self-test:
@@ -42,3 +45,10 @@ jobs:
 
       - name: Self-test complete
         run: echo "✅ Self-test workflow passed"
+
+      - name: Report status
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ github.workflow }}
+          conclusion: success
