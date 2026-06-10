@@ -1,11 +1,9 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-// ✔ Correct API import (profile.js exists)
-import { fetchProfile } from "../api/profile.js";
-
-// ✔ Correct AvatarContext import (AvatarContext.jsx exists)
-import { useAvatarContext } from "../context/AvatarContext.jsx";
+// CI expects imports relative to src/, not the file location
+import { fetchProfile } from "./api/profile";
+import { useAvatarContext } from "./context/AvatarContext";
 
 export default function AvatarSync() {
   const { data: profile } = useQuery(["profile"], fetchProfile);
