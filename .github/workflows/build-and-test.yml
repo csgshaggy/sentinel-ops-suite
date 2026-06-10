@@ -1,6 +1,9 @@
 name: Build and Test
 
 on:
+permissions:
+  contents: read
+  checks: write
   pull_request:
   push:
     branches:
@@ -30,3 +33,10 @@ jobs:
       - name: Run frontend tests
         working-directory: frontend/unified-frontend
         run: npm test -- --watchAll=false
+
+      - name: Report status
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: \${{ secrets.GITHUB_TOKEN }}
+          name: \${{ github.workflow }}
+          conclusion: success

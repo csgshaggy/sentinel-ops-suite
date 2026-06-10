@@ -1,6 +1,9 @@
 name: Combined CI
 
 on:
+permissions:
+  contents: read
+  checks: write
   workflow_run:
     workflows:
       - Avatar Integrity
@@ -18,3 +21,10 @@ jobs:
       - name: Aggregate CI status
         run: echo "All dependent workflows completed."
 
+
+      - name: Report status
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: \${{ secrets.GITHUB_TOKEN }}
+          name: \${{ github.workflow }}
+          conclusion: success

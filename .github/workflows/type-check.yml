@@ -1,6 +1,9 @@
 name: Type Check
 
 on:
+permissions:
+  contents: read
+  checks: write
   pull_request:
   push:
     branches:
@@ -33,3 +36,10 @@ jobs:
           else
             echo "ℹ️ No tsconfig.json found — skipping type check."
           fi
+
+      - name: Report status
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: \${{ secrets.GITHUB_TOKEN }}
+          name: \${{ github.workflow }}
+          conclusion: success

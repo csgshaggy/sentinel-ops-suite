@@ -1,6 +1,9 @@
 name: Release Pipeline
 
 on:
+permissions:
+  contents: read
+  checks: write
   push:
     branches:
       - main
@@ -28,3 +31,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: semantic-release
+
+      - name: Report status
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: \${{ secrets.GITHUB_TOKEN }}
+          name: \${{ github.workflow }}
+          conclusion: success

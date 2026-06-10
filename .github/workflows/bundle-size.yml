@@ -1,6 +1,9 @@
 name: Bundle Size Tracking
 
 on:
+permissions:
+  contents: read
+  checks: write
   pull_request:
   push:
     branches:
@@ -33,3 +36,10 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           pattern: "frontend/unified-frontend/dist/**/*.{js,css}"
+
+      - name: Report status
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: \${{ secrets.GITHUB_TOKEN }}
+          name: \${{ github.workflow }}
+          conclusion: success

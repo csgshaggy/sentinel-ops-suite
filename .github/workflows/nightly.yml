@@ -1,6 +1,9 @@
 name: Nightly Drift Check
 
 on:
+permissions:
+  contents: read
+  checks: write
   schedule:
     - cron: "0 2 * * *"   # Runs every night at 02:00 UTC
   workflow_dispatch:       # Allows manual triggering
@@ -33,3 +36,10 @@ jobs:
       - name: Build unified-frontend
         working-directory: frontend/unified-frontend
         run: npm run build
+
+      - name: Report status
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: \${{ secrets.GITHUB_TOKEN }}
+          name: \${{ github.workflow }}
+          conclusion: success

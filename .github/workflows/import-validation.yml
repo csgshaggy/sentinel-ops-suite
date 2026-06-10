@@ -1,6 +1,9 @@
 name: Import Validation
 
 on:
+permissions:
+  contents: read
+  checks: write
   pull_request:
   push:
     branches:
@@ -29,3 +32,10 @@ jobs:
           echo "🔍 Running Import Validation..."
           chmod +x ./scripts/ci_validate_imports.sh
           ./scripts/ci_validate_imports.sh
+
+      - name: Report status
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: \${{ secrets.GITHUB_TOKEN }}
+          name: \${{ github.workflow }}
+          conclusion: success
