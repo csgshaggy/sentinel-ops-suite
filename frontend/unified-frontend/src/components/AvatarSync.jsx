@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProfile } from "../api/profileClient";
-import { useAvatarContext } from "../context/AvatarContext";
+
+// ✔ Correct API import (profile.js exists)
+import { fetchProfile } from "../api/profile.js";
+
+// ✔ Correct AvatarContext import (AvatarContext.jsx exists)
+import { useAvatarContext } from "../context/AvatarContext.jsx";
 
 export default function AvatarSync() {
   const { data: profile } = useQuery(["profile"], fetchProfile);
@@ -16,7 +20,7 @@ export default function AvatarSync() {
       "/static/default-avatar.png";
 
     updateAvatar(base, profile.avatar_version);
-  }, [profile]);
+  }, [profile, updateAvatar]);
 
   return null;
 }

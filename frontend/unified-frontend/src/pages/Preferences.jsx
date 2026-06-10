@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Telemetry } from "@/features/telemetry/telemetry";
-import { getUserPreferences, updateUserPreferences } from "../api/preferences";
+import { getUserPreferences, updateUserPreferences } from "../../api/preferences";
 
 const Preferences = () => {
   const [formState, setFormState] = useState({
