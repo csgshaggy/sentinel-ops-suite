@@ -10,11 +10,6 @@ permissions:
   contents: read
   checks: write
 
-
-on:
-    branches:
-      - main
-
 jobs:
   avatar-integrity:
     runs-on: ubuntu-latest

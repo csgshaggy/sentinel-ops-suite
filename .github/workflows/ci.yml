@@ -10,18 +10,6 @@ permissions:
   contents: read
   checks: write
 
-
-on:
-  workflow_run:
-    workflows:
-      - Avatar Integrity
-      - Import Validation
-      - Build and Test
-      - Lint
-      - Type Check
-    types:
-      - completed
-
 jobs:
   aggregate:
     runs-on: ubuntu-latest

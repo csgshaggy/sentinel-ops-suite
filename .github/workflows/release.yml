@@ -10,12 +10,6 @@ permissions:
   contents: read
   checks: write
 
-
-on:
-    branches:
-      - main
-  workflow_dispatch:
-
 jobs:
   release:
     runs-on: ubuntu-latest

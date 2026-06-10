@@ -10,11 +10,6 @@ permissions:
   contents: read
   checks: write
 
-
-on:
-    branches:
-      - main
-
 jobs:
   import-validation:
     runs-on: ubuntu-latest
