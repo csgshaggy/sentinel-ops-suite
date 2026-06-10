@@ -1,0 +1,47 @@
+From 417b0fa21a94f5788bb360113c0e1f56383001e7 Mon Sep 17 00:00:00 2001
+From: Ubuntu <ubuntu@ip-172-31-18-212.ec2.internal>
+Date: Wed, 10 Jun 2026 11:44:39 +0000
+Subject: [PATCH] Wire Sidebar and SessionsTab to global AvatarContext
+
+---
+ .../src/components/Sidebar.jsx                | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/frontend/unified-frontend/src/components/Sidebar.jsx b/frontend/unified-frontend/src/components/Sidebar.jsx
+index 84448fb..f37267d 100644
+--- a/frontend/unified-frontend/src/components/Sidebar.jsx
++++ b/frontend/unified-frontend/src/components/Sidebar.jsx
+@@ -106,6 +106,30 @@ function Sidebar() {
+       <aside className={`sidebar ${open ? "open" : ""}`}>
+         <div className="sidebar-sections">
+ 
++          {/* ⭐ AVATAR HEADER (required for global avatar system) */}
++          <div className="sidebar-avatar-block">
++            <img
++              src={avatarUrl}
++              alt="User avatar"
++              className="sidebar-avatar"
++              style={{
++                width: "48px",
++                height: "48px",
++                borderRadius: "50%",
++                objectFit: "cover",
++                marginBottom: "12px",
++              }}
++            />
++            <div className="sidebar-user-info">
++              <div className="sidebar-user-name">
++                {user.full_name || user.username || "User"}
++              </div>
++              <div className="sidebar-user-email">
++                {user.email || ""}
++              </div>
++            </div>
++          </div>
++
+           {/* GENERAL SECTION */}
+           <div className="sidebar-section">
+             <div className="sidebar-section-label">GENERAL</div>
+-- 
+2.43.0
+

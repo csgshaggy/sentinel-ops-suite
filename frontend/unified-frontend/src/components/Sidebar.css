@@ -30,7 +30,6 @@
   display: flex;
   flex-direction: column;
 
-  /* Glass Base */
   background: var(--glass-bg);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -42,17 +41,14 @@
   box-sizing: border-box;
   flex-shrink: 0;
 
-  /* ⭐ FIX: prevent clipping of glows, dropdowns, tooltips */
   overflow-x: hidden;
   overflow-y: auto;
 
-  /* ⭐ FIX: Sidebar must be fixed for layout geometry */
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
 
-  /* ⭐ FIX: TopBar uses z-[9999], so Sidebar stays below */
   z-index: 8000;
 }
 
@@ -73,6 +69,56 @@
   );
 
   opacity: 0.6;
+}
+
+/* ============================================================
+   AVATAR BLOCK (NEW — Neon Glass Upgrade)
+   ============================================================ */
+
+.sidebar-avatar-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 18px 12px;
+  margin-bottom: 22px;
+
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.22);
+}
+
+.sidebar-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  border: 2px solid rgba(0, 255, 255, 0.35);
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.35),
+    0 0 18px rgba(0, 255, 255, 0.25);
+}
+
+.sidebar-user-info {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.sidebar-user-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.sidebar-user-email {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
 }
 
 /* ============================================================
