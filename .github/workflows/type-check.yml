@@ -1,0 +1,35 @@
+name: Type Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  type-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend dependencies
+        working-directory: frontend/unified-frontend
+        run: npm install --legacy-peer-deps
+
+      - name: Run TypeScript type checking (if tsconfig exists)
+        working-directory: frontend/unified-frontend
+        run: |
+          echo "🔍 Checking for tsconfig.json..."
+          if [ -f tsconfig.json ]; then
+            echo "📘 tsconfig.json found — running type check..."
+            npx tsc --noEmit
+          else
+            echo "ℹ️ No tsconfig.json found — skipping type check."
+          fi
