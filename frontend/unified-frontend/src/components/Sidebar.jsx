@@ -106,6 +106,30 @@ function Sidebar() {
       <aside className={`sidebar ${open ? "open" : ""}`}>
         <div className="sidebar-sections">
 
+          {/* ⭐ AVATAR HEADER (required for global avatar system) */}
+          <div className="sidebar-avatar-block">
+            <img
+              src={avatarUrl}
+              alt="User avatar"
+              className="sidebar-avatar"
+              style={{
+                width: "48px",
+                height: "48px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                marginBottom: "12px",
+              }}
+            />
+            <div className="sidebar-user-info">
+              <div className="sidebar-user-name">
+                {user.full_name || user.username || "User"}
+              </div>
+              <div className="sidebar-user-email">
+                {user.email || ""}
+              </div>
+            </div>
+          </div>
+
           {/* GENERAL SECTION */}
           <div className="sidebar-section">
             <div className="sidebar-section-label">GENERAL</div>
