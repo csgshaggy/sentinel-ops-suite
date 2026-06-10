@@ -1,0 +1,35 @@
+name: Nightly Drift Check
+
+on:
+  schedule:
+    - cron: "0 2 * * *"   # Runs every night at 02:00 UTC
+  workflow_dispatch:       # Allows manual triggering
+
+jobs:
+  nightly:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend dependencies
+        working-directory: frontend/unified-frontend
+        run: npm ci
+
+      - name: Validate imports
+        working-directory: frontend/unified-frontend
+        run: ./scripts/ci_validate_imports.sh
+
+      - name: Run Vitest tests
+        working-directory: frontend/unified-frontend
+        run: npm run test
+
+      - name: Build unified-frontend
+        working-directory: frontend/unified-frontend
+        run: npm run build
