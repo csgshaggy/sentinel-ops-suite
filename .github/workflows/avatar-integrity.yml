@@ -1,0 +1,106 @@
+name: Avatar Integrity
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  avatar-integrity:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Avatar Integrity Checks
+        run: |
+          echo "🔍 Running Avatar Integrity CI Check..."
+
+          FAIL=0
+
+          check() {
+            local FILE=$1
+            local PATTERN=$2
+            local MSG=$3
+
+            if ! grep -q "$PATTERN" "$FILE"; then
+              echo "❌ $MSG"
+              FAIL=1
+            fi
+          }
+
+          check_missing() {
+            local FILE=$1
+            local PATTERN=$2
+            local MSG=$3
+
+            if grep -q "$PATTERN" "$FILE"; then
+              echo "❌ $MSG (found forbidden pattern)"
+              FAIL=1
+            fi
+          }
+
+          # ---------------------------------------------
+          # Required avatar renderers
+          # ---------------------------------------------
+          check "frontend/unified-frontend/src/components/Sidebar.jsx" \
+                "src={avatarUrl}" \
+                "Sidebar must render avatarUrl"
+
+          check "frontend/unified-frontend/src/pages/Profile/components/tabs/SessionsTab.jsx" \
+                "src={avatarUrl}" \
+                "SessionsTab must render avatarUrl"
+
+          # ---------------------------------------------
+          # Forbidden legacy avatar hook
+          # ---------------------------------------------
+          check_missing "frontend/unified-frontend/src/components/Sidebar.jsx" \
+                        "useAvatarUrl" \
+                        "Sidebar must not use useAvatarUrl"
+
+          check_missing "frontend/unified-frontend/src/pages/Profile/components/tabs/SessionsTab.jsx" \
+                        "useAvatarUrl" \
+                        "SessionsTab must not use useAvatarUrl"
+
+          # ---------------------------------------------
+          # AvatarContext integrity
+          # ---------------------------------------------
+          check "frontend/unified-frontend/src/context/AvatarContext.jsx" \
+                "DEFAULT_AVATAR" \
+                "AvatarContext must define DEFAULT_AVATAR"
+
+          check "frontend/unified-frontend/src/context/AvatarContext.jsx" \
+                "new Image()" \
+                "AvatarContext must preload avatar images"
+
+          check "frontend/unified-frontend/src/context/AvatarContext.jsx" \
+                "setAvatarUrl" \
+                "AvatarContext must update avatarUrl"
+
+          check "frontend/unified-frontend/src/context/AvatarContext.jsx" \
+                "setAvatarVersion" \
+                "AvatarContext must update avatarVersion"
+
+          # ---------------------------------------------
+          # AvatarSync presence
+          # ---------------------------------------------
+          check "frontend/unified-frontend/src/components/Layout.jsx" \
+                "AvatarSync" \
+                "Layout must import AvatarSync"
+
+          check "frontend/unified-frontend/src/components/Layout.jsx" \
+                "<AvatarSync" \
+                "Layout must render AvatarSync"
+
+          # ---------------------------------------------
+          # Final decision
+          # ---------------------------------------------
+          if [ "$FAIL" -eq 1 ]; then
+            echo ""
+            echo "❌ Avatar Integrity CI Check Failed."
+            exit 1
+          fi
+
+          echo "✅ Avatar Integrity CI Check Passed."
