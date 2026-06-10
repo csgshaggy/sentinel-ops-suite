@@ -1,0 +1,81 @@
+name: Validate Workflows
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-workflows:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Python YAML parser
+        run: |
+          python3 -m pip install pyyaml
+
+      - name: Validate all workflow files
+        run: |
+          echo "🔍 Validating workflow files..."
+
+          WORKFLOW_DIR=".github/workflows"
+
+          if [ ! -d "$WORKFLOW_DIR" ]; then
+            echo "❌ No workflows directory found"
+            exit 1
+          fi
+
+          FILES=$(ls $WORKFLOW_DIR/*.yml 2>/dev/null | wc -l)
+          if [ "$FILES" -eq 0 ]; then
+            echo "❌ No workflow files found"
+            exit 1
+          fi
+
+          for FILE in $WORKFLOW_DIR/*.yml; do
+            echo "➡️ Checking: $FILE"
+
+            # 1. YAML syntax
+            python3 - <<EOF
+import yaml, sys
+try:
+    yaml.safe_load(open("$FILE"))
+except Exception as e:
+    print("❌ YAML error in $FILE:", e)
+    sys.exit(1)
+EOF
+            echo "   ✔ YAML valid"
+
+            # 2. Exactly one 'on:' block
+            COUNT=$(grep -c "^on:" "$FILE" || true)
+            if [ "$COUNT" -ne 1 ]; then
+              echo "❌ Invalid number of 'on:' blocks ($COUNT)"
+              exit 1
+            fi
+            echo "   ✔ One 'on:' block"
+
+            # 3. Required triggers
+            grep -q "pull_request:" "$FILE" || { echo "❌ Missing pull_request trigger"; exit 1; }
+            grep -q "push:" "$FILE" || { echo "❌ Missing push trigger"; exit 1; }
+            grep -q "branches:" "$FILE" || { echo "❌ Missing branches block"; exit 1; }
+            echo "   ✔ Required triggers present"
+
+            # 4. Permissions block
+            grep -q "^permissions:" "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
+            echo "   ✔ Permissions block present"
+
+            # 5. Check-run reporting step
+            grep -q "LouisBrunner/checks-action" "$FILE" || { echo "❌ Missing check-run reporting step"; exit 1; }
+            echo "   ✔ Check-run reporting step present"
+
+            echo ""
+          done
+
+          echo "✅ All workflows validated successfully"

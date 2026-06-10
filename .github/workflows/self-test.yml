@@ -1,0 +1,44 @@
+name: Self Test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  self-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify GitHub Actions runner environment
+        run: |
+          echo "🔍 Checking runner environment..."
+          node -v
+          npm -v
+          python3 --version
+          git --version
+          echo "✔ Environment OK"
+
+      - name: Verify repository structure
+        run: |
+          echo "🔍 Checking repo structure..."
+          test -d ".github/workflows" || (echo "❌ Missing workflows directory" && exit 1)
+          echo "✔ Repo structure OK"
+
+      - name: Verify workflow files exist
+        run: |
+          echo "🔍 Checking workflow files..."
+          COUNT=$(ls .github/workflows/*.yml | wc -l)
+          if [ "$COUNT" -eq 0 ]; then
+            echo "❌ No workflow files found"
+            exit 1
+          fi
+          echo "✔ Found $COUNT workflow files"
+
+      - name: Self-test complete
+        run: echo "✅ Self-test workflow passed"
