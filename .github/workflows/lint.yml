@@ -1,0 +1,30 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend dependencies
+        working-directory: frontend/unified-frontend
+        run: npm install --legacy-peer-deps
+
+      - name: Run ESLint
+        working-directory: frontend/unified-frontend
+        run: |
+          echo "🔍 Running ESLint..."
+          npm run lint
