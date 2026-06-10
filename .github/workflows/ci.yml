@@ -1,9 +1,17 @@
 name: Combined CI
 
 on:
+  pull_request:
+  push:
+    branches:
+      - main
+
 permissions:
   contents: read
   checks: write
+
+
+on:
   workflow_run:
     workflows:
       - Avatar Integrity

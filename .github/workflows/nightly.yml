@@ -1,9 +1,17 @@
 name: Nightly Drift Check
 
 on:
+  pull_request:
+  push:
+    branches:
+      - main
+
 permissions:
   contents: read
   checks: write
+
+
+on:
   schedule:
     - cron: "0 2 * * *"   # Runs every night at 02:00 UTC
   workflow_dispatch:       # Allows manual triggering

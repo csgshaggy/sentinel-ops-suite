@@ -1,11 +1,17 @@
 name: Build and Test
 
 on:
+  pull_request:
+  push:
+    branches:
+      - main
+
 permissions:
   contents: read
   checks: write
-  pull_request:
-  push:
+
+
+on:
     branches:
       - main
 

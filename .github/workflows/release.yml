@@ -1,10 +1,17 @@
 name: Release Pipeline
 
 on:
+  pull_request:
+  push:
+    branches:
+      - main
+
 permissions:
   contents: read
   checks: write
-  push:
+
+
+on:
     branches:
       - main
   workflow_dispatch:

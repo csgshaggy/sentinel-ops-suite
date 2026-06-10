@@ -1,11 +1,17 @@
 name: Bundle Size Tracking
 
 on:
+  pull_request:
+  push:
+    branches:
+      - main
+
 permissions:
   contents: read
   checks: write
-  pull_request:
-  push:
+
+
+on:
     branches:
       - main
   workflow_dispatch:
