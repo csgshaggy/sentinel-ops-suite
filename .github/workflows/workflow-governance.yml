@@ -85,7 +85,7 @@ jobs:
             echo "YAML valid"
 
             COUNT=$(grep -c '^on:' "$FILE" || true)
-            if [ "$COUNT" -ne 1 ]; then
+            if [ "$COUNT" -ne 1]; then
               echo "Invalid number of 'on:' blocks: $COUNT in $FILE"
               exit 1
             fi
@@ -176,7 +176,8 @@ jobs:
         with:
           token: ${{ github.token }}
           name: Governance Check
-          status: success
+          status: completed
+          conclusion: success
 
       - name: Success
         shell: bash
