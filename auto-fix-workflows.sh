@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Force bash even if invoked under sh
+[ -n "${BASH_VERSION:-}" ] || exec bash "$0" "$@"
+
 WORKFLOW_DIR=".github/workflows"
 
 echo "🔧 Auto-fix: Starting governance-scoped workflow corrections..."
 
-# Governance-critical workflows
 GOVERNANCE_FILES=(
   "workflow-governance.yml"
   "avatar-integrity.yml"
@@ -20,8 +22,9 @@ fix_governance_file() {
   # Ensure permissions block exists
   if ! grep -q "^permissions:" "$PATH"; then
     echo "   ➕ Adding missing permissions block"
-    # GNU-sed safe multi-line insert
-    sed -i '1ipermissions:\n  contents: write\n  checks: write' "$PATH"
+    sed -i '1ipermissions:' "$PATH"
+    sed -i '2i\  contents: write' "$PATH"
+    sed -i '3i\  checks: write' "$PATH"
   fi
 
   # Ensure required triggers exist
@@ -35,8 +38,6 @@ fix_governance_file() {
   # Ensure check-run reporting step exists
   if ! grep -q "LouisBrunner/checks-action" "$PATH"; then
     echo "   ➕ Adding missing check-run reporting step"
-
-    # Append block safely
     {
       echo ""
       echo "      - name: Report status"
@@ -51,7 +52,6 @@ fix_governance_file() {
   echo "   ✔ Governance workflow fixed"
 }
 
-# Iterate governance files only
 for FILE in "${GOVERNANCE_FILES[@]}"; do
   FULL="$WORKFLOW_DIR/$FILE"
   if [[ -f "$FULL" ]]; then
