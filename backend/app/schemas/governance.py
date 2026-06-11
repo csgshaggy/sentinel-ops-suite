@@ -47,3 +47,47 @@ class WorkflowStatus(BaseModel):
     status: str
     violations_count: int
     last_validated_at: Optional[datetime]
+
+
+# -------------------------------------------------
+# Response: Governance Snapshot (Route 4)
+# -------------------------------------------------
+class Violation(BaseModel):
+    rule_id: str
+    message: str
+    severity: str
+    file_path: str
+    line: Optional[int]
+    auto_fixed: bool
+
+
+class WorkflowSnapshot(BaseModel):
+    workflow_id: int
+    path: str
+    status: str
+    violations: list[Violation]
+
+
+class GovernanceSnapshotResponse(BaseModel):
+    run_id: int
+    repo_id: int
+    triggered_at: datetime
+    completed_at: Optional[datetime]
+    workflows: list[WorkflowSnapshot]
+
+
+# -------------------------------------------------
+# Response: Governance Run History (Route 5)
+# -------------------------------------------------
+class GovernanceRunHistoryItem(BaseModel):
+    run_id: int
+    status: str
+    score: int
+    violations_count: int
+    triggered_at: datetime
+    completed_at: Optional[datetime]
+
+
+class GovernanceRunHistoryResponse(BaseModel):
+    repo_id: int
+    runs: list[GovernanceRunHistoryItem]

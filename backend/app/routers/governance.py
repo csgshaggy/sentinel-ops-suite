@@ -7,6 +7,7 @@ from app.schemas.governance import (
     GovernanceRunResponse,
     LatestGovernanceResponse,
     WorkflowStatus,
+    GovernanceSnapshotResponse,
 )
 from app.services.github_client import GitHubClient
 from app.services.governance_service import GovernanceService
@@ -94,3 +95,23 @@ async def list_workflows(
         )
         for w in workflows
     ]
+
+
+# -------------------------------------------------
+# Governance Snapshot (violations + metadata)
+# GET /api/governance/snapshot/{run_id}
+# -------------------------------------------------
+@router.get("/snapshot/{run_id}", response_model=GovernanceSnapshotResponse)
+async def get_governance_snapshot(
+    run_id: int,
+    governance_service: GovernanceService = Depends()
+):
+    snapshot = await governance_service.get_snapshot(run_id)
+
+    if not snapshot:
+        raise HTTPException(
+            status_code=404,
+            detail="Snapshot not found for this run_id"
+        )
+
+    return snapshot
