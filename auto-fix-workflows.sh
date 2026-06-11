@@ -4,40 +4,36 @@ set -euo pipefail
 # Force bash even if invoked under sh
 [ -n "${BASH_VERSION:-}" ] || exec bash "$0" "$@"
 
-# Restore PATH because GitHub Actions runs bash with --noprofile --norc
+# Restore PATH
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 WORKFLOW_DIR=".github/workflows"
 
 echo "Auto-fix: Starting governance-scoped workflow corrections..."
 
-# POSIX-safe list of governance workflow files
 GOVERNANCE_FILES="workflow-governance.yml avatar-integrity.yml"
 
 fix_governance_file() {
   FILE="$1"
-  PATH="$WORKFLOW_DIR/$FILE"
+  PATH_TO_FILE="$WORKFLOW_DIR/$FILE"
 
   echo "Processing governance workflow: $FILE"
 
-  # Ensure permissions block exists
-  if ! grep -q "^permissions:" "$PATH"; then
+  if ! grep -q "^permissions:" "$PATH_TO_FILE"; then
     echo "Adding missing permissions block"
-    sed -i '1ipermissions:' "$PATH"
-    sed -i '2i\  contents: write' "$PATH"
-    sed -i '3i\  checks: write' "$PATH"
+    sed -i '1ipermissions:' "$PATH_TO_FILE"
+    sed -i '2i\  contents: write' "$PATH_TO_FILE"
+    sed -i '3i\  checks: write' "$PATH_TO_FILE"
   fi
 
-  # Ensure required triggers exist
   for TRIGGER in pull_request push branches; do
-    if ! grep -q "$TRIGGER:" "$PATH"; then
+    if ! grep -q "$TRIGGER:" "$PATH_TO_FILE"; then
       echo "Adding missing trigger: $TRIGGER"
-      sed -i "/^on:/a\  $TRIGGER:" "$PATH"
+      sed -i "/^on:/a\  $TRIGGER:" "$PATH_TO_FILE"
     fi
   done
 
-  # Ensure check-run reporting step exists
-  if ! grep -q "LouisBrunner/checks-action" "$PATH"; then
+  if ! grep -q "LouisBrunner/checks-action" "$PATH_TO_FILE"; then
     echo "Adding missing check-run reporting step"
     {
       echo ""
@@ -47,13 +43,12 @@ fix_governance_file() {
       echo "          token: \${{ github.token }}"
       echo "          name: Governance Check"
       echo "          status: success"
-    } >> "$PATH"
+    } >> "$PATH_TO_FILE"
   fi
 
   echo "Governance workflow fixed"
 }
 
-# Loop through governance files (POSIX-safe)
 for FILE in $GOVERNANCE_FILES; do
   FULL="$WORKFLOW_DIR/$FILE"
   if [ -f "$FULL" ]; then
@@ -63,4 +58,4 @@ for FILE in $GOVERNANCE_FILES; do
   fi
 done
 
-echo "Auto-fix complete (governance-scoped)"
+echo "Auto-fix complete"
