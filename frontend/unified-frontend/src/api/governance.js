@@ -19,3 +19,14 @@ export async function fetchGovernanceSnapshot(runId) {
 
   return res.json();
 }
+
+// Fetch Governance KPIs (Step‑3)
+export async function fetchGovernanceKpis() {
+  const res = await fetch(`/api/governance/kpis`);
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch governance KPIs: ${res.status}`);
+  }
+
+  return res.json();
+}
