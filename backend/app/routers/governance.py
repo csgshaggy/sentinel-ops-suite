@@ -10,12 +10,11 @@ from app.schemas.governance import (
     GovernanceSnapshotResponse,
     GovernanceRunHistoryResponse,
     GovernanceRunHistoryItem,
-    GovernanceKpiResponse,  # ← Add this schema if not already present
+    GovernanceKpiResponse,
 )
 from app.services.github_client import GitHubClient
 from app.services.governance_service import GovernanceService
 
-# Add prefix + tag for consistency
 router = APIRouter(prefix="/api/governance", tags=["governance"])
 
 
@@ -156,12 +155,5 @@ async def get_governance_history(
 async def get_governance_kpis(
     governance_service: GovernanceService = Depends()
 ):
-    kpis = await governance_service.get_kpis()
-
-    if not kpis:
-        raise HTTPException(
-            status_code=404,
-            detail="No governance KPI data available"
-        )
-
-    return kpis
+    # KPI endpoint always returns a dict; no need for 404
+    return await governance_service.get_kpis()

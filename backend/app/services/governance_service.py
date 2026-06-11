@@ -51,7 +51,7 @@ class GovernanceService:
             return result.scalars().all()
 
     # -------------------------------------------------
-    # Fetch governance snapshot for a specific run
+    # Governance Snapshot (violations + metadata)
     # -------------------------------------------------
     async def get_snapshot(self, run_id: int):
         async with async_session() as session:
@@ -114,7 +114,7 @@ class GovernanceService:
             return snapshot
 
     # -------------------------------------------------
-    # Route 5: Governance Run History
+    # Governance Run History (Route 5)
     # -------------------------------------------------
     async def get_history(self, repo_id: int):
         async with async_session() as session:
@@ -124,3 +124,19 @@ class GovernanceService:
                 .order_by(GovernanceRun.triggered_at.desc())
             )
             return result.scalars().all()
+
+    # -------------------------------------------------
+    # Governance KPIs (NEW)
+    # -------------------------------------------------
+    async def get_kpis(self):
+        """
+        Returns high-level governance KPIs for the dashboard.
+        Replace with real SQL queries once KPI tables exist.
+        """
+        # Deterministic placeholder values
+        return {
+            "complianceCoverage": 92,
+            "openActions": 14,
+            "slaDrift": 3.2,
+            "policyExceptions": 7,
+        }
