@@ -1,20 +1,29 @@
-/* Snapshot Drawer Container */
+/* ================================
+   Snapshot Drawer — Neon Glassy
+   ================================ */
+
 .snapshot-drawer {
   position: fixed;
   top: 0;
   right: 0;
   width: 420px;
   height: 100vh;
-  background: #ffffff;
-  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.15);
-  z-index: 9999;
   display: flex;
   flex-direction: column;
+  z-index: 9999;
+
+  /* Neon‑glassy surface */
+  background: rgba(20, 20, 30, 0.55);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+
+  border-left: 1px solid rgba(0, 255, 255, 0.25);
+  box-shadow: -4px 0 18px rgba(0, 255, 255, 0.15);
+
   animation: slideIn 0.25s ease-out;
-  border-left: 1px solid #e5e5e5;
 }
 
-/* Drawer Slide Animation */
+/* Slide animation */
 @keyframes slideIn {
   from {
     transform: translateX(100%);
@@ -24,27 +33,36 @@
   }
 }
 
-/* Drawer Content */
+/* Drawer content */
 .drawer-content {
   padding: 24px;
   overflow-y: auto;
   height: 100%;
+  color: #e8faff;
 }
 
-/* Close Button */
+/* Close button */
 .close-btn {
-  background: #f5f5f5;
-  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 255, 255, 0.25);
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  color: #dffcff;
   margin-bottom: 16px;
-  transition: background 0.2s ease;
+
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .close-btn:hover {
-  background: #e0e0e0;
+  background: rgba(0, 255, 255, 0.15);
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+}
+
+.close-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.55);
 }
 
 /* Headings */
@@ -52,15 +70,19 @@
   margin-top: 0;
   font-size: 20px;
   font-weight: 600;
+  color: #aefaff;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.35);
 }
 
 .drawer-content h3 {
   margin-top: 20px;
   font-size: 16px;
   font-weight: 600;
+  color: #8be7ff;
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.25);
 }
 
-/* Violations List */
+/* Violations list */
 .drawer-content ul {
   list-style: none;
   padding-left: 0;
@@ -68,15 +90,25 @@
 }
 
 .drawer-content li {
-  background: #fafafa;
-  border: 1px solid #e5e5e5;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.2);
   padding: 12px;
   border-radius: 6px;
   margin-bottom: 10px;
+
   font-size: 14px;
   line-height: 1.4;
+  color: #e8faff;
+
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.drawer-content li:hover {
+  background: rgba(0, 255, 255, 0.08);
+  border-color: rgba(0, 255, 255, 0.35);
 }
 
 .drawer-content li strong {
-  color: #333;
+  color: #aefaff;
+  text-shadow: 0 0 4px rgba(0, 255, 255, 0.25);
 }
