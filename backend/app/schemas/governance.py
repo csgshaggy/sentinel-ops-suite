@@ -35,3 +35,15 @@ class LatestGovernanceResponse(BaseModel):
     violations_count: int
     triggered_at: datetime
     completed_at: Optional[datetime]
+
+
+# -------------------------------------------------
+# Response: Workflow Status (for /workflows route)
+# -------------------------------------------------
+class WorkflowStatus(BaseModel):
+    workflow_id: int
+    repo_id: int
+    path: str
+    status: str
+    violations_count: int
+    last_validated_at: Optional[datetime]
