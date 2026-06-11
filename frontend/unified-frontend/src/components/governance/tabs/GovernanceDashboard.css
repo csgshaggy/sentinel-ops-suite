@@ -1,0 +1,86 @@
+/* ==========================================================
+   Governance Dashboard — Neon Glassy Sentinel Ops Theme
+   ========================================================== */
+
+.governance-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+  color: #e8faff;
+}
+
+/* KPI Grid */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* KPI Tile */
+.kpi-tile {
+  background: rgba(20, 20, 30, 0.55);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+
+  padding: 20px;
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-tile:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 255, 255, 0.45);
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.35);
+}
+
+.kpi-label {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #aefaff;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.35);
+}
+
+/* Section Blocks */
+.section-block {
+  background: rgba(20, 20, 30, 0.55);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 12px;
+
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #aefaff;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.35);
+}
+
+/* Table Styling */
+.gov-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: #e8faff;
+}
+
+.gov-table thead {
+  background: rgba(0, 255, 255, 0.

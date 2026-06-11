@@ -1,0 +1,153 @@
+/* ============================================
+   History Tab — Neon Glassy Sentinel Ops Theme
+   ============================================ */
+
+.history-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+
+  color: #e8faff;
+}
+
+/* Filters bar */
+.history-filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: rgba(20, 20, 30, 0.55);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+
+  padding: 12px 16px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.12);
+}
+
+.history-filters select,
+.history-filters input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  color: #dffcff;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-filters select:focus,
+.history-filters input:focus {
+  outline: none;
+  border-color: rgba(0, 255, 255, 0.55);
+  box-shadow: 0 0 6px rgba(0, 255, 255, 0.45);
+}
+
+/* Timeline container */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Individual event card */
+.history-item {
+  background: rgba(20, 20, 30, 0.55);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+
+  padding: 16px;
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.history-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 255, 255, 0.45);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.35);
+}
+
+.history-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.55);
+}
+
+/* Event title */
+.history-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #aefaff;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.35);
+}
+
+/* Metadata row */
+.history-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 13px;
+  color: #d4f7ff;
+  opacity: 0.85;
+}
+
+/* Description text */
+.history-description {
+  font-size: 14px;
+  color: #e8faff;
+  line-height: 1.45;
+  opacity: 0.9;
+}
+
+/* Severity badge */
+.history-severity {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  width: fit-content;
+}
+
+/* Severity variants */
+.severity-info {
+  background: rgba(0, 200, 255, 0.15);
+  border: 1px solid rgba(0, 200, 255, 0.4);
+  color: #9ae8ff;
+}
+
+.severity-warning {
+  background: rgba(255, 200, 0, 0.15);
+  border: 1px solid rgba(255, 200, 0, 0.4);
+  color: #ffe28a;
+}
+
+.severity-critical {
+  background: rgba(255, 60, 60, 0.15);
+  border: 1px solid rgba(255, 60, 60, 0.4);
+  color: #ff9b9b;
+}
+
+/* Empty state */
+.history-empty {
+  padding: 20px;
+  text-align: center;
+
+  background: rgba(20, 20, 30, 0.55);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  border-radius: 10px;
+
+  color: #b8f7ff;
+  font-size: 15px;
+
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+}
