@@ -52,7 +52,6 @@ class GovernanceService:
 
     # -------------------------------------------------
     # Fetch governance snapshot for a specific run
-    # Includes workflows + violations
     # -------------------------------------------------
     async def get_snapshot(self, run_id: int):
         async with async_session() as session:
@@ -113,3 +112,15 @@ class GovernanceService:
                 })
 
             return snapshot
+
+    # -------------------------------------------------
+    # Route 5: Governance Run History
+    # -------------------------------------------------
+    async def get_history(self, repo_id: int):
+        async with async_session() as session:
+            result = await session.execute(
+                select(GovernanceRun)
+                .where(GovernanceRun.repo_id == repo_id)
+                .order_by(GovernanceRun.triggered_at.desc())
+            )
+            return result.scalars().all()

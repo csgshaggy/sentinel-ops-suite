@@ -8,6 +8,8 @@ from app.schemas.governance import (
     LatestGovernanceResponse,
     WorkflowStatus,
     GovernanceSnapshotResponse,
+    GovernanceRunHistoryResponse,
+    GovernanceRunHistoryItem,
 )
 from app.services.github_client import GitHubClient
 from app.services.governance_service import GovernanceService
@@ -115,3 +117,30 @@ async def get_governance_snapshot(
         )
 
     return snapshot
+
+
+# -------------------------------------------------
+# Governance Run History (Route 5)
+# GET /api/governance/history?repo_id=#
+# -------------------------------------------------
+@router.get("/history", response_model=GovernanceRunHistoryResponse)
+async def get_governance_history(
+    repo_id: int,
+    governance_service: GovernanceService = Depends()
+):
+    runs = await governance_service.get_history(repo_id)
+
+    return GovernanceRunHistoryResponse(
+        repo_id=repo_id,
+        runs=[
+            GovernanceRunHistoryItem(
+                run_id=r.id,
+                status=r.status,
+                score=r.score,
+                violations_count=r.violations_count,
+                triggered_at=r.triggered_at,
+                completed_at=r.completed_at,
+            )
+            for r in runs
+        ]
+    )
