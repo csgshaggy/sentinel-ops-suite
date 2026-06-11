@@ -3,6 +3,7 @@
 
 from sqlalchemy import select
 from app.models.governance_run import GovernanceRun
+from app.models.workflow_file import WorkflowFile
 from app.db import async_session
 
 
@@ -35,3 +36,16 @@ class GovernanceService:
                 .limit(1)
             )
             return result.scalar_one_or_none()
+
+    # -------------------------------------------------
+    # Fetch all workflow files for a repository
+    # Used by: GET /api/governance/workflows
+    # -------------------------------------------------
+    async def get_workflows_for_repo(self, repo_id: int):
+        async with async_session() as session:
+            result = await session.execute(
+                select(WorkflowFile)
+                .where(WorkflowFile.repo_id == repo_id)
+                .order_by(WorkflowFile.path.asc())
+            )
+            return result.scalars().all()

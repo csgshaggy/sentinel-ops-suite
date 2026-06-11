@@ -6,6 +6,7 @@ from app.schemas.governance import (
     GovernanceRunRequest,
     GovernanceRunResponse,
     LatestGovernanceResponse,
+    WorkflowStatus,
 )
 from app.services.github_client import GitHubClient
 from app.services.governance_service import GovernanceService
@@ -23,13 +24,11 @@ async def trigger_governance_run(
     gh: GitHubClient = Depends(),
     governance_service: GovernanceService = Depends()
 ):
-    # 1. Create queued run record
     run = await governance_service.create_run(
         repo_id=payload.repo_id,
         mode=payload.mode
     )
 
-    # 2. Trigger GitHub workflow_dispatch
     if payload.mode == "github":
         await gh.trigger_workflow_dispatch(
             repo_owner="sentinel-ops-suite",
@@ -38,7 +37,6 @@ async def trigger_governance_run(
             ref=payload.ref
         )
 
-    # 3. Return metadata
     return GovernanceRunResponse(
         run_id=run.id,
         status=run.status,
@@ -72,3 +70,27 @@ async def get_latest_governance_run(
         triggered_at=run.triggered_at,
         completed_at=run.completed_at,
     )
+
+
+# -------------------------------------------------
+# List Workflow Integrity Status
+# GET /api/governance/workflows?repo_id=#
+# -------------------------------------------------
+@router.get("/workflows", response_model=list[WorkflowStatus])
+async def list_workflows(
+    repo_id: int,
+    governance_service: GovernanceService = Depends()
+):
+    workflows = await governance_service.get_workflows_for_repo(repo_id)
+
+    return [
+        WorkflowStatus(
+            workflow_id=w.id,
+            repo_id=w.repo_id,
+            path=w.path,
+            status=w.status,
+            violations_count=w.violations_count,
+            last_validated_at=w.last_validated_at,
+        )
+        for w in workflows
+    ]
