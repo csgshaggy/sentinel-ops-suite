@@ -1,4 +1,5 @@
 import React from "react";
+import "./SnapshotDrawer.css";
 
 export const SnapshotDrawer = ({ workflow, onClose }) => {
   if (!workflow) return null;
