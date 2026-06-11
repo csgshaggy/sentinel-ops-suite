@@ -8,7 +8,6 @@ WORKFLOW_DIR=".github/workflows"
 
 echo "🔧 Auto-fix: Starting governance-scoped workflow corrections..."
 
-# Governance-critical workflows
 GOVERNANCE_FILES=(
   "workflow-governance.yml"
   "avatar-integrity.yml"
@@ -53,7 +52,6 @@ fix_governance_file() {
   echo "   ✔ Governance workflow fixed"
 }
 
-# Iterate governance files only
 for FILE in "${GOVERNANCE_FILES[@]}"; do
   FULL="$WORKFLOW_DIR/$FILE"
   if [[ -f "$FULL" ]]; then
