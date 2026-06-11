@@ -1,0 +1,132 @@
+name: Workflow Governance Pipeline
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  checks: write
+
+jobs:
+  self-test:
+    name: Environment Self-Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify runner environment
+        run: |
+          echo "🔍 Checking runner environment..."
+          node -v
+          npm -v
+          python3 --version
+          git --version
+          echo "✔ Environment OK"
+
+      - name: Verify repo structure
+        run: |
+          test -d ".github/workflows" || (echo "❌ Missing workflows directory" && exit 1)
+          echo "✔ Repo structure OK"
+
+  validate:
+    name: Validate Workflow Files
+    runs-on: ubuntu-latest
+    needs: self-test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Python YAML parser
+        run: python3 -m pip install pyyaml
+
+      - name: Validate workflows
+        run: |
+          echo "🔍 Validating workflow files..."
+          WORKFLOW_DIR=".github/workflows"
+
+          for FILE in $WORKFLOW_DIR/*.yml; do
+            echo "➡️ Checking: $FILE"
+
+            python3 - <<EOF >/dev/null 2>&1
+import yaml, sys
+yaml.safe_load(open("$FILE"))
+EOF
+            if [ $? -ne 0 ]; then
+              echo "❌ YAML invalid in $FILE"
+              exit 1
+            else
+              echo "   ✔ YAML valid"
+            fi
+
+            COUNT=$(grep -c "^on:" "$FILE" || true)
+            if [ "$COUNT" -ne 1 ]; then
+              echo "❌ Invalid number of 'on:' blocks ($COUNT)"
+              exit 1
+            else
+              echo "   ✔ One 'on:' block"
+            fi
+
+            grep -q "^permissions:" "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
+            echo "   ✔ Permissions block present"
+
+            for TRIGGER in pull_request push branches; do
+              grep -q "$TRIGGER:" "$FILE" || { echo "❌ Missing trigger: $TRIGGER"; exit 1; }
+              echo "   ✔ Trigger present: $TRIGGER"
+            done
+
+            grep -q "LouisBrunner/checks-action" "$FILE" || { echo "❌ Missing check-run reporting step"; exit 1; }
+            echo "   ✔ Check-run reporting step present"
+
+            echo ""
+          done
+
+          echo "✅ All workflows validated successfully"
+
+  auto-fix:
+    name: Auto-Fix Workflow Issues
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Python YAML parser
+        run: python3 -m pip install pyyaml
+
+      - name: Run auto-fix script
+        run: |
+          echo "🔧 Running auto-fix script..."
+          chmod +x auto-fix-workflows.sh
+          ./auto-fix-workflows.sh
+
+      - name: Detect changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Auto-commit fixes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          echo "🛠 Committing workflow fixes..."
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add .github/workflows/*.yml
+          git commit -m "Auto-fix workflow YAML issues"
+          git push
+
+      - name: Success
+        run: echo "✅ Workflow governance pipeline completed successfully"
