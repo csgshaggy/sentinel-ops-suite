@@ -131,7 +131,7 @@ jobs:
         run: |
           echo "Running auto-fix script"
           chmod +x auto-fix-workflows.sh
-          ./auto-fix-workflows.sh
+          bash ./auto-fix-workflows.sh
 
       - name: Detect changes
         id: changes
