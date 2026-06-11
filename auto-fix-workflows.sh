@@ -8,14 +8,12 @@ WORKFLOW_DIR=".github/workflows"
 
 echo "🔧 Auto-fix: Starting governance-scoped workflow corrections..."
 
-GOVERNANCE_FILES=(
-  "workflow-governance.yml"
-  "avatar-integrity.yml"
-)
+# POSIX-safe list of governance workflow files
+GOVERNANCE_FILES="workflow-governance.yml avatar-integrity.yml"
 
 fix_governance_file() {
-  local FILE="$1"
-  local PATH="$WORKFLOW_DIR/$FILE"
+  FILE="$1"
+  PATH="$WORKFLOW_DIR/$FILE"
 
   echo "➡️ Processing governance workflow: $FILE"
 
@@ -28,7 +26,7 @@ fix_governance_file() {
   fi
 
   # Ensure required triggers exist
-  for TRIGGER in "pull_request" "push" "branches"; do
+  for TRIGGER in pull_request push branches; do
     if ! grep -q "$TRIGGER:" "$PATH"; then
       echo "   ➕ Adding missing trigger: $TRIGGER"
       sed -i "/^on:/a\  $TRIGGER:" "$PATH"
@@ -52,9 +50,10 @@ fix_governance_file() {
   echo "   ✔ Governance workflow fixed"
 }
 
-for FILE in "${GOVERNANCE_FILES[@]}"; do
+# Loop through governance files (POSIX-safe)
+for FILE in $GOVERNANCE_FILES; do
   FULL="$WORKFLOW_DIR/$FILE"
-  if [[ -f "$FULL" ]]; then
+  if [ -f "$FULL" ]; then
     fix_governance_file "$FILE"
   else
     echo "⏭ Skipping missing governance file: $FILE"
