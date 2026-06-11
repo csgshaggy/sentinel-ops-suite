@@ -23,14 +23,17 @@ from app.routers.users import router as users_router
 from app.routers.admin import router as admin_router
 from app.routers.health import router as health_router
 
-# ❌ REMOVE THIS — old, incorrect profile router
+# ❌ OLD PROFILE ROUTER (removed)
 # from app.routers.profile import router as profile_router
 
 # ✅ NEW: Unified Profile + Avatar router
 from app.routers.profile_avatar import router as profile_avatar_router
 
-# NEW: Settings Router
+# Settings Router
 from app.routers.settings import router as settings_router
+
+# ✅ NEW: Governance Router
+from app.routers.governance import router as governance_router
 
 
 # -------------------------------------------------
@@ -138,14 +141,14 @@ app.include_router(admin_router, prefix="/api/admin", tags=["admin"])
 # Health → /api/health/*
 app.include_router(health_router, prefix="/api/health", tags=["health"])
 
-# ❌ OLD: /api/profile/*
-# app.include_router(profile_router, prefix="/api/profile", tags=["profile"])
-
-# ✅ NEW: Unified Profile + Avatar → /api/users/me/*
+# Unified Profile + Avatar → /api/users/me/*
 app.include_router(profile_avatar_router, prefix="/api/users/me", tags=["profile"])
 
 # Settings → /api/settings/*
 app.include_router(settings_router, prefix="/api/settings", tags=["settings"])
+
+# ✅ Governance → /api/governance/*
+app.include_router(governance_router, prefix="/api/governance", tags=["governance"])
 
 
 # -------------------------------------------------
