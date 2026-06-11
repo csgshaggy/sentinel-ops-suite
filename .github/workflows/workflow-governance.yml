@@ -1,8 +1,9 @@
+---
 name: Workflow Governance Pipeline
 
 on:
-  workflow_dispatch:
-  pull_request:
+  workflow_dispatch: {}
+  pull_request: {}
   push:
     branches:
       - main
@@ -26,18 +27,21 @@ jobs:
       - name: Verify runner environment
         shell: bash
         run: |
-          echo "🔍 Checking runner environment..."
+          echo "Checking runner environment"
           node -v
           npm -v
           python3 --version
           git --version
-          echo "✔ Environment OK"
+          echo "Environment OK"
 
       - name: Verify repo structure
         shell: bash
         run: |
-          test -d ".github/workflows" || (echo "❌ Missing workflows directory" && exit 1)
-          echo "✔ Repo structure OK"
+          if [ ! -d ".github/workflows" ]; then
+            echo "Missing workflows directory"
+            exit 1
+          fi
+          echo "Repo structure OK"
 
   validate:
     name: Validate Workflow Files
@@ -58,47 +62,53 @@ jobs:
       - name: Validate workflows
         shell: bash
         run: |
-          echo "🔍 Validating workflow files..."
+          echo "Validating workflow files"
           WORKFLOW_DIR=".github/workflows"
 
-          for FILE in $WORKFLOW_DIR/*.yml; do
-            echo "➡️ Checking: $FILE"
+          for FILE in "$WORKFLOW_DIR"/*.yml; do
+            echo "Checking $FILE"
 
-            python3 - <<EOF
-import yaml, sys
-yaml.safe_load(open("$FILE"))
-EOF
-            echo "   ✔ YAML valid"
+            python3 -c "import yaml; yaml.safe_load(open('$FILE'))"
+            echo "YAML valid"
 
             COUNT=$(grep -c '^on:' "$FILE" || true)
             if [ "$COUNT" -ne 1 ]; then
-              echo "❌ Invalid number of 'on:' blocks ($COUNT)"
+              echo "Invalid number of on blocks: $COUNT"
               exit 1
             fi
-            echo "   ✔ One 'on:' block"
+            echo "One on block"
 
-            grep -q '^permissions:' "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
-            echo "   ✔ Permissions block present"
+            if ! grep -q '^permissions:' "$FILE"; then
+              echo "Missing permissions block"
+              exit 1
+            fi
+            echo "Permissions block present"
 
             for TRIGGER in pull_request push branches; do
-              grep -q "$TRIGGER:" "$FILE" || { echo "❌ Missing trigger: $TRIGGER"; exit 1; }
-              echo "   ✔ Trigger present: $TRIGGER"
+              if ! grep -q "$TRIGGER:" "$FILE"; then
+                echo "Missing trigger: $TRIGGER"
+                exit 1
+              fi
+              echo "Trigger present: $TRIGGER"
             done
 
-            if [[ "$FILE" == *"workflow-governance.yml" || "$FILE" == *"avatar-integrity.yml" ]]; then
-              grep -q 'LouisBrunner/checks-action' "$FILE" || {
-                echo "❌ Missing check-run reporting step in governance workflow: $FILE"
-                exit 1
-              }
-              echo "   ✔ Check-run reporting step present"
-            else
-              echo "   ⏭ Skipping checks-action requirement"
-            fi
+            case "$FILE" in
+              *workflow-governance.yml|*avatar-integrity.yml)
+                if ! grep -q 'LouisBrunner/checks-action' "$FILE"; then
+                  echo "Missing check-run reporting step"
+                  exit 1
+                fi
+                echo "Check-run reporting step present"
+                ;;
+              *)
+                echo "Skipping checks-action requirement"
+                ;;
+            esac
 
             echo ""
           done
 
-          echo "✅ All workflows validated successfully"
+          echo "All workflows validated successfully"
 
   auto-fix:
     name: Auto-Fix Workflow Issues
@@ -119,7 +129,7 @@ EOF
       - name: Run auto-fix script
         shell: bash
         run: |
-          echo "🔧 Running auto-fix script..."
+          echo "Running auto-fix script"
           chmod +x auto-fix-workflows.sh
           ./auto-fix-workflows.sh
 
@@ -128,16 +138,16 @@ EOF
         shell: bash
         run: |
           if git diff --quiet; then
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
-            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Auto-commit fixes
         if: steps.changes.outputs.changed == 'true'
         shell: bash
         run: |
-          echo "🛠 Committing workflow fixes..."
+          echo "Committing workflow fixes"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add .github/workflows/*.yml
@@ -146,4 +156,4 @@ EOF
 
       - name: Success
         shell: bash
-        run: echo "✅ Workflow governance pipeline completed successfully"
+        run: echo "Workflow governance pipeline completed successfully"
