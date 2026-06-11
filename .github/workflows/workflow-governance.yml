@@ -78,14 +78,12 @@ jobs:
           for FILE in "$WORKFLOW_DIR"/*.yml; do
             echo "Checking $FILE"
 
-            # YAML syntax
             python3 -c "import yaml; yaml.safe_load(open('$FILE'))" || {
               echo "YAML invalid in $FILE"
               exit 1
             }
             echo "YAML valid"
 
-            # Exactly one 'on:' block
             COUNT=$(grep -c '^on:' "$FILE" || true)
             if [ "$COUNT" -ne 1 ]; then
               echo "Invalid number of 'on:' blocks: $COUNT in $FILE"
@@ -93,7 +91,6 @@ jobs:
             fi
             echo "One 'on:' block"
 
-            # Required triggers
             for TRIGGER in pull_request push branches; do
               if ! grep -q "$TRIGGER:" "$FILE"; then
                 echo "Missing trigger: $TRIGGER in $FILE"
@@ -102,14 +99,12 @@ jobs:
               echo "Trigger present: $TRIGGER"
             done
 
-            # Permissions block
             if ! grep -q '^permissions:' "$FILE"; then
               echo "Missing permissions block in $FILE"
               exit 1
             fi
             echo "Permissions block present"
 
-            # Governance workflows must have checks-action
             case "$FILE" in
               *workflow-governance.yml|*avatar-integrity.yml)
                 if ! grep -q 'LouisBrunner/checks-action' "$FILE"; then
@@ -148,8 +143,9 @@ jobs:
         shell: bash
         run: |
           echo "Running auto-fix script"
-          chmod +x auto-fix-workflows.sh
-          bash ./auto-fix-workflows.sh
+          export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+          chmod +x ./auto-fix-workflows.sh
+          ./auto-fix-workflows.sh
 
       - name: Detect changes
         id: changes
