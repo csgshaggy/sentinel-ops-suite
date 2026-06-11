@@ -139,13 +139,16 @@ jobs:
         shell: bash
         run: python3 -m pip install pyyaml
 
-      - name: Run auto-fix script
+      - name: Prepare auto-fix script
         shell: bash
         run: |
-          echo "Running auto-fix script"
+          echo "Preparing auto-fix script"
           export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
           chmod +x auto-fix-workflows.sh
-          exec ./auto-fix-workflows.sh
+
+      - name: Run auto-fix script
+        shell: bash
+        run: ./auto-fix-workflows.sh
 
       - name: Detect changes
         id: changes
