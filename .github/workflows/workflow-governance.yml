@@ -19,6 +19,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
       - name: Verify runner environment
         shell: bash
@@ -44,6 +47,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
       - name: Install Python YAML parser
         shell: bash
@@ -58,15 +64,12 @@ jobs:
           for FILE in $WORKFLOW_DIR/*.yml; do
             echo "➡️ Checking: $FILE"
 
-            # YAML parse validation
-            python3 -c "import yaml, sys; yaml.safe_load(open('$FILE'))" >/dev/null 2>&1
-            if [ $? -ne 0 ]; then
-              echo "❌ YAML invalid in $FILE"
-              exit 1
-            fi
+            python3 - <<EOF
+import yaml, sys
+yaml.safe_load(open("$FILE"))
+EOF
             echo "   ✔ YAML valid"
 
-            # Ensure exactly one 'on:' block
             COUNT=$(grep -c '^on:' "$FILE" || true)
             if [ "$COUNT" -ne 1 ]; then
               echo "❌ Invalid number of 'on:' blocks ($COUNT)"
@@ -74,25 +77,22 @@ jobs:
             fi
             echo "   ✔ One 'on:' block"
 
-            # Ensure permissions block exists
             grep -q '^permissions:' "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
             echo "   ✔ Permissions block present"
 
-            # Ensure required triggers exist
             for TRIGGER in pull_request push branches; do
               grep -q "$TRIGGER:" "$FILE" || { echo "❌ Missing trigger: $TRIGGER"; exit 1; }
               echo "   ✔ Trigger present: $TRIGGER"
             done
 
-            # Scoped enforcement of checks-action
             if [[ "$FILE" == *"workflow-governance.yml" || "$FILE" == *"avatar-integrity.yml" ]]; then
               grep -q 'LouisBrunner/checks-action' "$FILE" || {
                 echo "❌ Missing check-run reporting step in governance workflow: $FILE"
                 exit 1
               }
-              echo "   ✔ Check-run reporting step present (governance workflow)"
+              echo "   ✔ Check-run reporting step present"
             else
-              echo "   ⏭ Skipping checks-action requirement for non-governance workflow"
+              echo "   ⏭ Skipping checks-action requirement"
             fi
 
             echo ""
@@ -109,6 +109,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
 
       - name: Install Python YAML parser
