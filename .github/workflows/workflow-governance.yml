@@ -54,18 +54,15 @@ jobs:
           for FILE in $WORKFLOW_DIR/*.yml; do
             echo "➡️ Checking: $FILE"
 
-            python3 - <<EOF >/dev/null 2>&1
-import yaml, sys
-yaml.safe_load(open("$FILE"))
-EOF
+            python3 -c "import yaml, sys; yaml.safe_load(open('$FILE'))" >/dev/null 2>&1
             if [ $? -ne 0 ]; then
               echo "❌ YAML invalid in $FILE"
               exit 1
             else
-              echo "   ✔ YAML valid"
+              echo '   ✔ YAML valid'
             fi
 
-            COUNT=$(grep -c "^on:" "$FILE" || true)
+            COUNT=$(grep -c '^on:' "$FILE" || true)
             if [ "$COUNT" -ne 1 ]; then
               echo "❌ Invalid number of 'on:' blocks ($COUNT)"
               exit 1
@@ -73,7 +70,7 @@ EOF
               echo "   ✔ One 'on:' block"
             fi
 
-            grep -q "^permissions:" "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
+            grep -q '^permissions:' "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
             echo "   ✔ Permissions block present"
 
             for TRIGGER in pull_request push branches; do
@@ -81,7 +78,7 @@ EOF
               echo "   ✔ Trigger present: $TRIGGER"
             done
 
-            grep -q "LouisBrunner/checks-action" "$FILE" || { echo "❌ Missing check-run reporting step"; exit 1; }
+            grep -q 'LouisBrunner/checks-action' "$FILE" || { echo "❌ Missing check-run reporting step"; exit 1; }
             echo "   ✔ Check-run reporting step present"
 
             echo ""
