@@ -1,118 +1,103 @@
-from fastapi import APIRouter, Depends, HTTPException
-from app.schemas.governance import (
-    GovernanceRunRequest,
-    GovernanceRunResponse,
-    LatestGovernanceResponse,
-    WorkflowStatus,
-    GovernanceSnapshotResponse,
-    GovernanceRunHistoryResponse,
-    GovernanceRunHistoryItem,
-    GovernanceKpiResponse,
-)
-from app.services.github_client import GitHubClient
-    # (unchanged)
-from app.services.governance_service import GovernanceService
+# /app/schemas/governance.py
+# SentinelOps – Governance API Schemas
 
-router = APIRouter(prefix="/api/governance", tags=["governance"])
+from pydantic import BaseModel
+from typing import Optional, Literal
+from datetime import datetime
 
 
-@router.post("/run", response_model=GovernanceRunResponse)
-async def trigger_governance_run(
-    payload: GovernanceRunRequest,
-    gh: GitHubClient = Depends(),
-    governance_service: GovernanceService = Depends()
-):
-    run = await governance_service.create_run(payload.repo_id, payload.mode)
-
-    if payload.mode == "github":
-        await gh.trigger_workflow_dispatch(
-            repo_owner="sentinel-ops-suite",
-            repo_name="sentinel-ops-suite",
-            workflow_file="workflow-governance.yml",
-            ref=payload.ref
-        )
-
-    return GovernanceRunResponse(
-        run_id=run.id,
-        status=run.status,
-        triggered_at=run.triggered_at
-    )
+# -------------------------------------------------
+# Request: Trigger Governance Run
+# -------------------------------------------------
+class GovernanceRunRequest(BaseModel):
+    repo_id: int
+    mode: Literal["github", "local"] = "github"
+    ref: Optional[str] = "main"
 
 
-@router.get("/latest", response_model=LatestGovernanceResponse)
-async def get_latest_governance_run(
-    repo_id: int,
-    governance_service: GovernanceService = Depends()
-):
-    run = await governance_service.get_latest_run(repo_id)
-    if not run:
-        raise HTTPException(404, "No governance runs found for this repository")
-
-    return LatestGovernanceResponse(
-        run_id=run.id,
-        repo_id=run.repo_id,
-        status=run.status,
-        score=run.score,
-        violations_count=run.violations_count,
-        triggered_at=run.triggered_at,
-        completed_at=run.completed_at,
-    )
+# -------------------------------------------------
+# Response: Governance Run Triggered
+# -------------------------------------------------
+class GovernanceRunResponse(BaseModel):
+    run_id: int
+    status: str
+    triggered_at: datetime
 
 
-@router.get("/workflows", response_model=list[WorkflowStatus])
-async def list_workflows(
-    repo_id: int,
-    governance_service: GovernanceService = Depends()
-):
-    workflows = await governance_service.get_workflows_for_repo(repo_id)
-    return [
-        WorkflowStatus(
-            workflow_id=w.id,
-            repo_id=w.repo_id,
-            path=w.path,
-            status=w.status,
-            violations_count=w.violations_count,
-            last_validated_at=w.last_validated_at,
-        )
-        for w in workflows
-    ]
+# -------------------------------------------------
+# Response: Latest Governance Posture
+# -------------------------------------------------
+class LatestGovernanceResponse(BaseModel):
+    run_id: int
+    repo_id: int
+    status: str
+    score: int
+    violations_count: int
+    triggered_at: datetime
+    completed_at: Optional[datetime]
 
 
-@router.get("/snapshot/{run_id}", response_model=GovernanceSnapshotResponse)
-async def get_governance_snapshot(
-    run_id: int,
-    governance_service: GovernanceService = Depends()
-):
-    snapshot = await governance_service.get_snapshot(run_id)
-    if not snapshot:
-        raise HTTPException(404, "Snapshot not found for this run_id")
-    return snapshot
+# -------------------------------------------------
+# Response: Workflow Status (for /workflows route)
+# -------------------------------------------------
+class WorkflowStatus(BaseModel):
+    workflow_id: int
+    repo_id: int
+    path: str
+    status: str
+    violations_count: int
+    last_validated_at: Optional[datetime]
 
 
-@router.get("/history", response_model=GovernanceRunHistoryResponse)
-async def get_governance_history(
-    repo_id: int,
-    governance_service: GovernanceService = Depends()
-):
-    runs = await governance_service.get_history(repo_id)
-    return GovernanceRunHistoryResponse(
-        repo_id=repo_id,
-        runs=[
-            GovernanceRunHistoryItem(
-                run_id=r.id,
-                status=r.status,
-                score=r.score,
-                violations_count=r.violations_count,
-                triggered_at=r.triggered_at,
-                completed_at=r.completed_at,
-            )
-            for r in runs
-        ]
-    )
+# -------------------------------------------------
+# Response: Governance Snapshot (Route 4)
+# -------------------------------------------------
+class Violation(BaseModel):
+    rule_id: str
+    message: str
+    severity: str
+    file_path: str
+    line: Optional[int]
+    auto_fixed: bool
 
 
-@router.get("/kpis", response_model=GovernanceKpiResponse)
-async def get_governance_kpis(
-    governance_service: GovernanceService = Depends()
-):
-    return await governance_service.get_kpis()
+class WorkflowSnapshot(BaseModel):
+    workflow_id: int
+    path: str
+    status: str
+    violations: list[Violation]
+
+
+class GovernanceSnapshotResponse(BaseModel):
+    run_id: int
+    repo_id: int
+    triggered_at: datetime
+    completed_at: Optional[datetime]
+    workflows: list[WorkflowSnapshot]
+
+
+# -------------------------------------------------
+# Response: Governance Run History (Route 5)
+# -------------------------------------------------
+class GovernanceRunHistoryItem(BaseModel):
+    run_id: int
+    status: str
+    score: int
+    violations_count: int
+    triggered_at: datetime
+    completed_at: Optional[datetime]
+
+
+class GovernanceRunHistoryResponse(BaseModel):
+    repo_id: int
+    runs: list[GovernanceRunHistoryItem]
+
+
+# -------------------------------------------------
+# Response: Governance KPIs (Dashboard)
+# -------------------------------------------------
+class GovernanceKpiResponse(BaseModel):
+    complianceCoverage: int
+    openActions: int
+    slaDrift: float
+    policyExceptions: int
