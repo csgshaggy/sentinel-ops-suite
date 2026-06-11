@@ -63,18 +63,16 @@ jobs:
             if [ $? -ne 0 ]; then
               echo "❌ YAML invalid in $FILE"
               exit 1
-            else
-              echo "   ✔ YAML valid"
             fi
+            echo "   ✔ YAML valid"
 
             # Ensure exactly one 'on:' block
             COUNT=$(grep -c '^on:' "$FILE" || true)
             if [ "$COUNT" -ne 1 ]; then
               echo "❌ Invalid number of 'on:' blocks ($COUNT)"
               exit 1
-            else
-              echo "   ✔ One 'on:' block"
             fi
+            echo "   ✔ One 'on:' block"
 
             # Ensure permissions block exists
             grep -q '^permissions:' "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
