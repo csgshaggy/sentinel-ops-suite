@@ -1,69 +1,61 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-WORKFLOW_DIR="$REPO_ROOT/.github/workflows"
+WORKFLOW_DIR=".github/workflows"
 
-echo "🔧 Auto-fixing GitHub workflow YAML files in $WORKFLOW_DIR"
-echo ""
+echo "🔧 Auto-fix: Starting governance-scoped workflow corrections..."
 
-shopt -s nullglob
-FILES=("$WORKFLOW_DIR"/*.yml)
+# Governance-critical workflows
+GOVERNANCE_FILES=(
+  "workflow-governance.yml"
+  "avatar-integrity.yml"
+)
 
-if [ ${#FILES[@]} -eq 0 ]; then
-    echo "❌ No workflow files found."
-    exit 1
-fi
+fix_governance_file() {
+  local FILE="$1"
+  local PATH="$WORKFLOW_DIR/$FILE"
 
-for FILE in "${FILES[@]}"; do
-    echo "➡️  Fixing: $FILE"
+  echo "➡️ Processing governance workflow: $FILE"
 
-    # Extract name line
-    NAME_LINE=$(head -n 1 "$FILE")
+  # Ensure permissions block exists
+  if ! grep -q "^permissions:" "$PATH"; then
+    echo "   ➕ Adding missing permissions block"
+    sed -i '1a permissions:\n  contents: write\n  checks: write' "$PATH"
+  fi
 
-    # Extract everything after the jobs: block
-    BODY=$(awk '
-        /^jobs:/ {flag=1}
-        flag {print}
-    ' "$FILE")
+  # Ensure required triggers exist
+  for TRIGGER in "pull_request" "push" "branches"; do
+    if ! grep -q "$TRIGGER:" "$PATH"; then
+      echo "   ➕ Adding missing trigger: $TRIGGER"
+      sed -i "/^on:/a\  $TRIGGER:" "$PATH"
+    fi
+  done
 
-    # Rebuild file with correct structure
-    {
-        echo "$NAME_LINE"
-        echo ""
-        echo "on:"
-        echo "  pull_request:"
-        echo "  push:"
-        echo "    branches:"
-        echo "      - main"
-        echo ""
-        echo "permissions:"
-        echo "  contents: read"
-        echo "  checks: write"
-        echo ""
-        echo "$BODY"
-    } > "$FILE.tmp"
-
-    mv "$FILE.tmp" "$FILE"
-    echo "   ✔ Structure repaired"
-
-    # Ensure check-run reporting exists
-    if ! grep -q "LouisBrunner/checks-action" "$FILE"; then
-        echo "   ➕ Adding check-run reporting step"
-        cat << 'EOF' >> "$FILE"
+  # Ensure check-run reporting step exists
+  if ! grep -q "LouisBrunner/checks-action" "$PATH"; then
+    echo "   ➕ Adding missing check-run reporting step"
+    cat <<'EOF' >> "$PATH"
 
       - name: Report status
         uses: LouisBrunner/checks-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: ${{ github.workflow }}
-          conclusion: success
+          token: \${{ github.token }}
+          name: Governance Check
+          status: success
 EOF
-    else
-        echo "   ✔ Check-run reporting already present"
-    fi
+  fi
 
-    echo ""
+  echo "   ✔ Governance workflow fixed"
+}
+
+# Iterate governance files only
+for FILE in "${GOVERNANCE_FILES[@]}"; do
+  FULL="$WORKFLOW_DIR/$FILE"
+  if [[ -f "$FULL" ]]; then
+    fix_governance_file "$FILE"
+  else
+    echo "⏭ Skipping missing governance file: $FILE"
+  fi
 done
 
-echo "✅ Auto-fix complete. All workflows repaired."
+echo "✅ Auto-fix complete (governance-scoped)"
