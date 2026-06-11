@@ -144,8 +144,8 @@ jobs:
         run: |
           echo "Running auto-fix script"
           export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-          chmod +x ./auto-fix-workflows.sh
-          ./auto-fix-workflows.sh
+          chmod +x auto-fix-workflows.sh
+          exec ./auto-fix-workflows.sh
 
       - name: Detect changes
         id: changes
