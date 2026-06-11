@@ -49,6 +49,6 @@ jobs:
       - name: Report status
         uses: LouisBrunner/checks-action@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
           name: ${{ github.workflow }}
           conclusion: success
