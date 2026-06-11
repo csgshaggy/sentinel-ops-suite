@@ -4,6 +4,9 @@ set -euo pipefail
 # Force bash even if invoked under sh
 [ -n "${BASH_VERSION:-}" ] || exec bash "$0" "$@"
 
+# Restore PATH because GitHub Actions runs bash with --noprofile --norc
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
 WORKFLOW_DIR=".github/workflows"
 
 echo "Auto-fix: Starting governance-scoped workflow corrections..."
