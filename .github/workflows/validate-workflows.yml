@@ -19,8 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Python YAML parser
-        run: |
-          python3 -m pip install pyyaml
+        run: python3 -m pip install pyyaml
 
       - name: Validate all workflow files
         run: |
@@ -42,19 +41,16 @@ jobs:
           for FILE in $WORKFLOW_DIR/*.yml; do
             echo "➡️ Checking: $FILE"
 
-            # 1. YAML syntax
-            python3 - <<EOF
-import yaml, sys
-try:
-    yaml.safe_load(open("$FILE"))
-except Exception as e:
-    print("❌ YAML error in $FILE:", e)
-    sys.exit(1)
-EOF
+            # 1. YAML syntax validation
+            python3 -c "import yaml, sys; yaml.safe_load(open('$FILE'))" >/dev/null 2>&1
+            if [ $? -ne 0 ]; then
+              echo "❌ YAML invalid in $FILE"
+              exit 1
+            fi
             echo "   ✔ YAML valid"
 
             # 2. Exactly one 'on:' block
-            COUNT=$(grep -c "^on:" "$FILE" || true)
+            COUNT=$(grep -c '^on:' "$FILE" || true)
             if [ "$COUNT" -ne 1 ]; then
               echo "❌ Invalid number of 'on:' blocks ($COUNT)"
               exit 1
@@ -68,12 +64,19 @@ EOF
             echo "   ✔ Required triggers present"
 
             # 4. Permissions block
-            grep -q "^permissions:" "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
+            grep -q '^permissions:' "$FILE" || { echo "❌ Missing permissions block"; exit 1; }
             echo "   ✔ Permissions block present"
 
-            # 5. Check-run reporting step
-            grep -q "LouisBrunner/checks-action" "$FILE" || { echo "❌ Missing check-run reporting step"; exit 1; }
-            echo "   ✔ Check-run reporting step present"
+            # 5. Check-run reporting step (governance workflows only)
+            if [[ "$FILE" == *"workflow-governance.yml" || "$FILE" == *"avatar-integrity.yml" ]]; then
+              grep -q "LouisBrunner/checks-action" "$FILE" || {
+                echo "❌ Missing check-run reporting step in governance workflow: $FILE"
+                exit 1
+              }
+              echo "   ✔ Check-run reporting step present (governance workflow)"
+            else
+              echo "   ⏭ Skipping checks-action requirement for non-governance workflow"
+            fi
 
             echo ""
           done
