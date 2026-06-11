@@ -20,7 +20,8 @@ fix_governance_file() {
   # Ensure permissions block exists
   if ! grep -q "^permissions:" "$PATH"; then
     echo "   ➕ Adding missing permissions block"
-    sed -i '1a permissions:\n  contents: write\n  checks: write' "$PATH"
+    # GNU-sed safe multi-line insert
+    sed -i '1ipermissions:\n  contents: write\n  checks: write' "$PATH"
   fi
 
   # Ensure required triggers exist
@@ -34,15 +35,17 @@ fix_governance_file() {
   # Ensure check-run reporting step exists
   if ! grep -q "LouisBrunner/checks-action" "$PATH"; then
     echo "   ➕ Adding missing check-run reporting step"
-    cat <<'EOF' >> "$PATH"
 
-      - name: Report status
-        uses: LouisBrunner/checks-action@v1
-        with:
-          token: \${{ github.token }}
-          name: Governance Check
-          status: success
-EOF
+    # Append block safely
+    {
+      echo ""
+      echo "      - name: Report status"
+      echo "        uses: LouisBrunner/checks-action@v1"
+      echo "        with:"
+      echo "          token: \${{ github.token }}"
+      echo "          name: Governance Check"
+      echo "          status: success"
+    } >> "$PATH"
   fi
 
   echo "   ✔ Governance workflow fixed"
