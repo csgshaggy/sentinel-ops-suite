@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 import secrets
 import hashlib
 
-from app.database import get_db
+from app.db.session import get_db
 from app.core.sessions import get_session_by_id
 
 from app.schemas.api_keys import ApiKeyRead, ApiKeyCreate, ApiKeyCreateResponse

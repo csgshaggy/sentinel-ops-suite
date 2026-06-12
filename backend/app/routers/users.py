@@ -11,7 +11,7 @@ from fastapi import (
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 
-from app.database import get_db
+from app.db.session import get_db
 from app.core.sessions import get_session_by_id
 from app.models.user import User
 from app.schemas.user import UserOut

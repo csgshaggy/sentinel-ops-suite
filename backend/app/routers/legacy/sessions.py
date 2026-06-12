@@ -13,7 +13,7 @@ from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 
-from app.database import get_db
+from app.db.session import get_db
 from app.core.sessions import (
     get_session_by_id,
     get_sessions_for_user,

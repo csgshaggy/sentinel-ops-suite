@@ -7,7 +7,7 @@ from sqlalchemy import select, delete
 from datetime import datetime
 import secrets
 
-from app.database import get_db
+from app.db.session import get_db
 from src.session_models import Session
 from app.schemas.session import SessionCreate, SessionRead
 

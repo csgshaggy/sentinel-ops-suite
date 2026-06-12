@@ -20,7 +20,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
-from app.database import get_db
+from app.db.session import get_db
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
 from app.core.security import verify_password
