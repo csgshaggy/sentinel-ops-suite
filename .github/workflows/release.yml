@@ -1,41 +1,66 @@
-name: Release Pipeline
+name: Release
 
 on:
-  pull_request:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release (e.g., v1.4.0)"
+        required: true
+        type: string
 
 permissions:
-  contents: read
+  contents: write
   checks: write
 
 jobs:
   release:
+    name: Create Release
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # Required for full tag history
+          fetch-depth: 0  # required for tags
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - name: Validate version format
+        run: |
+          if [[ ! "${{ github.event.inputs.version }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "❌ Invalid version format. Use vX.Y.Z"
+            exit 1
+          fi
+
+      - name: Create Git tag
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          echo "🔖 Creating tag $VERSION"
+          git tag "$VERSION"
+          git push origin "$VERSION"
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          echo "📝 Generating changelog..."
+          CHANGELOG=$(git log --pretty=format:"- %s" $(git describe --tags --abbrev=0 HEAD^)..HEAD)
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          node-version: 20
-
-      - name: Install semantic-release
-        run: npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github
-
-      - name: Run semantic-release
+          tag_name: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
+          body: |
+            ## Changes
+            ${{ steps.changelog.outputs.changelog }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: semantic-release
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Report status
+        if: always()
         uses: LouisBrunner/checks-action@v1
         with:
-          token: \${{ secrets.GITHUB_TOKEN }}
-          name: \${{ github.workflow }}
-          conclusion: success
+          token: ${{ github.token }}
+          name: ${{ github.workflow }}
+          conclusion: ${{ job.status }}

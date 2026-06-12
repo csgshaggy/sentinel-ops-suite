@@ -3,8 +3,7 @@ name: Avatar Integrity
 on:
   pull_request:
   push:
-    branches:
-      - main
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -13,7 +12,6 @@ permissions:
 
 jobs:
   avatar-integrity:
-    name: Avatar Integrity
     runs-on: ubuntu-latest
 
     steps:
@@ -49,9 +47,7 @@ jobs:
             fi
           }
 
-          # ---------------------------------------------
           # Required avatar renderers
-          # ---------------------------------------------
           check "frontend/unified-frontend/src/components/Sidebar.jsx" \
                 "src={avatarUrl}" \
                 "Sidebar must render avatarUrl"
@@ -60,9 +56,7 @@ jobs:
                 "src={avatarUrl}" \
                 "SessionsTab must render avatarUrl"
 
-          # ---------------------------------------------
-          # Forbidden legacy avatar hook
-          # ---------------------------------------------
+          # Forbidden legacy hook
           check_missing "frontend/unified-frontend/src/components/Sidebar.jsx" \
                         "useAvatarUrl" \
                         "Sidebar must not use useAvatarUrl"
@@ -71,9 +65,7 @@ jobs:
                         "useAvatarUrl" \
                         "SessionsTab must not use useAvatarUrl"
 
-          # ---------------------------------------------
           # AvatarContext integrity
-          # ---------------------------------------------
           check "frontend/unified-frontend/src/context/AvatarContext.jsx" \
                 "DEFAULT_AVATAR" \
                 "AvatarContext must define DEFAULT_AVATAR"
@@ -90,9 +82,7 @@ jobs:
                 "setAvatarVersion" \
                 "AvatarContext must update avatarVersion"
 
-          # ---------------------------------------------
           # AvatarSync presence
-          # ---------------------------------------------
           check "frontend/unified-frontend/src/components/Layout.jsx" \
                 "AvatarSync" \
                 "Layout must import AvatarSync"
@@ -101,11 +91,7 @@ jobs:
                 "<AvatarSync" \
                 "Layout must render AvatarSync"
 
-          # ---------------------------------------------
-          # Final decision
-          # ---------------------------------------------
           if [ "$FAIL" -eq 1 ]; then
-            echo ""
             echo "❌ Avatar Integrity CI Check Failed."
             exit 1
           fi

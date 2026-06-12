@@ -1,0 +1,52 @@
+name: Governance Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  governance:
+    name: Governance Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies
+        run: |
+          pip install -r backend/requirements.txt
+
+      - name: Run Governance Auto-Fix
+        id: autofix
+        run: |
+          echo "🔧 Running Governance Auto-Fix..."
+          python backend/scripts/governance_autofix.py || true
+
+      - name: Run Governance Validation
+        id: validate
+        run: |
+          echo "🔍 Running Governance Validation..."
+          python backend/scripts/governance_validate.py
+
+      - name: Report status
+        if: always()
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: ${{ github.token }}
+          name: ${{ github.workflow }}
+          conclusion: ${{ job.status }}
+          output: |
+            Governance pipeline completed with status: ${{ job.status }}
