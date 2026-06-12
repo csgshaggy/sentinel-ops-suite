@@ -1,5 +1,5 @@
 # /app/routers/governance.py
-# SentinelOps – Governance API Router
+# SentinelOps – Governance API Router (SYNC Version)
 
 from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.governance import (
@@ -23,18 +23,18 @@ router = APIRouter(prefix="/api/governance", tags=["governance"])
 # POST /api/governance/run
 # -------------------------------------------------
 @router.post("/run", response_model=GovernanceRunResponse)
-async def trigger_governance_run(
+def trigger_governance_run(
     payload: GovernanceRunRequest,
     gh: GitHubClient = Depends(),
     governance_service: GovernanceService = Depends()
 ):
-    run = await governance_service.create_run(
+    run = governance_service.create_run(
         repo_id=payload.repo_id,
         mode=payload.mode
     )
 
     if payload.mode == "github":
-        await gh.trigger_workflow_dispatch(
+        gh.trigger_workflow_dispatch(
             repo_owner="sentinel-ops-suite",
             repo_name="sentinel-ops-suite",
             workflow_file="workflow-governance.yml",
@@ -53,11 +53,11 @@ async def trigger_governance_run(
 # GET /api/governance/latest?repo_id=#
 # -------------------------------------------------
 @router.get("/latest", response_model=LatestGovernanceResponse)
-async def get_latest_governance_run(
+def get_latest_governance_run(
     repo_id: int,
     governance_service: GovernanceService = Depends()
 ):
-    run = await governance_service.get_latest_run(repo_id)
+    run = governance_service.get_latest_run(repo_id)
 
     if not run:
         raise HTTPException(
@@ -81,11 +81,11 @@ async def get_latest_governance_run(
 # GET /api/governance/workflows?repo_id=#
 # -------------------------------------------------
 @router.get("/workflows", response_model=list[WorkflowStatus])
-async def list_workflows(
+def list_workflows(
     repo_id: int,
     governance_service: GovernanceService = Depends()
 ):
-    workflows = await governance_service.get_workflows_for_repo(repo_id)
+    workflows = governance_service.get_workflows_for_repo(repo_id)
 
     return [
         WorkflowStatus(
@@ -105,11 +105,11 @@ async def list_workflows(
 # GET /api/governance/snapshot/{run_id}
 # -------------------------------------------------
 @router.get("/snapshot/{run_id}", response_model=GovernanceSnapshotResponse)
-async def get_governance_snapshot(
+def get_governance_snapshot(
     run_id: int,
     governance_service: GovernanceService = Depends()
 ):
-    snapshot = await governance_service.get_snapshot(run_id)
+    snapshot = governance_service.get_snapshot(run_id)
 
     if not snapshot:
         raise HTTPException(
@@ -125,11 +125,11 @@ async def get_governance_snapshot(
 # GET /api/governance/history?repo_id=#
 # -------------------------------------------------
 @router.get("/history", response_model=GovernanceRunHistoryResponse)
-async def get_governance_history(
+def get_governance_history(
     repo_id: int,
     governance_service: GovernanceService = Depends()
 ):
-    runs = await governance_service.get_history(repo_id)
+    runs = governance_service.get_history(repo_id)
 
     return GovernanceRunHistoryResponse(
         repo_id=repo_id,
@@ -152,8 +152,8 @@ async def get_governance_history(
 # GET /api/governance/kpis
 # -------------------------------------------------
 @router.get("/kpis", response_model=GovernanceKpiResponse)
-async def get_governance_kpis(
+def get_governance_kpis(
     governance_service: GovernanceService = Depends()
 ):
-    # KPI endpoint always returns a dict; no need for 404
-    return await governance_service.get_kpis()
+    return governance_service.get_kpis()
+
