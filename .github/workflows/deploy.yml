@@ -33,10 +33,11 @@ jobs:
             StrictHostKeyChecking no
           EOF
 
-      - name: Sync backend to EC2 (protect venv)
+      - name: Sync backend to EC2 (protect venv + env)
         run: |
           rsync -az --delete \
             --exclude '.venv/' \
+            --exclude '.env' \
             backend/ deploy-target:${{ secrets.DEPLOY_PATH }}/
 
       - name: Restart backend service (install inside venv)
@@ -62,4 +63,3 @@ jobs:
           token: ${{ github.token }}
           name: ${{ github.workflow }}
           conclusion: ${{ job.status }}
-
