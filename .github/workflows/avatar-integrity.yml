@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,6 +13,7 @@ permissions:
 
 jobs:
   avatar-integrity:
+    name: Avatar Integrity
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run Avatar Integrity Checks
+        id: integrity
         run: |
           echo "🔍 Running Avatar Integrity CI Check..."
 
@@ -110,8 +113,9 @@ jobs:
           echo "✅ Avatar Integrity CI Check Passed."
 
       - name: Report status
+        if: always()
         uses: LouisBrunner/checks-action@v1
         with:
-          token: \${{ secrets.GITHUB_TOKEN }}
-          name: \${{ github.workflow }}
-          conclusion: success
+          token: ${{ github.token }}
+          name: ${{ github.workflow }}
+          conclusion: ${{ job.status }}
