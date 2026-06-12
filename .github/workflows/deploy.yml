@@ -1,0 +1,66 @@
+name: Deploy Backend
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install backend dependencies locally (optional)
+        run: |
+          pip install -r backend/requirements.txt
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          cat >> ~/.ssh/config <<EOF
+          Host deploy-target
+            HostName ${{ secrets.DEPLOY_HOST }}
+            User ${{ secrets.DEPLOY_USER }}
+            IdentityFile ~/.ssh/deploy_key
+            StrictHostKeyChecking no
+          EOF
+
+      - name: Sync backend to EC2
+        run: |
+          rsync -az --delete backend/ deploy-target:${{ secrets.DEPLOY_PATH }}/
+
+      - name: Restart backend service
+        run: |
+          ssh deploy-target << 'EOF'
+          set -e
+          sudo systemctl stop sentinel-backend.service
+          cd ${{ secrets.DEPLOY_PATH }}
+          python3 -m pip install -r requirements.txt
+          sudo systemctl start sentinel-backend.service
+          EOF
+
+      - name: Verify health endpoint
+        run: |
+          ssh deploy-target << 'EOF'
+          curl -f http://localhost:8000/api/health || exit 1
+          EOF
+
+      - name: Report status
+        if: always()
+        uses: LouisBrunner/checks-action@v1
+        with:
+          token: ${{ github.token }}
+          name: ${{ github.workflow }}
+          conclusion: ${{ job.status }}
