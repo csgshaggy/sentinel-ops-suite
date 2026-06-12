@@ -1,7 +1,7 @@
 # /app/schemas/governance.py
 # SentinelOps – Governance API Schemas
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional, Literal
 from datetime import datetime
 
@@ -23,6 +23,8 @@ class GovernanceRunResponse(BaseModel):
     status: str
     triggered_at: datetime
 
+    model_config = ConfigModel = ConfigDict(from_attributes=True)
+
 
 # -------------------------------------------------
 # Response: Latest Governance Posture
@@ -36,6 +38,8 @@ class LatestGovernanceResponse(BaseModel):
     triggered_at: datetime
     completed_at: Optional[datetime]
 
+    model_config = ConfigDict(from_attributes=True)
+
 
 # -------------------------------------------------
 # Response: Workflow Status (for /workflows route)
@@ -47,6 +51,8 @@ class WorkflowStatus(BaseModel):
     status: str
     violations_count: int
     last_validated_at: Optional[datetime]
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 # -------------------------------------------------
@@ -71,9 +77,13 @@ class WorkflowSnapshot(BaseModel):
 class GovernanceSnapshotResponse(BaseModel):
     run_id: int
     repo_id: int
+    violations_count: int
+    details: dict
     triggered_at: datetime
     completed_at: Optional[datetime]
     workflows: list[WorkflowSnapshot]
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 # -------------------------------------------------
@@ -86,6 +96,8 @@ class GovernanceRunHistoryItem(BaseModel):
     violations_count: int
     triggered_at: datetime
     completed_at: Optional[datetime]
+
+    model_config = ConfigDict(from_attributes=True)
 
 
 class GovernanceRunHistoryResponse(BaseModel):
