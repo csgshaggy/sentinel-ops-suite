@@ -1,5 +1,5 @@
 # app/services/github_client.py
-# SentinelOps — GitHub API Client (Minimal + Safe)
+# SentinelOps — GitHub API Client (Class + Functional Interface)
 
 import os
 import requests
@@ -46,3 +46,13 @@ def github_list_repo_files(owner: str, repo: str, path: str = "") -> list:
     """
     api_path = f"repos/{owner}/{repo}/contents/{path}"
     return github_get(api_path)
+
+
+class GitHubClient:
+    """
+    Class-based wrapper for GitHub API operations.
+    This satisfies imports in app.main and routers.
+    """
+
+    def list_repo_files(self, owner: str, repo: str, path: str = "") -> list:
+        return github_list_repo_files(owner, repo, path)
