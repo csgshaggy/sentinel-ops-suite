@@ -1,6 +1,10 @@
 import os
+import sys
 import pkgutil
 import importlib
+
+# Ensure backend root is on PYTHONPATH
+sys.path.append(os.getcwd())
 
 PACKAGE = "app"
 
