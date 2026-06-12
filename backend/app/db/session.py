@@ -1,41 +1,37 @@
-# /home/ubuntu/sentinel-ops-suite/backend/app/db/session.py
-
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from app.core.config import settings
+from sqlalchemy.orm import sessionmaker, declarative_base
+from app.core.settings import settings
 
-# ------------------------------------------------------------
-# SQLAlchemy Engine
-# ------------------------------------------------------------
+# ---------------------------------------------------------
+# Build DATABASE_URL dynamically from settings
+# ---------------------------------------------------------
+DATABASE_URL = (
+    f"mysql+pymysql://{settings.DB_USER}:{settings.DB_PASSWORD}"
+    f"@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
+)
+
 engine = create_engine(
-    settings.DATABASE_URL,
+    DATABASE_URL,
     pool_pre_ping=True,
     pool_recycle=3600,
 )
 
-# ------------------------------------------------------------
-# Session Factory
-# ------------------------------------------------------------
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=engine,
 )
 
-# ------------------------------------------------------------
-# FastAPI Dependency
-# ------------------------------------------------------------
+Base = declarative_base()
+
+
+# ---------------------------------------------------------
+# Dependency for FastAPI routes
+# ---------------------------------------------------------
 def get_db():
-    """
-    FastAPI dependency that yields a database session.
-    Ensures the session is closed after the request.
-    """
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-
-
-__all__ = ["SessionLocal", "get_db", "engine"]
 
