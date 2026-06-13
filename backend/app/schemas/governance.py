@@ -23,7 +23,7 @@ class GovernanceRunResponse(BaseModel):
     status: str
     triggered_at: datetime
 
-    model_config = ConfigModel = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True)
 
 
 # -------------------------------------------------
